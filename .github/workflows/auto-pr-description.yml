@@ -1,0 +1,135 @@
+name: Gemini PR Auto-Description
+
+on:
+  pull_request:
+    types: [ opened ]
+
+jobs:
+  gemini-summarize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate Summary and Update PR
+        uses: actions/github-script@v7
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            // 1. 데이터 추출 (50,000자 제한 및 커밋 메시지 포함)
+            let diff = "";
+            let commits = "";
+            let diffStat = "";
+
+            try {
+              diff = execSync('git diff origin/${{ github.base_ref }}...HEAD | head -c 50000').toString();
+              diffStat = execSync('git diff --stat origin/${{ github.base_ref }}...HEAD').toString();
+              commits = execSync('git log origin/${{ github.base_ref }}...HEAD --pretty=format:"- %s"').toString();
+            } catch (e) {
+              diff = "데이터 추출 실패";
+            }
+
+            // 2. 프로젝트에서 사용하는 PR 템플릿 정의 (여기를 수정하세요)
+            const PR_TEMPLATE = `
+            ## #️⃣ 변경 사항
+            
+            > 이 PR에서 변경된 내용을 간결하게 설명해주세요.
+            
+            ## #️⃣ 관련 이슈
+            
+            > 관련된 이슈가 있다면 여기에 링크해주세요.
+            
+            - Closes #
+            - Related to #
+            
+            ## #️⃣ 작업 상세 내용
+            
+            > 이 PR에서 수행한 작업을 상세히 설명해주세요.
+            
+            -
+            
+            ## 📸 스크린샷 (선택)
+            
+            > UI 변경이 있는 경우, 변경 전/후 스크린샷을 첨부해주세요.
+            
+            ### 변경 전
+            
+            <!-- 스크린샷을 여기에 첨부 -->
+            
+            ### 변경 후
+            
+            <!-- 스크린샷을 여기에 첨부 -->
+            
+            ## 📎 참고할만한 자료 (선택)
+            
+            > 리뷰어가 참고하면 좋을 자료가 있다면 여기에 첨부해주세요.
+            `;
+
+            // 3. Gemini API 호출
+            const model = "gemini-3-flash-preview";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+            try {
+              const response = await fetch(url, {
+                method: 'POST',
+                headers: { 
+                  'Content-Type': 'application/json',
+                  'x-goog-api-key': process.env.GEMINI_API_KEY
+                },
+                body: JSON.stringify({
+                  contents: [{
+                    parts: [{
+                      text: `너는 유능한 소프트웨어 엔지니어다. 아래 제공된 커밋 내역과 코드 변경 사항을 분석하여 주어진 'PR 템플릿 형식'에 맞춰 PR 본문을 작성해라. 한국어로 작성하고, 기술적인 용어는 정확하게 사용해라. 관련 이슈나 스크린샷 같이 작성할 수 없는 것은 수정하지 말고 템플릿 그대로 만들어라.
+
+                      [PR 템플릿 형식]
+                      ${PR_TEMPLATE}
+
+                      [커밋 메시지 목록]
+                      ${commits}
+
+                      [변경 파일 요약]
+                      ${diffStat}
+
+                      [상세 코드 변경 내용]
+                      ${diff}`
+                    }]
+                  }]
+                })
+              });
+
+              const data = await response.json();
+              let summary = data.candidates?.[0]?.content?.parts?.[0]?.text || "요약 생성 실패";
+
+              // 4. PR 본문 업데이트
+              const footer = "\n\n----- \n> 
+            ----------------PR 작성 시, 내용 삭제 후 올릴 것----------------
+        
+            ```
+            ✅ 체크리스트
+        
+            - 코드가 프로젝트의 코딩 컨벤션을 따릅니다
+            - 문서를 업데이트했습니다 (필요한 경우)
+            - 변경 사항에 대한 설명을 추가했습니다
+            - 관련 이슈를 연결했습니다
+            - 라벨링 했습니다
+            ```
+            ";
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                body: summary + footer
+              });
+
+            } catch (error) {
+              console.log("Error:", error);
+            }
