@@ -1,1 +1,1 @@
-cd frontend && npx --no -- commitlint --edit ${1}
+cd frontend && pnpm exec commitlint --edit ${1}
