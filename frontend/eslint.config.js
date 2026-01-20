@@ -15,6 +15,7 @@ import query from '@tanstack/eslint-plugin-query';
 export default defineConfig([
   globalIgnores(['dist', 'node_modules']),
   ...query.configs['flat/recommended'],
+  ...storybook.configs['flat/recommended'],
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
