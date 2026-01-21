@@ -153,3 +153,151 @@
     font-family: var(--font-sans);
   }
 }
+
+@utility headline-large {
+  font-size: 2.625rem; /* 42px */
+  line-height: 3.6875rem; /* 59px */
+}
+@utility headline-medium {
+  font-size: 2.125rem; /* 34px */
+  line-height: 3rem; /* 48px */
+}
+@utility headline-small {
+  font-size: 1.75rem; /* 28px */
+  line-height: 2.4375rem; /* 39px */
+}
+
+@utility title-large {
+  font-size: 1.5rem; /* 24px */
+  line-height: 2.125rem; /* 34px */
+}
+@utility title-medium {
+  font-size: 1.375rem; /* 22px */
+  line-height: 2rem; /* 32px */
+}
+@utility title-small {
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.875rem; /* 30px */
+}
+
+@utility body-large {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.6875rem; /* 27px */
+}
+@utility body-medium {
+  font-size: 1rem; /* 16px */
+  line-height: 1.375rem; /* 22px */
+}
+@utility body-small {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.25rem; /* 20px */
+}
+
+@utility caption-large {
+  font-size: 0.75rem; /* 12px */
+  line-height: 1.125rem; /* 18px */
+}
+@utility caption-medium {
+  font-size: 0.625rem; /* 10px */
+  line-height: 0.875rem; /* 14px */
+}
+
+@utility headline-large-bold {
+  @apply headline-large font-bold;
+}
+@utility headline-large-semibold {
+  @apply headline-large font-semibold;
+}
+@utility headline-large-medium {
+  @apply headline-large font-medium;
+}
+@utility headline-medium-bold {
+  @apply headline-medium font-bold;
+}
+@utility headline-medium-semibold {
+  @apply headline-medium font-semibold;
+}
+@utility headline-medium-medium {
+  @apply headline-medium font-medium;
+}
+@utility headline-small-bold {
+  @apply headline-small font-bold;
+}
+@utility headline-small-semibold {
+  @apply headline-small font-semibold;
+}
+@utility headline-small-medium {
+  @apply headline-small font-medium;
+}
+@utility title-large-bold {
+  @apply title-large font-bold;
+}
+@utility title-large-semibold {
+  @apply title-large font-semibold;
+}
+@utility title-large-medium {
+  @apply title-large font-medium;
+}
+@utility title-medium-bold {
+  @apply title-medium font-bold;
+}
+@utility title-medium-semibold {
+  @apply title-medium font-semibold;
+}
+@utility title-medium-medium {
+  @apply title-medium font-medium;
+}
+@utility title-small-bold {
+  @apply title-small font-bold;
+}
+@utility title-small-semibold {
+  @apply title-small font-semibold;
+}
+@utility title-small-medium {
+  @apply title-small font-medium;
+}
+@utility body-large-bold {
+  @apply body-large font-bold;
+}
+@utility body-large-semibold {
+  @apply body-large font-semibold;
+}
+@utility body-large-medium {
+  @apply body-large font-medium;
+}
+@utility body-medium-bold {
+  @apply body-medium font-bold;
+}
+@utility body-medium-semibold {
+  @apply body-medium font-semibold;
+}
+@utility body-medium-medium {
+  @apply body-medium font-medium;
+}
+@utility body-small-bold {
+  @apply body-small font-bold;
+}
+@utility body-small-semibold {
+  @apply body-small font-semibold;
+}
+@utility body-small-medium {
+  @apply body-small font-medium;
+}
+@utility caption-large-bold {
+  @apply caption-large font-bold;
+}
+@utility caption-large-semibold {
+  @apply caption-large font-semibold;
+}
+@utility caption-large-medium {
+  @apply caption-large font-medium;
+}
+@utility caption-medium-bold {
+  @apply caption-medium font-bold;
+}
+@utility caption-medium-semibold {
+  @apply caption-medium font-semibold;
+}
+@utility caption-medium-medium {
+  @apply caption-medium font-medium;
+}
