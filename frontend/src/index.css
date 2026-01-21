@@ -59,6 +59,7 @@
 @theme {
   --font-sans: 'Pretendard Variable', sans-serif;
 
+  /*====== 색상 ======= */
   /* text color */
   --color-text-grey-900: var(--grey-900);
   --color-text-grey-700: var(--grey-700);
@@ -146,6 +147,23 @@
   --color-layer-others-tapbg: var(--others-casualgrey);
 
   --color-layer-others-negative: var(--others-red);
+
+  /*====== 간격 ======= */
+  --spacing-spacing-0: 0rem; /* 0px */
+  --spacing-spacing-50: 0.125rem; /* 2px */
+  --spacing-spacing-100: 0.25rem; /* 4px */
+  --spacing-spacing-150: 0.375rem; /* 6px (특수 경우) */
+  --spacing-spacing-200: 0.5rem; /* 8px */
+  --spacing-spacing-250: 0.625rem; /* 10px */
+  --spacing-spacing-300: 0.75rem; /* 12px */
+  --spacing-spacing-350: 0.875rem; /* 14px */
+  --spacing-spacing-400: 1rem; /* 16px */
+  --spacing-spacing-500: 1.25rem; /* 20px */
+  --spacing-spacing-600: 1.5rem; /* 24px */
+  --spacing-spacing-700: 1.75rem; /* 28px */
+  --spacing-spacing-800: 2rem; /* 32px */
+  --spacing-spacing-900: 2.25rem; /* 36px */
+  --spacing-spacing-1000: 2.5rem; /* 40px */
 }
 
 @layer base {
