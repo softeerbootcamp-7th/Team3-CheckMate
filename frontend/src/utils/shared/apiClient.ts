@@ -62,17 +62,11 @@ export const createApiClient = ({
         reject(new Error('Request timeout'));
       }, timeout);
     });
-    try {
-      response = await Promise.race([fetchPromise, timeoutPromise]);
-    } catch (error: unknown) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new Error('Request timeout');
-      }
-      throw error;
-    } finally {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
+
+    response = await Promise.race([fetchPromise, timeoutPromise]);
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
     }
 
     /* response HTTP 에러 시 인터셉터 호출 */
