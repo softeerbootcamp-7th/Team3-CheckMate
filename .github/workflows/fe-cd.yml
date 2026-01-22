@@ -44,14 +44,12 @@ jobs:
           service_account: 'github-actions-sa@checkmate-485008.iam.gserviceaccount.com'
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
-      - name: Delete old files from GCS
+      - name: Deploy to GCS (Sync)
         run: |
-          gsutil -m rm -r gs://checkmate-03/dist/** || true
-      - name: Upload to GCS
+          gsutil -m rsync -d -r ./dist gs://checkmate-03/dist
+          
+      - name: Set Cache Policies
         run: |
-          # 빌드 파일 버킷 업로드
-          gsutil -m cp -r ./dist/* gs://checkmate-03/dist/
-          # 캐시 정책 설정
           gsutil -m setmeta -h "Cache-Control:public, max-age=31536000, immutable" gs://checkmate-03/dist/assets/**
           gsutil -m setmeta -h "Cache-Control:no-cache" gs://checkmate-03/dist/index.html
       - name: Invalidate CDN Cache
