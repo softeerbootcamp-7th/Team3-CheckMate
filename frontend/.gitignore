@@ -36,3 +36,6 @@ storybook-static
 
 
 .pnpm-store
+
+.env
+!.env.template
