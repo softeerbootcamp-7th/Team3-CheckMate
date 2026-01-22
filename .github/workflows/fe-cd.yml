@@ -1,9 +1,8 @@
 name: Frontend CD
 on:
-  pull_request:
+  push:
     branches:
       - main
-      - develop
     paths:
       - "frontend/**"
 
