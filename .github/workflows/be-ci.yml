@@ -1,0 +1,37 @@
+name: backend-ci
+
+on:
+  pull_request:
+    branches:
+      - dev
+    paths:
+      - "backend/**"
+      - ".github/workflows/be-ci.yml"
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      # 1. GitHub Actions 러너에 레포 코드 복사
+      - uses: actions/checkout@v4
+
+      # 2. JDK 17 설치
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: 17
+          cache: gradle
+
+      # 3. gradlew 실행 권한 부여
+      - name: Grant permission to gradlew
+        run: chmod +x gradlew
+
+      # 4. 빌드만 수행 (테스트 제외)
+      - name: Build backend
+        run: ./gradlew clean build -x test
