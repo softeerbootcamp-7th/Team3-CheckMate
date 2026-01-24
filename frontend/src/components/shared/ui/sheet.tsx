@@ -133,6 +133,7 @@ function SheetDescription({
 export {
   Sheet,
   SheetTrigger,
+  SheetOverlay,
   SheetClose,
   SheetContent,
   SheetHeader,
