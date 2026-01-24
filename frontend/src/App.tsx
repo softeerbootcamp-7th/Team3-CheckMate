@@ -2,6 +2,8 @@ import './App.css';
 
 import { useState } from 'react';
 
+import { DatePicker } from '@/components';
+
 import reactLogo from './assets/react.svg';
 
 import viteLogo from '/assets/vite.svg';
@@ -33,6 +35,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <DatePicker />
     </>
   );
 }
