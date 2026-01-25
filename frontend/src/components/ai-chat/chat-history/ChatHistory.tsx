@@ -9,8 +9,9 @@ export const ChatHistory = () => {
 
   useEffect(() => {
     // 2초 뒤 로딩 종료 (mock)
-    setTimeout(() => setIsLoading(false), 2000);
-  });
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section className="flex h-full flex-col justify-end px-500">
