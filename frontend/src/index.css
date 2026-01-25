@@ -111,6 +111,11 @@
   body {
     font-family: var(--font-pretendard);
   }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-grey-300) transparent;
+  }
 }
 
 @utility headline-large {
