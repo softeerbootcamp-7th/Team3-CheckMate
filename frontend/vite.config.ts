@@ -8,6 +8,7 @@ import react from '@vitejs/plugin-react';
 import { playwright } from '@vitest/browser-playwright';
 import path from 'path';
 import { defineConfig } from 'vite';
+import svgr from 'vite-plugin-svgr';
 const dirname =
   typeof __dirname !== 'undefined'
     ? __dirname
@@ -15,7 +16,7 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), svgr()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
