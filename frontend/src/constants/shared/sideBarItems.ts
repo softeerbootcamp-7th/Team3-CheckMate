@@ -10,7 +10,7 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
   {
     id: 'DASHBOARD',
     name: '대시보드',
-    path: '/',
+    path: '/dashboard',
     Icon: DashboardIcon,
   },
   {

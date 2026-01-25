@@ -18,10 +18,7 @@ export const Sidebar = () => {
       <div className="body-medium-medium mt-[47px] ml-[29px] flex w-[220px] flex-col gap-100">
         {SIDEBAR_ITEMS.map((menu) => {
           // 선택된 버튼인지를 현재 url 경로와 비교하여 판단
-          const isActive =
-            menu.id === 'DASHBOARD' // 대시보드 버튼은 기본 경로(/)임. 따라서 전체 경로가 정확히 일치해야 활성화 표시
-              ? pathname === menu.path
-              : pathname.startsWith(menu.path); // 그 외 버튼들은 특정 경로로 시작하다면 활성화(/analysis, /daily-report 등)
+          const isActive = pathname.startsWith(menu.path);
 
           return (
             <div key={menu.id}>
