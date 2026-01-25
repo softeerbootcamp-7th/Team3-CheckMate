@@ -13,7 +13,7 @@ export const ChatHistoryItem = ({
   answer,
   isLatest = false,
 }: ChatHistoryItemProps) => {
-  const userBubbleRef = useRef<HTMLDivElement | null>(null);
+  const userBubbleRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
