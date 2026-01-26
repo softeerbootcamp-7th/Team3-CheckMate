@@ -16,7 +16,7 @@ interface CalendarWeekGridProps {
   lastWeekOfPreviousMonth: number[];
   numberOfDatesForCalendar: number;
   firstWeekOfNextMonth: number[];
-  handleSelectDate: (currentDate: Date) => void;
+  handleSelectWeek: (currentDate: Date) => void;
 }
 
 export const CalendarWeekGrid = ({
@@ -26,7 +26,7 @@ export const CalendarWeekGrid = ({
   lastWeekOfPreviousMonth,
   numberOfDatesForCalendar,
   firstWeekOfNextMonth,
-  handleSelectDate,
+  handleSelectWeek,
 }: CalendarWeekGridProps) => {
   const renderDateCell = ({
     date,
@@ -79,7 +79,7 @@ export const CalendarWeekGrid = ({
           isEnd && 'before:right-[-6px] before:rounded-r-[5px]',
           isBetweenStartEndDate && 'bg-grey-100',
         )}
-        onClick={() => handleSelectDate(currentDate)}
+        onClick={() => handleSelectWeek(currentDate)}
       />
     );
   };

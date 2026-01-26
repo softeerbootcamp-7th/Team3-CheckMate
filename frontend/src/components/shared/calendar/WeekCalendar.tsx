@@ -28,7 +28,7 @@ export const WeekCalendar = ({
   } = useCalendarNavigation({
     selectedEndDate,
   });
-  const { handleSelectDate } = useWeekCalendar({
+  const { handleSelectWeek } = useWeekCalendar({
     selectedStartDate,
     selectedEndDate,
     setSelectedStartDate,
@@ -56,7 +56,7 @@ export const WeekCalendar = ({
           lastWeekOfPreviousMonth={lastWeekOfPreviousMonth}
           numberOfDatesForCalendar={numberOfDatesForCalendar}
           firstWeekOfNextMonth={firstWeekOfNextMonth}
-          handleSelectDate={handleSelectDate}
+          handleSelectWeek={handleSelectWeek}
         />
       </div>
     </section>
