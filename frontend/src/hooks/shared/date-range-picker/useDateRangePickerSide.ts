@@ -5,7 +5,7 @@ import {
   type DateRangePickerType,
 } from '@/constants/shared';
 
-interface useDateRangePickerSideProps {
+interface UseDateRangePickerSideProps {
   selectedStartDate?: Date;
   selectedEndDate?: Date;
   setSelectedStartDate: (date?: Date) => void;
@@ -19,7 +19,7 @@ export const useDateRangePickerSide = ({
   setSelectedStartDate,
   setSelectedEndDate,
   dateRangePickerType,
-}: useDateRangePickerSideProps) => {
+}: UseDateRangePickerSideProps) => {
   const alertText = useMemo(() => {
     return DATE_RANGE_SIDE_CONFIG[dateRangePickerType].alertText;
   }, [dateRangePickerType]);
