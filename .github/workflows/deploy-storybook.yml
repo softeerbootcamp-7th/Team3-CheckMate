@@ -17,6 +17,8 @@ concurrency:
 jobs:
   deploy-storybook:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: frontend
@@ -40,4 +42,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./storybook-static
+          publish_dir: frontend/storybook-static
