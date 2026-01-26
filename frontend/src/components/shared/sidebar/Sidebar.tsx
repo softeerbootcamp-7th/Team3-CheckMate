@@ -15,7 +15,7 @@ export const Sidebar = () => {
   return (
     <aside className="bg-gray-0 h-full w-75">
       <img
-        src="/assets/logo.svg"
+        src="/assets/logoWithTitle.svg"
         alt="Logo"
         className="mx-auto mt-21 ml-[40px] h-16.5 w-41"
       />
