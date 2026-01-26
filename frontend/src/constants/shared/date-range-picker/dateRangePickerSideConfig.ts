@@ -11,7 +11,7 @@ export const DATE_RANGE_SIDE_CONFIG = {
       }
 
       const dateDifference =
-        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1;
 
       return dateDifference <= 30;
     },
@@ -25,10 +25,10 @@ export const DATE_RANGE_SIDE_CONFIG = {
       }
 
       const dateDifference =
-        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1;
 
       // 7 * 12 = 84
-      return dateDifference <= 84;
+      return dateDifference <= 84; // 7 * 12 = 84
     },
     formattedDate: formatDateYYYYMM,
   },
