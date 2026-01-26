@@ -53,7 +53,8 @@ export const DATE_RANGE_SIDE_CONFIG = {
         return true;
       }
 
-      const yearDifference = endDate.getFullYear() - startDate.getFullYear();
+      const yearDifference =
+        endDate.getFullYear() - startDate.getFullYear() + 1;
 
       return yearDifference <= 3;
     },
