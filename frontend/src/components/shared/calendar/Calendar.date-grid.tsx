@@ -1,4 +1,9 @@
-import { cn, isBetweenSelectedDate, isSelectedDate } from '@/utils/shared';
+import {
+  cn,
+  isBetweenSelectedDate,
+  isEndDate,
+  isStartDate,
+} from '@/utils/shared';
 
 import { CalendarDateCell } from './Calendar.date-cell';
 
@@ -46,11 +51,18 @@ export const CalendarDateGrid = ({
       date,
     );
 
-    const isSelected = isSelectedDate({
+    const isStart = isStartDate({
       currentDate,
       selectedStartDate,
+    });
+
+    const isEnd = isEndDate({
+      currentDate,
       selectedEndDate,
     });
+
+    const isSelected = isStart || isEnd;
+
     const isBetweenStartEndDate = isBetweenSelectedDate({
       currentDate,
       selectedStartDate,
@@ -62,9 +74,11 @@ export const CalendarDateGrid = ({
         date={date}
         className={cn(
           isSelected
-            ? 'bg-grey-900 text-grey-50 rounded-[5rem]'
+            ? 'before:bg-grey-900 text-grey-50 after:bg-grey-100 before:absolute before:inset-0 before:z-2 before:rounded-[5rem] before:content-[""] after:absolute after:z-1 after:h-full after:w-1/2 after:content-[""]'
             : (isPreviousMonth || isNextMonth) && 'text-grey-300',
           isBetweenStartEndDate && 'bg-grey-100',
+          isStart && 'after:right-0',
+          isEnd && 'after:left-0',
         )}
         onClick={() =>
           handleSelectDate({
