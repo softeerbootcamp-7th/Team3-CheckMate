@@ -1,4 +1,4 @@
-import type { valueOf } from '@/utils/shared';
+import type { ValueOf } from '@/utils/shared';
 
 export const DATE_RANGE_PICKER_TYPE = {
   date: 'date',
@@ -7,4 +7,4 @@ export const DATE_RANGE_PICKER_TYPE = {
   year: 'year',
 } as const;
 
-export type DateRangePickerType = valueOf<typeof DATE_RANGE_PICKER_TYPE>;
+export type DateRangePickerType = ValueOf<typeof DATE_RANGE_PICKER_TYPE>;
