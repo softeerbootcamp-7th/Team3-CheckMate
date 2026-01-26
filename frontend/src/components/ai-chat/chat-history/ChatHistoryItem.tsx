@@ -7,11 +7,13 @@ interface ChatHistoryItemProps {
   question: string;
   answer: string;
   isLatest?: boolean;
+  isLoading: boolean;
 }
 export const ChatHistoryItem = ({
   question,
   answer,
   isLatest = false,
+  isLoading,
 }: ChatHistoryItemProps) => {
   const userBubbleRef = useRef<HTMLDivElement>(null);
 
@@ -21,6 +23,7 @@ export const ChatHistoryItem = ({
       <BotBubble
         message={answer}
         isLatest={isLatest}
+        isLoading={isLoading}
         userBubbleRef={userBubbleRef}
       />
     </>

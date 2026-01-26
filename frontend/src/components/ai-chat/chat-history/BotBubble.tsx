@@ -1,44 +1,29 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { useAutoScroll } from '@/hooks/ai-chat/useAutoScroll';
 import { useSpacerHeight } from '@/hooks/ai-chat/useSpacerHeight';
-import { useStreamingText } from '@/hooks/ai-chat/useStreamingText';
 
 import { BotLoading } from './BotLoading';
 
 interface BotBubbleProps {
   message: string;
   isLatest?: boolean;
+  isLoading: boolean;
   userBubbleRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 export const BotBubble = ({
   message,
   isLatest = false,
+  isLoading = false,
   userBubbleRef,
 }: BotBubbleProps) => {
-  const [isLoading, setIsLoading] = useState(isLatest);
   const textRef = useRef<HTMLParagraphElement>(null);
-
-  // 로딩 상태 관리 (mocked)
-  useEffect(() => {
-    if (!isLatest) {
-      return;
-    }
-    const timer = setTimeout(() => setIsLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, [isLatest]);
-
-  // 스트리밍 텍스트 표시 (mocked)
-  const displayedText = useStreamingText({
-    text: message,
-    enabled: !isLoading && isLatest,
-  });
 
   // 가장 최신 메시지로 자동 스크롤
   useAutoScroll({
     enabled: isLatest,
-    dependencies: [isLoading, displayedText],
+    dependencies: [isLoading],
   });
 
   // 아래 여백 높이 계산
@@ -46,10 +31,10 @@ export const BotBubble = ({
     enabled: isLatest,
     userBubbleRef: userBubbleRef ?? { current: null },
     textRef,
-    displayedText,
+    displayedText: message,
   });
 
-  if (isLoading) {
+  if (isLatest && isLoading) {
     return <BotLoading />;
   }
   return (
@@ -58,7 +43,7 @@ export const BotBubble = ({
         ref={textRef}
         className="body-small-medium text-grey-900 whitespace-pre-line"
       >
-        {displayedText}
+        {message}
       </p>
       {isLatest && (
         <div

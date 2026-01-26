@@ -1,23 +1,28 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 import { ArrowUp } from 'lucide-react';
+import { Square } from 'lucide-react';
 
 import { Button } from '@/components/shared/shadcn-ui/button';
 import { Textarea } from '@/components/shared/shadcn-ui/textarea';
 
 interface ChatQuestionInputProps {
-  selectedQuestion: string | null;
-  onSelectedQuestionProcessed: () => void;
   onQuestionSubmit: (question: string) => void;
+  onQuestionCancel: () => void;
+  isLoading: boolean;
 }
 export const ChatQuestionInput = ({
-  selectedQuestion,
-  onSelectedQuestionProcessed,
   onQuestionSubmit,
+  onQuestionCancel,
+  isLoading,
 }: ChatQuestionInputProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmitQuestion = useCallback(() => {
+    if (isLoading) {
+      onQuestionCancel();
+      return;
+    }
     if (!textareaRef.current) {
       return;
     }
@@ -28,27 +33,20 @@ export const ChatQuestionInput = ({
       return;
     }
     onQuestionSubmit(question);
-  }, [onQuestionSubmit]);
+  }, [onQuestionSubmit, isLoading, onQuestionCancel]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       // 엔터 키 누르면 submit 발생, shift 엔터키 누르면 줄바꿈
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        handleSubmitQuestion();
+        if (!isLoading) {
+          handleSubmitQuestion();
+        }
       }
     },
-    [handleSubmitQuestion],
+    [handleSubmitQuestion, isLoading],
   );
-
-  useEffect(() => {
-    // selectedQuestion이 변경되면 자동으로 제출
-    if (selectedQuestion && textareaRef.current) {
-      textareaRef.current.value = selectedQuestion;
-      handleSubmitQuestion();
-      onSelectedQuestionProcessed();
-    }
-  }, [selectedQuestion, onSelectedQuestionProcessed, handleSubmitQuestion]);
 
   return (
     <div className="bg-grey-200 rounded-300 flex gap-300 px-400 py-300">
@@ -64,9 +62,14 @@ export const ChatQuestionInput = ({
         variant="outline"
         size="icon"
         onClick={handleSubmitQuestion}
-        className="bg-grey-300 peer-[:not(:placeholder-shown)]:bg-grey-900 size-7.5 rounded-full border-none p-0"
+        className={`bg-grey-300 peer-[:not(:placeholder-shown)]:bg-grey-900 size-7.5 rounded-full border-none p-0 ${isLoading ? 'bg-grey-900' : ''} `}
       >
-        <ArrowUp className="peer-[:not(:placeholder-shown)]:text-grey-0 text-grey-500 size-5" />
+        <ArrowUp
+          className={`peer-[:not(:placeholder-shown)]:text-grey-0 text-grey-500 size-5 ${isLoading ? 'opacity-0' : ''}`}
+        />
+        <Square
+          className={`fill-grey-0 ${isLoading ? 'opacity-100' : ''} absolute z-10 size-4 opacity-0`}
+        />
       </Button>
     </div>
   );

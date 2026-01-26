@@ -1,10 +1,12 @@
+import { useState } from 'react';
+
 import {
   Sheet,
   SheetContent,
   SheetFooter,
   SheetOverlay,
 } from '@/components/shared/shadcn-ui/sheet';
-import { useChatState } from '@/hooks/ai-chat';
+import { useChatStream } from '@/hooks/ai-chat';
 
 import { ChatHistory } from '../chat-history';
 
@@ -14,21 +16,32 @@ import { ChatSheetTrigger } from './ChatSheetTrigger';
 import { ChatStart } from './ChatStart';
 
 export const ChatSheet = () => {
-  const [chatState, { setDidStartChat, setSelectedQuestion }] = useChatState();
+  const [didStartChat, setDidStartChat] = useState<boolean>(false);
+  const {
+    chatHistoryList,
+    isLoading,
+    isStreaming,
+    submitQuestion,
+    cancelChat,
+    resetChat,
+  } = useChatStream();
 
   const handleQuestionSelect = (question: string) => {
-    setSelectedQuestion(question);
+    handleQuestionSubmit(question);
   };
 
   const handleQuestionSubmit = (question: string) => {
     setDidStartChat(true);
-
-    // TODO: 입력한 질문으로 채팅 시작 로직 추가
-    console.info('질문 제출:', question);
+    submitQuestion(question);
   };
 
   const handleChatReset = () => {
     setDidStartChat(false);
+    resetChat();
+  };
+
+  const handleChatCancel = () => {
+    cancelChat();
   };
 
   return (
@@ -44,18 +57,22 @@ export const ChatSheet = () => {
 
         {/* 채팅 시작 페이지 또는 채팅 히스토리 */}
         <div className="min-h-0 flex-1 shrink-0">
-          {!chatState.didStartChat ? (
+          {!didStartChat ? (
             <ChatStart onQuestionSelect={handleQuestionSelect} />
           ) : (
-            <ChatHistory />
+            <ChatHistory
+              chatHistoryList={chatHistoryList}
+              isLoading={isLoading}
+              isStreaming={isStreaming}
+            />
           )}
         </div>
 
         <SheetFooter className="m-500 mt-0 p-0">
           <ChatQuestionInput
-            selectedQuestion={chatState.selectedQuestion}
-            onSelectedQuestionProcessed={() => setSelectedQuestion(null)}
             onQuestionSubmit={handleQuestionSubmit}
+            onQuestionCancel={handleChatCancel}
+            isLoading={isLoading || isStreaming}
           />
         </SheetFooter>
       </SheetContent>
