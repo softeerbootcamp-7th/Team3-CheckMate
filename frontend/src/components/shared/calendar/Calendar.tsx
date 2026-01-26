@@ -1,11 +1,8 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-
 import { useCalendar } from '@/hooks/shared';
 
-import { Button } from '../shadcn-ui';
-
-import { CalendarDateGrid } from './Calendar.date-grid';
-import { CalendarDayGrid } from './Calendar.day-grid';
+import { CalendarDateGrid } from './CalendarDateGrid';
+import { CalendarDayGrid } from './CalendarDayGrid';
+import { CalendarHeader } from './CalendarHeader';
 
 interface CalendarProps {
   selectedStartDate?: Date;
@@ -40,29 +37,12 @@ export const Calendar = ({
   return (
     <section className="rounded-300 border-grey-300 w-80 border p-350">
       <div className="size-full">
-        <div className="flex items-center justify-between p-350">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-fit"
-            onClick={handleClickPreviousMonth}
-            aria-label="이전 달로 이동"
-          >
-            <ChevronLeft className="size-5" />
-          </Button>
-          <span className="body-small-bold">
-            {currentYearForCalendar}년 {currentMonthForCalendar}월
-          </span>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-fit"
-            onClick={handleClickNextMonth}
-            aria-label="다음 달로 이동"
-          >
-            <ChevronRight className="size-5" />
-          </Button>
-        </div>
+        <CalendarHeader
+          currentYearForCalendar={currentYearForCalendar}
+          currentMonthForCalendar={currentMonthForCalendar}
+          handleClickPreviousMonth={handleClickPreviousMonth}
+          handleClickNextMonth={handleClickNextMonth}
+        />
         <CalendarDayGrid />
         <CalendarDateGrid
           currentDateForCalendar={currentDateForCalendar}
