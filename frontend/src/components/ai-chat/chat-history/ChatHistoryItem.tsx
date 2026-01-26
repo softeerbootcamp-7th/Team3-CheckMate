@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
-import { BotBubble } from '../bot-bubble/BotBubble';
-import { UserBubble } from '../user-bubble/UserBubble';
+import { BotBubble } from './BotBubble';
+import { UserBubble } from './UserBubble';
 
 interface ChatHistoryItemProps {
   question: string;

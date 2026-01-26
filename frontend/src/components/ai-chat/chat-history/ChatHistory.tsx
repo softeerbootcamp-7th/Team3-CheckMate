@@ -1,4 +1,4 @@
-import { ChatHistoryItem } from '../chat-history-item/ChatHistoryItem';
+import { ChatHistoryItem } from './ChatHistoryItem';
 
 interface ChatItem {
   question: string;

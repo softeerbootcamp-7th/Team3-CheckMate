@@ -1,6 +1,6 @@
 import { CHAT_RECOMMENDED_QUESTIONS } from '@/constants/ai-chat';
 
-import { RecommendedQuestion } from '../recommended-question/RecommendedQuestion';
+import { RecommendedQuestion } from './RecommendedQuestion';
 
 interface ChatStartProps {
   onQuestionSelect: (question: string) => void;

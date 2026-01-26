@@ -4,7 +4,7 @@ import { useAutoScroll } from '@/hooks/ai-chat/useAutoScroll';
 import { useSpacerHeight } from '@/hooks/ai-chat/useSpacerHeight';
 import { useStreamingText } from '@/hooks/ai-chat/useStreamingText';
 
-import { BotLoading } from '../bot-loading/BotLoading';
+import { BotLoading } from './BotLoading';
 
 interface BotBubbleProps {
   message: string;

@@ -1,1 +1,1 @@
-export { ChatSheet } from './chat-sheet/ChatSheet';
+export { ChatSheet } from './chat-sheet';

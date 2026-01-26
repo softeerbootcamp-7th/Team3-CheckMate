@@ -6,11 +6,12 @@ import {
 } from '@/components/shared/ui/sheet';
 import { useChatState } from '@/hooks/ai-chat';
 
-import { ChatHistory } from '../chat-history/ChatHistory';
-import { ChatQuestionInput } from '../chat-question-input/ChatQuestionInput';
-import { ChatSheetHeader } from '../chat-sheet-header/ChatSheetHeader';
-import { ChatSheetTrigger } from '../chat-sheet-trigger/ChatSheetTrigger';
-import { ChatStart } from '../chat-start/ChatStart';
+import { ChatHistory } from '../chat-history';
+
+import { ChatQuestionInput } from './ChatQuestionInput';
+import { ChatSheetHeader } from './ChatSheetHeader';
+import { ChatSheetTrigger } from './ChatSheetTrigger';
+import { ChatStart } from './ChatStart';
 
 export const ChatSheet = () => {
   const [chatState, { setDidStartChat, setSelectedQuestion }] = useChatState();
