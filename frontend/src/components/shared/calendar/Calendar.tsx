@@ -6,9 +6,9 @@ import { CalendarHeader } from './CalendarHeader';
 
 interface CalendarProps {
   selectedStartDate?: Date;
-  setSelectedStartDate: (date: Date) => void;
+  setSelectedStartDate: (date?: Date) => void;
   selectedEndDate?: Date;
-  setSelectedEndDate: (date: Date) => void;
+  setSelectedEndDate: (date?: Date) => void;
 }
 
 export const Calendar = ({
