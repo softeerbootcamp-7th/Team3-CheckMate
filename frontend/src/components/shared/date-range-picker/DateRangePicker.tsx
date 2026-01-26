@@ -1,8 +1,9 @@
 import { type ComponentProps } from 'react';
 
-import { CALENDAR_FACTORY, type DateRangePickerType } from '@/constants/shared';
+import { type DateRangePickerType } from '@/constants/shared';
 import { useDateRangePicker } from '@/hooks/shared';
 
+import { CalendarFactory } from '../calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../shadcn-ui';
 
 import { DateRangePickerSide } from './DateRangePickerSide';
@@ -60,7 +61,7 @@ export const DateRangePicker = ({
         className="shadow-card-floating rounded-400 bg-special-card-bg flex w-full gap-600 border-none p-4"
         aria-label={ariaLabel}
       >
-        {CALENDAR_FACTORY[dateRangePickerType]({
+        {CalendarFactory[dateRangePickerType]({
           selectedStartDate,
           setSelectedStartDate,
           selectedEndDate,

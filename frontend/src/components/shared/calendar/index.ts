@@ -1,1 +1,3 @@
-export { Calendar } from './Calendar';
+export { DateCalendar } from './DateCalendar';
+export { WeekCalendar } from './WeekCalendar';
+export { CalendarFactory } from './CalendarFactory';
