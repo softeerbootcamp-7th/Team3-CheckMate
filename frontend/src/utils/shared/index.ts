@@ -5,6 +5,7 @@ export {
   getNumberOfDate,
   getFirstDayOfMonth,
   getLastDayOfMonth,
-  isSelectedDate,
   isBetweenSelectedDate,
+  isStartDate,
+  isEndDate,
 } from './calendar';

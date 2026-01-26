@@ -34,19 +34,24 @@ export const getLastDayOfMonth = (date: Date) => {
   return new Date(year, nextMonth + 1, 0).getDay();
 };
 
-export const isSelectedDate = ({
-  selectedStartDate,
-  selectedEndDate,
+export const isStartDate = ({
   currentDate,
+  selectedStartDate,
 }: {
-  selectedStartDate?: Date;
-  selectedEndDate?: Date;
   currentDate: Date;
+  selectedStartDate?: Date;
 }) => {
-  return (
-    selectedStartDate?.getTime() === currentDate.getTime() ||
-    selectedEndDate?.getTime() === currentDate.getTime()
-  );
+  return currentDate.getTime() === selectedStartDate?.getTime();
+};
+
+export const isEndDate = ({
+  currentDate,
+  selectedEndDate,
+}: {
+  currentDate: Date;
+  selectedEndDate?: Date;
+}) => {
+  return currentDate.getTime() === selectedEndDate?.getTime();
 };
 
 export const isBetweenSelectedDate = ({
