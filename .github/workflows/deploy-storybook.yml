@@ -2,7 +2,7 @@ name: Deploy Storybook
 on:
   pull_request:
     branches:
-      - main
+      - develop
     paths:
       - "frontend/**"
       - ".github/workflows/deploy-storybook.yml"
