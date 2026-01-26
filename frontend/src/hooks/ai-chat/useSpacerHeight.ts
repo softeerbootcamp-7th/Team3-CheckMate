@@ -47,7 +47,14 @@ export const useSpacerHeight = ({
     requestAnimationFrame(calculateHeight);
 
     wrapper.scrollTo({ top: wrapper.scrollHeight, behavior: 'smooth' });
-  }, [enabled, displayedText, userBubbleRef, botBubbleRef, containerId]);
+  }, [
+    enabled,
+    wrapperRef,
+    displayedText,
+    userBubbleRef,
+    botBubbleRef,
+    containerId,
+  ]);
 
   return spacerHeight;
 };
