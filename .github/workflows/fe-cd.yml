@@ -9,8 +9,9 @@ on:
 jobs:
   build:
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: "read"
+      id-token: "write"
+
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -24,7 +25,7 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10
-          
+
       - name: Use Node.js ${{matrix.node-version}}
         uses: actions/setup-node@v4
         with:
@@ -38,16 +39,16 @@ jobs:
       - name: Build Project
         run: pnpm build
 
-      - id: 'auth'
+      - id: "auth"
         name: Authenticate to Google Cloud
-        uses: 'google-github-actions/auth@v2'
+        uses: "google-github-actions/auth@v2"
         with:
-          workload_identity_provider: 'projects/1022464522377/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
-          service_account: 'github-actions-sa@checkmate-485008.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/1022464522377/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider"
+          service_account: "github-actions-sa@checkmate-485008.iam.gserviceaccount.com"
           create_credentials_file: true
 
       - name: Set up Cloud SDK
-        uses: 'google-github-actions/setup-gcloud@v2'
+        uses: "google-github-actions/setup-gcloud@v2"
 
       - name: Verify Authentication
         run: |
@@ -61,7 +62,7 @@ jobs:
       - name: Deploy to GCS (Sync)
         run: |
           gsutil -m rsync -d -r ./dist gs://checkmate-03/dist
-          
+
       - name: Set Cache Policies
         run: |
           gsutil -m setmeta -h "Cache-Control:public, max-age=31536000, immutable" gs://checkmate-03/dist/assets/**
@@ -73,3 +74,17 @@ jobs:
           gcloud compute url-maps list --format="value(name)" | while read urlmap; do
             gcloud compute url-maps invalidate-cdn-cache $urlmap --path "/dist/*" --async
           done
+      - name: Send result to n8n
+        if: always() #n8n webhook 실행
+        run: |
+          curl -X POST "${{ secrets.FE_CD_SLACK_N8N_WEBHOOK_URL }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "workflow": "${{ github.workflow }}",
+            "status": "${{ job.status }}",
+            "repository": "${{ github.repository }}",
+            "actor": "${{ github.actor }}",
+            "commit_msg": "${{ github.event.head_commit.message }}",
+            "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "group_id": "S0AA1TB9VUK"
+          }'
