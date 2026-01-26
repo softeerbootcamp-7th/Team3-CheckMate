@@ -4,7 +4,6 @@ import {
   Sheet,
   SheetContent,
   SheetFooter,
-  SheetOverlay,
 } from '@/components/shared/shadcn-ui/sheet';
 import { useChatStream } from '@/hooks/ai-chat';
 
@@ -16,6 +15,7 @@ import { ChatSheetTrigger } from './ChatSheetTrigger';
 import { ChatStart } from './ChatStart';
 
 export const ChatSheet = () => {
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [didStartChat, setDidStartChat] = useState<boolean>(false);
   const {
     chatHistoryList,
@@ -45,10 +45,27 @@ export const ChatSheet = () => {
   };
 
   return (
-    <Sheet onOpenChange={(open) => open && handleChatReset()}>
+    <Sheet
+      modal={false}
+      onOpenChange={(open) => {
+        setSheetOpen(open);
+        if (open) {
+          handleChatReset();
+        }
+      }}
+    >
       <ChatSheetTrigger />
-      <SheetOverlay className="bg-transparent" />
+      {sheetOpen && (
+        <div
+          className="fixed inset-0 h-screen w-screen bg-transparent"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        />
+      )}
       <SheetContent
+        onInteractOutside={(e) => e.preventDefault()}
         showCloseButton={false}
         side="left"
         className="rounded-500 m-1000 mt-auto flex h-[600px] w-90 flex-col gap-0 border-[2.5px] border-transparent bg-[linear-gradient(#fafbff,#fafbff),linear-gradient(171.25deg,#34aafb_-2.76%,#4eb0f6_12.29%,#73c1fd_38.18%,#009afa_89.66%)] [background-clip:content-box,border-box] bg-origin-border shadow-xl"
