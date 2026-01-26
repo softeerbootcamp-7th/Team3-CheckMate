@@ -9,8 +9,8 @@ import {
 interface UseCalendarProps {
   selectedStartDate?: Date;
   selectedEndDate?: Date;
-  setSelectedStartDate: (date: Date) => void;
-  setSelectedEndDate: (date: Date) => void;
+  setSelectedStartDate: (date?: Date) => void;
+  setSelectedEndDate: (date?: Date) => void;
 }
 export const useCalendar = ({
   selectedStartDate,
