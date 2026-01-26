@@ -1,5 +1,6 @@
 import {
   cn,
+  getCurrentDate,
   isBetweenSelectedDate,
   isEndDate,
   isStartDate,
@@ -35,13 +36,12 @@ export const CalendarDateGrid = ({
     isPreviousMonth: boolean;
     isNextMonth: boolean;
   }) => {
-    const currentDate = new Date(
-      currentDateForCalendar.getFullYear(),
-      currentDateForCalendar.getMonth() +
-        (isPreviousMonth ? -1 : 0) +
-        (isNextMonth ? 1 : 0),
+    const currentDate = getCurrentDate({
       date,
-    );
+      dateForCalendar: currentDateForCalendar,
+      isPreviousMonth,
+      isNextMonth,
+    });
 
     const isStart = isStartDate({
       currentDate,
