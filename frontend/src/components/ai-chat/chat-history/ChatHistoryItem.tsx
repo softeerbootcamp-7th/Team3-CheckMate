@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-
 import { BotBubble } from './BotBubble';
 import { UserBubble } from './UserBubble';
 
@@ -8,15 +6,17 @@ interface ChatHistoryItemProps {
   answer: string;
   isLatest?: boolean;
   isLoading: boolean;
+  botBubbleRef: React.RefObject<HTMLParagraphElement | null>;
+  userBubbleRef: React.RefObject<HTMLParagraphElement | null>;
 }
 export const ChatHistoryItem = ({
   question,
   answer,
   isLatest = false,
   isLoading,
+  botBubbleRef,
+  userBubbleRef,
 }: ChatHistoryItemProps) => {
-  const userBubbleRef = useRef<HTMLDivElement>(null);
-
   return (
     <>
       <UserBubble message={question} ref={userBubbleRef} />
@@ -24,7 +24,7 @@ export const ChatHistoryItem = ({
         message={answer}
         isLatest={isLatest}
         isLoading={isLoading}
-        userBubbleRef={userBubbleRef}
+        ref={botBubbleRef}
       />
     </>
   );

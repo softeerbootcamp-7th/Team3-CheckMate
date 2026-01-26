@@ -2,8 +2,9 @@ import { useLayoutEffect, useState } from 'react';
 
 interface UseSpacerHeightOptions {
   enabled: boolean;
+  wrapperRef: React.RefObject<HTMLDivElement | null>;
   userBubbleRef: React.RefObject<HTMLDivElement | null>;
-  textRef: React.RefObject<HTMLParagraphElement | null>;
+  botBubbleRef: React.RefObject<HTMLParagraphElement | null>;
   displayedText: string;
   containerId?: string;
 }
@@ -13,19 +14,20 @@ const GAP_HEIGHT = 16;
 
 export const useSpacerHeight = ({
   enabled,
+  wrapperRef,
   userBubbleRef,
-  textRef,
+  botBubbleRef,
   displayedText,
   containerId = 'chat-history-wrapper',
 }: UseSpacerHeightOptions) => {
   const [spacerHeight, setSpacerHeight] = useState(0);
 
   useLayoutEffect(() => {
-    if (!enabled || !userBubbleRef.current || !textRef.current) {
+    if (!enabled || !userBubbleRef.current || !botBubbleRef.current) {
       return;
     }
 
-    const wrapper = document.getElementById(containerId);
+    const wrapper = wrapperRef.current;
     if (!wrapper) {
       return;
     }
@@ -33,7 +35,7 @@ export const useSpacerHeight = ({
     const calculateHeight = () => {
       const wrapperH = wrapper.clientHeight;
       const userH = userBubbleRef.current?.clientHeight ?? 0;
-      const textH = textRef.current?.clientHeight ?? 0;
+      const textH = botBubbleRef.current?.clientHeight ?? 0;
 
       const newHeight = Math.max(
         0,
@@ -45,7 +47,7 @@ export const useSpacerHeight = ({
     requestAnimationFrame(calculateHeight);
 
     wrapper.scrollTo({ top: wrapper.scrollHeight, behavior: 'smooth' });
-  }, [enabled, displayedText, userBubbleRef, textRef, containerId]);
+  }, [enabled, displayedText, userBubbleRef, botBubbleRef, containerId]);
 
   return spacerHeight;
 };
