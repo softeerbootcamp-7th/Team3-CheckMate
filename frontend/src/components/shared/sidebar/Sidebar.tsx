@@ -13,7 +13,7 @@ export const Sidebar = () => {
   const navigate = useNavigate();
 
   return (
-    <aside className="bg-gray-0 h-full w-75">
+    <aside className="bg-grey-0 h-full w-75 shrink-0">
       <img
         src="/assets/logoWithTitle.svg"
         alt="Logo"
