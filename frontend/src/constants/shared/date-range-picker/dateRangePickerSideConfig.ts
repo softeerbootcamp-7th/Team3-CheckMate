@@ -1,6 +1,7 @@
 import {
   formatDateYYYYMM,
   formatDateYYYYMMDD,
+  getDateDifference,
   getMondayOfWeek,
 } from '@/utils/shared';
 
@@ -14,8 +15,10 @@ export const DATE_RANGE_SIDE_CONFIG = {
         return true;
       }
 
-      const dateDifference =
-        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1;
+      const dateDifference = getDateDifference({
+        startDate,
+        endDate,
+      });
 
       return dateDifference <= 30;
     },
@@ -29,10 +32,10 @@ export const DATE_RANGE_SIDE_CONFIG = {
       }
 
       const mondayOfEndDate = getMondayOfWeek(endDate);
-      const dateDifference =
-        (mondayOfEndDate.getTime() - startDate.getTime()) /
-          (1000 * 60 * 60 * 24) +
-        1;
+      const dateDifference = getDateDifference({
+        startDate,
+        endDate: mondayOfEndDate,
+      });
 
       // 7 * 12 = 84
       return dateDifference <= 84; // 7 * 12 = 84

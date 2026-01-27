@@ -126,3 +126,13 @@ export const getCurrentMonth = ({
 }) => {
   return new Date(dateForCalendar.getFullYear(), month, 1);
 };
+
+export const getDateDifference = ({
+  startDate,
+  endDate,
+}: {
+  startDate: Date;
+  endDate: Date;
+}) => {
+  return (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1;
+};
