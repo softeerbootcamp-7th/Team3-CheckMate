@@ -6,6 +6,7 @@ import {
 } from '@/constants/shared';
 
 import { DateCalendar } from './DateCalendar';
+import { MonthCalendar } from './MonthCalendar';
 import { WeekCalendar } from './WeekCalendar';
 
 // TODO: 추후 변경 예정
@@ -17,8 +18,8 @@ export const CalendarFactory = {
     props: ComponentProps<typeof WeekCalendar>,
   ) => <WeekCalendar {...props} />,
   [DATE_RANGE_PICKER_TYPE.month]: (
-    props: ComponentProps<typeof DateCalendar>,
-  ) => <DateCalendar {...props} />,
+    props: ComponentProps<typeof MonthCalendar>,
+  ) => <MonthCalendar {...props} />,
   [DATE_RANGE_PICKER_TYPE.year]: (
     props: ComponentProps<typeof DateCalendar>,
   ) => <DateCalendar {...props} />,
@@ -27,6 +28,7 @@ export const CalendarFactory = {
   (
     props:
       | ComponentProps<typeof DateCalendar>
-      | ComponentProps<typeof WeekCalendar>,
+      | ComponentProps<typeof WeekCalendar>
+      | ComponentProps<typeof MonthCalendar>,
   ) => React.ReactNode
 >;

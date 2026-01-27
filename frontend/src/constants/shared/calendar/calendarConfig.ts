@@ -15,7 +15,7 @@ export const CALENDAR_CONFIG = {
   },
   [DATE_RANGE_PICKER_TYPE.month]: {
     headerTitle: (currentDateForCalendar: Date) =>
-      `${currentDateForCalendar.getFullYear()}년 ${currentDateForCalendar.getMonth() + 1}월`,
+      `${currentDateForCalendar.getFullYear()}`,
     previousAriaLabel: '이전 년도로 이동',
     nextAriaLabel: '다음 년도로 이동',
   },
