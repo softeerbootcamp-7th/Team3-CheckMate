@@ -50,7 +50,7 @@ export const CalendarMonthGrid = ({
         month={month}
         className={cn(
           isSelected &&
-            'before:bg-grey-900 text-grey-50 before:rounded-unlimit after:bg-grey-100 size-full before:absolute before:inset-0 before:z-2 before:content-[""] after:absolute after:z-1 after:h-full after:w-1/2',
+            'before:bg-grey-900 text-grey-50 before:rounded-unlimit after:bg-grey-100 before:absolute before:left-0 before:z-2 before:size-full before:content-[""] after:absolute after:z-1 after:h-full after:w-1/2',
           isStart && 'after:right-0',
           isEnd && 'after:left-0',
           isBetweenStartEndDate && 'bg-grey-100',
