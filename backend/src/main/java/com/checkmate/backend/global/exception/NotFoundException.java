@@ -4,7 +4,7 @@ import com.checkmate.backend.global.response.ErrorStatus;
 
 public class NotFoundException extends BaseException {
 
-    public NotFoundException(ErrorStatus errorStatus) {
-        super(errorStatus);
-    }
+  public NotFoundException(ErrorStatus errorStatus) {
+    super(errorStatus);
+  }
 }
