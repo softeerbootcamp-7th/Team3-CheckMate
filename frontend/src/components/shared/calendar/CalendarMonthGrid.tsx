@@ -12,9 +12,6 @@ interface CalendarMonthGridProps {
   currentDateForCalendar: Date;
   selectedStartDate?: Date;
   selectedEndDate?: Date;
-  lastWeekOfPreviousMonth: number[];
-  numberOfDatesForCalendar: number;
-  firstWeekOfNextMonth: number[];
   handleSelectMonth: (currentDate: Date) => void;
 }
 

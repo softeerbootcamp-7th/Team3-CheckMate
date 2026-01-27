@@ -17,16 +17,10 @@ export const MonthCalendar = ({
   selectedEndDate,
   setSelectedEndDate,
 }: MonthCalendarProps) => {
-  const {
-    currentDateForCalendar,
-    numberOfDatesForCalendar,
-    lastWeekOfPreviousMonth,
-    firstWeekOfNextMonth,
-    handleMovePreviousYear,
-    handleMoveNextYear,
-  } = useCalendarNavigation({
-    selectedEndDate,
-  });
+  const { currentDateForCalendar, handleMovePreviousYear, handleMoveNextYear } =
+    useCalendarNavigation({
+      selectedEndDate,
+    });
   const { handleSelectMonth } = useMonthCalendar({
     selectedStartDate,
     selectedEndDate,
@@ -51,9 +45,6 @@ export const MonthCalendar = ({
           currentDateForCalendar={currentDateForCalendar}
           selectedStartDate={selectedStartDate}
           selectedEndDate={selectedEndDate}
-          lastWeekOfPreviousMonth={lastWeekOfPreviousMonth}
-          numberOfDatesForCalendar={numberOfDatesForCalendar}
-          firstWeekOfNextMonth={firstWeekOfNextMonth}
           handleSelectMonth={handleSelectMonth}
         />
       </div>
