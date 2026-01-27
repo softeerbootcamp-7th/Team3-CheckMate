@@ -4,9 +4,9 @@ import {
   DashboardIcon,
   SettingsIcon,
 } from '@/assets';
-import type { SidebarItem } from '@/types/shared';
+import type { SidebarOptionItem } from '@/types/shared';
 
-export const SIDEBAR_ITEMS: SidebarItem[] = [
+export const SIDEBAR_ITEMS: SidebarOptionItem[] = [
   {
     id: 'DASHBOARD',
     name: '대시보드',

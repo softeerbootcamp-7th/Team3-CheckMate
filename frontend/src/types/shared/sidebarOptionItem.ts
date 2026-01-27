@@ -1,7 +1,7 @@
-export interface SidebarItem {
+export interface SidebarOptionItem {
   id: string;
   name: string;
   path: string;
   Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  subMenus?: SidebarItem[];
+  subMenus?: SidebarOptionItem[];
 }
