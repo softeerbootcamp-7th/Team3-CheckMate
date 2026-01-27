@@ -21,8 +21,8 @@ export const CALENDAR_CONFIG = {
   },
   [DATE_RANGE_PICKER_TYPE.year]: {
     headerTitle: (currentDateForCalendar: Date) =>
-      `${currentDateForCalendar.getFullYear()}년 ${currentDateForCalendar.getMonth() + 1}월`,
-    previousAriaLabel: '이전 년도로 이동',
-    nextAriaLabel: '다음 년도로 이동',
+      `${currentDateForCalendar.getFullYear()} - ${currentDateForCalendar.getFullYear() + 9}`,
+    previousAriaLabel: '10년 이전으로 이동',
+    nextAriaLabel: '10년 이후로 이동',
   },
 };
