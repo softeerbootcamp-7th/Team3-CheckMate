@@ -29,9 +29,9 @@ export const getFirstDayOfMonth = (date: Date) => {
  */
 export const getLastDayOfMonth = (date: Date) => {
   const year = date.getFullYear();
-  const nextMonth = date.getMonth();
+  const nextMonth = date.getMonth() + 1;
 
-  return new Date(year, nextMonth + 1, 0).getDay();
+  return new Date(year, nextMonth, 0).getDay();
 };
 
 export const isStartDate = ({
