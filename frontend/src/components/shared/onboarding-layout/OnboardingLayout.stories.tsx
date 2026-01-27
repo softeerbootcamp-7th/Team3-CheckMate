@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { OnboardingLayout } from './OnBoardingLayout';
+import { OnboardingLayout } from './OnboardingLayout';
 
 const meta = {
   title: 'components/shared/onboarding-layout/OnboardingLayout',
