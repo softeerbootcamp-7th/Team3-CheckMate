@@ -21,7 +21,7 @@ export const ChatSheetHeader = memo(() => {
       <SheetHeader className="shrink-0 flex-row justify-between p-500">
         <SheetTitle>
           <img
-            src="/assets/images/ai-mate-logo-row.png"
+            src="src/assets/images/ai-mate-logo-row.png"
             alt="AI mate 로고"
             className="h-6 object-contain"
           />
