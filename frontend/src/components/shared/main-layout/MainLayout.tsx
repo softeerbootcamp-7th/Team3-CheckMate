@@ -11,7 +11,7 @@ export const MainLayout = () => {
     <div className="flex h-screen w-full">
       <Sidebar />
 
-      <main className="bg-special-dashboard-bg flex-1">
+      <main className="bg-special-dashboard-bg flex flex-1 flex-col items-center">
         <Outlet />
       </main>
     </div>
