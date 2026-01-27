@@ -21,6 +21,9 @@ jobs:
     defaults:
       run:
         working-directory: frontend
+    strategy:
+      matrix:
+        node-version: [24]
     steps:
       - uses: actions/checkout@v4
       - name: Install pnpm
