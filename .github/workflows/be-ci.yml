@@ -32,6 +32,10 @@ jobs:
       - name: Grant permission to gradlew
         run: chmod +x gradlew
 
-      # 4. 빌드만 수행 (테스트 제외)
+      # 4. Spotless 포맷 체크
+      - name: Spotless check
+        run: ./gradlew spotlessCheck
+
+      # 5. 빌드만 수행 (테스트 제외)
       - name: Build backend
         run: ./gradlew clean build -x test
