@@ -1,36 +1,17 @@
 import type { PropsWithChildren } from 'react';
 
-import { cn } from '@/utils/shared/lib/utils';
+export const OnboardingLayout = ({ children }: PropsWithChildren) => {
+  return <div className="grid size-full grid-cols-[300px_1fr]">{children}</div>;
+};
 
-interface OnboardingLayoutProps extends PropsWithChildren {
-  className?: string;
-}
-
-export const OnboardingLayout = ({
-  children,
-  className,
-}: OnboardingLayoutProps) => {
+const OnboardingSidebar = ({ children }: PropsWithChildren) => {
   return (
-    <div className={cn('grid size-full grid-cols-[300px_1fr]', className)}>
-      {children}
-    </div>
+    <aside className="bg-special-dashboard-bg size-full">{children}</aside>
   );
 };
 
-const OnboardingSidebar = ({ children, className }: OnboardingLayoutProps) => {
-  return (
-    <aside className={cn('bg-special-dashboard-bg size-full', className)}>
-      {children}
-    </aside>
-  );
-};
-
-const OnboardingMain = ({ children, className }: OnboardingLayoutProps) => {
-  return (
-    <main className={cn('bg-special-card-bg size-full', className)}>
-      {children}
-    </main>
-  );
+const OnboardingMain = ({ children }: PropsWithChildren) => {
+  return <main className="bg-special-card-bg size-full">{children}</main>;
 };
 
 OnboardingLayout.Sidebar = OnboardingSidebar;
