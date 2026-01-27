@@ -3,6 +3,7 @@ export {
   useWeekCalendar,
   useCalendarNavigation,
   useMonthCalendar,
+  useYearCalendar,
 } from './calendar';
 export {
   useDateRangePicker,
