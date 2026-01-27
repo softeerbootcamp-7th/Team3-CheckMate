@@ -1,13 +1,9 @@
-import { BrowserRouter } from 'react-router-dom';
-
-import { Sidebar } from '@/components/shared';
+import { PageRouter } from '@/routes';
 
 function App() {
   return (
     <div className="h-screen w-screen">
-      <BrowserRouter>
-        <Sidebar />
-      </BrowserRouter>
+      <PageRouter />
     </div>
   );
 }

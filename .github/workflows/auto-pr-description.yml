@@ -25,31 +25,37 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process');
-
-            // 1. 데이터 추출
+            // 1. 데이터 추출 및 필터링
+            const baseRef = process.env.BASE_REF;
+            // 필터링할 확장자 정의
+            const extensions = ['*.ts', '*.tsx', '*.java'];
+            const filterPath = extensions.join(' ');
+            
             let diff = "";
             let commits = "";
             let diffStat = "";
-            const baseRef = process.env.BASE_REF;
-
+            
             try {
-              // 한글 깨짐 방지를 위해 head -c(바이트) 대신 head -n(라인) 사용 권장
-              diff = execSync(`git diff ${baseRef}...HEAD | head -n 1000`).toString();
-              diffStat = execSync(`git diff --stat ${baseRef}...HEAD`).toString();
+              diff = execSync(`git diff ${baseRef}...HEAD -- ${filterPath} | head -n 1000`).toString();
+              diffStat = execSync(`git diff --stat ${baseRef}...HEAD -- ${filterPath}`).toString();
               commits = execSync(`git log ${baseRef}...HEAD --pretty=format:"- %s"`).toString();
+            
+              if (!diff.trim()) {
+                console.log("대상 확장자(.ts, .tsx, .java)에 대한 변경 사항이 없습니다.");
+                diff = "관련 소스 코드 변경 없음 (설정 파일 혹은 기타 파일 변경)";
+              }
             } catch (e) {
               console.error("Git 데이터 추출 중 에러 발생:", e);
-              diff = "데이터 추출 실패 (변경 사항이 너무 크거나 브랜치 참조 오류)";
+              diff = "데이터 추출 실패";
             }
-
-            // 2. PR 템플릿 정의 (들여쓰기 제거를 위해 왼쪽 정렬)
+            
+            // 2. PR 템플릿 정의
             const PR_TEMPLATE = `
             ## #️⃣ 변경 사항
 
             ## #️⃣ 작업 상세 내용
             - 상세 내용 1
             - 상세 내용 2
-            - 등
 
             ## #️⃣ 관련 이슈
             - Closes #
@@ -101,8 +107,7 @@ jobs:
             
               const summary = data.candidates?.[0]?.content?.parts?.[0]?.text || "요약 생성 실패";
 
-              // 4. PR 본문 업데이트 (Footer 수정)
-              // 줄바꿈 문제를 해결하기 위해 불필요한 공백을 제거하고 깔끔하게 정의
+              // 4. PR 본문 업데이트
               const footer = `\n\n---\n> **AI 자동 생성 결과** (내용 확인 후 삭제 및 수정하여 사용하세요)\n\n` +
                              `\`\`\`\n` +
                              `✅ 체크리스트\n` +
