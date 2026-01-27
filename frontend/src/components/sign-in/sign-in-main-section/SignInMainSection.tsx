@@ -3,9 +3,9 @@ import { FEATURE_CARD_LIST } from '@/constants/sign-in';
 import { FeatureCard } from '../feature-card';
 import { SignInButton } from '../sign-in-button';
 
-export const SignInMain = () => {
+export const SignInMainSection = () => {
   return (
-    <div className="flex size-full flex-col items-center justify-between pt-52 pb-7">
+    <section className="flex size-full flex-col items-center justify-between pt-52 pb-7">
       <div className="flex flex-col items-center gap-10">
         <div className="flex flex-col items-center gap-200">
           <h1 className="headline-small-semibold text-grey-900">로그인</h1>
@@ -23,6 +23,6 @@ export const SignInMain = () => {
       <p className="body-medium-medium text-grey-500">
         Copyright(C) CHECKMATE.ALL RIGHTS RESERVED.
       </p>
-    </div>
+    </section>
   );
 };
