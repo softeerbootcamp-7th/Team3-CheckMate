@@ -1,6 +1,6 @@
 import { OnboardingLayout } from '@/components/shared';
 
-export const OnBoardingPage = () => {
+export const OnboardingPage = () => {
   return (
     <OnboardingLayout>
       <OnboardingLayout.Sidebar>sidebar</OnboardingLayout.Sidebar>

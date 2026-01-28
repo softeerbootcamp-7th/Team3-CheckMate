@@ -1,7 +1,7 @@
 import { Navigate, Outlet, type RouteObject } from 'react-router-dom';
 
 import { mainPageRoutes } from './MainPageRoutes';
-import { onBoardingRoutes } from './OnBoardingRoutes';
+import { onboardingRoutes } from './OnboardingRoutes';
 import { signInRoutes } from './SignInRoutes';
 
 export const rootRoutes: RouteObject = {
@@ -14,7 +14,7 @@ export const rootRoutes: RouteObject = {
     },
     mainPageRoutes,
     signInRoutes,
-    onBoardingRoutes,
+    onboardingRoutes,
     {
       path: '*',
       element: <Navigate to="/dashboard" replace />,
