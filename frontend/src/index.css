@@ -128,7 +128,7 @@
 @layer components {
   .card {
     @apply bg-special-card-bg rounded-400 p-5;
-    & > h3 {
+    & h3 {
       @apply body-medium-semibold text-grey-700;
     }
   }

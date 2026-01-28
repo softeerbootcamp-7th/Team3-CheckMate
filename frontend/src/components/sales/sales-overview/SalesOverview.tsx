@@ -37,7 +37,7 @@ export const SalesOverview = () => {
           setEndDate={setEndDate}
         />
       </header>
-      <section className="mt-4 grid grid-rows-2 gap-5">
+      <section className="mt-4 grid gap-5">
         <div className="grid grid-cols-3 gap-5">
           <ActualRevenue
             periodType={periodType}
@@ -55,7 +55,7 @@ export const SalesOverview = () => {
             endDate={endDate}
           />
         </div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="flex gap-5">
           <TotalRevenue />
           <DiscountCancel />
         </div>
