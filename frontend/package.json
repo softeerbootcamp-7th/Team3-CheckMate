@@ -12,7 +12,7 @@
     "format:fix": "prettier --write .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --base-path=/WEB-Team3-CheckMate/",
+    "build-storybook": "storybook build",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "ts:check": "tsc --noEmit",

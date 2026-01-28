@@ -11,5 +11,11 @@ const config: StorybookConfig = {
     '@storybook/addon-onboarding',
   ],
   framework: '@storybook/react-vite',
+  viteFinal: (config) => {
+    config.base = '/WEB-Team3-CheckMate/';
+    return {
+      ...config,
+    };
+  },
 };
 export default config;
