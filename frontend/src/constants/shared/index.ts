@@ -6,3 +6,4 @@ export {
 export { DAY_OF_WEEK_LIST, CALENDAR_FACTORY } from './calendar';
 
 export { SIDEBAR_ITEMS } from './sidebarItems';
+export { CDN_BASE_URL } from './cdnBaseUrl';
