@@ -1,4 +1,4 @@
-export const ONBOARDING_SIDEBAR_ITEM_LIST = [
+export const STORE_REGISTER_STEP_LIST = [
   {
     step: 1,
     label: '사업자 확인',
