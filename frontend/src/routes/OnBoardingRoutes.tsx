@@ -1,8 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
 
-import { OnBoardingPage } from '@/pages/on-boarding-page';
+import { OnboardingPage } from '@/pages/onboarding-page';
 
-export const onBoardingRoutes: RouteObject = {
-  path: '/on-boarding',
-  Component: OnBoardingPage,
+export const onboardingRoutes: RouteObject = {
+  path: '/onboarding',
+  Component: OnboardingPage,
 };
