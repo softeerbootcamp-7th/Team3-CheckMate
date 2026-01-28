@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { FEATURE_CARD_LIST } from '@/constants/sign-in';
+import { FEATURE_CARD_LIST } from '@/constants/auth';
 
 import { FeatureCard } from './FeatureCard';
 
