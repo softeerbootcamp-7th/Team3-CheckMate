@@ -24,7 +24,7 @@ public class ControllerExceptionAdvice {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  protected ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(
+  public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException e) {
     ErrorStatus errorStatus = ErrorStatus.VALIDATION_EXCEPTION;
 

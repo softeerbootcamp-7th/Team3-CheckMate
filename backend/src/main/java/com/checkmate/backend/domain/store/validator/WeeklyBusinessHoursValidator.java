@@ -68,15 +68,9 @@ public class WeeklyBusinessHoursValidator
         addViolation(context, hour.dayOfWeek() + "의 영업 시작 시간과 마감 시간은 같을 수 없습니다.");
         return false;
       }
-
-      // 3-3. 시작 시간이 마감 시간보다 늦을 수 없음
-      if (openMinutes > closeMinutes) {
-        addViolation(context, hour.dayOfWeek() + "의 영업 시작 시간은 마감 시간보다 늦을 수 없습니다.");
-        return false;
-      }
     }
 
-    // 4. 연속 요일 영업시간 겹침 검증 (자정 이후 포함)
+    // 4. 연속 요일 영업시간 겹침 검증 (자정 이후만 대상)
     for (DayOfWeekType day : DayOfWeekType.values()) {
       StoreCreateRequestDTO.BusinessHour today = map.get(day);
       StoreCreateRequestDTO.BusinessHour next = map.get(day.next());
@@ -85,13 +79,17 @@ public class WeeklyBusinessHoursValidator
         continue;
       }
 
+      int todayOpen = toMinutes(today.openTime());
       int todayClose = toMinutes(today.closeTime());
       int nextOpen = toMinutes(next.openTime());
 
-      if (todayClose >= nextOpen) {
-        addViolation(
-            context, day + "과 " + day.next() + "의 영업시간이 겹칩니다. 다음 요일의 시작 시간은 이전 요일 마감 이후여야 합니다.");
-        return false;
+      // 자정 이후 마감한 경우만 검사
+      if (todayOpen > todayClose) {
+        if (nextOpen <= todayClose) {
+          addViolation(
+              context, day + "과 " + day.next() + "의 영업시간이 겹칩니다. 다음 요일의 시작 시간은 이전 요일 마감 이후여야 합니다.");
+          return false;
+        }
       }
     }
 

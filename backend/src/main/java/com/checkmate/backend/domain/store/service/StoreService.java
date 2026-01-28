@@ -1,6 +1,6 @@
 package com.checkmate.backend.domain.store.service;
 
-import static com.checkmate.backend.global.response.ErrorStatus.USER_NOT_FOUND_EXCEPTION;
+import static com.checkmate.backend.global.response.ErrorStatus.MEMBER_NOT_FOUND_EXCEPTION;
 
 import com.checkmate.backend.domain.member.entity.Member;
 import com.checkmate.backend.domain.member.repository.MemberRepository;
@@ -30,14 +30,14 @@ public class StoreService {
    * */
 
   @Transactional
-  public Long create(Long userId, StoreCreateRequestDTO storeCreateRequestDTO) {
+  public Long create(Long memberId, StoreCreateRequestDTO storeCreateRequestDTO) {
     Member member =
         memberRepository
-            .findById(userId)
+            .findById(memberId)
             .orElseThrow(
                 () -> {
-                  log.warn("[create][user is not found][userId= {}]", userId);
-                  return new NotFoundException(USER_NOT_FOUND_EXCEPTION);
+                  log.warn("[create][member is not found][memberId= {}]", memberId);
+                  return new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION);
                 });
 
     // 매장
