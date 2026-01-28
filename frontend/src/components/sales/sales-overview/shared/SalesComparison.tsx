@@ -19,12 +19,15 @@ export const SalesComparison = ({
   currentValue,
 }: SalesComparisonProps) => {
   const deltaValue = useMemo(
-    () => (lastValue !== undefined ? currentValue - lastValue : 0),
+    () => (lastValue ? currentValue - lastValue : 0),
     [currentValue, lastValue],
   );
 
   const comparisonMessage = useMemo(
-    () => (periodType ? getPeriodComparisonMessage(periodType) : ''),
+    () =>
+      periodType
+        ? getPeriodComparisonMessage(periodType)
+        : '비교할 기준이 없어요.',
     [periodType],
   );
 
@@ -37,24 +40,22 @@ export const SalesComparison = ({
         </strong>
         <p className="title-medium-semibold text-grey-900">{unit}</p>
       </div>
-      {periodType && (
-        <>
-          <p className="body-medium-medium text-grey-600 whitespace-pre">
-            {comparisonMessage}
-          </p>
-          <p
-            className={cn(
-              'body-large-semibold text-brand-main mt-1',
-              deltaValue < 0 && 'text-others-negative',
-              deltaValue === 0 && 'text-grey-500',
-            )}
-          >
-            {deltaValue >= 0 ? '+' : ''}
-            {deltaValue.toLocaleString('ko-KR')}
-            {unit}
-          </p>
-        </>
-      )}
+      <>
+        <p className="body-medium-medium text-grey-600 whitespace-pre">
+          {comparisonMessage}
+        </p>
+        <p
+          className={cn(
+            'body-large-semibold text-brand-main mt-1',
+            deltaValue < 0 && 'text-others-negative',
+            deltaValue === 0 && 'text-grey-500',
+          )}
+        >
+          {deltaValue >= 0 ? '+' : ''}
+          {deltaValue.toLocaleString('ko-KR')}
+          {unit}
+        </p>
+      </>
     </article>
   );
 };
