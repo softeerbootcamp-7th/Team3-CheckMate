@@ -21,7 +21,7 @@ public class WeeklyBusinessHoursValidator
 
     // 1. null / empty 검증
     if (hours == null || hours.isEmpty()) {
-      addViolation(context, "영업시간은 월~일 모두 입력해야 합니다.");
+      ViolationUtils.addErrorMessage(context, "영업시간은 월~일 모두 입력해야 합니다.");
       return false;
     }
 
@@ -32,7 +32,7 @@ public class WeeklyBusinessHoursValidator
       DayOfWeekType day = hour.dayOfWeek();
 
       if (map.containsKey(day)) {
-        addViolation(context, "요일별 영업시간은 중복될 수 없습니다.");
+        ViolationUtils.addErrorMessage(context, "요일별 영업시간은 중복될 수 없습니다.");
         return false;
       }
 
@@ -40,7 +40,7 @@ public class WeeklyBusinessHoursValidator
     }
 
     if (map.size() != DayOfWeekType.values().length) {
-      addViolation(context, "영업시간은 월~일 모두 입력해야 합니다.");
+      ViolationUtils.addErrorMessage(context, "영업시간은 월~일 모두 입력해야 합니다.");
       return false;
     }
 
@@ -55,8 +55,8 @@ public class WeeklyBusinessHoursValidator
       }
 
       // 3-1. 영업일이면 open / close 필수
-      if (isBlank(open) || isBlank(close)) {
-        addViolation(context, hour.dayOfWeek() + "의 영업 시작/마감 시간을 입력해주세요.");
+      if (ViolationUtils.isBlank(open) || ViolationUtils.isBlank(close)) {
+        ViolationUtils.addErrorMessage(context, hour.dayOfWeek() + "의 영업 시작/마감 시간을 입력해주세요.");
         return false;
       }
 
@@ -65,7 +65,7 @@ public class WeeklyBusinessHoursValidator
 
       // 3-2. 시작/마감 동일 불가
       if (openMinutes == closeMinutes) {
-        addViolation(context, hour.dayOfWeek() + "의 영업 시작 시간과 마감 시간은 같을 수 없습니다.");
+        ViolationUtils.addErrorMessage(context, hour.dayOfWeek() + "의 영업 시작 시간과 마감 시간은 같을 수 없습니다.");
         return false;
       }
     }
@@ -86,7 +86,7 @@ public class WeeklyBusinessHoursValidator
       // 자정 이후 마감한 경우만 검사
       if (todayOpen > todayClose) {
         if (nextOpen <= todayClose) {
-          addViolation(
+          ViolationUtils.addErrorMessage(
               context, day + "과 " + day.next() + "의 영업시간이 겹칩니다. 다음 요일의 시작 시간은 이전 요일 마감 이후여야 합니다.");
           return false;
         }
@@ -97,15 +97,6 @@ public class WeeklyBusinessHoursValidator
   }
 
   // ---------- util ----------
-
-  private boolean isBlank(String s) {
-    return s == null || s.trim().isEmpty();
-  }
-
-  /** 검증 실패 시 사용자에게 보여줄 에러 메시지 추가 */
-  private void addViolation(ConstraintValidatorContext context, String message) {
-    context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
-  }
 
   /** HH:mm → 분 단위 24:00 → 1440 */
   private int toMinutes(String time) {

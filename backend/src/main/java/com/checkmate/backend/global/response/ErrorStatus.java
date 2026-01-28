@@ -12,6 +12,7 @@ public enum ErrorStatus {
   /** 400 BAD_REQUEST */
   VALIDATION_REQUEST_MISSING_EXCEPTION(HttpStatus.BAD_REQUEST, "요청 값이 입력되지 않았습니다."),
   VALIDATION_EXCEPTION(HttpStatus.BAD_REQUEST, "요청 값이 올바르지 않습니다."),
+  BUSINESS_NUMBER_INVALID_EXCEPTION(HttpStatus.BAD_REQUEST, "유효하지 않은 사업자번호입니다."),
 
   /** 404 */
   PAYMENT_INFO_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "해당 결제 정보를 찾을 수 없습니다."),
