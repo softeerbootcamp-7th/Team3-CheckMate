@@ -1,4 +1,4 @@
-import { Button } from '@/components/shared';
+import { Button } from '@/components/shared/shadcn-ui';
 
 interface SignInButtonProps {
   onClick?: () => void;
