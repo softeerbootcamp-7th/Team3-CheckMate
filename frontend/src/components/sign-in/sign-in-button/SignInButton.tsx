@@ -1,4 +1,4 @@
-import { Button } from '../../shared';
+import { Button } from '@/components/shared';
 
 interface SignInButtonProps {
   onClick?: () => void;
