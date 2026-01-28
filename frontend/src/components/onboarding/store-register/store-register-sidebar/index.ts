@@ -1,0 +1,1 @@
+export { StoreRegisterSidebar } from './StoreRegisterSidebar';
