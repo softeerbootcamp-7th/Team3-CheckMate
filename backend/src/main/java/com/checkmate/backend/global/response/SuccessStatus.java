@@ -10,7 +10,8 @@ public enum SuccessStatus {
   TEST_RESPONSE_SUCCESS(HttpStatus.OK, "테스트 응답 성공"),
 
   /** 201 */
-  SEND_PAY_INFO_SAVE_SUCCESS(HttpStatus.CREATED, "결제 정보 등록 성공");
+  SEND_PAY_INFO_SAVE_SUCCESS(HttpStatus.CREATED, "결제 정보 등록 성공"),
+  STORE_CREATE_SUCCESS(HttpStatus.CREATED, "매장 등록 성공");
 
   private final HttpStatus httpStatus;
   private final String message;
