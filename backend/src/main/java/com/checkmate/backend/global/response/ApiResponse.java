@@ -40,4 +40,15 @@ public record ApiResponse<T>(
 
     return ResponseEntity.status(errorStatus.getHttpStatus()).body(apiResponse);
   }
+
+  public static ResponseEntity<ApiResponse<Void>> fail(ErrorStatus errorStatus, String message) {
+    ApiResponse<Void> apiResponse =
+        ApiResponse.<Void>builder()
+            .success(false)
+            .message(message)
+            .errorCode(errorStatus.name())
+            .build();
+
+    return ResponseEntity.status(errorStatus.getHttpStatus()).body(apiResponse);
+  }
 }
