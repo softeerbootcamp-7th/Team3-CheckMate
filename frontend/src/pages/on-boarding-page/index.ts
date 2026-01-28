@@ -1,0 +1,1 @@
+export { OnBoardingPage } from './OnBoardingPage';
