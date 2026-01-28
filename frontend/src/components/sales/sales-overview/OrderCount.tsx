@@ -3,7 +3,7 @@ import {
   type PeriodType,
 } from '@/constants/shared/periods';
 
-import { SalesComparison } from './shared/SalesComparison';
+import { SalesComparison } from './shared';
 
 interface OrderCountProps {
   periodType: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth> | undefined; // 오늘 / 이번주/ 이번달
@@ -18,7 +18,7 @@ export const OrderCount = ({ periodType }: OrderCountProps) => {
   return (
     <SalesComparison
       periodType={periodType}
-      title="주문건"
+      title="주문건수"
       unit="건"
       lastValue={mockedLastOrderCount}
       currentValue={mockedCurrentOrderCount}

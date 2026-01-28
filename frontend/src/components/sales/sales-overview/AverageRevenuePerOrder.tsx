@@ -1,6 +1,6 @@
 import type { PERIOD_PRESET_KEYS, PeriodType } from '@/constants/shared';
 
-import { SalesComparison } from './shared/SalesComparison';
+import { SalesComparison } from './shared';
 
 interface AverageRevenuePerOrderProps {
   periodType: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth> | undefined; // 오늘 / 이번주/ 이번달
