@@ -33,3 +33,4 @@ export const ChatSheetHeader = memo(() => {
     </>
   );
 });
+ChatSheetHeader.displayName = 'ChatSheetHeader';

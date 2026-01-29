@@ -18,3 +18,5 @@ export const UserBubble = memo(
     );
   },
 );
+
+UserBubble.displayName = 'UserBubble';
