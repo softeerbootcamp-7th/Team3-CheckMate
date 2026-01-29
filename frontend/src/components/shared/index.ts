@@ -4,3 +4,4 @@ export { DateRangePicker } from './date-range-picker';
 export { Calendar } from './calendar';
 export { SectionTitle } from './section-title';
 export { OnboardingLayout } from './onboarding-layout';
+export { Input } from './input';
