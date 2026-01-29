@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import type { PERIOD_PRESET_KEYS, PeriodType } from '@/constants/shared';
 import { getPeriodComparisonMessage } from '@/utils/sales';
-import { cn } from '@/utils/shared';
+import { cn, formatNumber } from '@/utils/shared';
 
 interface SalesComparisonProps {
   periodType: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth> | undefined; // 오늘 / 이번주/ 이번달
@@ -36,7 +36,7 @@ export const SalesComparison = ({
       <h3>{title}</h3>
       <div className="mt-12 mb-5 flex items-center gap-1">
         <strong className="headline-medium-semibold">
-          {currentValue.toLocaleString('ko-KR')}
+          {formatNumber(currentValue)}
         </strong>
         <p className="title-medium-semibold text-grey-900">{unit}</p>
       </div>
@@ -51,8 +51,8 @@ export const SalesComparison = ({
           deltaValue === 0 && 'text-grey-500',
         )}
       >
-        {deltaValue >= 0 ? '+' : ''}
-        {deltaValue.toLocaleString('ko-KR')}
+        {deltaValue >= 0 && '+'}
+        {formatNumber(deltaValue)}
         {unit}
       </p>
     </article>

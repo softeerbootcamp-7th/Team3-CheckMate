@@ -1,3 +1,5 @@
+import { formatNumber } from '@/utils/shared';
+
 import { OrderCountLabel } from './shared';
 
 export const TotalRevenue = () => {
@@ -13,7 +15,7 @@ export const TotalRevenue = () => {
 
       <div className="flex items-center gap-1">
         <strong className="headline-medium-semibold">
-          {mockedTotalRevenue.toLocaleString('ko-KR')}
+          {formatNumber(mockedTotalRevenue)}
         </strong>
         <p className="title-medium-semibold text-grey-900">원</p>
       </div>

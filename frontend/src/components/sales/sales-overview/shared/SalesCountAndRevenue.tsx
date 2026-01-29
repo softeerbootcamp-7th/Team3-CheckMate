@@ -1,3 +1,5 @@
+import { formatNumber } from '@/utils/shared';
+
 import { OrderCountLabel } from './OrderCountLabel';
 
 interface SalesCountAndRevenueProps {
@@ -19,7 +21,7 @@ export const SalesCountAndRevenue = ({
 
       <div className="flex items-center gap-1">
         <strong className="title-large-semibold">
-          {revenue.toLocaleString('ko-KR')}
+          {formatNumber(revenue)}
         </strong>
         <p className="title-small-semibold text-grey-900">원</p>
       </div>
