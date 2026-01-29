@@ -10,12 +10,12 @@ import { DateRangePicker } from '../date-range-picker';
 
 interface PeriodSelectProps<T extends PeriodPresetType> {
   periodPreset: T; // 현재 선택된 프리셋 그룹 객체 e.g. 'dayWeekMonth'
-  periodType?: PeriodType<T>; // 해당 그룹 내의 키값들 (유니온) e.g. '오늘', '이번주', '이번달'
+  periodType: PeriodType<T> | undefined; // 해당 그룹 내의 키값들 (유니온) 또는 기간선택 e.g. '오늘', '이번주', '이번달'
   setPeriodType: (preset: PeriodType<T> | undefined) => void;
   startDate?: Date;
-  setStartDate: (date: Date | undefined) => void;
+  setStartDate: (date?: Date) => void;
   endDate?: Date;
-  setEndDate: (date: Date | undefined) => void;
+  setEndDate: (date?: Date) => void;
 }
 
 export const PeriodSelect = <T extends PeriodPresetType>({
