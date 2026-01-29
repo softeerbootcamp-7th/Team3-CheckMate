@@ -52,7 +52,7 @@ export const Input = ({
           {...props}
           ref={ref}
           className={cn(
-            'rounded-200 bg-grey-100 focus:outline-grey-300 placeholder:text-grey-500 body-large-medium w-full px-400 py-250 focus:outline-1',
+            'rounded-200 bg-grey-100 focus:outline-grey-300 placeholder:text-grey-500 body-large-medium w-full grow px-400 py-250 focus:outline-1',
             isError &&
               'outline-others-negative focus:outline-others-negative outline-1',
             inputClassName,
