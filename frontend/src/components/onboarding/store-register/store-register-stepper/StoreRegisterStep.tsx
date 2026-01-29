@@ -1,6 +1,8 @@
+import type { STORE_REGISTER_STEP_LIST } from '@/constants/onboarding/store-register';
 import { useStoreRegisterStepContext } from '@/hooks/onboarding/store-register';
-import type { StoreRegisterStep as StoreRegisterStepType } from '@/types/onboarding/store-register';
 import { cn } from '@/utils/shared';
+
+type StoreRegisterStepType = (typeof STORE_REGISTER_STEP_LIST)[number];
 
 interface StoreRegisterStepProps {
   step: StoreRegisterStepType['step'];
