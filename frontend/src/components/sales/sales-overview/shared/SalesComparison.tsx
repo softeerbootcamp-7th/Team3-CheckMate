@@ -40,22 +40,21 @@ export const SalesComparison = ({
         </strong>
         <p className="title-medium-semibold text-grey-900">{unit}</p>
       </div>
-      <>
-        <p className="body-medium-medium text-grey-600 whitespace-pre">
-          {comparisonMessage}
-        </p>
-        <p
-          className={cn(
-            'body-large-semibold text-brand-main mt-1',
-            deltaValue < 0 && 'text-others-negative',
-            deltaValue === 0 && 'text-grey-500',
-          )}
-        >
-          {deltaValue >= 0 ? '+' : ''}
-          {deltaValue.toLocaleString('ko-KR')}
-          {unit}
-        </p>
-      </>
+
+      <p className="body-medium-medium text-grey-600 whitespace-pre">
+        {comparisonMessage}
+      </p>
+      <p
+        className={cn(
+          'body-large-semibold text-brand-main mt-1',
+          deltaValue < 0 && 'text-others-negative',
+          deltaValue === 0 && 'text-grey-500',
+        )}
+      >
+        {deltaValue >= 0 ? '+' : ''}
+        {deltaValue.toLocaleString('ko-KR')}
+        {unit}
+      </p>
     </article>
   );
 };
