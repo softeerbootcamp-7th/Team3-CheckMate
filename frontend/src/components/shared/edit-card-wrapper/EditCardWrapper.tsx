@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import { CircleCheck } from 'lucide-react';
 
 import { useEditCardWrapperMeasure } from '@/hooks/shared/edit-card-wrapper/useEditCardWrapperMeasure';
@@ -11,7 +13,7 @@ import { TrashCanIconButton } from './TrashCanIconButton';
 // child에는 순수한 카드 내용만 넣어준다
 interface EditCardWrapperProps {
   isAdded: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string; // 전체 wrapper 크기나 보더 등 스타일
   period: string; // 오늘, 이번주, 이번달 등 문구
 
