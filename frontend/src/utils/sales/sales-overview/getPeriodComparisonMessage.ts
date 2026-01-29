@@ -13,5 +13,7 @@ export const getPeriodComparisonMessage = (
       return '지난주 이맘때보다';
     case PERIOD_PRESETS.dayWeekMonth.thisMonth:
       return '지난달 이맘때보다';
+    default:
+      return '비교 기준을 찾을 수 없어요';
   }
 };
