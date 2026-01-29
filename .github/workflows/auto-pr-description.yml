@@ -2,7 +2,8 @@ name: Gemini PR Auto-Description
 
 on:
   pull_request:
-    types: [ opened ]
+    types: [opened]
+  workflow_dispatch:
 
 jobs:
   gemini-summarize:
@@ -30,16 +31,16 @@ jobs:
             // 필터링할 확장자 정의
             const extensions = ['*.ts', '*.tsx', '*.java'];
             const filterPath = extensions.join(' ');
-            
+
             let diff = "";
             let commits = "";
             let diffStat = "";
-            
+
             try {
               diff = execSync(`git diff ${baseRef}...HEAD -- ${filterPath} | head -n 1000`).toString();
               diffStat = execSync(`git diff --stat ${baseRef}...HEAD -- ${filterPath}`).toString();
               commits = execSync(`git log ${baseRef}...HEAD --pretty=format:"- %s"`).toString();
-            
+
               if (!diff.trim()) {
                 console.log("대상 확장자(.ts, .tsx, .java)에 대한 변경 사항이 없습니다.");
                 diff = "관련 소스 코드 변경 없음 (설정 파일 혹은 기타 파일 변경)";
@@ -48,7 +49,7 @@ jobs:
               console.error("Git 데이터 추출 중 에러 발생:", e);
               diff = "데이터 추출 실패";
             }
-            
+
             // 2. PR 템플릿 정의
             const PR_TEMPLATE = `
             ## #️⃣ 변경 사항
@@ -64,7 +65,7 @@ jobs:
             ## 📸 스크린샷 (선택)
             ### 변경 전
             ### 변경 후
-            
+
             ## 📎 참고할만한 자료 (선택)
             `;
 
@@ -104,7 +105,7 @@ jobs:
 
               const data = await response.json();
               if (data.error) throw new Error(data.error.message);
-            
+
               const summary = data.candidates?.[0]?.content?.parts?.[0]?.text || "요약 생성 실패";
 
               // 4. PR 본문 업데이트

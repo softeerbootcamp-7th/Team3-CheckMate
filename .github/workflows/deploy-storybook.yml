@@ -40,6 +40,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build Storybook
         run: pnpm build-storybook
+        env:
+          VITE_CDN_HOST: ${{ secrets.VITE_CDN_HOST }}
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
