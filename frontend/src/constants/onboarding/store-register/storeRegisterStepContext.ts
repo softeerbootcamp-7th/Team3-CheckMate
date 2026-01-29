@@ -1,11 +1,14 @@
 import { createContext } from 'react';
 
+import { STORE_REGISTER_STEP } from './storeRegisterStep';
+
 interface StoreRegisterStepContextState {
   currentStep: number;
 }
 
 interface StoreRegisterStepContextAction {
-  setCurrentStep: (currentStep: number) => void;
+  moveNextStep: () => void;
+  movePreviousStep: () => void;
 }
 
 type StoreRegisterStepContext = StoreRegisterStepContextState &
@@ -13,7 +16,8 @@ type StoreRegisterStepContext = StoreRegisterStepContextState &
 
 export const storeRegisterStepContext = createContext<StoreRegisterStepContext>(
   {
-    currentStep: 1,
-    setCurrentStep: () => {},
+    currentStep: STORE_REGISTER_STEP.BUSINESS_REGISTRATION_NUMBER,
+    moveNextStep: () => {},
+    movePreviousStep: () => {},
   },
 );
