@@ -106,11 +106,22 @@
   --radius-800: 2.25rem; /* 36px */
   --radius-900: 3rem; /* 48px */
   --radius-unlimit: 9999px; /* 원형 */
+
+  /*그림자*/
+  --shadow-card-floating: 0 12px 50px -12px rgba(16, 24, 40, 0.25);
 }
 
 @layer base {
+  html,
   body {
     font-family: var(--font-pretendard);
+    width: 100%;
+    height: 100%;
+  }
+
+  #root {
+    width: 100%;
+    height: 100%;
   }
 
   * {

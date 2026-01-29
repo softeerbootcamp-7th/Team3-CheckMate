@@ -1,0 +1,49 @@
+name: Deploy Storybook
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - "frontend/**"
+  # 수동 실행 가능
+  workflow_dispatch:
+
+# 이미 실행 중인 워크플로우
+concurrency:
+  group: deploy-storybook
+  cancel-in-progress: true
+
+jobs:
+  deploy-storybook:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: frontend
+    strategy:
+      matrix:
+        node-version: [24]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Storybook
+        run: pnpm build-storybook
+        env:
+          VITE_CDN_HOST: ${{ secrets.VITE_CDN_HOST }}
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: frontend/storybook-static

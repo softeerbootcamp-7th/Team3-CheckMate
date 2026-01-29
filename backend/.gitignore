@@ -39,3 +39,4 @@ out/
 ### Others ###
 application.yml
 application-jwt.yml
+docker-compose.local.yml

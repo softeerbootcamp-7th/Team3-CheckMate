@@ -11,3 +11,12 @@ export {
   SheetDescription,
 } from './sheet';
 export { Textarea } from './textarea';
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverAnchor,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverDescription,
+} from './popover';
