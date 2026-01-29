@@ -1,4 +1,6 @@
-export const STORE_REGISTER_STEP_LIST = [
+import { type StoreRegisterStep } from '@/types/onboarding/store-register';
+
+export const STORE_REGISTER_STEP_LIST: StoreRegisterStep[] = [
   {
     step: 1,
     label: '사업자 확인',
