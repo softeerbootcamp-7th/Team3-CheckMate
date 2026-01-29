@@ -1,8 +1,7 @@
-import { NextStepButton } from '../next-step-button';
-import { PreviousStepButton } from '../previous-step-button';
 import { StoreAddressInput } from '../store-address-input';
 import { StoreNameInput } from '../store-name-input';
 import { StoreRegisterFormTitle } from '../store-register-form-title';
+import { StoreRegisterStepButtonGroup } from '../store-register-step-button-group';
 
 export const StoreInfoInputSection = () => {
   return (
@@ -15,10 +14,7 @@ export const StoreInfoInputSection = () => {
           <StoreNameInput />
           <StoreAddressInput />
         </div>
-        <div className="flex items-center gap-4 self-end">
-          <PreviousStepButton />
-          <NextStepButton />
-        </div>
+        <StoreRegisterStepButtonGroup />
       </div>
     </>
   );
