@@ -1,18 +1,24 @@
+import { OnboardingSidebar } from '@/components/onboarding/shared';
 import {
   StoreRegisterForm,
-  StoreRegisterSidebar,
+  StoreRegisterStepper,
+  StoreRegisterStepProvider,
 } from '@/components/onboarding/store-register';
 import { OnboardingLayout } from '@/components/shared';
 
 export const StoreRegisterPage = () => {
   return (
-    <OnboardingLayout>
-      <OnboardingLayout.Sidebar>
-        <StoreRegisterSidebar />
-      </OnboardingLayout.Sidebar>
-      <OnboardingLayout.Main>
-        <StoreRegisterForm />
-      </OnboardingLayout.Main>
-    </OnboardingLayout>
+    <StoreRegisterStepProvider>
+      <OnboardingLayout>
+        <OnboardingLayout.Sidebar>
+          <OnboardingSidebar>
+            <StoreRegisterStepper />
+          </OnboardingSidebar>
+        </OnboardingLayout.Sidebar>
+        <OnboardingLayout.Main>
+          <StoreRegisterForm />
+        </OnboardingLayout.Main>
+      </OnboardingLayout>
+    </StoreRegisterStepProvider>
   );
 };

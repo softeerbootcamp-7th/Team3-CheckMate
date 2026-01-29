@@ -1,1 +1,0 @@
-export { StoreRegisterSidebar } from './StoreRegisterSidebar';
