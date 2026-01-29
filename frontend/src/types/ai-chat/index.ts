@@ -1,1 +1,1 @@
-export type { ChatHistoryItem } from './chat-history';
+export type { ChatHistoryItem } from './chatHistory';
