@@ -1,10 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/shared/shadcn-ui';
 import { SIDEBAR_ITEMS } from '@/constants/shared';
 import type { SidebarItem } from '@/types/shared';
 import { cn } from '@/utils/shared/lib/utils';
-
-import { Button } from '../shadcn-ui/button';
 
 export const Sidebar = () => {
   // 현재 브라우저의 URL 경로를 가져옴

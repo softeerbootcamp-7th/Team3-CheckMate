@@ -1,5 +1,5 @@
-import { Button } from '@/components/shared/shadcn-ui/button';
-import { SheetTrigger } from '@/components/shared/shadcn-ui/sheet';
+import { SheetTrigger } from '@/components/shared/shadcn-ui';
+import { Button } from '@/components/shared/shadcn-ui';
 
 export const ChatSheetTrigger = () => {
   return (

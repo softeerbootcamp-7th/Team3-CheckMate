@@ -3,8 +3,8 @@ import { useCallback, useRef } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { Square } from 'lucide-react';
 
-import { Button } from '@/components/shared/shadcn-ui/button';
-import { Textarea } from '@/components/shared/shadcn-ui/textarea';
+import { Textarea } from '@/components/shared/shadcn-ui';
+import { Button } from '@/components/shared/shadcn-ui';
 
 interface ChatQuestionInputProps {
   onQuestionSubmit: (question: string) => void;

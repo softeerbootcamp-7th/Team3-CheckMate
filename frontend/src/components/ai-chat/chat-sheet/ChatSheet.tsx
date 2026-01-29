@@ -4,7 +4,7 @@ import {
   Sheet,
   SheetContent,
   SheetFooter,
-} from '@/components/shared/shadcn-ui/sheet';
+} from '@/components/shared/shadcn-ui';
 import { useBodyScrollLock, useChatStream } from '@/hooks/ai-chat';
 
 import { ChatHistory } from '../chat-history';
