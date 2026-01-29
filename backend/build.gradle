@@ -59,6 +59,18 @@ tasks.named('test') {
 
 spotless {
 	java {
-		googleJavaFormat('1.17.0')
+
+		//들여쓰기 4 spaces
+		googleJavaFormat().aosp()
+
+		// 사용하지 않는 import 제거
+		removeUnusedImports()
+
+		// 라인 끝 공백 제거
+		trimTrailingWhitespace()
+
+		// 파일 끝에 newline 추가
+		endWithNewline()
 	}
 }
+
