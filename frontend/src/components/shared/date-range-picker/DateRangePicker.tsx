@@ -15,6 +15,7 @@ interface DateRangePickerProps extends ComponentProps<typeof Popover> {
   setEndDate?: (date?: Date) => void;
   dateRangePickerType: DateRangePickerType;
   triggerClassName?: string;
+  onSave?: () => void;
 }
 
 export const DateRangePicker = ({
@@ -24,6 +25,7 @@ export const DateRangePicker = ({
   setEndDate,
   dateRangePickerType,
   triggerClassName,
+  onSave,
   ...props
 }: DateRangePickerProps) => {
   const {
@@ -72,7 +74,12 @@ export const DateRangePicker = ({
           setSelectedStartDate={setSelectedStartDate}
           setSelectedEndDate={setSelectedEndDate}
           handleCancel={handleCancel}
-          handleSave={handleSave}
+          handleSave={() => {
+            handleSave();
+            if (onSave) {
+              onSave();
+            }
+          }}
           dateRangePickerType={dateRangePickerType}
         />
       </PopoverContent>

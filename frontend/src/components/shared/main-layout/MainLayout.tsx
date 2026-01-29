@@ -10,9 +10,10 @@ export const MainLayout = () => {
   return (
     <div className="flex h-screen w-full">
       <Sidebar />
-
-      <main className="bg-special-dashboard-bg flex flex-1 flex-col items-center">
-        <Outlet />
+      <main className="bg-special-dashboard-bg flex flex-1 flex-col items-center overflow-y-scroll">
+        <div className="mx-10 mb-29.5 w-265">
+          <Outlet />
+        </div>
       </main>
     </div>
   );
