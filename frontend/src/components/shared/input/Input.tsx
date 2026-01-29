@@ -1,4 +1,4 @@
-import { type InputHTMLAttributes, useId } from 'react';
+import { type InputHTMLAttributes, type RefObject, useId } from 'react';
 
 import { cn } from '@/utils/shared';
 
@@ -11,6 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   inputClassName?: string;
   label?: string;
   description?: string;
+  ref?: RefObject<HTMLInputElement | null>;
 }
 
 export const Input = ({
@@ -20,9 +21,11 @@ export const Input = ({
   inputClassName,
   label,
   description,
+  ref,
   ...props
 }: InputProps) => {
   const id = useId();
+  const descriptionId = `${id}-description`;
 
   return (
     <div className={cn('flex flex-col gap-3', className)}>
@@ -33,7 +36,10 @@ export const Input = ({
         >
           {label}
           {description && (
-            <span className="body-medium-medium text-grey-600">
+            <span
+              id={descriptionId}
+              className="body-medium-medium text-grey-600"
+            >
               {description}
             </span>
           )}
@@ -42,7 +48,9 @@ export const Input = ({
       <div className="flex flex-col gap-1.5">
         <input
           id={id}
+          aria-describedby={description ? descriptionId : undefined}
           {...props}
+          ref={ref}
           className={cn(
             'rounded-200 bg-grey-100 focus:outline-grey-300 placeholder:text-grey-500 body-large-medium w-full px-400 py-250 focus:outline-1',
             isError &&
