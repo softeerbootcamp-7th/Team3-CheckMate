@@ -21,12 +21,12 @@ const ChatHistoryItemComponent = ({
 }: ChatHistoryItemProps) => {
   return (
     <>
-      <UserBubble message={question} ref={userBubbleRef} />
+      <UserBubble message={question} userBubbleRef={userBubbleRef} />
       <BotBubble
         message={answer}
         isLatest={isLatest}
         isLoading={isLoading}
-        ref={botBubbleRef}
+        botBubbleRef={botBubbleRef}
       />
     </>
   );

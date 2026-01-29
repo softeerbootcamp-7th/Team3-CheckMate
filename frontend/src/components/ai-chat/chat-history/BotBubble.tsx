@@ -6,14 +6,14 @@ interface BotBubbleProps {
   message: string;
   isLatest?: boolean;
   isLoading: boolean;
-  ref: RefObject<HTMLParagraphElement | null>;
+  botBubbleRef: RefObject<HTMLParagraphElement | null>;
 }
 
 export const BotBubble = ({
   message,
   isLatest = false,
   isLoading = false,
-  ref,
+  botBubbleRef,
 }: BotBubbleProps) => {
   if (isLatest && isLoading) {
     return <BotLoading />;
@@ -21,7 +21,7 @@ export const BotBubble = ({
   return (
     <>
       <p
-        ref={ref}
+        ref={botBubbleRef}
         className="body-small-medium text-grey-900 whitespace-pre-line"
       >
         {message}
