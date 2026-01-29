@@ -48,7 +48,7 @@ export const ChatHistory = ({
 
           return (
             <ChatHistoryItem
-              key={`${chat.question}å-${index}`}
+              key={`${chat.question}-${index}`}
               question={chat.question}
               answer={chat.answer}
               isLatest={isLatest}
