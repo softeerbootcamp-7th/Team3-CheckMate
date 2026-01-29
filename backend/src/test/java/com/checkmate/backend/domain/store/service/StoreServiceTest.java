@@ -45,7 +45,14 @@ class StoreServiceTest {
 
     StoreCreateRequestDTO dto =
         new StoreCreateRequestDTO(
-            "1234567890", "테스트매장", "12345", "서울시 강남구", "테스트빌딩 1층", createValidBusinessHours(), 23);
+            "1234567890",
+            "토큰",
+            "테스트매장",
+            "12345",
+            "서울시 강남구",
+            "테스트빌딩 1층",
+            createValidBusinessHours(),
+            23);
 
     // when
     Long storeId = storeService.create(member.getId(), dto);
@@ -66,6 +73,7 @@ class StoreServiceTest {
     StoreCreateRequestDTO dto =
         new StoreCreateRequestDTO(
             "1234567890",
+            "토큰",
             "테스트매장",
             "12345",
             "서울시",
@@ -87,7 +95,7 @@ class StoreServiceTest {
     // given
     StoreCreateRequestDTO dto =
         new StoreCreateRequestDTO(
-            "1234567890", "테스트매장", "12345", "서울", "상세", createValidBusinessHours(), 23);
+            "1234567890", "토큰", "테스트매장", "12345", "서울", "상세", createValidBusinessHours(), 23);
 
     // expect
     assertThatThrownBy(() -> storeService.create(999L, dto)).isInstanceOf(NotFoundException.class);
