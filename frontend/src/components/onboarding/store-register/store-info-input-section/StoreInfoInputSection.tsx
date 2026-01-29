@@ -6,22 +6,20 @@ import { StoreRegisterFormTitle } from '../store-register-form-title';
 
 export const StoreInfoInputSection = () => {
   return (
-    <section className="flex flex-col items-center pt-32">
-      <div className="flex w-95 flex-col gap-12">
-        <StoreRegisterFormTitle
-          title={`매장 정보를 입력하면 \n 맞춤형 서비스를 제공해요`}
-        />
-        <div className="flex flex-col gap-8">
-          <div className="flex flex-col gap-9">
-            <StoreNameInput />
-            <StoreAddressInput />
-          </div>
-          <div className="flex items-center gap-4 self-end">
-            <PreviousStepButton />
-            <NextStepButton />
-          </div>
+    <>
+      <StoreRegisterFormTitle
+        title={`매장 정보를 입력하면 \n 맞춤형 서비스를 제공해요`}
+      />
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-9">
+          <StoreNameInput />
+          <StoreAddressInput />
+        </div>
+        <div className="flex items-center gap-4 self-end">
+          <PreviousStepButton />
+          <NextStepButton />
         </div>
       </div>
-    </section>
+    </>
   );
 };
