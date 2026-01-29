@@ -13,12 +13,10 @@ import com.checkmate.backend.global.response.ErrorStatus;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
-
-import java.io.IOException;
-import java.util.Optional;
-
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import java.io.IOException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +43,9 @@ public class MemberService {
 
   @Transactional
   public AuthResult processGoogleLogin(String code) {
-    log.info("Processing Google Login. Code received (masked): {}...", code.substring(0, Math.min(code.length(), 5)));
+    log.info(
+        "Processing Google Login. Code received (masked): {}...",
+        code.substring(0, Math.min(code.length(), 5)));
 
     GoogleTokenResponse tokenResponse = exchangeCodeForToken(code);
 
@@ -73,14 +73,16 @@ public class MemberService {
   private GoogleTokenResponse exchangeCodeForToken(String code) {
     try {
       log.debug("Attempting to exchange auth code for Google tokens...");
-      GoogleTokenResponse response = new GoogleAuthorizationCodeTokenRequest(
-              new NetHttpTransport(),
-              GsonFactory.getDefaultInstance(),
-              "https://oauth2.googleapis.com/token",
-              clientId,
-              clientSecret,
-              code,
-              redirectUri).execute();
+      GoogleTokenResponse response =
+          new GoogleAuthorizationCodeTokenRequest(
+                  new NetHttpTransport(),
+                  GsonFactory.getDefaultInstance(),
+                  "https://oauth2.googleapis.com/token",
+                  clientId,
+                  clientSecret,
+                  code,
+                  redirectUri)
+              .execute();
 
       log.debug("Google token exchange successful.");
       return response;
@@ -99,11 +101,14 @@ public class MemberService {
   private void saveOrUpdateTokens(Member member, GoogleTokenResponse tokenResponse) {
     log.debug("Updating Google tokens for Member ID: {}", member.getId());
 
-    MemberAuth memberAuth = memberAuthRepository.findById(member.getId())
-            .orElseGet(() -> {
-              log.debug("No existing auth info found. Creating new MemberAuth.");
-              return createWithMember(member);
-            });
+    MemberAuth memberAuth =
+        memberAuthRepository
+            .findById(member.getId())
+            .orElseGet(
+                () -> {
+                  log.debug("No existing auth info found. Creating new MemberAuth.");
+                  return createWithMember(member);
+                });
 
     memberAuth.updateGoogleTokens(tokenResponse.getAccessToken(), tokenResponse.getRefreshToken());
     memberAuthRepository.save(memberAuth);
