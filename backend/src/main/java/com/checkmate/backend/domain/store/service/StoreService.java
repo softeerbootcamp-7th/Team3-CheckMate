@@ -21,59 +21,68 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class StoreService {
-  private final StoreRepository storeRepository;
-  private final MemberRepository memberRepository;
-  private final BusinessHourRepository businessHourRepository;
+    private final StoreRepository storeRepository;
+    private final MemberRepository memberRepository;
+    private final BusinessHourRepository businessHourRepository;
 
-  /*
-   * c
-   * */
+    /*
+     * c
+     * */
 
-  @Transactional
-  public Long create(Long memberId, StoreCreateRequestDTO storeCreateRequestDTO) {
-    Member member =
-        memberRepository
-            .findById(memberId)
-            .orElseThrow(
-                () -> {
-                  log.warn("[create][member is not found][memberId= {}]", memberId);
-                  return new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION);
-                });
+    @Transactional
+    public Long create(Long memberId, StoreCreateRequestDTO storeCreateRequestDTO) {
+        Member member =
+                memberRepository
+                        .findById(memberId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[create][member is not found][memberId= {}]",
+                                            memberId);
+                                    return new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION);
+                                });
 
-    // 매장
-    Store store =
-        Store.builder()
-            .businessRegistrationNumber(storeCreateRequestDTO.businessRegistrationNumber())
-            .storeName(storeCreateRequestDTO.storeName())
-            .zipcode(storeCreateRequestDTO.zipcode())
-            .address1(storeCreateRequestDTO.address1())
-            .address2(storeCreateRequestDTO.address2())
-            .salesClosingHour(storeCreateRequestDTO.salesClosingHour())
-            .member(member)
-            .build();
+        // 매장
+        Store store =
+                Store.builder()
+                        .businessRegistrationNumber(
+                                storeCreateRequestDTO.businessRegistrationNumber())
+                        .storeName(storeCreateRequestDTO.storeName())
+                        .zipcode(storeCreateRequestDTO.zipcode())
+                        .address1(storeCreateRequestDTO.address1())
+                        .address2(storeCreateRequestDTO.address2())
+                        .salesClosingHour(storeCreateRequestDTO.salesClosingHour())
+                        .member(member)
+                        .build();
 
-    Long storeId = storeRepository.save(store).getId();
+        Long storeId = storeRepository.save(store).getId();
 
-    // 매장시간
-    Optional.ofNullable(storeCreateRequestDTO.businessHours())
-        .ifPresent(
-            businessHours -> {
-              List<BusinessHour> hours =
-                  businessHours.stream()
-                      .map(
-                          businessHour ->
-                              BusinessHour.builder() // 엔티티 변환
-                                  .day(businessHour.dayOfWeek().getKorean())
-                                  .openTime(businessHour.openTime())
-                                  .closeTime(businessHour.closeTime())
-                                  .closed(businessHour.closed())
-                                  .store(store)
-                                  .build())
-                      .toList();
+        // 매장시간
+        Optional.ofNullable(storeCreateRequestDTO.businessHours())
+                .ifPresent(
+                        businessHours -> {
+                            List<BusinessHour> hours =
+                                    businessHours.stream()
+                                            .map(
+                                                    businessHour ->
+                                                            BusinessHour.builder() // 엔티티 변환
+                                                                    .day(
+                                                                            businessHour
+                                                                                    .dayOfWeek()
+                                                                                    .getKorean())
+                                                                    .openTime(
+                                                                            businessHour.openTime())
+                                                                    .closeTime(
+                                                                            businessHour
+                                                                                    .closeTime())
+                                                                    .closed(businessHour.closed())
+                                                                    .store(store)
+                                                                    .build())
+                                            .toList();
 
-              businessHourRepository.saveAll(hours);
-            });
+                            businessHourRepository.saveAll(hours);
+                        });
 
-    return storeId;
-  }
+        return storeId;
+    }
 }

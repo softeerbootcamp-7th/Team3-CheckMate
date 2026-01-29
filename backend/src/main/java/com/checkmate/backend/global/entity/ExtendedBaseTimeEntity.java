@@ -10,13 +10,13 @@ import lombok.Getter;
 @Getter
 public abstract class ExtendedBaseTimeEntity extends BaseTimeEntity {
 
-  protected LocalDate createdDate;
+    protected LocalDate createdDate;
 
-  @PrePersist
-  protected void onPrePersist() {
-    if (this.createdAt == null) {
-      this.createdAt = LocalDateTime.now();
+    @PrePersist
+    protected void onPrePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+        this.createdDate = this.createdAt.toLocalDate();
     }
-    this.createdDate = this.createdAt.toLocalDate();
-  }
 }

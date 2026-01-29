@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public abstract class BaseException extends RuntimeException {
 
-  ErrorStatus errorStatus;
+    ErrorStatus errorStatus;
 
-  public BaseException(ErrorStatus errorStatus) {
-    super(errorStatus.getMessage());
-    this.errorStatus = errorStatus;
-  }
+    public BaseException(ErrorStatus errorStatus) {
+        super(errorStatus.getMessage());
+        this.errorStatus = errorStatus;
+    }
 }
