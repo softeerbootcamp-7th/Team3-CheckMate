@@ -1,3 +1,16 @@
+export { Button } from './button';
+export {
+  Sheet,
+  SheetTrigger,
+  SheetOverlay,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from './sheet';
+export { Textarea } from './textarea';
 export {
   Popover,
   PopoverTrigger,
@@ -7,5 +20,3 @@ export {
   PopoverTitle,
   PopoverDescription,
 } from './popover';
-
-export { Button } from './button';
