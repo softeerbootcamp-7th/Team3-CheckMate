@@ -1,7 +1,7 @@
 import { Input } from '@/components/shared';
 
-import { NextStepButton } from '../next-step-button';
 import { StoreRegisterFormTitle } from '../store-register-form-title';
+import { StoreRegisterStepButtonGroup } from '../store-register-step-button-group';
 
 export const BusinessRegistrationNumberInputSection = () => {
   return (
@@ -11,7 +11,7 @@ export const BusinessRegistrationNumberInputSection = () => {
       />
       <div className="flex w-full flex-col gap-8">
         <Input label="매장 사업자등록번호" placeholder="-없이 숫자만 입력" />
-        <NextStepButton />
+        <StoreRegisterStepButtonGroup />
       </div>
     </>
   );
