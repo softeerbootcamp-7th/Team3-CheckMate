@@ -1,15 +1,15 @@
 import { cn } from '@/utils/shared';
 
-// 대시보드 편집 용 패널의 좌측 위 기간 안내 태그
-export const PeriodTag = ({
-  isAdded,
-  period,
-}: {
+interface PeriodTagProps {
   isAdded: boolean;
   period: string;
-}) => {
+}
+
+export const PeriodTag = ({ isAdded, period }: PeriodTagProps) => {
+  // 대시보드 편집 용 패널의 좌측 위 기간 안내 태그
+
   return (
-    <button
+    <div
       className={cn(
         isAdded
           ? 'border border-gray-200 bg-gray-100 text-gray-900'
@@ -18,6 +18,6 @@ export const PeriodTag = ({
       )}
     >
       {period}
-    </button>
+    </div>
   );
 };

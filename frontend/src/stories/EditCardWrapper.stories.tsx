@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { EditCardWrapper } from '../components/shared/edit-card-wrapper/EditCardWrapper';
+import { EditCardWrapper } from '@/components/shared/edit-card-wrapper/EditCardWrapper';
 
 const meta: Meta<typeof EditCardWrapper> = {
-  title: 'components/shared/edit-card-wraper/EditCardWrapper',
+  title: 'components/shared/edit-card-wrapper/EditCardWrapper',
   component: EditCardWrapper,
   tags: ['autodocs'],
   parameters: {
@@ -61,7 +61,7 @@ export const WideChildeComponent: Story = {
   },
 };
 
-export const LongChildeComponent: Story = {
+export const WideChildComponent: Story = {
   args: {
     isAdded: false,
     period: '오늘',
@@ -71,7 +71,7 @@ export const LongChildeComponent: Story = {
           세로가 긴 자식 콘텐츠
         </div>
         <span className="body-small-medium break-keep text-gray-600">
-          width-200, h-800 으로 설정
+          width-200, h-8 으로 설정
         </span>
       </div>
     ),

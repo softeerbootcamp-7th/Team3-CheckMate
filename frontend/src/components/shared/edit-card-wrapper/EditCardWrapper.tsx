@@ -23,7 +23,7 @@ interface EditCardWrapperProps {
 const SHRINK_SCALE = 0.65; // 65% 축소
 const PADDING_SIZE = 12; // 패딩 박스 내 여백 사이즈(12px)
 const HEADER_HEIGHT = 26; // 헤더 높이(위에 있는 버튼들 높이 : 26px)
-const HEATHER_MAIN_GAP = 16; // 헤더와 내용 사이 간격(16px)
+const HEADER_MAIN_GAP = 16; // 헤더와 내용 사이 간격(16px)
 
 export const EditCardWrapper = ({
   isAdded,
@@ -56,7 +56,7 @@ export const EditCardWrapper = ({
     Math.floor(size.height * SHRINK_SCALE) +
     PADDING_SIZE * 2 +
     HEADER_HEIGHT +
-    HEATHER_MAIN_GAP;
+    HEADER_MAIN_GAP;
 
   return (
     <div
@@ -78,7 +78,7 @@ export const EditCardWrapper = ({
         )}
       </div>
       <div
-        style={{ marginTop: `${HEATHER_MAIN_GAP}px` }}
+        style={{ marginTop: `${HEADER_MAIN_GAP}px` }}
         className="flex min-w-0 flex-1 items-end justify-center"
       >
         <div
@@ -95,14 +95,14 @@ export const EditCardWrapper = ({
 
       {isAdded && (
         <div className="pointer-events-none absolute inset-[10px] flex items-center justify-center">
-          <button
+          <div
             className={cn(
               'caption-large-semibold rounded-unlimit flex gap-1 border border-gray-200 bg-gray-100 py-1 pr-2 pl-[10px] text-center text-gray-900',
             )}
           >
             대시보드 추가
             <CircleCheck className="size-4 fill-gray-900 text-gray-50" />
-          </button>
+          </div>
         </div>
       )}
     </div>
