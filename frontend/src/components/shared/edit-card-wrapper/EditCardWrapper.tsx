@@ -1,7 +1,6 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-
 import { CircleCheck } from 'lucide-react';
 
+import { useEditCardWrapperMeasure } from '@/hooks/shared/edit-card-wrapper/useEditCardWrapperMeasure';
 import { cn } from '@/utils/shared';
 
 import { PeriodTag } from './PeriodTag';
@@ -20,7 +19,7 @@ interface EditCardWrapperProps {
   onClickAddButton?: () => void; // 대시보드에 추가하는 버튼 클릭 핸들러
 }
 
-const SHRINK_SCALE = 0.65; // 65% 축소
+const CHANGE_SCALE = 0.65; // 65% 축소
 const PADDING_SIZE = 12; // 패딩 박스 내 여백 사이즈(12px)
 const HEADER_HEIGHT = 26; // 헤더 높이(위에 있는 버튼들 높이 : 26px)
 const HEADER_MAIN_GAP = 16; // 헤더와 내용 사이 간격(16px)
@@ -35,36 +34,19 @@ export const EditCardWrapper = ({
   onClickDeleteButton,
   onClickAddButton,
 }: EditCardWrapperProps) => {
-  const childRef = useRef<HTMLDivElement | null>(null); // 자식 요소 dom에서 잡기용
-  const [size, setSize] = useState({ width: 0, height: 0 });
-
-  useLayoutEffect(() => {
-    if (childRef.current) {
-      const { width, height } = {
-        width: childRef.current.clientWidth,
-        height: childRef.current.clientHeight,
-      };
-
-      setSize({ width, height });
-    }
-  }, []);
-
-  // 전체 카드 크기 계산
-  // 카드 가로 크기 = (자식 컴포넌트 가로 크기 * 축소 비율) + 왼쪽 오른쪽 여백
-  const computedChildWidth =
-    Math.floor(size.width * SHRINK_SCALE) + PADDING_SIZE * 2;
-  // 카드 세로 크기 = (자식 컴포넌트 세로 크기 * 축소 비율) + 위쪽 아래 여백 + 헤더높이 + 헤더와 내용 사이 여백
-  const computedChildHeight =
-    Math.floor(size.height * SHRINK_SCALE) +
-    PADDING_SIZE * 2 +
-    HEADER_HEIGHT +
-    HEADER_MAIN_GAP;
+  const { childRef, computedCardWidth, computedCardHeight } =
+    useEditCardWrapperMeasure({
+      scale: CHANGE_SCALE,
+      wrapperPadding: PADDING_SIZE,
+      headerHeight: HEADER_HEIGHT,
+      headerGap: HEADER_MAIN_GAP,
+    });
 
   return (
     <div
       style={{
-        width: Math.max(MIN_WIDTH, computedChildWidth), // 최소 너비 220px
-        height: Math.max(MIN_HEIGHT, computedChildHeight), // 최소 높이 147px
+        width: Math.max(MIN_WIDTH, computedCardWidth), // 최소 너비 220px
+        height: Math.max(MIN_HEIGHT, computedCardHeight), // 최소 높이 147px
       }}
       className={cn(
         'bg-special-card-bg rounded-400 relative flex flex-col overflow-hidden border border-gray-300 p-3',
@@ -85,9 +67,8 @@ export const EditCardWrapper = ({
       >
         <div
           style={{
-            transform: `scale(${SHRINK_SCALE})`,
-            transformOrigin:
-              computedChildHeight < MIN_HEIGHT ? 'center' : 'top',
+            transform: `scale(${CHANGE_SCALE})`,
+            transformOrigin: computedCardHeight < MIN_HEIGHT ? 'center' : 'top',
           }}
           ref={childRef}
           className={cn(isAdded ? 'opacity-10' : 'opacity-100')}
