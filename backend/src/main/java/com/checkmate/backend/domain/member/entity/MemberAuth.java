@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(
         name = "member_auth",
-        indexes = {@Index(name = "idx_member_id", columnList = "member_id")})
+        indexes = {@Index(name = "idx_member_auth_member_id", columnList = "member_id")})
 public class MemberAuth {
 
     @Id
