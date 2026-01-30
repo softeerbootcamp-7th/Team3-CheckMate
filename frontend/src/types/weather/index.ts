@@ -4,4 +4,4 @@ export {
   type WeatherForecastToday,
   type WeatherForecastHour,
 } from './forecast';
-export { type WeatherPrecipitationInsight } from './precipitation';
+//export { type WeatherPrecipitationInsight } from './precipitation';
