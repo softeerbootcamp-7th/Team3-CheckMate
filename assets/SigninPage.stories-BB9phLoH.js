@@ -1,5 +1,0 @@
-import{j as r}from"./jsx-runtime-u17CrQMm.js";import"./popover-1aTsm1dd.js";import"./iframe-Cf4vDUcQ.js";import"./calendarFactory-DTbBwaG8.js";import"./SectionTitle-B1MrP5U7.js";import{O as o}from"./OnboardingLayout-DnCskMVD.js";import{S as a}from"./SignInSidebar-DGjL60hG.js";import{S as n}from"./SignInMainSection-weupllND.js";import"./index-OyqOBYtG.js";import"./index-DTI9Sx8G.js";import"./preload-helper-Cv0CY36J.js";import"./FeatureCard-C_ACkN2b.js";import"./SignInButton-C3PZhlBK.js";const s=()=>r.jsxs(o,{children:[r.jsx(o.Sidebar,{children:r.jsx(a,{})}),r.jsx(o.Main,{children:r.jsx(n,{})})]});s.__docgenInfo={description:"",methods:[],displayName:"SignInPage"};const y={component:s,parameters:{layout:"fullscreen"},tags:["autodocs"]},e={decorators:[t=>r.jsx("div",{className:"h-screen w-screen",children:r.jsx(t,{})})]};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
-  decorators: [Story => <div className="h-screen w-screen">
-        <Story />
-      </div>]
-}`,...e.parameters?.docs?.source}}};const I=["Default"];export{e as Default,I as __namedExportsOrder,y as default};
