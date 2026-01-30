@@ -88,13 +88,12 @@ public class AuthController {
                         .sameSite("None") // 크로스 사이트 요청 허용
                         .build();
 
-        LoginResponse responseBody = new LoginResponse(authToken.accessToken());
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
                 .body(
-                        ApiResponse.success(SuccessStatus.GOOGLE_LOGIN_SUCCESS, responseBody)
-                                .getBody());
+                        ApiResponse.createSuccess(
+                                SuccessStatus.GOOGLE_LOGIN_SUCCESS,
+                                new LoginResponse(authToken.accessToken())));
     }
 
     private void validateState(String state, HttpSession session) {
