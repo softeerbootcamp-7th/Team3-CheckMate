@@ -6,3 +6,4 @@ export { Calendar } from './calendar';
 export { SectionTitle } from './section-title';
 export { PeriodSelect } from './period-select';
 export { OnboardingLayout } from './onboarding-layout';
+export { Input } from './input';

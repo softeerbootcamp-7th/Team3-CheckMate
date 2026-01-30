@@ -12,3 +12,4 @@ export {
   type PeriodPresetType,
   type PeriodType,
 } from './periods';
+export { CDN_BASE_URL } from './cdnBaseUrl';

@@ -3,7 +3,7 @@
 
 @font-face {
   font-family: 'Pretendard Variable';
-  src: url('src/assets/fonts/PretendardVariable.woff2')
+  src: url('./assets//fonts/PretendardVariable.woff2')
     format('woff2-variations');
   font-weight: 100 900;
   font-display: swap;
@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: 'Poppins';
-  src: url('src/assets/fonts/poppins-v24-latin-600.woff2') format('woff2');
+  src: url('./assets/fonts/poppins-v24-latin-600.woff2') format('woff2');
   font-weight: 600;
   font-display: swap;
   font-style: normal;
@@ -313,4 +313,13 @@
 }
 @utility caption-medium-medium {
   @apply caption-medium font-medium;
+}
+
+@utility scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

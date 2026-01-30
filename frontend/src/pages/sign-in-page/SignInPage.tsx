@@ -1,5 +1,5 @@
+import { SignInMainSection, SignInSidebar } from '@/components/auth';
 import { OnboardingLayout } from '@/components/shared';
-import { SignInMainSection, SignInSidebar } from '@/components/sign-in';
 
 export const SignInPage = () => {
   return (
