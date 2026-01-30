@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
 
+import { ChevronRight } from 'lucide-react';
+
 import { cn } from '@/utils/shared';
 
 interface DefaultCardWrapperProps {
   children: ReactNode;
   title?: string;
-  titleIcon?: ReactNode;
-  onClickTitleIcon?: () => void;
+  hasChevronRightIcon?: boolean;
+  onClickChevronRightIcon?: () => void;
   className?: string;
   width?: number;
   height?: number;
@@ -15,8 +17,8 @@ interface DefaultCardWrapperProps {
 export const DefaultCardWrapper = ({
   children,
   title,
-  titleIcon,
-  onClickTitleIcon,
+  hasChevronRightIcon = false,
+  onClickChevronRightIcon,
   className,
   width,
   height,
@@ -29,15 +31,15 @@ export const DefaultCardWrapper = ({
         className,
       )}
     >
-      {(title || titleIcon) && (
+      {(title || hasChevronRightIcon) && (
         <div className="text-grey-700 relative flex items-center">
           {title && <h3 className="body-medium-semibold">{title}</h3>}
-          {titleIcon && (
+          {hasChevronRightIcon && (
             <button
               className="size-4 [&>svg]:size-full"
-              onClick={onClickTitleIcon}
+              onClick={onClickChevronRightIcon}
             >
-              {titleIcon}
+              <ChevronRight />
             </button>
           )}
         </div>

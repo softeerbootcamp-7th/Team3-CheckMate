@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ChevronRight } from 'lucide-react';
 
 import { DefaultCardWrapper } from '@/components/shared/default-card-wrapper';
 const meta: Meta<typeof DefaultCardWrapper> = {
@@ -11,8 +10,8 @@ const meta: Meta<typeof DefaultCardWrapper> = {
   },
   argTypes: {
     title: { control: 'text' },
-    titleIcon: { control: false },
-    onClickTitleIcon: { action: 'onClickTitleIcon' },
+    hasChevronRightIcon: { control: 'boolean' },
+    onClickChevronRightIcon: { action: 'onClickChevronRightIcon' },
     className: { control: 'text' },
     width: { control: { type: 'number', min: 0 } },
     height: { control: { type: 'number', min: 0 } },
@@ -51,7 +50,7 @@ export const WithTitleIcon: Story = {
     width: 340,
     height: 228,
     title: '오늘 날씨 예보',
-    titleIcon: <ChevronRight />,
+    hasChevronRightIcon: true,
     children: <SampleChild />,
   },
 };
