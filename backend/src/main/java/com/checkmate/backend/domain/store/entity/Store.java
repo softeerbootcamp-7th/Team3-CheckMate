@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(indexes = @Index(name = "idx_member_id", columnList = "member_id"))
+@Table(indexes = @Index(name = "idx_store_member_id", columnList = "member_id"))
 public class Store extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
