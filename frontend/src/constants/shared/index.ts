@@ -6,3 +6,5 @@ export {
 export { DAY_OF_WEEK_LIST, CALENDAR_FACTORY } from './calendar';
 
 export { SIDEBAR_ITEMS } from './sidebarItems';
+
+export { EDIT_CARD_WRAPPER } from './edit-card-wrapper';
