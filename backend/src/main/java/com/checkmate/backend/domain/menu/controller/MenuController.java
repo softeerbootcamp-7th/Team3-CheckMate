@@ -62,6 +62,9 @@ public class MenuController {
                 responseCode = "404",
                 description = "메뉴를 찾을 수 없습니다."),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "식자재를 찾을 수 없습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "409",
                 description = "이미 식자재(레시피)가 등록된 메뉴입니다."),
     })
@@ -83,7 +86,7 @@ public class MenuController {
     @Operation(summary = "메뉴 모두 조회 API (용범)", description = "출력: MenuResponseDTO")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "201",
+                responseCode = "200",
                 description = "메뉴 조회에 성공했습니다."),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",

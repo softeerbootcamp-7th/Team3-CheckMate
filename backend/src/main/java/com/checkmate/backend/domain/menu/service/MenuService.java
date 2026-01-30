@@ -128,7 +128,15 @@ public class MenuService {
             Ingredient ingredient =
                     ingredientRepository
                             .findIngredientByStoreIdAndName(storeId, dto.name())
-                            .orElseThrow();
+                            .orElseThrow(
+                                    () -> {
+                                        log.warn(
+                                                "[addIngredientsToMenu][Ingredient is not found][storeId={}, name={}]",
+                                                storeId,
+                                                dto.name());
+                                        return new ForbiddenException(
+                                                INGREDIENT_NOT_FUND_EXCEPTION);
+                                    });
 
             recipeRepository.save(
                     Recipe.builder()

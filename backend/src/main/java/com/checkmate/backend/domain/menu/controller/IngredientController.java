@@ -28,7 +28,7 @@ public class IngredientController {
     @Operation(summary = "식재료 검색 API (용범)")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "201",
+                responseCode = "200",
                 description = "식재료 조회에 성공했습니다."),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",
