@@ -31,6 +31,7 @@ public class MemberAuth {
     private String googleRefreshToken;
 
     @Column(columnDefinition = "TEXT")
+    @Convert(converter = StringEncryptionConverter.class)
     private String refreshToken;
 
     public void updateGoogleTokens(String accessToken, String refreshToken) {
