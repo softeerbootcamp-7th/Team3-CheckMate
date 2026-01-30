@@ -1,0 +1,207 @@
+package com.checkmate.backend.domain.menu.service;
+
+import static com.checkmate.backend.global.response.ErrorStatus.*;
+
+import com.checkmate.backend.domain.menu.dto.request.IngredientCreateRequestDTO;
+import com.checkmate.backend.domain.menu.dto.request.MenuCreateRequestDTO;
+import com.checkmate.backend.domain.menu.dto.response.MenuCategoryResponseDTO;
+import com.checkmate.backend.domain.menu.dto.response.MenuResponseDTO;
+import com.checkmate.backend.domain.menu.entity.Ingredient;
+import com.checkmate.backend.domain.menu.entity.Menu;
+import com.checkmate.backend.domain.menu.entity.MenuVersion;
+import com.checkmate.backend.domain.menu.entity.Recipe;
+import com.checkmate.backend.domain.menu.repository.IngredientRepository;
+import com.checkmate.backend.domain.menu.repository.MenuRepository;
+import com.checkmate.backend.domain.menu.repository.MenuVersionRepository;
+import com.checkmate.backend.domain.menu.repository.RecipeRepository;
+import com.checkmate.backend.domain.store.entity.Store;
+import com.checkmate.backend.domain.store.repository.StoreRepository;
+import com.checkmate.backend.global.exception.ConflictException;
+import com.checkmate.backend.global.exception.ForbiddenException;
+import com.checkmate.backend.global.exception.NotFoundException;
+import jakarta.transaction.Transactional;
+import java.util.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class MenuService {
+    private final StoreRepository storeRepository;
+    private final MenuRepository menuRepository;
+    private final MenuVersionRepository menuVersionRepository;
+    private final IngredientRepository ingredientRepository;
+    private final RecipeRepository recipeRepository;
+
+    /*
+     * create
+     * */
+
+    @Transactional
+    public void registerMenus(Long memberId, MenuCreateRequestDTO menuCreateRequestDTO) {
+
+        Store store =
+                storeRepository
+                        .findStoreByMemberId(memberId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[registerMenus][store is not found][memberId= {}]",
+                                            memberId);
+                                    return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
+                                });
+
+        List<MenuCreateRequestDTO.MenuCreateDTO> menuDTOs =
+                Optional.ofNullable(menuCreateRequestDTO.menus()).orElse(List.of());
+
+        for (MenuCreateRequestDTO.MenuCreateDTO dto : menuDTOs) {
+
+            Menu menu = dto.toEntity(store);
+            menuRepository.save(menu);
+
+            MenuVersion menuVersion =
+                    MenuVersion.builder().price(dto.price()).active(true).menu(menu).build();
+
+            menuVersionRepository.save(menuVersion);
+        }
+    }
+
+    @Transactional
+    public void addIngredientsToMenu(
+            Long memberId, Long menuId, IngredientCreateRequestDTO ingredientCreateRequestDTO) {
+        Store store =
+                storeRepository
+                        .findStoreByMemberId(memberId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[addIngredientsToMenu][store is not found][memberId= {}]",
+                                            memberId);
+                                    return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
+                                });
+
+        MenuVersion menuVersion =
+                menuVersionRepository
+                        .findMenuVersionByMenuIdWithMenuAndStore(menuId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[addIngredientsToMenu][menu is not found][menuId= {}]",
+                                            menuId);
+                                    return new NotFoundException(MENU_NOT_FOUND_EXCEPTION);
+                                });
+
+        boolean recipeAlreadyExists = recipeRepository.existsByMenuVersionId(menuVersion.getId());
+
+        if (recipeAlreadyExists) {
+            log.warn(
+                    "[addIngredientsToMenu][이미 레시피가 등록된 메뉴입니다. menuVersionId= {}]",
+                    menuVersion.getId());
+            throw new ConflictException(MENU_RECIPE_ALREADY_EXISTS);
+        }
+
+        Long storeId = store.getId();
+        Long menuStoreId = menuVersion.getMenu().getStore().getId();
+
+        if (!storeId.equals(menuStoreId)) {
+            log.warn(
+                    "[addIngredientsToMenu][menu access denied][currentStoreId={}, menuStoreId={}]",
+                    storeId,
+                    menuStoreId);
+            throw new ForbiddenException(MENU_ACCESS_DENIED);
+        }
+
+        /*
+         * 레시피 등록
+         *
+         * 식재료 없으면 insert 있으면 그거 사용해야 함.
+         * */
+        List<IngredientCreateRequestDTO.Ingredient> ingredientDTOs =
+                Optional.ofNullable(ingredientCreateRequestDTO.ingredients()).orElse(List.of());
+
+        for (IngredientCreateRequestDTO.Ingredient dto : ingredientDTOs) {
+
+            ingredientRepository.insertIgnore(storeId, dto.name());
+
+            Ingredient ingredient =
+                    ingredientRepository
+                            .findIngredientByStoreIdAndName(storeId, dto.name())
+                            .orElseThrow(
+                                    () -> {
+                                        log.warn(
+                                                "[addIngredientsToMenu][Ingredient is not found][storeId={}, name={}]",
+                                                storeId,
+                                                dto.name());
+                                        return new ForbiddenException(
+                                                INGREDIENT_NOT_FUND_EXCEPTION);
+                                    });
+
+            recipeRepository.save(
+                    Recipe.builder()
+                            .quantity(dto.quantity())
+                            .unit(dto.unit().getValue())
+                            .menuVersion(menuVersion)
+                            .ingredient(ingredient)
+                            .build());
+        }
+    }
+
+    /*
+     * read
+     * */
+
+    public List<MenuCategoryResponseDTO> getMenus(Long memberId) {
+        Store store =
+                storeRepository
+                        .findStoreByMemberId(memberId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[getMenus][store is not found][memberId= {}]",
+                                            memberId);
+                                    return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
+                                });
+
+        // 1. 메뉴 조회
+        List<Menu> menus = menuRepository.findAllByStoreId(store.getId());
+        List<Long> menuIds = menus.stream().map(Menu::getId).toList();
+
+        // 2. 메뉴 버전 조회
+        List<MenuVersion> menuVersions =
+                menuVersionRepository.findMenuVersionsByMenuIdsWithMenu(menuIds);
+
+        // 3. 식자재 등록된 menuVersion id 조회
+        Set<Long> menuVersionIdsWithRecipe =
+                new HashSet<>(
+                        recipeRepository.findMenuVersionIdsWithRecipe(
+                                menuVersions.stream().map(MenuVersion::getId).toList()));
+
+        // 4. category 기준으로 MenuVersion 묶기
+        Map<String, List<MenuVersion>> categoryMap = new HashMap<>();
+        for (MenuVersion menuVersion : menuVersions) {
+            String category = menuVersion.getMenu().getCategory();
+            categoryMap.computeIfAbsent(category, k -> new ArrayList<>()).add(menuVersion);
+        }
+
+        // 5. Category DTO로 변환
+        List<MenuCategoryResponseDTO> response = new ArrayList<>();
+
+        for (Map.Entry<String, List<MenuVersion>> entry : categoryMap.entrySet()) {
+            String category = entry.getKey();
+            List<MenuVersion> versions = entry.getValue();
+
+            List<MenuResponseDTO> menuResponses = new ArrayList<>();
+            for (MenuVersion menuVersion : versions) {
+                boolean hasIngredients = menuVersionIdsWithRecipe.contains(menuVersion.getId());
+
+                menuResponses.add(MenuResponseDTO.of(menuVersion, hasIngredients));
+            }
+
+            response.add(MenuCategoryResponseDTO.of(category, menuResponses));
+        }
+
+        return response;
+    }
+}

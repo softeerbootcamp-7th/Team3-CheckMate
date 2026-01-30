@@ -1,0 +1,34 @@
+package com.checkmate.backend.domain.menu.entity;
+
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+import com.checkmate.backend.domain.store.entity.Store;
+import com.checkmate.backend.global.entity.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(indexes = @Index(name = "idx_menu_store_id", columnList = "store_id"))
+public class Menu extends BaseTimeEntity {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "menu_id")
+    private Long id;
+
+    private String name;
+    private String category;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "store_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
+    private Store store;
+}

@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - "frontend/**"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -38,6 +39,8 @@ jobs:
 
       - name: Build Project
         run: pnpm build
+        env:
+          VITE_CDN_HOST: ${{ secrets.VITE_CDN_HOST }}
 
       - id: "auth"
         name: Authenticate to Google Cloud
@@ -45,11 +48,6 @@ jobs:
         with:
           workload_identity_provider: "projects/1022464522377/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider"
           service_account: "github-actions-sa@checkmate-485008.iam.gserviceaccount.com"
-          create_credentials_file: true
-          export_environment_variables: true
-
-      - name: Set up Cloud SDK
-        uses: "google-github-actions/setup-gcloud@v2"
 
       - name: Verify Authentication
         run: |
