@@ -39,6 +39,8 @@ jobs:
 
       - name: Build Project
         run: pnpm build
+        env:
+          VITE_CDN_HOST: ${{ secrets.VITE_CDN_HOST }}
 
       - id: "auth"
         name: Authenticate to Google Cloud
