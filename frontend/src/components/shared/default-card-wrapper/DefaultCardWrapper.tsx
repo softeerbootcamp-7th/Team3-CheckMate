@@ -25,7 +25,7 @@ export const DefaultCardWrapper = ({
     <article
       style={{ width, height }}
       className={cn(
-        'bg-special-card-bg rounded-400 flex flex-col justify-between p-5',
+        'bg-special-card-bg rounded-400 relative flex flex-col justify-between p-5',
         className,
       )}
     >
