@@ -1,4 +1,4 @@
-interface WeatherForecastTodayContentProps {
+interface WeatherForecastTodayProps {
   mainText: string;
   subText: string;
   weatherAlert?: {
@@ -11,7 +11,7 @@ export const WeatherForecastToday = ({
   mainText,
   subText,
   weatherAlert,
-}: WeatherForecastTodayContentProps) => {
+}: WeatherForecastTodayProps) => {
   return (
     <div className="flex flex-col gap-[6px]">
       {weatherAlert && (

@@ -1,6 +1,6 @@
 import { WEATHER_AM_PM } from '@/constants/weather';
 import type { WeatherForecastOneDayHalf } from '@/types/weather';
-import { cn } from '@/utils/shared/lib/utils';
+import { cn } from '@/utils/shared/';
 import { formatDayLabel } from '@/utils/weather';
 
 interface WeatherForecastOneDayAmPmItemProps {
