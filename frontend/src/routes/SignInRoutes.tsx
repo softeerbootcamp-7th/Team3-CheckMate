@@ -1,8 +1,0 @@
-import type { RouteObject } from 'react-router-dom';
-
-import { SignInPage } from '@/pages/sign-in-page';
-
-export const signInRoutes: RouteObject = {
-  path: '/sign-in',
-  Component: SignInPage,
-};
