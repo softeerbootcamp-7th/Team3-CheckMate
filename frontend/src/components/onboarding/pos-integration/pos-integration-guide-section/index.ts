@@ -1,0 +1,1 @@
+export { PosIntegrationGuideSection } from './PosIntegrationGuideSection';

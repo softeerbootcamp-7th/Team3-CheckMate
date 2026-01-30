@@ -1,0 +1,1 @@
+export { PosIntegrationErrorSection } from './PosIntegrationErrorSection';

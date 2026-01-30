@@ -1,0 +1,1 @@
+export { PosIntegrationSuccessSection } from './PosIntegrationSuccessSection';

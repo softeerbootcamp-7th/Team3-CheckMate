@@ -18,7 +18,7 @@ export const StoreBusinessHoursSelectItem = memo(
       <SelectItem
         value={formattedTime}
         className={cn(
-          'body-medium-medium text-grey-700 bg-grey-100 hover:bg-grey-300 active:bg-grey-500 active:text-grey-50 flex h-9 cursor-pointer items-center justify-center rounded-none',
+          'body-medium-medium! text-grey-700 bg-grey-100 hover:bg-grey-300 active:bg-grey-500 active:text-grey-50 flex h-9 cursor-pointer items-center justify-center rounded-none',
           !(hour === finalHour && minute === finalMinute) &&
             'border-grey-300 border-b',
         )}
