@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(
         name = "member_auth",
-        indexes = {@Index(name = "idx_member_id", columnList = "member_id")})
+        indexes = {@Index(name = "idx_member_auth_member_id", columnList = "member_id")})
 public class MemberAuth {
 
     @Id
@@ -31,6 +31,7 @@ public class MemberAuth {
     private String googleRefreshToken;
 
     @Column(columnDefinition = "TEXT")
+    @Convert(converter = StringEncryptionConverter.class)
     private String refreshToken;
 
     public void updateGoogleTokens(String accessToken, String refreshToken) {
@@ -42,6 +43,10 @@ public class MemberAuth {
 
     public void updateRefreshToken(String ourRefreshToken) {
         this.refreshToken = ourRefreshToken;
+    }
+
+    public void updateGoogleAccessToken(String googleAccessToken) {
+        this.googleAccessToken = googleAccessToken;
     }
 
     // 정적 팩토리 메서드 사용

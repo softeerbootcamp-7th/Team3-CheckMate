@@ -9,3 +9,4 @@ export {
   isStartDate,
   isEndDate,
 } from './calendar';
+export { formatNumber } from './formatNumber';

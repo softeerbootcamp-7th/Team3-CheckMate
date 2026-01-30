@@ -30,7 +30,34 @@ public enum ErrorStatus {
 
     // 500
     GOOGLE_TOKEN_EXCHANGE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "구글 토큰 교환에 실패했습니다."),
-    ID_TOKEN_VERIFICATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ID 토큰 검증에 실패했습니다.");
+    ID_TOKEN_VERIFICATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "ID 토큰 검증에 실패했습니다."),
+
+    /** JWT & Auth */
+    // 401
+    INVALID_JWT_SIGNATURE(HttpStatus.UNAUTHORIZED, "유효하지 않은 JWT 서명입니다."),
+    EXPIRED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 JWT 토큰입니다."),
+    UNSUPPORTED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "지원되지 않는 JWT 토큰입니다."),
+    INVALID_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "잘못된 JWT 토큰입니다."),
+    JWT_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "JWT 토큰이 존재하지 않습니다."),
+    UNAUTHORIZED_ACCESS(HttpStatus.UNAUTHORIZED, "인증되지 않은 접근입니다."),
+
+    // 403
+    FORBIDDEN_ACCESS(HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
+
+    /** Store* */
+    // 404
+    STORE_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "매장을 찾을 수 없습니다."),
+
+    /** Menu */
+    // 403
+    MENU_ACCESS_DENIED(HttpStatus.FORBIDDEN, "메뉴에 접근할 권한이 없습니다."),
+    // 404
+    MENU_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."),
+    INGREDIENT_NOT_FUND_EXCEPTION(HttpStatus.NOT_FOUND, "식자재를 찾을 수 없습니다."),
+
+    // 409
+    MENU_RECIPE_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 식자재(레시피)가 등록된 메뉴입니다.");
+    ;
 
     private final HttpStatus httpStatus;
     private final String message;
