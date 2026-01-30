@@ -45,6 +45,10 @@ public class MemberAuth {
         this.refreshToken = ourRefreshToken;
     }
 
+    public void updateGoogleAccessToken(String googleAccessToken) {
+        this.googleAccessToken = googleAccessToken;
+    }
+
     // 정적 팩토리 메서드 사용
     public static MemberAuth createWithMember(Member member) {
         MemberAuth memberAuth = new MemberAuth();
