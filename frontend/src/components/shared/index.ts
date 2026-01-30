@@ -5,3 +5,4 @@ export { Calendar } from './calendar';
 export { SectionTitle } from './section-title';
 export { OnboardingLayout } from './onboarding-layout';
 export { Input } from './input';
+export { Spinner } from './spinner';
