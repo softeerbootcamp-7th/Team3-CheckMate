@@ -43,6 +43,20 @@ public enum ErrorStatus {
 
     // 403
     FORBIDDEN_ACCESS(HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
+
+    /** Store* */
+    // 404
+    STORE_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "매장을 찾을 수 없습니다."),
+
+    /** Menu */
+    // 403
+    MENU_ACCESS_DENIED(HttpStatus.FORBIDDEN, "메뉴에 접근할 권한이 없습니다."),
+    // 404
+    MENU_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."),
+    INGREDIENT_NOT_FUND_EXCEPTION(HttpStatus.NOT_FOUND, "식자재를 찾을 수 없습니다."),
+
+    // 409
+    MENU_RECIPE_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 식자재(레시피)가 등록된 메뉴입니다.");
     ;
 
     private final HttpStatus httpStatus;
