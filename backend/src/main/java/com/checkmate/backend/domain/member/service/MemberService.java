@@ -2,7 +2,7 @@ package com.checkmate.backend.domain.member.service;
 
 import static com.checkmate.backend.domain.member.entity.MemberAuth.createWithMember;
 
-import com.checkmate.backend.domain.member.dto.AuthResult;
+import com.checkmate.backend.domain.member.dto.AuthToken;
 import com.checkmate.backend.domain.member.entity.Member;
 import com.checkmate.backend.domain.member.entity.MemberAuth;
 import com.checkmate.backend.domain.member.repository.MemberAuthRepository;
@@ -10,13 +10,13 @@ import com.checkmate.backend.domain.member.repository.MemberRepository;
 import com.checkmate.backend.global.auth.oidc.OidcService;
 import com.checkmate.backend.global.exception.InternalServerException;
 import com.checkmate.backend.global.response.ErrorStatus;
+import com.checkmate.backend.global.util.JwtUtil;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import java.io.IOException;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,81 +40,121 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberAuthRepository memberAuthRepository;
     private final OidcService oidcService;
+    private final JwtUtil jwtUtil;
 
     private final NetHttpTransport httpTransport;
     private final JsonFactory jsonFactory;
 
+    private static final int MAX_RETRY_ATTEMPTS = 3;
+    private static final long RETRY_DELAY_MS = 1000;
+
     @Transactional
-    public AuthResult processGoogleLogin(String code) {
-        log.info("Processing Google Login. Code received (masked).");
+    public AuthToken processLoginTransaction(
+            String email, GoogleTokenResponse googleTokenResponse) {
+        Member member =
+                memberRepository
+                        .findWithStoreByEmail(email)
+                        .orElseGet(
+                                () -> {
+                                    Member newMember = new Member(email);
+                                    return memberRepository.save(newMember);
+                                });
 
-        GoogleTokenResponse tokenResponse = exchangeCodeForToken(code);
+        Long storeId = (member.getStore() != null) ? member.getStore().getId() : null;
 
-        String email = extractEmailFromToken(tokenResponse.getIdToken());
-        log.info("Google ID Token verified. User Email: {}", email);
+        // JWT 토큰 생성
+        String accessToken = jwtUtil.generateAccessToken(member.getId(), storeId);
+        String refreshToken = jwtUtil.generateRefreshToken(member.getId());
 
-        Optional<Member> existingMember = memberRepository.findByEmail(email);
+        // MemberAuth 저장 또는 업데이트
+        saveOrUpdateMemberAuth(member, googleTokenResponse, refreshToken);
 
-        if (existingMember.isPresent()) {
-            Member member = existingMember.get();
-            log.info("Existing member login detected. Member ID: {}", member.getId());
-
-            saveOrUpdateTokens(member, tokenResponse);
-            return new AuthResult(member, tokenResponse, false);
-        }
-
-        log.info("New member detected. Initiating signup for: {}", email);
-        Member newMember = memberRepository.save(new Member(email));
-        log.info("New member saved. Member ID: {}", newMember.getId());
-
-        saveOrUpdateTokens(newMember, tokenResponse);
-        return new AuthResult(newMember, tokenResponse, true);
+        return new AuthToken(accessToken, refreshToken);
     }
 
-    private GoogleTokenResponse exchangeCodeForToken(String code) {
-        try {
-            log.debug("Attempting to exchange auth code for Google tokens...");
-            GoogleTokenResponse response =
-                    new GoogleAuthorizationCodeTokenRequest(
-                                    httpTransport,
-                                    jsonFactory,
-                                    "https://oauth2.googleapis.com/token",
-                                    clientId,
-                                    clientSecret,
-                                    code,
-                                    redirectUri)
-                            .execute();
+    // 재시도 로직이 포함된 Google Token 교환
+    public GoogleTokenResponse exchangeCodeForToken(String code) {
+        int attempt = 0;
+        IOException lastException = null;
 
-            log.debug("Google token exchange successful.");
-            return response;
-        } catch (IOException e) {
-            log.error("Failed to exchange code for Google token. Error: {}", e.getMessage(), e);
-            throw new InternalServerException(ErrorStatus.GOOGLE_TOKEN_EXCHANGE_FAILED);
+        while (attempt < MAX_RETRY_ATTEMPTS) {
+            try {
+                attempt++;
+                log.debug(
+                        "Attempting to exchange auth code for Google tokens... (Attempt {}/{})",
+                        attempt,
+                        MAX_RETRY_ATTEMPTS);
+
+                GoogleTokenResponse response =
+                        new GoogleAuthorizationCodeTokenRequest(
+                                        httpTransport,
+                                        jsonFactory,
+                                        "https://oauth2.googleapis.com/token",
+                                        clientId,
+                                        clientSecret,
+                                        code,
+                                        redirectUri)
+                                .execute();
+
+                log.debug("Google token exchange successful on attempt {}", attempt);
+                return response;
+
+            } catch (IOException e) {
+                lastException = e;
+                log.warn(
+                        "Failed to exchange code for Google token on attempt {}/{}. Error: {}",
+                        attempt,
+                        MAX_RETRY_ATTEMPTS,
+                        e.getMessage());
+
+                if (attempt < MAX_RETRY_ATTEMPTS) {
+                    try {
+                        Thread.sleep(RETRY_DELAY_MS * attempt);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        throw new InternalServerException(ErrorStatus.GOOGLE_TOKEN_EXCHANGE_FAILED);
+                    }
+                }
+            }
         }
+
+        log.error(
+                "Failed to exchange code for Google token after {} attempts. Last error: {}",
+                MAX_RETRY_ATTEMPTS,
+                lastException.getMessage(),
+                lastException);
+        throw new InternalServerException(ErrorStatus.GOOGLE_TOKEN_EXCHANGE_FAILED);
     }
 
-    private String extractEmailFromToken(String idToken) {
+    public String extractEmailFromToken(String idToken) {
         log.debug("Verifying ID Token and extracting email...");
         GoogleIdToken.Payload payload = oidcService.verifyIdToken(idToken);
         return payload.getEmail();
     }
 
-    private void saveOrUpdateTokens(Member member, GoogleTokenResponse tokenResponse) {
-        log.debug("Updating Google tokens for Member ID: {}", member.getId());
+    private void saveOrUpdateMemberAuth(
+            Member member, GoogleTokenResponse googleTokenResponse, String jwtRefreshToken) {
 
         MemberAuth memberAuth =
-                memberAuthRepository
-                        .findByMember(member)
-                        .orElseGet(
-                                () -> {
-                                    log.debug(
-                                            "No existing auth info found. Creating new MemberAuth.");
-                                    return createWithMember(member);
-                                });
+                memberAuthRepository.findByMember(member).orElseGet(() -> createWithMember(member));
 
-        memberAuth.updateGoogleTokens(
-                tokenResponse.getAccessToken(), tokenResponse.getRefreshToken());
+        String googleAccessToken = googleTokenResponse.getAccessToken();
+        String googleRefreshToken = googleTokenResponse.getRefreshToken();
+
+        if (googleRefreshToken != null) {
+            // Google Refresh Token이 새로 발급된 경우에만 업데이트
+            memberAuth.updateGoogleTokens(googleAccessToken, googleRefreshToken);
+            log.debug("Updated Google tokens for member: {}", member.getEmail());
+        } else {
+            memberAuth.updateGoogleAccessToken(googleAccessToken);
+            log.debug(
+                    "Google Refresh Token is null (already issued), updated only Access Token for member: {}",
+                    member.getEmail());
+        }
+
+        // JWT Refresh Token 업데이트
+        memberAuth.updateRefreshToken(jwtRefreshToken);
+
         memberAuthRepository.save(memberAuth);
-        log.debug("Tokens saved successfully.");
     }
 }
