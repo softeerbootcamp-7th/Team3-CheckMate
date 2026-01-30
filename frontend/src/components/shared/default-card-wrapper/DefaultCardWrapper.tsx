@@ -29,7 +29,7 @@ export const DefaultCardWrapper = ({
         className,
       )}
     >
-      <div className="relative flex items-center text-gray-700">
+      <div className="text-grey-700 relative flex items-center">
         {title && <h3 className="body-medium-semibold">{title}</h3>}
         {titleIcon && (
           <button
