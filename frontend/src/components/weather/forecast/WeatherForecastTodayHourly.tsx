@@ -1,4 +1,4 @@
-import { DefaultCardWrapper } from '@/components/shared/default-card-wrapper/DefaultCardWrapper';
+import { DefaultCardWrapper } from '@/components/shared/default-card-wrapper';
 import type { WeatherForecastHour } from '@/types/weather';
 
 import { WeatherForecastHourItem } from './WeatherForecastHourItem';

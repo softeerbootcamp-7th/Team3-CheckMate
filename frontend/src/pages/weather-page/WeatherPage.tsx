@@ -1,4 +1,4 @@
-import { WeatherForecast } from '@/components/weather/forecast';
+import { WeatherForecast } from '@/components/weather';
 
 export const WeatherPage = () => {
   return (
