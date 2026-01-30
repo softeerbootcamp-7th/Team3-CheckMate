@@ -1,0 +1,20 @@
+import { Outlet } from 'react-router-dom';
+
+import { Sidebar } from '../sidebar';
+
+/**
+ * 전역 페이지 레이아웃을 정의하는 컴포넌트
+ * 사이드바와 각 페이지(Outlet)을 배치
+ */
+export const MainLayout = () => {
+  return (
+    <div className="flex h-screen w-full">
+      <Sidebar />
+      <main className="bg-special-dashboard-bg flex flex-1 flex-col items-center overflow-y-scroll">
+        <div className="mx-10 mb-29.5 w-265">
+          <Outlet />
+        </div>
+      </main>
+    </div>
+  );
+};

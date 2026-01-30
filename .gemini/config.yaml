@@ -7,7 +7,7 @@ code_review:
   max_review_comments: -1 # PR 하나당 남길 최대 리뷰 코멘트 수, -1: 무제한
   pull_request_opened: # PR이 열렸을 때 실행할 작업
     help: false
-    summary: true
+    summary: false
     code_review: true # PR 열리자마자 자동 코드 리뷰 실행할지
     include_drafts: false #PR 초안(draft)도 리뷰대상인지, false: “Ready for review” 상태일 때만 리뷰
 ignore_patterns: #무시할 파일 패턴 ex: "**/*.md"
