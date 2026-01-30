@@ -21,12 +21,12 @@ export const WeatherForecastOneDayAmPmItem = ({
   ] as const;
 
   return (
-    <div className="flex w-27.5 flex-col items-center gap-2 text-gray-900">
+    <div className="text-grey-900 flex w-27.5 flex-col items-center gap-2">
       <span
         className={cn(
           weekDayInfo === '오늘'
-            ? 'body-small-bold text-gray-900'
-            : 'body-small-semibold text-gray-500',
+            ? 'body-small-bold text-grey-900'
+            : 'body-small-semibold text-grey-500',
         )}
       >
         {weekDayInfo}
@@ -38,7 +38,7 @@ export const WeatherForecastOneDayAmPmItem = ({
               key={label} // 오전 또는 오후가  키가 됨
               className="flex flex-col items-center gap-1"
             >
-              <span className="caption-large-medium text-gray-600">
+              <span className="caption-large-medium text-grey-600">
                 {label}
               </span>
               <img src={iconPath} className="size-10" />

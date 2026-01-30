@@ -17,8 +17,8 @@ export const WeatherForecastHourItem = ({
     <div
       className={cn(
         timeLabel === '지금'
-          ? 'body-small-bold text-gray-900'
-          : 'body-small-medium text-gray-500',
+          ? 'body-small-bold text-grey-900'
+          : 'body-small-medium text-grey-500',
         'flex flex-1 flex-col items-center',
       )}
     >
