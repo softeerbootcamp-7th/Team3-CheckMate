@@ -1,4 +1,4 @@
-import { FEATURE_CARD_LIST } from '@/constants/sign-in';
+import { FEATURE_CARD_LIST } from '@/constants/auth';
 
 import { FeatureCard } from '../feature-card';
 import { SignInButton } from '../sign-in-button';
