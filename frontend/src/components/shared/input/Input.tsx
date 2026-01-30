@@ -32,13 +32,13 @@ export const Input = ({
       {label && (
         <label
           htmlFor={id}
-          className="body-large-semibold text-grey-900 flex items-center gap-3"
+          className="body-large-semibold text-grey-900 flex shrink-0 items-center gap-3 text-nowrap"
         >
           {label}
           {description && (
             <span
               id={descriptionId}
-              className="body-medium-medium text-grey-600"
+              className="body-medium-medium text-grey-600 shrink-0 text-nowrap"
             >
               {description}
             </span>

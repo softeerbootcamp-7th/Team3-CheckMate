@@ -1,0 +1,1 @@
+export { StoreAddressInput } from './StoreAddressInput';
