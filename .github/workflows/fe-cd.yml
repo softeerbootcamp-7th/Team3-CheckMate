@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - "frontend/**"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -46,6 +47,7 @@ jobs:
           workload_identity_provider: "projects/1022464522377/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider"
           service_account: "github-actions-sa@checkmate-485008.iam.gserviceaccount.com"
           create_credentials_file: true
+          export_environment_variables: true
 
       - name: Set up Cloud SDK
         uses: "google-github-actions/setup-gcloud@v2"
@@ -57,16 +59,16 @@ jobs:
           echo "=== Current Project ==="
           gcloud config get-value project
           echo "=== Test GCS Access ==="
-          gsutil ls gs://checkmate-03/ || echo "GCS access failed"
+          gcloud storage ls gs://checkmate-03/ || echo "GCS access failed"
 
       - name: Deploy to GCS (Sync)
         run: |
-          gsutil -m rsync -d -r ./dist gs://checkmate-03/dist
+          gcloud storage rsync ./dist gs://checkmate-03/dist --recursive --delete-unmatched-destination-objects
 
       - name: Set Cache Policies
         run: |
-          gsutil -m setmeta -h "Cache-Control:public, max-age=31536000, immutable" gs://checkmate-03/dist/assets/**
-          gsutil -m setmeta -h "Cache-Control:no-cache" gs://checkmate-03/dist/index.html
+          gcloud storage objects update gs://checkmate-03/dist/assets/** --cache-control="public, max-age=31536000, immutable"
+          gcloud storage objects update gs://checkmate-03/dist/index.html --cache-control="no-cache"
 
       - name: Invalidate CDN Cache
         run: |

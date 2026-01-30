@@ -3,7 +3,8 @@
 
 @font-face {
   font-family: 'Pretendard Variable';
-  src: url('/fonts/PretendardVariable.woff2') format('woff2-variations');
+  src: url('./assets//fonts/PretendardVariable.woff2')
+    format('woff2-variations');
   font-weight: 100 900;
   font-display: swap;
   font-style: normal;
@@ -11,7 +12,7 @@
 
 @font-face {
   font-family: 'Poppins';
-  src: url('/fonts/poppins-v24-latin-600.woff2') format('woff2');
+  src: url('./assets/fonts/poppins-v24-latin-600.woff2') format('woff2');
   font-weight: 600;
   font-display: swap;
   font-style: normal;
@@ -105,11 +106,37 @@
   --radius-800: 2.25rem; /* 36px */
   --radius-900: 3rem; /* 48px */
   --radius-unlimit: 9999px; /* 원형 */
+
+  /*그림자*/
+  --shadow-card-floating: 0 12px 50px -12px rgba(16, 24, 40, 0.25);
 }
 
 @layer base {
+  html,
   body {
     font-family: var(--font-pretendard);
+    width: 100%;
+    height: 100%;
+  }
+
+  #root {
+    width: 100%;
+    height: 100%;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-grey-300) transparent;
+  }
+}
+
+/* Card utility */
+@layer components {
+  .card {
+    @apply bg-special-card-bg rounded-400 p-5;
+    & h3 {
+      @apply body-medium-semibold text-grey-700;
+    }
   }
 }
 
@@ -286,4 +313,13 @@
 }
 @utility caption-medium-medium {
   @apply caption-medium font-medium;
+}
+
+@utility scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

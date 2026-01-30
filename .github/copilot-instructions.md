@@ -14,22 +14,23 @@ This document defines the principles and rules that Copilot must follow for effi
 
 - **Framework**: React (Functional Components only).
 - **Design System**: Tailwind CSS, Shadcn UI.
+- **Shadcn UI Path**: All shadcn/ui components must be managed and imported from the `@/components/shared/shadcn-ui` path.
 - **Type Definition**: Use **interface** to define props and other data structures. Prefer **interface** over **type** for object definitions.
 
 ### 2.2 Directory Structure (src)
 
-| Folder/File | Definition & Description |
-| --- | --- |
-| `components` | Folder for managing components |
-| `pages` | Defines each page; managed as one directory per page |
-| `hooks` | Folder for managing custom hooks |
-| `utils` | General utility functions (non-hook) |
-| `services` | Logic related to API requests |
-| `types` | Definitions for various types |
-| `constants` | Constant definitions |
-| `stores` | Global state management definitions |
-| `routes` | Route definitions (managed flatly) |
-| `main.tsx` | Application entry point |
+| Folder/File  | Definition & Description                                               |
+| ------------ | ---------------------------------------------------------------------- |
+| `components` | Folder for managing components (includes `shared/shadcn-ui` subfolder) |
+| `pages`      | Defines each page; managed as one directory per page                   |
+| `hooks`      | Folder for managing custom hooks                                       |
+| `utils`      | General utility functions (non-hook)                                   |
+| `services`   | Logic related to API requests                                          |
+| `types`      | Definitions for various types                                          |
+| `constants`  | Constant definitions                                                   |
+| `stores`     | Global state management definitions                                    |
+| `routes`     | Route definitions (managed flatly)                                     |
+| `main.tsx`   | Application entry point                                                |
 
 ### 2.3 Naming Conventions
 
@@ -44,41 +45,42 @@ This document defines the principles and rules that Copilot must follow for effi
 
 ### A. Component Declaration
 
-Prefer **Arrow Functions** for functional components.
+Functional components should use **Arrow Functions** as a principle. **However, for internal shadcn/ui components, the standard function declaration format is exceptionally allowed.**
 
 - **Good**: `const MyComponent = () => { ... };`
-- **Bad**: `function MyComponent() { ... }`
+- **Bad**: `function MyComponent() { ... }` (For general components)
+- **Exception**: Declarations within shadcn/ui library component files.
 
 ### B. Interface for Props
 
-Always define props using an **interface**. Prefer **interface** over **type** for defining object shapes.
+Always define props using an **interface**.
 
 - **Good**:
-    
-    ```
-    interface UserCardProps {
-      name: string;
-      age: number;
-    }
-    const UserCard = ({ name, age }: UserCardProps) => <div>{name}</div>;
-    
-    ```
-    
+  ```
+  interface UserCardProps {
+    name: string;
+    age: number;
+  }
+  const UserCard = ({ name, age }: UserCardProps) => <div>{name}</div>;
+
+  ```
 - **Bad**:
-    
-    ```
-    type UserCardProps = { name: string; age: number; }; // Use interface instead
-    const UserCard = ({ name }) => <div>{name}</div>; // Missing type definition
-    
-    ```
-    
+  ```
+  type UserCardProps = { name: string; age: number; }; // Use interface instead
+  const UserCard = ({ name }) => <div>{name}</div>; // Missing type definition
+
+  ```
 
 ### C. Import Rules
 
 - **Same Domain**: Use **Relative Paths**.
 - **Different Domains**: Use **Absolute Paths** up to the domain name.
-- **Good (Different Domain)**: `import { Button } from '@/components/shared';`
-- **Bad**: `import { Button } from '../../../components/shared/Button';`
+- **Shadcn UI**: Must be imported via **Absolute Path** through the `@/components/shared/shadcn-ui` path.
+- **Good**:
+  - `import { Button } from '@/components/shared/shadcn-ui';`
+  - `import { UserAvatar } from '../components';` (Same domain)
+- **Bad**:
+  - `import { Button } from '../../../components/shared/shadcn-ui/Button';`
 
 ### D. Type Imports
 
@@ -114,3 +116,5 @@ Use `index.ts` in every folder to maintain clean exports.
 
 - **Incorrect**: "The code structure looks clean. I think the overall performance will improve."
 - **Correct**: "해당 컴포넌트의 props 는 **interface** 를 사용하여 정의해야 합니다. 또한 객체 타입 정의 시 **type** 보다는 **interface** 사용을 권장합니다."
+- **Correct**: "컴포넌트 선언 시 **Arrow Function** 을 사용해 주세요. (단, shadcn/ui 컴포넌트는 예외입니다.)"
+- **Correct**: "shadcn/ui 컴포넌트는 `@/components/shared/shadcn-ui` 경로를 통해 **Absolute Path** 로 import 해야 합니다."
