@@ -14,37 +14,37 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class ControllerExceptionAdvice {
 
-  @ExceptionHandler(BaseException.class)
-  public ResponseEntity<ApiResponse<Void>> handleGlobalException(BaseException ex) {
-    ErrorStatus errorStatus = ex.getErrorStatus();
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ApiResponse<Void>> handleGlobalException(BaseException ex) {
+        ErrorStatus errorStatus = ex.getErrorStatus();
 
-    ResponseEntity<ApiResponse<Void>> errorResponse = ApiResponse.fail(errorStatus);
+        ResponseEntity<ApiResponse<Void>> errorResponse = ApiResponse.fail(errorStatus);
 
-    return errorResponse;
-  }
+        return errorResponse;
+    }
 
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(
-      MethodArgumentNotValidException e) {
-    ErrorStatus errorStatus = ErrorStatus.VALIDATION_EXCEPTION;
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException e) {
+        ErrorStatus errorStatus = ErrorStatus.VALIDATION_EXCEPTION;
 
-    String message =
-        e.getBindingResult().getFieldErrors().stream()
-            .findFirst()
-            .map(DefaultMessageSourceResolvable::getDefaultMessage)
-            .orElse(errorStatus.getMessage());
+        String message =
+                e.getBindingResult().getFieldErrors().stream()
+                        .findFirst()
+                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                        .orElse(errorStatus.getMessage());
 
-    return ApiResponse.fail(errorStatus, message);
-  }
+        return ApiResponse.fail(errorStatus, message);
+    }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ApiResponse<Void>> handleException(Exception ex) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void>> handleException(Exception ex) {
 
-    log.error("Unhandled exception", ex);
+        log.error("Unhandled exception", ex);
 
-    ResponseEntity<ApiResponse<Void>> errorResponse =
-        ApiResponse.fail(ErrorStatus.INTERNAL_SERVER_EXCEPTION);
+        ResponseEntity<ApiResponse<Void>> errorResponse =
+                ApiResponse.fail(ErrorStatus.INTERNAL_SERVER_EXCEPTION);
 
-    return errorResponse;
-  }
+        return errorResponse;
+    }
 }

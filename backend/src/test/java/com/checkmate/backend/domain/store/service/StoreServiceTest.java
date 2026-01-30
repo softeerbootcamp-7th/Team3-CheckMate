@@ -27,95 +27,103 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Transactional
 class StoreServiceTest {
 
-  @Autowired private StoreService storeService;
+    @Autowired private StoreService storeService;
 
-  @Autowired private MemberRepository memberRepository;
+    @Autowired private MemberRepository memberRepository;
 
-  @Autowired private StoreRepository storeRepository;
+    @Autowired private StoreRepository storeRepository;
 
-  @Autowired private BusinessHourRepository businessHourRepository;
+    @Autowired private BusinessHourRepository businessHourRepository;
 
-  @Autowired private Validator validator;
+    @Autowired private Validator validator;
 
-  @Test
-  @DisplayName("매장 등록 성공 - 영업시간 포함")
-  void createStore_success() {
-    // given
-    Member member = createMember();
+    @Test
+    @DisplayName("매장 등록 성공 - 영업시간 포함")
+    void createStore_success() {
+        // given
+        Member member = createMember();
 
-    StoreCreateRequestDTO dto =
-        new StoreCreateRequestDTO(
-            "1234567890",
-            "토큰",
-            "테스트매장",
-            "12345",
-            "서울시 강남구",
-            "테스트빌딩 1층",
-            createValidBusinessHours(),
-            23);
+        StoreCreateRequestDTO dto =
+                new StoreCreateRequestDTO(
+                        "1234567890",
+                        "토큰",
+                        "테스트매장",
+                        "12345",
+                        "서울시 강남구",
+                        "테스트빌딩 1층",
+                        createValidBusinessHours(),
+                        23);
 
-    // when
-    Long storeId = storeService.create(member.getId(), dto);
+        // when
+        Long storeId = storeService.create(member.getId(), dto);
 
-    // then
-    Store store = storeRepository.findById(storeId).orElseThrow();
-    List<BusinessHour> hours = businessHourRepository.findAll();
+        // then
+        Store store = storeRepository.findById(storeId).orElseThrow();
+        List<BusinessHour> hours = businessHourRepository.findAll();
 
-    assertThat(store.getStoreName()).isEqualTo("테스트매장");
-    assertThat(store.getMember().getId()).isEqualTo(member.getId());
-    assertThat(hours).hasSize(7);
-  }
+        assertThat(store.getStoreName()).isEqualTo("테스트매장");
+        assertThat(store.getMember().getId()).isEqualTo(member.getId());
+        assertThat(hours).hasSize(7);
+    }
 
-  @Test
-  @DisplayName("DTO 검증 실패 - 요일 7개 미만")
-  void validate_fail_missing_day() {
-    // given
-    StoreCreateRequestDTO dto =
-        new StoreCreateRequestDTO(
-            "1234567890",
-            "토큰",
-            "테스트매장",
-            "12345",
-            "서울시",
-            "상세주소",
-            createInvalidBusinessHours(), // 6일만
-            23);
+    @Test
+    @DisplayName("DTO 검증 실패 - 요일 7개 미만")
+    void validate_fail_missing_day() {
+        // given
+        StoreCreateRequestDTO dto =
+                new StoreCreateRequestDTO(
+                        "1234567890",
+                        "토큰",
+                        "테스트매장",
+                        "12345",
+                        "서울시",
+                        "상세주소",
+                        createInvalidBusinessHours(), // 6일만
+                        23);
 
-    // when
-    Set<ConstraintViolation<StoreCreateRequestDTO>> violations = validator.validate(dto);
+        // when
+        Set<ConstraintViolation<StoreCreateRequestDTO>> violations = validator.validate(dto);
 
-    // then
-    assertThat(violations).isNotEmpty();
-    assertThat(violations.iterator().next().getMessage()).contains("월~일 모두 입력");
-  }
+        // then
+        assertThat(violations).isNotEmpty();
+        assertThat(violations.iterator().next().getMessage()).contains("월~일 모두 입력");
+    }
 
-  @Test
-  @DisplayName("매장 등록 실패 - User 없음")
-  void createStore_fail_userNotFound() {
-    // given
-    StoreCreateRequestDTO dto =
-        new StoreCreateRequestDTO(
-            "1234567890", "토큰", "테스트매장", "12345", "서울", "상세", createValidBusinessHours(), 23);
+    @Test
+    @DisplayName("매장 등록 실패 - User 없음")
+    void createStore_fail_userNotFound() {
+        // given
+        StoreCreateRequestDTO dto =
+                new StoreCreateRequestDTO(
+                        "1234567890",
+                        "토큰",
+                        "테스트매장",
+                        "12345",
+                        "서울",
+                        "상세",
+                        createValidBusinessHours(),
+                        23);
 
-    // expect
-    assertThatThrownBy(() -> storeService.create(999L, dto)).isInstanceOf(NotFoundException.class);
-  }
+        // expect
+        assertThatThrownBy(() -> storeService.create(999L, dto))
+                .isInstanceOf(NotFoundException.class);
+    }
 
-  private List<StoreCreateRequestDTO.BusinessHour> createValidBusinessHours() {
-    return Arrays.stream(DayOfWeekType.values())
-        .map(day -> new StoreCreateRequestDTO.BusinessHour(day, "09:00", "18:00", false))
-        .toList();
-  }
+    private List<StoreCreateRequestDTO.BusinessHour> createValidBusinessHours() {
+        return Arrays.stream(DayOfWeekType.values())
+                .map(day -> new StoreCreateRequestDTO.BusinessHour(day, "09:00", "18:00", false))
+                .toList();
+    }
 
-  private List<StoreCreateRequestDTO.BusinessHour> createInvalidBusinessHours() {
-    return Arrays.stream(DayOfWeekType.values())
-        .limit(6)
-        .map(day -> new StoreCreateRequestDTO.BusinessHour(day, "09:00", "18:00", false))
-        .toList();
-  }
+    private List<StoreCreateRequestDTO.BusinessHour> createInvalidBusinessHours() {
+        return Arrays.stream(DayOfWeekType.values())
+                .limit(6)
+                .map(day -> new StoreCreateRequestDTO.BusinessHour(day, "09:00", "18:00", false))
+                .toList();
+    }
 
-  private Member createMember() {
-    Member member = new Member();
-    return memberRepository.save(member);
-  }
+    private Member createMember() {
+        Member member = new Member();
+        return memberRepository.save(member);
+    }
 }

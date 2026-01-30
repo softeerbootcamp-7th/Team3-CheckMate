@@ -12,9 +12,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidBusinessAuthToken {
 
-  String message() default "유효하지 않은 사업자 인증 토큰입니다.";
+    String message() default "유효하지 않은 사업자 인증 토큰입니다.";
 
-  Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-  Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

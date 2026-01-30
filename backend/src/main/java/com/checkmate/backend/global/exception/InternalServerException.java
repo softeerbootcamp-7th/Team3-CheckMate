@@ -4,7 +4,7 @@ import com.checkmate.backend.global.response.ErrorStatus;
 
 public class InternalServerException extends BaseException {
 
-  public InternalServerException(ErrorStatus errorStatus) {
-    super(errorStatus);
-  }
+    public InternalServerException(ErrorStatus errorStatus) {
+        super(errorStatus);
+    }
 }

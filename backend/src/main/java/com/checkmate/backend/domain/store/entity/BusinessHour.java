@@ -18,18 +18,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(indexes = @Index(name = "idx_store_id", columnList = "store_id"))
 public class BusinessHour extends BaseTimeEntity {
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  @Column(name = "business_hour_id")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "business_hour_id")
+    private Long id;
 
-  private String day;
-  private String openTime;
-  private String closeTime;
+    private String day;
+    private String openTime;
+    private String closeTime;
 
-  private boolean closed;
+    private boolean closed;
 
-  @ManyToOne(fetch = LAZY)
-  @JoinColumn(name = "store_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
-  private Store store;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "store_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
+    private Store store;
 }
