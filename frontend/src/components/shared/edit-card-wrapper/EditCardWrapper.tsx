@@ -2,14 +2,7 @@ import type { ReactNode } from 'react';
 
 import { CircleCheck } from 'lucide-react';
 
-import {
-  CHANGE_SCALE,
-  HEADER_HEIGHT,
-  HEADER_MAIN_GAP,
-  MIN_HEIGHT,
-  MIN_WIDTH,
-  PADDING_SIZE,
-} from '@/constants/shared';
+import { EDIT_CARD_WRAPPER } from '@/constants/shared';
 import { useEditCardWrapperMeasure } from '@/hooks/shared/edit-card-wrapper';
 import { cn } from '@/utils/shared';
 
@@ -39,17 +32,17 @@ export const EditCardWrapper = ({
 }: EditCardWrapperProps) => {
   const { childRef, computedCardWidth, computedCardHeight } =
     useEditCardWrapperMeasure({
-      scale: CHANGE_SCALE,
-      wrapperPadding: PADDING_SIZE,
-      headerHeight: HEADER_HEIGHT,
-      headerGap: HEADER_MAIN_GAP,
+      scale: EDIT_CARD_WRAPPER.CHANGE_SCALE,
+      wrapperPadding: EDIT_CARD_WRAPPER.PADDING_SIZE,
+      headerHeight: EDIT_CARD_WRAPPER.HEADER_HEIGHT,
+      headerGap: EDIT_CARD_WRAPPER.HEADER_MAIN_GAP,
     });
 
   return (
     <div
       style={{
-        width: Math.max(MIN_WIDTH, computedCardWidth), // 최소 너비 220px
-        height: Math.max(MIN_HEIGHT, computedCardHeight), // 최소 높이 147px
+        width: Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth), // 최소 너비 220px
+        height: Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight), // 최소 높이 147px
       }}
       className={cn(
         'bg-special-card-bg rounded-400 relative flex flex-col overflow-hidden border border-gray-300 p-3',
@@ -65,13 +58,16 @@ export const EditCardWrapper = ({
         )}
       </div>
       <div
-        style={{ marginTop: `${HEADER_MAIN_GAP}px` }}
+        style={{ marginTop: `${EDIT_CARD_WRAPPER.HEADER_MAIN_GAP}px` }}
         className="flex min-w-0 flex-1 items-end justify-center"
       >
         <div
           style={{
-            transform: `scale(${CHANGE_SCALE})`,
-            transformOrigin: computedCardHeight < MIN_HEIGHT ? 'center' : 'top',
+            transform: `scale(${EDIT_CARD_WRAPPER.CHANGE_SCALE})`,
+            transformOrigin:
+              computedCardHeight < EDIT_CARD_WRAPPER.MIN_HEIGHT
+                ? 'center'
+                : 'top',
           }}
           ref={childRef}
           className={cn(isAdded ? 'opacity-10' : 'opacity-100')}

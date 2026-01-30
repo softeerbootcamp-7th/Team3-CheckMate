@@ -8,7 +8,7 @@ export const AddedCardOverlay = () => {
     <div className="pointer-events-none absolute inset-3 flex items-center justify-center">
       <div
         className={cn(
-          'caption-large-semibold rounded-unlimit flex gap-1 border border-gray-200 bg-gray-100 py-1 pr-2 pl-[10px] text-center text-gray-900',
+          'caption-large-semibold rounded-unlimit flex gap-1 border border-gray-200 bg-gray-100 py-1 pr-2 pl-2.5 text-center text-gray-900',
         )}
       >
         대시보드 추가
