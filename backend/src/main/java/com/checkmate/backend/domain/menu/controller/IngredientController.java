@@ -36,9 +36,9 @@ public class IngredientController {
     })
     @GetMapping
     public ResponseEntity<ApiResponse<List<String>>> findIngredientBy(
-            @RequestAttribute("memberId") Long memberId, @RequestParam("keyword") String keyword) {
+            @RequestAttribute("storeId") Long storeId, @RequestParam("keyword") String keyword) {
 
-        List<String> response = ingredientService.getNamesByKeyword(memberId, keyword);
+        List<String> response = ingredientService.getNamesByKeyword(storeId, keyword);
 
         return ApiResponse.success(INGREDIENT_GET_SUCCESS, response);
     }
