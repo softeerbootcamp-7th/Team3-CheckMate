@@ -15,15 +15,12 @@ export const BotBubble = ({
   isLoading = false,
   botBubbleRef,
 }: BotBubbleProps) => {
-  if (isLatest && isLoading) {
-    return <BotLoading />;
-  }
   return (
-    <p
+    <div
       ref={botBubbleRef}
-      className="body-small-medium text-grey-900 whitespace-pre-line"
+      className="body-small-medium text-grey-900 min-h-6 whitespace-pre-line"
     >
-      {message}
-    </p>
+      {isLatest && isLoading ? <BotLoading /> : message}
+    </div>
   );
 };
