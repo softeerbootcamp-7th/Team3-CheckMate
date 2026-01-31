@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import { useSpacerHeight } from '@/hooks/ai-chat';
 import type { ChatHistoryItem as ChatHistoryItemType } from '@/types/ai-chat';
@@ -18,23 +18,15 @@ export const ChatHistory = ({
 }: ChatHistoryProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const userBubbleRef = useRef<HTMLDivElement>(null);
-  const botBubbleRef = useRef<HTMLParagraphElement>(null);
+  const botBubbleRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper) {
-      return;
-    }
-    wrapper.scrollTo({ top: wrapper.scrollHeight, behavior: 'smooth' });
-  }, [isLoading]);
-
-  // 아래 여백 높이 계산
-  const spacerHeight = useSpacerHeight({
-    enabled: isStreaming,
+  const { spacerRef } = useSpacerHeight({
+    enabled: isLoading || isStreaming,
+    isLoading,
     wrapperRef,
     userBubbleRef,
     botBubbleRef,
-    displayedText: chatHistoryList[chatHistoryList.length - 1]?.answer || '',
+    historyCount: chatHistoryList.length,
   });
 
   return (
@@ -60,10 +52,7 @@ export const ChatHistory = ({
         })}
       </div>
       {/* 스트리밍용 하단 spacer */}
-      <div
-        className="w-full shrink-0"
-        style={{ height: `${isLoading ? 0 : spacerHeight}px` }}
-      />
+      <div ref={spacerRef} className="w-full shrink-0" />
     </section>
   );
 };

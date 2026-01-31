@@ -8,7 +8,7 @@ interface ChatHistoryItemProps {
   answer: string;
   isLatest?: boolean;
   isLoading: boolean;
-  botBubbleRef?: RefObject<HTMLParagraphElement | null>;
+  botBubbleRef?: RefObject<HTMLDivElement | null>;
   userBubbleRef?: RefObject<HTMLDivElement | null>;
 }
 const ChatHistoryItemComponent = ({

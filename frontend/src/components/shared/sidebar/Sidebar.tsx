@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { ChatSheet } from '@/components/ai-chat';
 import { Button } from '@/components/shared/shadcn-ui';
 import { SIDEBAR_ITEMS } from '@/constants/shared';
 import type { SidebarOptionItem } from '@/types/shared';
@@ -75,6 +76,7 @@ export const Sidebar = () => {
             </ul>
           );
         })}
+        <ChatSheet />
       </div>
     </aside>
   );
