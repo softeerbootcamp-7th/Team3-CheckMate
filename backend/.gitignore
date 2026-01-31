@@ -39,4 +39,5 @@ out/
 ### Others ###
 application.yml
 application-jwt.yml
+application-business.yml
 docker-compose.local.yml
