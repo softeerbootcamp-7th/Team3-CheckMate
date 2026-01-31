@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: checkmate-backend
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+  swagger-ui:
+    path: /api-doc
+
+google:
+  client:
+    id: ${GOOGLE_ID}
+    secret: ${GOOGLE_SECRET}
+    redirect-uri: http://43.200.152.163/auth/google/callback
+    authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+    token-uri: https://oauth2.googleapis.com/token
+
+encryption:
+  secret-key: ${ENC_KEY}
+
+jwt:
+  secret: ${JWT_SECRET}
+  access:
+    expiration: 3600000 # 1시간
+    header: Authorization
+  refresh:
+    expiration: 604800000 # 7일
+    header: Authorization-Refresh
