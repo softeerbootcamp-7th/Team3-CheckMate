@@ -10,6 +10,7 @@ import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.BusinessHourRepository;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
 import com.checkmate.backend.global.exception.NotFoundException;
+import com.checkmate.backend.global.util.BusinessJwtUtil;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final MemberRepository memberRepository;
     private final BusinessHourRepository businessHourRepository;
+    private final BusinessJwtUtil businessJwtUtil;
 
     /*
      * c
@@ -42,11 +44,17 @@ public class StoreService {
                                     return new NotFoundException(MEMBER_NOT_FOUND_EXCEPTION);
                                 });
 
+        String businessAuthToken = storeCreateRequestDTO.businessAuthToken();
+
+        businessJwtUtil.validateBusinessAuthToken(businessAuthToken);
+
+        String businessRegistrationNumber =
+                businessJwtUtil.getBusinessRegistrationNumberFromToken(businessAuthToken);
+
         // 매장
         Store store =
                 Store.builder()
-                        .businessRegistrationNumber(
-                                storeCreateRequestDTO.businessRegistrationNumber())
+                        .businessRegistrationNumber(businessRegistrationNumber)
                         .storeName(storeCreateRequestDTO.storeName())
                         .zipcode(storeCreateRequestDTO.zipcode())
                         .address1(storeCreateRequestDTO.address1())

@@ -1,7 +1,6 @@
 package com.checkmate.backend.domain.store.dto.request;
 
 import com.checkmate.backend.domain.store.enums.DayOfWeekType;
-import com.checkmate.backend.domain.store.validator.ValidBusinessAuthToken;
 import com.checkmate.backend.domain.store.validator.ValidWeeklyBusinessHours;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -9,12 +8,7 @@ import jakarta.validation.constraints.*;
 import java.util.List;
 
 public record StoreCreateRequestDTO(
-        @Schema(description = "사업자등록번호 (숫자 10자리, '-' 제외)")
-                @NotBlank(message = "사업자등록번호를 입력해주세요.")
-                @Pattern(regexp = "^[0-9]{10}$", message = "사업자등록번호는 숫자 10자리로 입력해주세요.")
-                String businessRegistrationNumber,
-        @Schema(description = "사업자등록번호 검증 성공 시 발급되는 인증 토큰") @ValidBusinessAuthToken
-                String businessAuthToken,
+        @Schema(description = "사업자등록번호 검증 성공 시 발급되는 인증 토큰") @NotBlank String businessAuthToken,
         @Schema(description = "매장명")
                 @NotBlank(message = "매장명을 입력해주세요.")
                 @Size(max = 15, message = "매장명은 15자 이내로 입력하세요.")

@@ -40,6 +40,9 @@ public enum ErrorStatus {
     INVALID_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "잘못된 JWT 토큰입니다."),
     JWT_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "JWT 토큰이 존재하지 않습니다."),
     UNAUTHORIZED_ACCESS(HttpStatus.UNAUTHORIZED, "인증되지 않은 접근입니다."),
+    BUSINESS_AUTH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "사업자 인증 토큰이 존재하지 않습니다."),
+    EXPIRED_BUSINESS_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 사업자 인증 토큰입니다."),
+    INVALID_BUSINESS_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 사업자 인증 토큰입니다."),
 
     // 403
     FORBIDDEN_ACCESS(HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),

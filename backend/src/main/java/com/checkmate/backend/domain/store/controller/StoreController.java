@@ -12,6 +12,7 @@ import com.checkmate.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +35,22 @@ public class StoreController {
                 responseCode = "201",
                 description = "매장 등록 성공했습니다."),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "401",
+                description = "만료된 사업자 인증 토큰입니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "401",
+                description = "유효하지 않은 사업자 인증 토큰입니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",
                 description = "해당 사용자를 찾을 수 없습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류가 발생했습니다."),
     })
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> create(
             @RequestAttribute("memberId") Long memberId,
-            @RequestBody StoreCreateRequestDTO storeCreateRequestDTO) {
+            @Valid @RequestBody StoreCreateRequestDTO storeCreateRequestDTO) {
         storeService.create(memberId, storeCreateRequestDTO);
 
         return ApiResponse.success_only(STORE_CREATE_SUCCESS);
@@ -56,6 +66,9 @@ public class StoreController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "400",
                 description = "유효하지 않은 사업자번호입니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류가 발생했습니다."),
     })
     @PostMapping("/business/verify")
     public ResponseEntity<ApiResponse<BusinessVerifyResponseDTO>> verifyBusiness(
