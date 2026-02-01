@@ -20,6 +20,8 @@ export {
   PopoverTitle,
   PopoverDescription,
 } from './popover';
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
+export { tabsListVariants } from './tabs.variants';
 export {
   DropdownMenu,
   DropdownMenuPortal,
@@ -50,3 +52,15 @@ export {
   SelectTrigger,
   SelectValue,
 } from './select';
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from './dialog';
