@@ -7,7 +7,7 @@ import {
 
 export const SalesPage = () => {
   return (
-    <div className="mt-32.5 flex flex-col gap-13">
+    <div className="mt-32.5 mb-29.5 flex flex-col gap-13">
       <SalesOverview />
       <SalesSource />
       <SalesTrends />
