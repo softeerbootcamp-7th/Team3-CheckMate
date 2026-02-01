@@ -15,10 +15,8 @@ export const WeatherForecast = () => {
       <section className="flex flex-col gap-5">
         <div className="flex gap-5">
           <WeatherForecastToday />
-
           <WeatherForecastTodayHourly />
         </div>
-
         <div>
           <WeatherForecastWeekly />
         </div>

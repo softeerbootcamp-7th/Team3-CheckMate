@@ -1,4 +1,4 @@
-import { DefaultCardWrapper } from '@/components/shared/default-card-wrapper';
+import { DefaultCardWrapper } from '@/components/shared';
 import { mockHourlyForecastList } from '@/mocks/weather';
 
 import { WeatherForecastHourItem } from './WeatherForecastHourItem';
