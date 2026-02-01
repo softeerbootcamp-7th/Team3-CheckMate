@@ -1,16 +1,20 @@
 package com.checkmate.backend.domain.member.controller;
 
-import com.checkmate.backend.domain.member.dto.AuthResult;
+import com.checkmate.backend.domain.member.dto.AuthToken;
+import com.checkmate.backend.domain.member.dto.LoginResponse;
 import com.checkmate.backend.domain.member.service.MemberService;
 import com.checkmate.backend.global.exception.BadRequestException;
 import com.checkmate.backend.global.response.ApiResponse;
 import com.checkmate.backend.global.response.ErrorStatus;
 import com.checkmate.backend.global.response.SuccessStatus;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +42,9 @@ public class AuthController {
     @Value("${google.client.authorization-uri}")
     private String authorizationUri;
 
+    @Value("${jwt.refresh.expiration}")
+    private long refreshTokenExpiration; // ms 단위
+
     private final MemberService memberService;
 
     @GetMapping("/google")
@@ -50,7 +57,7 @@ public class AuthController {
         log.info("Google Login Redirect Requested. Generated State: {}", state);
 
         UriComponents builder =
-                UriComponentsBuilder.fromHttpUrl(authorizationUri)
+                UriComponentsBuilder.fromUriString(authorizationUri)
                         .queryParam("client_id", clientId)
                         .queryParam("redirect_uri", redirectUri)
                         .queryParam("response_type", "code")
@@ -65,18 +72,31 @@ public class AuthController {
 
     @GetMapping("/google/callback")
     @ResponseBody
-    public ResponseEntity<ApiResponse<AuthResult>> handleGoogleCallback(
+    public ResponseEntity<ApiResponse<LoginResponse>> handleGoogleCallback(
             @RequestParam String code, @RequestParam String state, HttpSession session) {
-
         validateState(state, session);
-        AuthResult authResult = memberService.processGoogleLogin(code);
 
-        SuccessStatus status =
-                authResult.isNewMember()
-                        ? SuccessStatus.MEMBER_SIGNUP_SUCCESS
-                        : SuccessStatus.GOOGLE_LOGIN_SUCCESS;
+        GoogleTokenResponse googleTokenResponse = memberService.exchangeCodeForToken(code);
+        String email = memberService.extractEmailFromToken(googleTokenResponse.getIdToken());
 
-        return ApiResponse.success(status, authResult);
+        AuthToken authToken = memberService.processLoginTransaction(email, googleTokenResponse);
+
+        // 리프레시 토큰 HttpOnly 쿠키로 생성
+        ResponseCookie refreshTokenCookie =
+                ResponseCookie.from("refresh_token", authToken.refreshToken())
+                        .httpOnly(true) // JS 접근 불가 (XSS 방어)
+                        .secure(true) // HTTPS 전송 (로컬 테스트 시 http 환경이면 false로 변경 필요할 수 있음)
+                        .path("/")
+                        .maxAge(refreshTokenExpiration / 1000) // 초 단위
+                        .sameSite("None") // 크로스 사이트 요청 허용
+                        .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .body(
+                        ApiResponse.createSuccess(
+                                SuccessStatus.GOOGLE_LOGIN_SUCCESS,
+                                new LoginResponse(authToken.accessToken())));
     }
 
     private void validateState(String state, HttpSession session) {

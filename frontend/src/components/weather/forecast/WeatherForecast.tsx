@@ -1,10 +1,4 @@
 import { SectionTitle } from '@/components/shared';
-import { DefaultCardWrapper } from '@/components/shared/default-card-wrapper';
-import {
-  mockHourlyForecastList,
-  mockOneDayAmPmForecastList,
-  mockTodayForecastData,
-} from '@/mocks/weather';
 
 import { WeatherForecastToday } from './WeatherForecastToday';
 import { WeatherForecastTodayHourly } from './WeatherForecastTodayHourly';
@@ -20,26 +14,13 @@ export const WeatherForecast = () => {
 
       <section className="flex flex-col gap-5">
         <div className="flex gap-5">
-          <DefaultCardWrapper title="오늘 날씨 예보" width={340} height={228}>
-            <WeatherForecastToday
-              mainText={mockTodayForecastData.mainText}
-              subText={mockTodayForecastData.subText}
-              weatherAlert={mockTodayForecastData.weatherAlert}
-            />
-          </DefaultCardWrapper>
-          <DefaultCardWrapper title="오늘 시간별 예보" height={228} width={700}>
-            <WeatherForecastTodayHourly
-              hourlyForecastList={mockHourlyForecastList}
-            />
-          </DefaultCardWrapper>
+          <WeatherForecastToday />
+
+          <WeatherForecastTodayHourly />
         </div>
 
         <div>
-          <DefaultCardWrapper title="주간 날씨 예보" width={1060} height={228}>
-            <WeatherForecastWeekly
-              oneDayAmPmForecastList={mockOneDayAmPmForecastList}
-            />
-          </DefaultCardWrapper>
+          <WeatherForecastWeekly />
         </div>
       </section>
     </section>

@@ -1,5 +1,6 @@
 package com.checkmate.backend.domain.member.entity;
 
+import com.checkmate.backend.domain.store.entity.Store;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Builder;
@@ -20,6 +21,9 @@ public class Member {
     @Email
     @Column(unique = true, nullable = false)
     private String email;
+
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    private Store store;
 
     @Builder
     public Member(String email) {

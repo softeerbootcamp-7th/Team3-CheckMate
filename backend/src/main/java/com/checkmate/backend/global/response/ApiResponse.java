@@ -17,13 +17,7 @@ public record ApiResponse<T>(
         @Schema(description = "성공 시 응답 데이터 (성공 시에만 존재)") T data) {
 
     public static <T> ResponseEntity<ApiResponse<T>> success(SuccessStatus status, T data) {
-        ApiResponse<T> apiResponse =
-                ApiResponse.<T>builder()
-                        .success(true)
-                        .message(status.getMessage())
-                        .data(data)
-                        .build();
-
+        ApiResponse<T> apiResponse = createSuccess(status, data);
         return ResponseEntity.status(status.getHttpStatus()).body(apiResponse);
     }
 
@@ -54,5 +48,13 @@ public record ApiResponse<T>(
                         .build();
 
         return ResponseEntity.status(errorStatus.getHttpStatus()).body(apiResponse);
+    }
+
+    public static <T> ApiResponse<T> createSuccess(SuccessStatus status, T data) {
+        return ApiResponse.<T>builder()
+                .success(true)
+                .message(status.getMessage())
+                .data(data)
+                .build();
     }
 }
