@@ -7,24 +7,32 @@ import {
 
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
   const [tabs, setTabs] = useState<string[]>(['홈 대시보드', '퇴근']);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogMode, setDialogMode] = useState<DashboardTabsDialogMode | null>(
-    null,
-  );
+  const [dialogState, setDialogState] = useState<{
+    open: boolean;
+    mode: DashboardTabsDialogMode | null;
+  }>({
+    open: false,
+    mode: null,
+  });
 
   const openDialog = (mode: DashboardTabsDialogMode) => {
-    setDialogMode(mode);
-    setDialogOpen(true);
+    setDialogState({ open: true, mode });
   };
 
   const closeDialog = () => {
-    setDialogOpen(false);
-    setDialogMode(null);
+    setDialogState({ open: false, mode: null });
   };
 
   return (
     <DashboardTabsContext.Provider
-      value={{ tabs, setTabs, openDialog, closeDialog, dialogMode, dialogOpen }}
+      value={{
+        tabs,
+        dialogOpen: dialogState.open,
+        dialogMode: dialogState.mode,
+        setTabs,
+        openDialog,
+        closeDialog,
+      }}
     >
       {children}
     </DashboardTabsContext.Provider>
