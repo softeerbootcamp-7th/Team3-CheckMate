@@ -5,6 +5,7 @@ import static com.checkmate.backend.global.response.ErrorStatus.BUSINESS_NUMBER_
 import com.checkmate.backend.domain.store.dto.request.BusinessVerifyRequestDTO;
 import com.checkmate.backend.domain.store.dto.response.BusinessVerifyResponseDTO;
 import com.checkmate.backend.global.exception.BadRequestException;
+import com.checkmate.backend.global.util.BusinessJwtUtil;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +15,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class BusinessVerificationService {
+    private final BusinessJwtUtil businessJwtUtil;
 
     /**
      * 사업자등록번호 검증 + 인증 토큰 발급 (Mock)<br>
      * <br>
      * TODO: 외부 사업자등록번호 검증 Open API 연동<br>
-     * TODO: 검증 성공 시 실제 BusinessAuthToken 발급 로직으로 교체
      */
     public BusinessVerifyResponseDTO verifyBusiness(
             BusinessVerifyRequestDTO businessVerifyRequestDTO) {
@@ -32,7 +33,9 @@ public class BusinessVerificationService {
             throw new BadRequestException(BUSINESS_NUMBER_INVALID_EXCEPTION);
         }
 
-        // TODO: 실제 JWT 발급 로직 연결
-        return new BusinessVerifyResponseDTO("토큰임");
+        // 사업자 인증 토큰 발급
+        String businessAuthToken = businessJwtUtil.generateBizAuthToken(businessRegistrationNumber);
+
+        return new BusinessVerifyResponseDTO(businessAuthToken);
     }
 }

@@ -36,6 +36,9 @@ public class MenuController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",
                 description = "매장을 찾을 수 없습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류가 발생했습니다."),
     })
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createMenu(
@@ -64,6 +67,9 @@ public class MenuController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "409",
                 description = "이미 식자재(레시피)가 등록된 메뉴입니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류가 발생했습니다."),
     })
     @PostMapping("/{menu-id}/ingredients")
     public ResponseEntity<ApiResponse<Void>> addIngredientsToMenu(
@@ -88,6 +94,9 @@ public class MenuController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",
                 description = "매장을 찾을 수 없습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류가 발생했습니다."),
     })
     @GetMapping
     public ResponseEntity<ApiResponse<List<MenuCategoryResponseDTO>>> getMenus(
