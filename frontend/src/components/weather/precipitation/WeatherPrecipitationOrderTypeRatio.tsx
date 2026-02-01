@@ -1,4 +1,4 @@
-import { DefaultCardWrapper } from '@/components/shared/default-card-wrapper';
+import { DefaultCardWrapper } from '@/components/shared';
 import { mockPrecipitationOrderTypeRatio } from '@/mocks/precipitation';
 
 import { WeatherPrecipitationOrderTypeRatioGraph } from './WeatherPrecipitationOrderTypeRatioGraph';

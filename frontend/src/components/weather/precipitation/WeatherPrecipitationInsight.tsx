@@ -1,4 +1,4 @@
-import { DefaultCardWrapper } from '@/components/shared/default-card-wrapper/DefaultCardWrapper';
+import { DefaultCardWrapper } from '@/components/shared';
 import { mockPrecipitationInsight } from '@/mocks/precipitation';
 
 export const WeatherPrecipitationInsight = () => {

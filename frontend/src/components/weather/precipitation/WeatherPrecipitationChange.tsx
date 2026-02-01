@@ -1,6 +1,6 @@
 import { CircleArrowRight } from 'lucide-react';
 
-import { DefaultCardWrapper } from '@/components/shared/default-card-wrapper';
+import { DefaultCardWrapper } from '@/components/shared';
 import { mockPrecipitationChange } from '@/mocks/precipitation';
 
 import { WeatherPrecipitationChangeItem } from './WeatherPrecipitationChageItem';
