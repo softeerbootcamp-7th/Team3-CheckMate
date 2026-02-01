@@ -14,6 +14,13 @@ const meta = {
     errorMessage: { control: 'text' },
     className: { control: 'text' },
     inputClassName: { control: 'text' },
+    errorClassName: { control: 'text' },
+    errorMessagePosition: {
+      control: { type: 'select' },
+      options: ['bottom', 'right'],
+    },
+    label: { control: 'text' },
+    description: { control: 'text' },
     children: { control: 'text' },
     placeholder: { control: 'text' },
   },

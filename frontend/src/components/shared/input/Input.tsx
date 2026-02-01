@@ -9,6 +9,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   className?: string;
   inputClassName?: string;
+  errorClassName?: string;
+  errorMessagePosition?: 'bottom' | 'right';
   label?: string;
   description?: string;
   ref?: Ref<HTMLInputElement | null>;
@@ -19,6 +21,8 @@ export const Input = ({
   errorMessage,
   className,
   inputClassName,
+  errorClassName,
+  errorMessagePosition = 'bottom',
   label,
   description,
   ref,
@@ -45,7 +49,13 @@ export const Input = ({
           )}
         </label>
       )}
-      <div className="flex flex-col gap-1.5">
+      <div
+        className={cn(
+          'flex gap-1.5',
+          errorMessagePosition === 'bottom' && 'flex-col',
+          errorMessagePosition === 'right' && 'items-center gap-2.5',
+        )}
+      >
         <input
           id={id}
           aria-describedby={description ? descriptionId : undefined}
@@ -53,12 +63,17 @@ export const Input = ({
           ref={ref}
           className={cn(
             'rounded-200 bg-grey-100 focus:outline-grey-300 placeholder:text-grey-500 body-large-medium w-full grow px-400 py-250 focus:outline-1',
+            inputClassName,
             isError &&
               'outline-others-negative focus:outline-others-negative outline-1',
-            inputClassName,
           )}
         />
-        {isError && <InputErrorMessage message={errorMessage} />}
+        {isError && (
+          <InputErrorMessage
+            message={errorMessage}
+            className={errorClassName}
+          />
+        )}
       </div>
     </div>
   );
