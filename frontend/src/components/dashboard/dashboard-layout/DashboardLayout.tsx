@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Tabs } from '@/components/shared/shadcn-ui';
 import { useDashboardTabsContext } from '@/hooks/dashboard';
 
-import { DashboardHeader } from '../dashboard-header/';
+import { DashboardHeader } from '../dashboard-header';
 import { DashboardMain } from '../dashboard-main';
 
 export const DashboardLayout = () => {
