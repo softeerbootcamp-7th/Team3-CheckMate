@@ -2,6 +2,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { STORE_REGISTER_STEP } from '@/constants/onboarding/store-register';
 import { useStoreRegisterStepContext } from '@/hooks/onboarding/store-register';
+import type { StoreRegisterForm as StoreRegisterFormType } from '@/types/onboarding/store-register';
 
 import {
   StoreRegisterFormContent,
@@ -10,7 +11,9 @@ import {
 
 export const StoreRegisterForm = () => {
   // TODO: 폼 type 타입 정의하기
-  const methods = useForm();
+  const methods = useForm<StoreRegisterFormType>({
+    mode: 'all',
+  });
   const { currentStep, moveNextStep } = useStoreRegisterStepContext();
 
   const handleSubmit = methods.handleSubmit(() => {
