@@ -22,7 +22,7 @@ export const BusinessRegistrationNumberVerifyButton = ({
         'rounded-150 bg-grey-100 title-small-semibold! text-grey-500 flex h-12 w-20 items-center justify-center self-end px-3 py-2',
         disabled ? 'bg-grey-100 text-grey-500' : 'text-grey-50 bg-brand-main',
       )}
-      onClick={isPending ? undefined : handleVerifyBusinessRegistrationNumber}
+      onClick={handleVerifyBusinessRegistrationNumber}
       disabled={disabled}
       ref={ref}
     >

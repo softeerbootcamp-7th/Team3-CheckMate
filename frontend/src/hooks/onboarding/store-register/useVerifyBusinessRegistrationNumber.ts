@@ -25,6 +25,10 @@ export const useVerifyBusinessRegistrationNumber = () => {
   });
 
   const handleVerifyBusinessRegistrationNumber = () => {
+    if (isPending) {
+      return;
+    }
+
     mutate({
       businessRegistrationNumber: getValues(
         STORE_REGISTER_FORM_FIELD.BUSINESS_REGISTRATION_NUMBER,
