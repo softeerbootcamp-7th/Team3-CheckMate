@@ -1,5 +1,7 @@
 import { API_BASE_URL } from '@/constants/shared';
 
+import { ApiError } from './apiError';
+
 /**
  * API 클라이언트 인스턴스 생성을 위한 설정 옵션
  * @interface CreateApiClientConfig
@@ -38,12 +40,24 @@ interface ApiClientProps {
  * 표준 API 응답 구조 (수정 필요)
  * @interface ApiResponse
  * @template T - 응답 본문의 데이터 타입
+ * @property {boolean} success - 요청 성공 여부
  * @property {T} data - 파싱된 JSON 응답 본문
- * @property {number} status - HTTP 상태 코드
+ * @property {string} message - 응답 메시지
+ * @property {string} errorCode - 에러 코드
  */
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
+  success: boolean;
   data: T;
-  status: number;
+  message: string;
+  errorCode: string;
+}
+
+export interface SuccessResponse<T> extends ApiResponse<T> {
+  success: true;
+}
+
+export interface ErrorResponse extends ApiResponse<void> {
+  success: false;
 }
 
 /**
@@ -154,7 +168,23 @@ export const createApiClient = ({
       if (responseErrorInterceptor) {
         response = await responseErrorInterceptor(response);
       }
-      console.error(response);
+      let errorData: ErrorResponse;
+      try {
+        errorData = (await response.json()) as ErrorResponse;
+      } catch {
+        errorData = {
+          success: false,
+          message: 'Internal server error',
+          errorCode: 'INTERNAL_SERVER_EXCEPTION',
+          data: undefined,
+        };
+      }
+
+      throw new ApiError(
+        errorData.message,
+        response.status,
+        errorData.errorCode,
+      );
     }
 
     /* response 성공 시 인터셉터 호출 */
@@ -162,9 +192,9 @@ export const createApiClient = ({
       response = await responseSuccessInterceptor(response);
     }
 
+    const data = (await response.json()) as SuccessResponse<T>;
     return {
-      data: await response.json(),
-      status: response.status,
+      ...data,
     };
   };
 };
@@ -176,7 +206,7 @@ export const createApiClient = ({
  * @example
  * const data = await basicApiClient({ url: '/posts' });
  */
-export const basicApiClient = createApiClient();
+const basicApiClient = createApiClient();
 
 /**
  * JWT 인증이 포함된 미리 구성된 API 클라이언트
@@ -191,7 +221,7 @@ export const basicApiClient = createApiClient();
  * localStorage.setItem('bearer', 'eyJhbGc...');
  * const userData = await authorizedApiClient({ url: '/user/profile' });
  */
-export const authorizedApiClient = createApiClient({
+const authorizedApiClient = createApiClient({
   requestInterceptor: async (request) => {
     const jwt = localStorage.getItem('bearer');
     if (jwt) {
@@ -206,3 +236,89 @@ export const authorizedApiClient = createApiClient({
     return request;
   },
 });
+
+export const basicApi = {
+  get: <T>(url: string, options: RequestInit = {}) =>
+    basicApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'GET',
+      },
+    }),
+  post: <T>(url: string, options: RequestInit = {}) =>
+    basicApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'POST',
+      },
+    }),
+  put: <T>(url: string, options: RequestInit = {}) =>
+    basicApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'PUT',
+      },
+    }),
+  patch: <T>(url: string, options: RequestInit = {}) =>
+    basicApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'PATCH',
+      },
+    }),
+  delete: <T>(url: string, options: RequestInit = {}) =>
+    basicApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'DELETE',
+      },
+    }),
+};
+
+export const authorizedApi = {
+  get: <T>(url: string, options: RequestInit = {}) =>
+    authorizedApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'GET',
+      },
+    }),
+  post: <T>(url: string, options: RequestInit = {}) =>
+    authorizedApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'POST',
+      },
+    }),
+  put: <T>(url: string, options: RequestInit = {}) =>
+    authorizedApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'PUT',
+      },
+    }),
+  patch: <T>(url: string, options: RequestInit = {}) =>
+    authorizedApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'PATCH',
+      },
+    }),
+  delete: <T>(url: string, options: RequestInit = {}) =>
+    authorizedApiClient<T>({
+      url,
+      options: {
+        ...options,
+        method: 'DELETE',
+      },
+    }),
+};
