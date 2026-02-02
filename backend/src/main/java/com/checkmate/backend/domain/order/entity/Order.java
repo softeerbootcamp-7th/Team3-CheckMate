@@ -30,8 +30,10 @@ public class Order extends BaseTimeEntity {
     private Integer grossAmount;
     private Integer discountAmount;
     private Integer netAmount;
-    private String salesType; // 홀 / 포장 / 배달. 판매 유형
+    private String salesType; // 홀, 포장, 배달, 판매 유형
     private String orderChannel; // POS, 키오스크, 배달앱
+    private String orderStatus; // 완료 / 취소
+    private String paymentMethod; // 카드, 현금, 간편결제, 기타
     private LocalDateTime orderedAt;
 
     @ManyToOne(fetch = LAZY)
