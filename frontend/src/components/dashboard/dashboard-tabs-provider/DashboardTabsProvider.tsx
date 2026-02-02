@@ -6,7 +6,7 @@ import {
 } from '@/constants/dashboard';
 
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
-  const [tabs, setTabs] = useState<string[]>(['홈 대시보드', '퇴근']);
+  const [tabs, setTabs] = useState<string[]>(['홈 대시보드']);
   const [dialogState, setDialogState] = useState<{
     open: boolean;
     mode: DashboardTabsDialogMode | null;
