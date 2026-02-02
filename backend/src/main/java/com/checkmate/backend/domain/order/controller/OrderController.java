@@ -39,7 +39,7 @@ public class OrderController {
     })
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> receivePosOrder(
-            @RequestParam("storeId") Long storeId,
+            @RequestAttribute("storeId") Long storeId,
             @RequestBody ReceiptRequestDTO receiptRequestDTO) {
 
         orderService.receivePosOrder(storeId, receiptRequestDTO);
