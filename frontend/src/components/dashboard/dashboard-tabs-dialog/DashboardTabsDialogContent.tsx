@@ -43,16 +43,18 @@ export const DashboardTabsDialogContent = () => {
                     inputRefs.current[index] = inputEl;
                   }}
                 />
-                <div className="flex gap-200">
-                  <TabEditButton
-                    onClick={() => handleEdit(index)}
-                    disabled={index === editingIndex}
-                  />
-                  <TabDeleteButton
-                    onClick={() => handleDelete(index)}
-                    disabled={index === editingIndex}
-                  />
-                </div>
+                {index !== 0 && (
+                  <div className="flex gap-200">
+                    <TabEditButton
+                      onClick={() => handleEdit(index)}
+                      disabled={index === editingIndex}
+                    />
+                    <TabDeleteButton
+                      onClick={() => handleDelete(index)}
+                      disabled={index === editingIndex}
+                    />
+                  </div>
+                )}
               </div>
             ) : (
               <TabAddButton
