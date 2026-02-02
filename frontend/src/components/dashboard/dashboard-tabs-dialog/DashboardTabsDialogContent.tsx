@@ -28,7 +28,7 @@ export const DashboardTabsDialogContent = () => {
         {Array(5)
           .fill(null)
           .map((_, index) =>
-            newTabs[index] || index === editingIndex ? (
+            newTabs[index] !== undefined || index === editingIndex ? (
               <div
                 key={`dashboard-tabs-input-${index}`}
                 className="outline-grey-300 rounded-250 flex items-center justify-between px-300 py-250 outline-1"
