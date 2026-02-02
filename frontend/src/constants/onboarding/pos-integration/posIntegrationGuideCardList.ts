@@ -1,7 +1,7 @@
-export type PosIntegrationGuideCard = {
+export interface PosIntegrationGuideCard {
   path: string;
   description: string;
-};
+}
 
 export const POS_INTEGRATION_GUIDE_CARD_LIST: PosIntegrationGuideCard[] = [
   {
