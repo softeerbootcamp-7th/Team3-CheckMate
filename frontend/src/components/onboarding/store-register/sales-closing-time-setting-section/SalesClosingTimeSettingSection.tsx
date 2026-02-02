@@ -12,7 +12,7 @@ export const SalesClosingTimeSettingSection = () => {
         <div className="flex flex-col gap-3">
           <h2 className="body-large-semibold text-grey-900">매출 마감 시간</h2>
           <div className="flex items-center justify-between">
-            <p className="whitespace-pre-wrap">{`실제 매장 마감 시간보다 2~3시간\n이후로 입력해주세요`}</p>
+            <p className="body-medium-medium whitespace-pre-wrap">{`실제 매장 마감 시간보다 2~3시간\n이후로 입력해주세요`}</p>
             <SalesClosingTimeSelect />
           </div>
           <p className="body-medium-medium text-grey-600">
