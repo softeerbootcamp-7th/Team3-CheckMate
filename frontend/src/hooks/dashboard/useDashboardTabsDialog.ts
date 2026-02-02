@@ -94,7 +94,7 @@ export const useDashboardTabsDialog = () => {
   };
 
   const handleCancel = () => {
-    setNewTabs(tabs.slice(0, 5));
+    setNewTabs(tabs);
     closeDialog();
   };
 

@@ -1,4 +1,5 @@
 import { TabsList, TabsTrigger } from '@/components/shared/shadcn-ui';
+import { MAX_DASHBOARD_TABS } from '@/constants/dashboard';
 import { useDashboardTabsContext } from '@/hooks/dashboard';
 
 import { AddTabDialogTrigger } from './AddTabDialogTrigger';
@@ -22,7 +23,7 @@ export const DashboardTabList = () => {
           {tabName}
         </TabsTrigger>
       ))}
-      {tabs.length < 5 && <AddTabDialogTrigger />}
+      {tabs.length < MAX_DASHBOARD_TABS && <AddTabDialogTrigger />}
     </TabsList>
   );
 };

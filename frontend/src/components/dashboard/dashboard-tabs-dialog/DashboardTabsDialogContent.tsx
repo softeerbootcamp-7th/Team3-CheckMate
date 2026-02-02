@@ -1,4 +1,5 @@
 import { DialogFooter } from '@/components/shared/shadcn-ui';
+import { MAX_DASHBOARD_TABS } from '@/constants/dashboard';
 import { useDashboardTabsDialog } from '@/hooks/dashboard/useDashboardTabsDialog';
 
 import { DashboardTabInput } from './DashboardTabInput';
@@ -25,7 +26,7 @@ export const DashboardTabsDialogContent = () => {
   return (
     <>
       <div className="mt-400 mb-700 flex flex-col gap-2">
-        {Array(5)
+        {Array(MAX_DASHBOARD_TABS)
           .fill(null)
           .map((_, index) =>
             newTabs[index] !== undefined || index === editingIndex ? (
