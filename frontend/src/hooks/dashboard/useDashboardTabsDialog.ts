@@ -8,7 +8,7 @@ export const useDashboardTabsDialog = () => {
   const { tabs, dialogMode, setTabs, closeDialog } = useDashboardTabsContext();
 
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-  const [newTabs, setNewTabs] = useState<string[]>(tabs);
+  const [newTabs, setNewTabs] = useState<(string | undefined)[]>(tabs);
   const [editingIndex, setEditingIndex] = useState<number | null>(
     dialogMode === DASHBOARD_TABS_DIALOG_MODE.ADD ? tabs.length : null,
   );
@@ -48,7 +48,7 @@ export const useDashboardTabsDialog = () => {
   };
 
   const handleDelete = (index: number) => {
-    setNewTabs((prev) => prev.map((r, i) => (i === index ? '' : r)));
+    setNewTabs((prev) => prev.map((r, i) => (i === index ? undefined : r)));
     setIsDeleted((prev) => prev.map((r, i) => (i === index ? true : r)));
   };
 
@@ -69,7 +69,7 @@ export const useDashboardTabsDialog = () => {
     // 중복 검사
     const hasDuplicate = newTabs.some(
       (tab, i) =>
-        tab.trim() !== '' &&
+        tab?.trim() !== '' &&
         newTabs.indexOf(tab) !== i &&
         newTabs.indexOf(tab) !== -1,
     );

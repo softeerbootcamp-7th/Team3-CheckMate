@@ -5,7 +5,7 @@ import { cn } from '@/utils/shared';
 
 interface DashboardTabInputProps {
   index: number;
-  newTabs: string[];
+  newTabs: (string | undefined)[];
   handleChange: (index: number, value: string) => void;
   editingIndex: number | null;
   setEditingIndex: (index: number | null) => void;
@@ -21,7 +21,8 @@ export const DashboardTabInput = ({
 }: DashboardTabInputProps) => {
   const hasDuplicate =
     newTabs.filter(
-      (tab, i) => tab === newTabs[index] && tab.trim() !== '' && i !== index,
+      (tab, i) =>
+        tab && tab === newTabs[index] && tab.trim() !== '' && i !== index,
     ).length > 0;
 
   return (
