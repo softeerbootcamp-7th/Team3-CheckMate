@@ -1,4 +1,4 @@
-name: backend-cd
+name: Backend CD
 
 on:
   push:
@@ -58,7 +58,7 @@ jobs:
       - name: Upload Config to S3
         run: |
           zip -r deploy.zip docker-compose.yml nginx/default.conf
-          aws s3 cp deploy.zip s3://check-mate-be-deploy/deploy.zip
+          aws s3 cp deploy.zip s3://check-mate-be-deploy/deploy.zip --sse AES256
 
       # 5. SSM으로 EC2에 명령
       - name: AWS SSM Send Command
@@ -69,7 +69,7 @@ jobs:
             --parameters 'commands=[
               "mkdir -p ~/app",
               "cd ~/app",
-              "aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip .",
+              "aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip . --sse AES256",
               "unzip -o deploy.zip",
               "echo \"SPRING_PROFILES_ACTIVE=prod\" > .env",
               "echo \"DB_URL=${{ secrets.DB_URL }}\" >> .env",
