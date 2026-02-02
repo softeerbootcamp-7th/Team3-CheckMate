@@ -40,16 +40,16 @@ public class MenuService {
      * */
 
     @Transactional
-    public void registerMenus(Long memberId, MenuCreateRequestDTO menuCreateRequestDTO) {
+    public void registerMenus(Long storeId, MenuCreateRequestDTO menuCreateRequestDTO) {
 
         Store store =
                 storeRepository
-                        .findStoreByMemberId(memberId)
+                        .findById(storeId)
                         .orElseThrow(
                                 () -> {
                                     log.warn(
-                                            "[registerMenus][store is not found][memberId= {}]",
-                                            memberId);
+                                            "[registerMenus][store is not found][storeId= {}]",
+                                            storeId);
                                     return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
                                 });
 
@@ -70,17 +70,7 @@ public class MenuService {
 
     @Transactional
     public void addIngredientsToMenu(
-            Long memberId, Long menuId, IngredientCreateRequestDTO ingredientCreateRequestDTO) {
-        Store store =
-                storeRepository
-                        .findStoreByMemberId(memberId)
-                        .orElseThrow(
-                                () -> {
-                                    log.warn(
-                                            "[addIngredientsToMenu][store is not found][memberId= {}]",
-                                            memberId);
-                                    return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
-                                });
+            Long storeId, Long menuId, IngredientCreateRequestDTO ingredientCreateRequestDTO) {
 
         MenuVersion menuVersion =
                 menuVersionRepository
@@ -102,7 +92,6 @@ public class MenuService {
             throw new ConflictException(MENU_RECIPE_ALREADY_EXISTS);
         }
 
-        Long storeId = store.getId();
         Long menuStoreId = menuVersion.getMenu().getStore().getId();
 
         if (!storeId.equals(menuStoreId)) {
@@ -152,20 +141,10 @@ public class MenuService {
      * read
      * */
 
-    public List<MenuCategoryResponseDTO> getMenus(Long memberId) {
-        Store store =
-                storeRepository
-                        .findStoreByMemberId(memberId)
-                        .orElseThrow(
-                                () -> {
-                                    log.warn(
-                                            "[getMenus][store is not found][memberId= {}]",
-                                            memberId);
-                                    return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
-                                });
+    public List<MenuCategoryResponseDTO> getMenus(Long storeId) {
 
         // 1. 메뉴 조회
-        List<Menu> menus = menuRepository.findAllByStoreId(store.getId());
+        List<Menu> menus = menuRepository.findAllByStoreId(storeId);
         List<Long> menuIds = menus.stream().map(Menu::getId).toList();
 
         // 2. 메뉴 버전 조회
