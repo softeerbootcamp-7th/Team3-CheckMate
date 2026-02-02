@@ -54,7 +54,6 @@ export const useBusinessRegistration = () => {
     ref,
     onBlur,
     value,
-    businessAuthToken,
     verifyButtonRef,
     error,
     isError,

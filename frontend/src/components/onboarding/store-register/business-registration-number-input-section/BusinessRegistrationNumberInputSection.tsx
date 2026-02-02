@@ -13,7 +13,6 @@ export const BusinessRegistrationNumberInputSection = () => {
     onBlur,
     value,
     error,
-    businessAuthToken,
     verifyButtonRef,
     isError,
     isSuccess,
@@ -43,10 +42,10 @@ export const BusinessRegistrationNumberInputSection = () => {
           isError={isError}
           errorMessage={error?.message}
           onKeyDown={handlePreventEnter}
-          isSuccess={!!businessAuthToken}
+          isSuccess={isSuccess}
           successMessage="사업자 인증이 완료되었어요."
         />
-        {businessAuthToken ? (
+        {isSuccess ? (
           <NextStepButton />
         ) : (
           <BusinessRegistrationNumberVerifyButton
