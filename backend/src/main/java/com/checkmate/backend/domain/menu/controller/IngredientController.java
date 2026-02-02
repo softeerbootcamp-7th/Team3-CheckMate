@@ -33,12 +33,15 @@ public class IngredientController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",
                 description = "매장을 찾을 수 없습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류가 발생했습니다."),
     })
     @GetMapping
     public ResponseEntity<ApiResponse<List<String>>> findIngredientBy(
-            @RequestAttribute("memberId") Long memberId, @RequestParam("keyword") String keyword) {
+            @RequestAttribute("storeId") Long storeId, @RequestParam("keyword") String keyword) {
 
-        List<String> response = ingredientService.getNamesByKeyword(memberId, keyword);
+        List<String> response = ingredientService.getNamesByKeyword(storeId, keyword);
 
         return ApiResponse.success(INGREDIENT_GET_SUCCESS, response);
     }
