@@ -25,7 +25,7 @@ google:
   client:
     id: ${GOOGLE_ID}
     secret: ${GOOGLE_SECRET}
-    redirect-uri: https://check-mate.kro.kr/auth/google/callback
+    redirect-uri: https://check-mate.kro.kr/sign-in
     authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
     token-uri: https://oauth2.googleapis.com/token
 
