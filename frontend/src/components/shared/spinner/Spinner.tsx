@@ -6,5 +6,11 @@ interface SpinnerProps {
 }
 
 export const Spinner = ({ className }: SpinnerProps) => {
-  return <SpinnerIcon className={cn('animate-spin', className)} />;
+  return (
+    <SpinnerIcon
+      className={cn('animate-spin', className)}
+      role="status"
+      aria-label="로딩 중"
+    />
+  );
 };
