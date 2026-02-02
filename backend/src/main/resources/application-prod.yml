@@ -46,3 +46,11 @@ business:
     key: ${JWT_BUSINESS_SECRET}
     expiration: 300000
 
+server:
+  forward-headers-strategy: framework
+
+  servlet:
+    session:
+      cookie:
+        secure: true
+        http-only: true
