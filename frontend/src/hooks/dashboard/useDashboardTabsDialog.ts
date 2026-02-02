@@ -66,7 +66,8 @@ export const useDashboardTabsDialog = () => {
     // 중복 검사
     const hasDuplicate = newTabs.some(
       (tab, i) =>
-        tab?.trim() !== '' &&
+        tab &&
+        tab.trim() &&
         newTabs.indexOf(tab) !== i &&
         newTabs.indexOf(tab) !== -1,
     );
