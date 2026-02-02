@@ -21,7 +21,11 @@ export const DashboardTabInput = ({
 }: DashboardTabInputProps) => {
   const hasDuplicate =
     newTabs.filter(
-      (tab, i) => tab && tab.trim() && tab === newTabs[index] && i !== index,
+      (tab, i) =>
+        tab &&
+        tab.trim() &&
+        tab.trim() === newTabs[index]?.trim() &&
+        i !== index,
     ).length > 0;
 
   return (
