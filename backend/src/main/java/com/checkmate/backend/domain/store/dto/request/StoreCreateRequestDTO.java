@@ -19,7 +19,6 @@ public record StoreCreateRequestDTO(
         @Schema(description = "영업 시간 정보") @Valid @ValidWeeklyBusinessHours
                 List<BusinessHour> businessHours,
         @Schema(description = "매출 마감 시간")
-                @NotNull(message = "매출 마감 시간을 선택해주세요.")
                 @Min(value = 0, message = "매출 마감 시간은 0시부터 23시까지 선택할 수 있습니다.")
                 @Max(value = 23, message = "매출 마감 시간은 0시부터 23시까지 선택할 수 있습니다.")
                 Integer salesClosingHour) {
