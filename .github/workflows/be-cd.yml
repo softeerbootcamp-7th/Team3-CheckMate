@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/#13
     paths:
       - "backend/**"
       - "nginx/**"
