@@ -100,7 +100,9 @@ interface ApiResponse<T> {
  */
 const DEFAULT_TIMEOUT_MS = 10000;
 export const createApiClient = ({
-  baseURL = import.meta.env.VITE_API_URL ?? '',
+  baseURL = import.meta.env.MODE === 'development'
+    ? '/api'
+    : (import.meta.env.VITE_API_URL ?? ''),
   timeout = DEFAULT_TIMEOUT_MS,
   requestInterceptor,
   responseSuccessInterceptor,
@@ -152,6 +154,7 @@ export const createApiClient = ({
       if (responseErrorInterceptor) {
         response = await responseErrorInterceptor(response);
       }
+      console.error(response);
     }
 
     /* response 성공 시 인터셉터 호출 */
