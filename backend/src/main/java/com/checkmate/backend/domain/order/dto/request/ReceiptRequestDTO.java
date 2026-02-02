@@ -14,7 +14,7 @@ public record ReceiptRequestDTO(
         @Schema(description = "총 금액") @NotNull Integer grossAmount,
         @Schema(description = "할인 금액") @NotNull Integer discountAmount,
         @Schema(description = "실매출") @NotNull Integer netAmount,
-        @Schema(description = "판유 유형") @NotNull SalesType stalesType,
+        @Schema(description = "판유 유형") @NotNull SalesType salesType,
         @Schema(description = "주문 수단") @NotNull OrderChannel orderChannel,
         @Schema(description = "주문 시각") @NotNull LocalDateTime orderedAt,
         @Schema(description = "주문 메뉴 목록") @Size(min = 1) @Valid List<ReceiptMenuRequestDTO> menus,
