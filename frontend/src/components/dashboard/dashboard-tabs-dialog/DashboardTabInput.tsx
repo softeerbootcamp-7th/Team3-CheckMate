@@ -1,4 +1,4 @@
-import { type ChangeEvent, type Ref } from 'react';
+import { type ChangeEvent, type KeyboardEvent, type Ref } from 'react';
 
 import { Input } from '@/components/shared';
 import { cn } from '@/utils/shared';
@@ -30,6 +30,11 @@ export const DashboardTabInput = ({
       value={newTabs[index] ?? ''}
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
         handleChange(index, e.target.value);
+      }}
+      onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+          setEditingIndex(null);
+        }
       }}
       disabled={index !== editingIndex}
       isError={hasDuplicate}
