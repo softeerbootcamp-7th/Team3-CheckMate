@@ -57,8 +57,14 @@ jobs:
       # 4. 설정 파일 전송 (S3 임시 보관)
       - name: Upload Config to S3
         run: |
-          zip -r deploy.zip docker-compose.yml nginx/default.conf
-          aws s3 cp deploy.zip s3://check-mate-be-deploy/deploy.zip --sse AES256
+          mkdir -p nginx/certs
+          # GitHub Secrets에서 인증서 내용을 가져와 파일로 생성
+          echo "${{ secrets.SSL_CERTIFICATE }}" > nginx/certs/fullchain.crt
+          echo "${{ secrets.SSL_PRIVATE_KEY }}" > nginx/certs/private.key
+          
+          # 인증서 폴더를 포함하여 압축
+          zip -r deploy.zip docker-compose.yml nginx/default.conf nginx/certs/
+          aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip --sse AES256
 
       # 5. SSM으로 EC2에 명령
       - name: AWS SSM Send Command
@@ -71,7 +77,9 @@ jobs:
               "cd ~/app",
               "aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip . --sse AES256",
               "unzip -o deploy.zip",
-              "echo \"SPRING_PROFILES_ACTIVE=prod\" > .env",
+              "chmod 600 nginx/certs/private.key",
+              "echo \"DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}\" > .env",
+              "echo \"SPRING_PROFILES_ACTIVE=prod\" >> .env",
               "echo \"DB_URL=${{ secrets.DB_URL }}\" >> .env",
               "echo \"DB_USERNAME=${{ secrets.DB_USERNAME }}\" >> .env",
               "echo \"DB_PASSWORD=${{ secrets.DB_PASSWORD }}\" >> .env",
@@ -79,7 +87,7 @@ jobs:
               "echo \"GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}\" >> .env",
               "echo \"JWT_SECRET=${{ secrets.JWT_SECRET }}\" >> .env",
               "echo \"ENC_KEY=${{ secrets.ENC_KEY }}\" >> .env",
-              "docker-compose pull backend",
+              "docker-compose pull",
               "docker-compose up -d",
               "docker image prune -f",
               "rm deploy.zip"
