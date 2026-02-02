@@ -17,7 +17,7 @@ public record ReceiptRequestDTO(
         @Schema(description = "판유 유형") @NotNull SalesType salesType,
         @Schema(description = "주문 수단") @NotNull OrderChannel orderChannel,
         @Schema(description = "주문 시각") @NotNull LocalDateTime orderedAt,
-        @Schema(description = "주문 메뉴 목록") @Size(min = 1) @Valid List<ReceiptMenuRequestDTO> menus,
+        @Schema(description = "주문 메뉴 목록") @Size(min = 1) @Valid List<ReceiptItemRequestDTO> menus,
         @Schema(description = "결제 수단") @NotNull PaymentMethod paymentMethod,
         @Schema(description = "실제 결제된 금액") @NotNull Integer paidAmount,
         @Schema(description = "결제 시각") @NotNull LocalDateTime paidAt) {}

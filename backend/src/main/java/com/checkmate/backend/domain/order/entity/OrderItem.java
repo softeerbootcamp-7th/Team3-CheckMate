@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(
-        name = "order_menu",
+        name = "order_item",
         indexes = {
-            @Index(name = "idx_order_menu_store_id", columnList = "order_id"),
-            @Index(name = "idx_order_menu_menu_version_id", columnList = "menu_version_id")
+            @Index(name = "idx_order_item_store_id", columnList = "order_id"),
+            @Index(name = "idx_order_item_menu_version_id", columnList = "menu_version_id")
         })
-public class OrderMenu extends BaseTimeEntity {
+public class OrderItem extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "order_menu_id")
+    @Column(name = "order_item_id")
     private Long id;
 
     private Integer unitPrice; // 단가

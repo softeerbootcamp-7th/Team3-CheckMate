@@ -4,13 +4,13 @@ import static com.checkmate.backend.global.response.ErrorStatus.STORE_NOT_FOUND_
 
 import com.checkmate.backend.domain.menu.entity.MenuVersion;
 import com.checkmate.backend.domain.menu.repository.MenuVersionRepository;
-import com.checkmate.backend.domain.order.dto.request.ReceiptMenuRequestDTO;
+import com.checkmate.backend.domain.order.dto.request.ReceiptItemRequestDTO;
 import com.checkmate.backend.domain.order.dto.request.ReceiptRequestDTO;
 import com.checkmate.backend.domain.order.entity.Order;
-import com.checkmate.backend.domain.order.entity.OrderMenu;
+import com.checkmate.backend.domain.order.entity.OrderItem;
 import com.checkmate.backend.domain.order.entity.Payment;
 import com.checkmate.backend.domain.order.enums.PaymentStatus;
-import com.checkmate.backend.domain.order.repository.OrderMenuRepository;
+import com.checkmate.backend.domain.order.repository.OrderItemRepository;
 import com.checkmate.backend.domain.order.repository.OrderRepository;
 import com.checkmate.backend.domain.order.repository.PaymentRepository;
 import com.checkmate.backend.domain.store.entity.Store;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 public class OrderService {
     private final StoreRepository storeRepository;
     private final MenuVersionRepository menuVersionRepository;
-    private final OrderMenuRepository orderMenuRepository;
+    private final OrderItemRepository orderItemRepository;
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
 
@@ -59,13 +59,13 @@ public class OrderService {
 
         orderRepository.save(order);
 
-        // 2. orderMenu
+        // 2. orderItem
 
-        List<ReceiptMenuRequestDTO> receiptMenuRequestDTOS =
+        List<ReceiptItemRequestDTO> receiptItemRequestDTOS =
                 Optional.ofNullable(receiptRequestDTO.menus()).orElse(List.of());
 
         List<Long> menuVersionIds =
-                receiptMenuRequestDTOS.stream().map(ReceiptMenuRequestDTO::menuVersionId).toList();
+                receiptItemRequestDTOS.stream().map(ReceiptItemRequestDTO::menuVersionId).toList();
 
         List<MenuVersion> menuVersions =
                 menuVersionRepository.findMenuVersionsByMenuVersionIds(menuVersionIds);
@@ -77,25 +77,25 @@ public class OrderService {
             menuVersionById.put(menuVersion.getId(), menuVersion);
         }
 
-        List<OrderMenu> orderMenus = new ArrayList<>();
-        for (ReceiptMenuRequestDTO receiptMenuRequestDTO : receiptMenuRequestDTOS) {
-            Long menuVersionId = receiptMenuRequestDTO.menuVersionId();
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (ReceiptItemRequestDTO receiptItemRequestDTO : receiptItemRequestDTOS) {
+            Long menuVersionId = receiptItemRequestDTO.menuVersionId();
             MenuVersion menuVersion = menuVersionById.get(menuVersionId);
 
-            OrderMenu orderMenu =
-                    OrderMenu.builder()
-                            .unitPrice(receiptMenuRequestDTO.unitPrice())
-                            .quantity(receiptMenuRequestDTO.quantity())
-                            .lineGrossAmount(receiptMenuRequestDTO.lineGrossAmount())
+            OrderItem orderItem =
+                    OrderItem.builder()
+                            .unitPrice(receiptItemRequestDTO.unitPrice())
+                            .quantity(receiptItemRequestDTO.quantity())
+                            .lineGrossAmount(receiptItemRequestDTO.lineGrossAmount())
                             .order(order)
                             .menuVersion(menuVersion)
                             .build();
 
-            orderMenus.add(orderMenu);
+            orderItems.add(orderItem);
         }
 
         // TODO: 나중에 bulk insert로 고려
-        orderMenuRepository.saveAll(orderMenus);
+        orderItemRepository.saveAll(orderItems);
 
         // 3. payment
 
