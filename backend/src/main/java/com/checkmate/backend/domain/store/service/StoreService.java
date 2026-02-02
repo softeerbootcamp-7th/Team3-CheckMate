@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -104,34 +104,17 @@ public class StoreService {
     }
 
     /** 포스 연동 */
+    @Async
     public void connectPOS(Long storeId) {
         SseEmitter emitter = sseEmitterManager.getEmitter(storeId);
+        if (emitter == null) throw new BadRequestException(SSE_CONNECTION_REQUIRED);
 
-        if (emitter == null) {
-            log.warn("[connectPOS][SSE 연동 안 했는데 포스 연동 시도함][storeId= {}]", storeId);
-            throw new BadRequestException(SSE_CONNECTION_REQUIRED);
+        try {
+            int waitSeconds = 3 + new Random().nextInt(5);
+            TimeUnit.SECONDS.sleep(waitSeconds);
+            emitter.send(new Random().nextBoolean() ? "success" : "fail");
+        } catch (InterruptedException | IOException e) {
+            log.warn("[connectPOS][storeId= {}, reason= {}]", storeId, e.getMessage());
         }
-
-        CompletableFuture.runAsync(
-                () -> {
-                    Random random = new Random();
-                    try {
-                        // 5 ~ 10초 랜덤 대기
-                        int waitSeconds = 5 + random.nextInt(6);
-                        TimeUnit.SECONDS.sleep(waitSeconds);
-
-                        // 0.5 확률로 성공 또는 실패
-                        boolean success = random.nextBoolean();
-
-                        if (success) {
-                            emitter.send("success");
-
-                        } else {
-                            emitter.send("fail");
-                        }
-                    } catch (InterruptedException | IOException e) {
-                        log.warn("[connectPOS][storeId= {}, reason= {}]", storeId, e.getMessage());
-                    }
-                });
     }
 }
