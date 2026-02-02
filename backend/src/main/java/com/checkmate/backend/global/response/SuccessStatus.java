@@ -28,7 +28,15 @@ public enum SuccessStatus {
 
     // 201
     MENU_CREATE_SUCCESS(HttpStatus.CREATED, "메뉴 등록에 성공했습니다."),
-    INGREDIENT_CREATE_SUCCESS(HttpStatus.CREATED, "식재료 등록에 성공했습니다.");
+    INGREDIENT_CREATE_SUCCESS(HttpStatus.CREATED, "식재료 등록에 성공했습니다."),
+
+    /** SSE */
+    // 200
+    SSE_SUBSCRIBE_SUCCESS(HttpStatus.OK, "SSE 구독에 성공했습니다."),
+    SSE_UNSUBSCRIBE_SUCCESS(HttpStatus.OK, "SSE 구독 해제에 성공했습니다."),
+    SSE_UNSUBSCRIBE_ALL_SUCCESS(HttpStatus.OK, "모든 SSE 구독을 해제했습니다."),
+    SSE_CONNECT_SUCCESS(HttpStatus.OK, "SSE 연결에 성공했습니다."),
+    SSE_DISCONNECT_SUCCESS(HttpStatus.OK, "SSE 연결을 종료했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
