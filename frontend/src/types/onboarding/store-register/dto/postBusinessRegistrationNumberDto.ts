@@ -1,9 +1,9 @@
 import type { StoreRegisterForm } from '../storeRegisterForm';
 
-export type PostBusinessRegistrationNumberRequestDto = {
+export interface PostBusinessRegistrationNumberRequestDto {
   businessRegistrationNumber: StoreRegisterForm['businessRegistrationNumber'];
-};
+}
 
-export type PostBusinessRegistrationNumberResponseDto = {
+export interface PostBusinessRegistrationNumberResponseDto {
   businessAuthToken: StoreRegisterForm['businessAuthToken'];
-};
+}
