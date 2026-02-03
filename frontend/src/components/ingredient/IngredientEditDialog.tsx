@@ -57,7 +57,7 @@ export const IngredientEditDialog = ({
     control,
     register,
     handleSubmit,
-    formState: { isDirty },
+    formState: { isDirty, errors },
   } = useForm({
     defaultValues: { ingredients: mockMenuIngredients.ingredients },
   });
@@ -68,9 +68,12 @@ export const IngredientEditDialog = ({
   const onClickAddIngredient = () => {
     append({ id: '', name: '', amount: '', unit: '' });
   };
+
+  const onSubmit = (data) => console.log(data);
+  const onError = (errors) => console.log(errors);
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'ingredients', // 필드 배열 이름
+    name: 'ingredients', // 필드 배열 이름d
   });
 
   return (
@@ -90,7 +93,7 @@ export const IngredientEditDialog = ({
                 취소
               </Button>
               <Button
-                onClick={handleSubmit(() => {})}
+                onClick={handleSubmit(onSubmit, onError)}
                 className={cn(
                   isDirty
                     ? 'bg-grey-900 text-grey-50'
@@ -162,19 +165,38 @@ export const IngredientEditDialog = ({
                   {fields.map((field, index) => (
                     <div key={field.id} className="flex items-center gap-2.5">
                       <input
-                        {...register(`ingredients.${index}.name`)}
+                        {...register(`ingredients.${index}.name`, {
+                          required: true,
+                          maxLength: 10,
+                        })}
                         placeholder="식재료명"
-                        className="bg-grey-200 rounded-200 w-53 p-250 focus:outline-none"
+                        className={cn(
+                          errors.ingredients?.[index]?.name
+                            ? 'border-others-negative border'
+                            : '',
+                          'bg-grey-200 rounded-200 w-53 p-250 focus:outline-none',
+                        )}
                       />
                       <input
-                        {...register(`ingredients.${index}.amount`)}
+                        {...register(`ingredients.${index}.amount`, {
+                          required: true,
+                          maxLength: 5,
+                        })}
                         placeholder="용량"
-                        className="bg-grey-200 rounded-200 w-20 p-250 focus:outline-none"
+                        className={cn(
+                          errors.ingredients?.[index]?.amount
+                            ? 'border-others-negative border'
+                            : '',
+                          'bg-grey-200 rounded-200 w-20 p-250 focus:outline-none',
+                        )}
                       />
 
                       <Controller
                         name={`ingredients.${index}.unit`}
                         control={control}
+                        rules={{
+                          required: true,
+                        }}
                         render={({ field }) => {
                           return (
                             <Select
@@ -182,9 +204,12 @@ export const IngredientEditDialog = ({
                               onValueChange={field.onChange}
                             >
                               <SelectTrigger
-                                className={
-                                  'bg-grey-200 rounded-150 body-medium-semibold !h-full !w-19 shrink-0 gap-0 border-none px-250 py-200'
-                                }
+                                className={cn(
+                                  errors.ingredients?.[index]?.unit
+                                    ? 'border-others-negative border'
+                                    : 'border-none',
+                                  'bg-grey-200 rounded-150 body-medium-semibold !h-full !w-19 shrink-0 gap-0 px-250 py-200',
+                                )}
                               >
                                 <div
                                   className={cn(
