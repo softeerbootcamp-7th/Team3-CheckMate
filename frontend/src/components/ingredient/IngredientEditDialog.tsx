@@ -1,4 +1,4 @@
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import { CircleQuestionMark, Plus, X } from 'lucide-react';
 
@@ -152,7 +152,7 @@ export const IngredientEditDialog = ({
                 식재료 추가
               </Button>
             </header>
-            <div className="flex-1 overflow-y-scroll">
+            <main className="flex-1 overflow-y-auto">
               {fields.length === 0 ? (
                 <div className="text-grey-500 flex h-full items-center justify-center pb-10">
                   메뉴 제조에 필요한 식재료를 등록해주세요
@@ -175,41 +175,53 @@ export const IngredientEditDialog = ({
                         className="bg-grey-200 rounded-200 w-20 p-250 focus:outline-none"
                       />
 
-                      <Select>
-                        <SelectTrigger
-                          className={
-                            'bg-grey-200 rounded-150 body-medium-semibold !h-full !w-[76px] shrink-0 gap-0 border-none px-250 py-200'
-                          }
-                        >
-                          <div
-                            className={cn(
-                              field.unit ? 'text-grey-900' : 'text-grey-400',
-                              'flex h-full w-full items-center justify-center',
-                            )}
-                          >
-                            <SelectValue
-                              placeholder={
-                                field.unit ? `${field.unit}` : '단위'
-                              }
-                            />
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent
-                          {...register(`ingredients.${index}.unit`)}
-                          className="border-grey-300 min-w-0 border bg-gray-100"
-                          position={'popper'}
-                        >
-                          <SelectGroup>
-                            <IngredientUnitSelectItem unit="ml" />
-                            <SelectSeparator />
-                            <IngredientUnitSelectItem unit="L" />
-                            <SelectSeparator />
-                            <IngredientUnitSelectItem unit="g" />
-                            <SelectSeparator />
-                            <IngredientUnitSelectItem unit="kg" />
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+                      <Controller
+                        name={`ingredients.${index}.unit`}
+                        control={control}
+                        render={({ field }) => {
+                          return (
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <SelectTrigger
+                                className={
+                                  'bg-grey-200 rounded-150 body-medium-semibold !h-full !w-19 shrink-0 gap-0 border-none px-250 py-200'
+                                }
+                              >
+                                <div
+                                  className={cn(
+                                    field.value
+                                      ? 'text-grey-900'
+                                      : 'text-grey-400',
+                                    'flex h-full w-full items-center justify-center',
+                                  )}
+                                >
+                                  <SelectValue
+                                    placeholder={
+                                      field.value ? `${field.value}` : '단위'
+                                    }
+                                  />
+                                </div>
+                              </SelectTrigger>
+                              <SelectContent
+                                className="border-grey-300 min-w-0 border bg-gray-100"
+                                position={'popper'}
+                              >
+                                <SelectGroup>
+                                  <IngredientUnitSelectItem unit="ml" />
+                                  <SelectSeparator />
+                                  <IngredientUnitSelectItem unit="L" />
+                                  <SelectSeparator />
+                                  <IngredientUnitSelectItem unit="g" />
+                                  <SelectSeparator />
+                                  <IngredientUnitSelectItem unit="kg" />
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          );
+                        }}
+                      />
 
                       <Button
                         className="!P-0 text-grey-600"
@@ -224,7 +236,7 @@ export const IngredientEditDialog = ({
                   ))}
                 </div>
               )}
-            </div>
+            </main>
           </section>
         </form>
       </DialogContent>
