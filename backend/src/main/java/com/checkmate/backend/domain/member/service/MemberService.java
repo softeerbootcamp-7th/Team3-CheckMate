@@ -73,7 +73,10 @@ public class MemberService {
     }
 
     // 재시도 로직이 포함된 Google Token 교환
-    public GoogleTokenResponse exchangeCodeForToken(String code) {
+    public GoogleTokenResponse exchangeCodeForToken(String code, String redirect_url) {
+        String clientRedirectUrl =
+                redirect_url != null && !redirect_url.isEmpty() ? redirect_url : redirectUri;
+
         int attempt = 0;
         IOException lastException = null;
 
@@ -93,7 +96,7 @@ public class MemberService {
                                         clientId,
                                         clientSecret,
                                         code,
-                                        redirectUri)
+                                        clientRedirectUrl)
                                 .execute();
 
                 log.debug("Google token exchange successful on attempt {}", attempt);
