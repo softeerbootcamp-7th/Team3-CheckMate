@@ -1,2 +1,4 @@
-export type { PostBusinessRegistrationNumberRequestDto } from './postBusinessRegistrationNumberDto';
-export type { PostBusinessRegistrationNumberResponseDto } from './postBusinessRegistrationNumberDto';
+export type {
+  PostBusinessRegistrationNumberRequestDto,
+  PostBusinessRegistrationNumberResponseDto,
+} from './postBusinessRegistrationNumberDto';
