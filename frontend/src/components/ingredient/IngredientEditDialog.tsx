@@ -70,7 +70,10 @@ export const IngredientEditDialog = ({
   };
 
   const onSubmit = (data) => console.log(data);
-  const onError = (errors) => console.log(errors);
+  const onError = (errors) => {
+    console.log(errors);
+    toast('Event has been created', { position: 'top-left' });
+  };
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'ingredients', // 필드 배열 이름d

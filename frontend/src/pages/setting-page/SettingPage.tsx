@@ -1,3 +1,14 @@
+import { useState } from 'react';
+
+import { IngredientEditDialog } from '@/components/shared';
+
 export const SettingPage = () => {
-  return <div>SettingPage</div>;
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  return (
+    <IngredientEditDialog
+      open={isDialogOpen}
+      onOpenChange={setIsDialogOpen}
+      menuId="28"
+    />
+  );
 };
