@@ -35,6 +35,7 @@ export const BusinessRegistrationNumberInputSection = () => {
         <Input
           label="매장 사업자등록번호"
           placeholder="-없이 숫자만 입력"
+          type="number"
           ref={ref}
           onChange={handleBusinessRegistrationNumberChange}
           onBlur={onBlur}
