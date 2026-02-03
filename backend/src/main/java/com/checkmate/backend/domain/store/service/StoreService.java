@@ -1,6 +1,7 @@
 package com.checkmate.backend.domain.store.service;
 
 import static com.checkmate.backend.global.response.ErrorStatus.MEMBER_NOT_FOUND_EXCEPTION;
+import static com.checkmate.backend.global.response.ErrorStatus.SSE_CONNECTION_REQUIRED;
 
 import com.checkmate.backend.domain.member.entity.Member;
 import com.checkmate.backend.domain.member.repository.MemberRepository;
@@ -9,14 +10,21 @@ import com.checkmate.backend.domain.store.entity.BusinessHour;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.BusinessHourRepository;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
+import com.checkmate.backend.global.exception.BadRequestException;
 import com.checkmate.backend.global.exception.NotFoundException;
+import com.checkmate.backend.global.sse.SseEmitterManager;
 import com.checkmate.backend.global.util.BusinessJwtUtil;
 import jakarta.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +34,7 @@ public class StoreService {
     private final MemberRepository memberRepository;
     private final BusinessHourRepository businessHourRepository;
     private final BusinessJwtUtil businessJwtUtil;
+    private final SseEmitterManager sseEmitterManager;
 
     /*
      * c
@@ -57,8 +66,8 @@ public class StoreService {
                         .businessRegistrationNumber(businessRegistrationNumber)
                         .storeName(storeCreateRequestDTO.storeName())
                         .zipcode(storeCreateRequestDTO.zipcode())
-                        .address1(storeCreateRequestDTO.address1())
-                        .address2(storeCreateRequestDTO.address2())
+                        .roadAddress(storeCreateRequestDTO.roadAddress())
+                        .detailAddress(storeCreateRequestDTO.detailAddress())
                         .salesClosingHour(storeCreateRequestDTO.salesClosingHour())
                         .member(member)
                         .build();
@@ -92,5 +101,20 @@ public class StoreService {
                         });
 
         return storeId;
+    }
+
+    /** 포스 연동 */
+    @Async
+    public void connectPOS(Long storeId) {
+        SseEmitter emitter = sseEmitterManager.getEmitter(storeId);
+        if (emitter == null) throw new BadRequestException(SSE_CONNECTION_REQUIRED);
+
+        try {
+            int waitSeconds = 3 + ThreadLocalRandom.current().nextInt(5);
+            TimeUnit.SECONDS.sleep(waitSeconds);
+            emitter.send(ThreadLocalRandom.current().nextBoolean() ? "success" : "fail");
+        } catch (InterruptedException | IOException e) {
+            log.warn("[connectPOS][storeId= {}, reason= {}]", storeId, e.getMessage());
+        }
     }
 }

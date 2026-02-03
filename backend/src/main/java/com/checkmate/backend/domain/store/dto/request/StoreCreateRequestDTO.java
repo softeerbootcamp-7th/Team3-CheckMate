@@ -14,12 +14,11 @@ public record StoreCreateRequestDTO(
                 @Size(max = 15, message = "매장명은 15자 이내로 입력하세요.")
                 String storeName,
         @Schema(description = "우편번호") @NotBlank(message = "우편번호를 입력해주세요.") String zipcode,
-        @Schema(description = "주소") @NotBlank(message = "주소를 입력해주세요.") String address1,
-        @Schema(description = "상세주소") @NotBlank(message = "상세주소를 입력해주세요.") String address2,
+        @Schema(description = "주소") @NotBlank(message = "주소를 입력해주세요.") String roadAddress,
+        @Schema(description = "상세주소") @NotBlank(message = "상세주소를 입력해주세요.") String detailAddress,
         @Schema(description = "영업 시간 정보") @Valid @ValidWeeklyBusinessHours
                 List<BusinessHour> businessHours,
         @Schema(description = "매출 마감 시간")
-                @NotNull(message = "매출 마감 시간을 선택해주세요.")
                 @Min(value = 0, message = "매출 마감 시간은 0시부터 23시까지 선택할 수 있습니다.")
                 @Max(value = 23, message = "매출 마감 시간은 0시부터 23시까지 선택할 수 있습니다.")
                 Integer salesClosingHour) {

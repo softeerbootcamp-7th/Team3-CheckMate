@@ -52,6 +52,9 @@ public enum ErrorStatus {
     FORBIDDEN_ACCESS(HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
 
     /** Store* */
+
+    // 400
+    SSE_CONNECTION_REQUIRED(HttpStatus.BAD_REQUEST, "포스 연동 전 SSE 연결이 필요합니다."),
     // 404
     STORE_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "매장을 찾을 수 없습니다."),
 
