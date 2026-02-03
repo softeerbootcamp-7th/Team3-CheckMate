@@ -37,7 +37,11 @@ public enum SuccessStatus {
     SSE_UNSUBSCRIBE_SUCCESS(HttpStatus.OK, "SSE 구독 해제에 성공했습니다."),
     SSE_UNSUBSCRIBE_ALL_SUCCESS(HttpStatus.OK, "모든 SSE 구독을 해제했습니다."),
     SSE_CONNECT_SUCCESS(HttpStatus.OK, "SSE 연결에 성공했습니다."),
-    SSE_DISCONNECT_SUCCESS(HttpStatus.OK, "SSE 연결을 종료했습니다.");
+    SSE_DISCONNECT_SUCCESS(HttpStatus.OK, "SSE 연결을 종료했습니다."),
+
+    /** Order */
+    // 201
+    ORDER_RECEIVE_SUCCESS(HttpStatus.CREATED, "주문 수신에 성공했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

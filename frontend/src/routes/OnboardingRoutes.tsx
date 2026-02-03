@@ -1,5 +1,6 @@
 import { Navigate, type RouteObject } from 'react-router-dom';
 
+import { PosIntegrationPage } from '@/pages/onboarding/pos-integration-page';
 import { StoreRegisterPage } from '@/pages/onboarding/store-register-page';
 
 export const onboardingRoutes: RouteObject = {
@@ -15,6 +16,7 @@ export const onboardingRoutes: RouteObject = {
     },
     {
       path: 'pos',
+      Component: PosIntegrationPage,
     },
   ],
 };

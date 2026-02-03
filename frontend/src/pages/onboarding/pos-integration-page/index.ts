@@ -1,0 +1,1 @@
+export { PosIntegrationPage } from './PosIntegrationPage';

@@ -1,3 +1,5 @@
+import { API_BASE_URL } from '@/constants/shared';
+
 /**
  * API 클라이언트 인스턴스 생성을 위한 설정 옵션
  * @interface CreateApiClientConfig
@@ -100,7 +102,7 @@ interface ApiResponse<T> {
  */
 const DEFAULT_TIMEOUT_MS = 10000;
 export const createApiClient = ({
-  baseURL = import.meta.env.VITE_API_URL ?? '',
+  baseURL = API_BASE_URL,
   timeout = DEFAULT_TIMEOUT_MS,
   requestInterceptor,
   responseSuccessInterceptor,
@@ -152,6 +154,7 @@ export const createApiClient = ({
       if (responseErrorInterceptor) {
         response = await responseErrorInterceptor(response);
       }
+      console.error(response);
     }
 
     /* response 성공 시 인터셉터 호출 */

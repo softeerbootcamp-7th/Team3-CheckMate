@@ -15,6 +15,10 @@ public interface MenuVersionRepository extends JpaRepository<MenuVersion, Long> 
                     + " where mv.menu.id in :menuIds")
     List<MenuVersion> findMenuVersionsByMenuIdsWithMenu(@Param("menuIds") List<Long> menuIds);
 
+    @Query("select mv from MenuVersion mv" + " where mv.id in :menuVersionIds")
+    List<MenuVersion> findMenuVersionsByMenuVersionIds(
+            @Param("menuVersionIds") List<Long> menuVersionIds);
+
     @Query(
             "select mv from MenuVersion mv"
                     + " join fetch mv.menu m"
