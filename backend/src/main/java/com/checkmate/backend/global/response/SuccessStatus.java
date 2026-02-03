@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum SuccessStatus {
 
+
     /** Member */
     // 200
     GOOGLE_LOGIN_SUCCESS(HttpStatus.OK, "구글 로그인에 성공했습니다."),
@@ -13,6 +14,9 @@ public enum SuccessStatus {
 
     // 201
     MEMBER_SIGNUP_SUCCESS(HttpStatus.CREATED, "회원 가입에 성공했습니다"),
+
+    /** JWT & Auth */
+    TOKEN_REFRESH_SUCCESS(HttpStatus.OK, "토큰 재발급에 성공했습니다."),
 
     /** Store */
     // 200
