@@ -140,11 +140,21 @@ public class MemberService {
         Long memberId = jwtUtil.getUserIdFromToken(refreshToken);
 
         // DB에 저장된 리프레시 토큰과 비교
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException(ErrorStatus.MEMBER_NOT_FOUND_EXCEPTION));
+        Member member =
+                memberRepository
+                        .findById(memberId)
+                        .orElseThrow(
+                                () ->
+                                        new NotFoundException(
+                                                ErrorStatus.MEMBER_NOT_FOUND_EXCEPTION));
 
-        MemberAuth memberAuth = memberAuthRepository.findByMember(member)
-                .orElseThrow(() -> new UnauthorizedException(ErrorStatus.REFRESH_TOKEN_NOT_FOUND));
+        MemberAuth memberAuth =
+                memberAuthRepository
+                        .findByMember(member)
+                        .orElseThrow(
+                                () ->
+                                        new UnauthorizedException(
+                                                ErrorStatus.REFRESH_TOKEN_NOT_FOUND));
 
         if (!refreshToken.equals(memberAuth.getRefreshToken())) {
             log.warn("Refresh token mismatch for member: {}", memberId);

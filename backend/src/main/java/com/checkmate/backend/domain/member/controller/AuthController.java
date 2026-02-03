@@ -140,28 +140,26 @@ public class AuthController {
                                 new LoginResponse(authToken.accessToken())));
     }
 
-    @Operation(
-            summary = "액세스 토큰 재발행 API",
-            description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급합니다.")
+    @Operation(summary = "액세스 토큰 재발행 API", description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급합니다.")
     @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "200",
-                    description = "액세스 토큰 재발행에 성공했습니다."),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "리프레시 토큰이 존재하지 않습니다."),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "유효하지 않은 리프레시 토큰입니다."),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "만료된 리프레시 토큰입니다."),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "401",
-                    description = "저장된 리프레시 토큰과 일치하지 않습니다."),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    responseCode = "404",
-                    description = "해당 사용자를 찾을 수 없습니다.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "액세스 토큰 재발행에 성공했습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "401",
+                description = "리프레시 토큰이 존재하지 않습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "401",
+                description = "유효하지 않은 리프레시 토큰입니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "401",
+                description = "만료된 리프레시 토큰입니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "401",
+                description = "저장된 리프레시 토큰과 일치하지 않습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "해당 사용자를 찾을 수 없습니다.")
     })
     @GetMapping("/refresh")
     @ResponseBody
@@ -175,9 +173,10 @@ public class AuthController {
         String newAccessToken = memberService.refreshAccessToken(refreshToken);
 
         return ResponseEntity.ok()
-                .body(ApiResponse.createSuccess(
-                        SuccessStatus.TOKEN_REFRESH_SUCCESS,
-                        new LoginResponse(newAccessToken)));
+                .body(
+                        ApiResponse.createSuccess(
+                                SuccessStatus.TOKEN_REFRESH_SUCCESS,
+                                new LoginResponse(newAccessToken)));
     }
 
     private void validateState(String state, HttpSession session) {

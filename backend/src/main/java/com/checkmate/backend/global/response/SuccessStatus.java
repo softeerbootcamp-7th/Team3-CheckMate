@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum SuccessStatus {
 
-
     /** Member */
     // 200
     GOOGLE_LOGIN_SUCCESS(HttpStatus.OK, "구글 로그인에 성공했습니다."),
