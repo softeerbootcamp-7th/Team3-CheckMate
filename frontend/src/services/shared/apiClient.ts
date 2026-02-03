@@ -178,8 +178,6 @@ export const createApiClient = ({
       }, timeout);
     });
 
-    console.info({ request, isbodyUsed: request.bodyUsed });
-
     response = await Promise.race([fetchPromise, timeoutPromise]);
 
     if (timeoutId) {

@@ -40,8 +40,6 @@ class AuthToken {
   }
 
   async reissue(request: Request, response: Response) {
-    console.info({ request, isbodyUsed: request.bodyUsed });
-
     // 만약 response status 가 401 이면 access token 을 갱신하고 재요청
     if (response.status === 401) {
       // access token을 갱신하지 않고 있다면
