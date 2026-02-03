@@ -13,7 +13,7 @@ import { authToken } from './authToken';
  * @property {Function} [responseSuccessInterceptor] - 응답 수신 후 호출되는 선택적 함수(상태 코드 무관). Response 객체를 받아 Response를 반환해야 함. 응답 변환, 로깅 등에 유용
  * @property {Function} [responseErrorInterceptor] - 응답 상태가 ok가 아닐 때(!response.ok) 호출되는 선택적 함수. Response 객체를 받아 Response를 반환해야 함. 에러 처리, 로깅 등에 유용
  */
-export interface CreateApiClientConfig {
+interface CreateApiClientConfig {
   baseURL?: string;
   timeout?: number;
   headers?: Record<string, string>;
