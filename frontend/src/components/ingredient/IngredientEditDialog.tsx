@@ -190,9 +190,9 @@ export const IngredientEditDialog = ({
                         placeholder="식재료명"
                         className={cn(
                           errors.ingredients?.[index]?.name
-                            ? 'border-others-negative border'
-                            : '',
-                          'bg-grey-200 rounded-200 h-10.5 flex-1 p-250 focus:outline-none',
+                            ? 'border-others-negative'
+                            : 'border-transparent',
+                          'bg-grey-200 rounded-200 h-10.5 flex-1 border p-250 focus:outline-none',
                         )}
                       />
                       <input
@@ -204,9 +204,9 @@ export const IngredientEditDialog = ({
                         placeholder="용량"
                         className={cn(
                           errors.ingredients?.[index]?.amount
-                            ? 'border-others-negative border'
-                            : '',
-                          'bg-grey-200 rounded-200 h-10.5 w-20 p-250 focus:outline-none',
+                            ? 'border-others-negative'
+                            : 'border-transparent',
+                          'bg-grey-200 rounded-200 h-10.5 w-20 border p-250 focus:outline-none',
                         )}
                       />
 
@@ -225,9 +225,9 @@ export const IngredientEditDialog = ({
                               <SelectTrigger
                                 className={cn(
                                   errors.ingredients?.[index]?.unit
-                                    ? 'ring-others-negative ring-1'
-                                    : '',
-                                  'bg-grey-200 rounded-150 body-medium-semibold !h-10.5 !w-19 shrink-0 gap-0 px-250 py-200',
+                                    ? 'border-others-negative'
+                                    : 'border-transparent',
+                                  'bg-grey-200 rounded-150 body-medium-semibold !h-10.5 !w-19 shrink-0 gap-0 border px-250 py-200',
                                 )}
                               >
                                 <div
