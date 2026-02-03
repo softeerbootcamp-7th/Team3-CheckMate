@@ -1,6 +1,7 @@
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import { CircleQuestionMark, Plus, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { cn } from '@/utils/shared';
 
@@ -72,11 +73,18 @@ export const IngredientEditDialog = ({
   const onSubmit = (data) => console.log(data);
   const onError = (errors) => {
     console.log(errors);
-    toast('Event has been created', { position: 'top-left' });
+    toast(
+      '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
+      {
+        className:
+          '!bg-grey-900 !text-grey-50 !border-none !max-w-auto !w-max body-small-semibold px-400',
+        position: 'bottom-center',
+      },
+    );
   };
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'ingredients', // 필드 배열 이름d
+    name: 'ingredients',
   });
 
   return (
@@ -100,7 +108,7 @@ export const IngredientEditDialog = ({
                 className={cn(
                   isDirty
                     ? 'bg-grey-900 text-grey-50'
-                    : 'bg-grey-200 text-grey-400',
+                    : 'bg-grey-200 text-grey-400 pointer-events-none',
                   'body-medium-bold w-20 border-none px-350 py-200',
                 )}
               >
@@ -164,33 +172,41 @@ export const IngredientEditDialog = ({
                   메뉴 제조에 필요한 식재료를 등록해주세요
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+                <div className="grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
                   {fields.map((field, index) => (
-                    <div key={field.id} className="flex items-center gap-2.5">
+                    <div
+                      key={field.id}
+                      className="flex h-full items-center gap-2.5"
+                    >
                       <input
                         {...register(`ingredients.${index}.name`, {
                           required: true,
                           maxLength: 10,
+                          onBlur: (e) => {
+                            // 사용자가 입력 마치고 다른 영역 클릭했을 때 실행되는 함수
+                            e.target.value = e.target.value.trim();
+                          },
                         })}
                         placeholder="식재료명"
                         className={cn(
                           errors.ingredients?.[index]?.name
                             ? 'border-others-negative border'
                             : '',
-                          'bg-grey-200 rounded-200 w-53 p-250 focus:outline-none',
+                          'bg-grey-200 rounded-200 h-10.5 flex-1 p-250 focus:outline-none',
                         )}
                       />
                       <input
                         {...register(`ingredients.${index}.amount`, {
                           required: true,
                           maxLength: 5,
+                          pattern: /^[0-9]*$/,
                         })}
                         placeholder="용량"
                         className={cn(
                           errors.ingredients?.[index]?.amount
                             ? 'border-others-negative border'
                             : '',
-                          'bg-grey-200 rounded-200 w-20 p-250 focus:outline-none',
+                          'bg-grey-200 rounded-200 h-10.5 w-20 p-250 focus:outline-none',
                         )}
                       />
 
@@ -209,9 +225,9 @@ export const IngredientEditDialog = ({
                               <SelectTrigger
                                 className={cn(
                                   errors.ingredients?.[index]?.unit
-                                    ? 'border-others-negative border'
-                                    : 'border-none',
-                                  'bg-grey-200 rounded-150 body-medium-semibold !h-full !w-19 shrink-0 gap-0 px-250 py-200',
+                                    ? 'ring-others-negative ring-1'
+                                    : '',
+                                  'bg-grey-200 rounded-150 body-medium-semibold !h-10.5 !w-19 shrink-0 gap-0 px-250 py-200',
                                 )}
                               >
                                 <div
@@ -249,7 +265,7 @@ export const IngredientEditDialog = ({
                       />
 
                       <Button
-                        className="!P-0 text-grey-600"
+                        className="!P-0 text-grey-600 size-6"
                         type="button"
                         onClick={() => {
                           onClickDeleteIngredient(index);
