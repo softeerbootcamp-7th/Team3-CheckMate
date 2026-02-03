@@ -134,6 +134,79 @@ export const IngredientEditDialog = ({
                 식재료 추가
               </Button>
             </header>
+            <div className="flex-1 overflow-y-scroll">
+              {fields.length === 0 ? (
+                <div className="text-grey-500 flex h-full items-center justify-center pb-10">
+                  메뉴 제조에 필요한 식재료를 등록해주세요
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-x-14 gap-y-6">
+                  {fields.map((field, index) => (
+                    <div
+                      key={field.id}
+                      className="flex items-center gap-[10px]"
+                    >
+                      <input
+                        {...register(`ingredients.${index}.name`)}
+                        placeholder="식재료명"
+                        className="bg-grey-200 rounded-200 w-53 p-250 focus:outline-none"
+                      />
+                      <input
+                        {...register(`ingredients.${index}.amount`)}
+                        placeholder="용량"
+                        className="bg-grey-200 rounded-200 w-20 p-250 focus:outline-none"
+                      />
+
+                      <Select>
+                        <SelectTrigger
+                          className={
+                            'bg-grey-200 rounded-150 body-medium-semibold !h-full !w-[76px] shrink-0 gap-0 border-none px-250 py-200'
+                          }
+                        >
+                          <div
+                            className={cn(
+                              field.unit ? 'text-grey-900' : 'text-grey-400',
+                              'flex h-full w-full items-center justify-center',
+                            )}
+                          >
+                            <SelectValue
+                              placeholder={
+                                field.unit ? `${field.unit}` : '단위'
+                              }
+                            />
+                          </div>
+                        </SelectTrigger>
+                        <SelectContent
+                          {...register(`ingredients.${index}.unit`)}
+                          className="border-grey-300 min-w-0 border bg-gray-100"
+                          position={'popper'}
+                        >
+                          <SelectGroup>
+                            <IngredientUnitSelectItem unit="ml" />
+                            <SelectSeparator />
+                            <IngredientUnitSelectItem unit="L" />
+                            <SelectSeparator />
+                            <IngredientUnitSelectItem unit="g" />
+                            <SelectSeparator />
+                            <IngredientUnitSelectItem unit="kg" />
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+
+                      <Button
+                        className="!P-0 text-grey-600"
+                        type="button"
+                        onClick={() => {
+                          onClickDeleteIngredient(index);
+                        }}
+                      >
+                        <X className="size-6" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </section>
         </form>
       </DialogContent>
