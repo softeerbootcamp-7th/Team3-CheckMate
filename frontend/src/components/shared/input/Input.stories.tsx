@@ -40,6 +40,13 @@ export const WithLabel: Story = {
   },
 };
 
+export const WithSuccess: Story = {
+  args: {
+    isSuccess: true,
+    successMessage: 'This is a success message',
+  },
+};
+
 export const WithError: Story = {
   args: {
     isError: true,

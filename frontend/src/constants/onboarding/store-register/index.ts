@@ -12,3 +12,4 @@ export {
   STORE_BUSINESS_WEEK_DAY_LIST,
   type StoreBusinessWeekDay,
 } from './storeBusinessWeekDayList';
+export { STORE_REGISTER_FORM_FIELD } from './storeRegisterFormField';

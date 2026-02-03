@@ -1,0 +1,1 @@
+export { postBusinessRegistrationNumber } from './post';

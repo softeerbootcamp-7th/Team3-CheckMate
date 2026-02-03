@@ -1,8 +1,3 @@
-import { http, HttpResponse } from 'msw';
+import { storeRegisterHandler } from './onboarding/store-register';
 
-export const handlers = [
-  // 테스트용 GET api
-  http.get('/api/test', () => {
-    return HttpResponse.json({ data: 'hello' }, { status: 200 });
-  }),
-];
+export const handlers = [...storeRegisterHandler];

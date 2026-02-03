@@ -3,5 +3,7 @@ interface InputErrorMessageProps {
 }
 
 export const InputErrorMessage = ({ message }: InputErrorMessageProps) => {
-  return <p className="text-body-small text-others-red">*{message}</p>;
+  return (
+    <p className="text-body-small text-others-red animate-shake">*{message}</p>
+  );
 };

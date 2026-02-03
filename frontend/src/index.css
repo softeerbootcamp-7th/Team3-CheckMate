@@ -109,6 +109,28 @@
 
   /*그림자*/
   --shadow-card-floating: 0 12px 50px -12px rgba(16, 24, 40, 0.25);
+
+  /* 애니메이션 */
+  --animate-shake: shake 150ms ease-in 2;
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(-5px);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+  }
+
+  --animate-fade-in: fadeIn 200ms ease-in-out;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }
 
 @layer base {

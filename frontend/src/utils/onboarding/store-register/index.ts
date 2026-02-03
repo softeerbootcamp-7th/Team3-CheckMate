@@ -1,0 +1,1 @@
+export { validateBusinessRegistrationNumber } from './validateBusinessRegistrationNumber';
