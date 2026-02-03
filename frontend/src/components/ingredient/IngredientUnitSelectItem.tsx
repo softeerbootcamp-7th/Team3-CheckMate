@@ -10,7 +10,7 @@ export const IngredientUnitSelectItem = ({
   return (
     <SelectItem
       value={unit}
-      className="felx body-medium-semibold text-grey-900 h-9 w-19 justify-center p-250"
+      className="body-medium-semibold text-grey-900 h-9 w-19 p-250"
     >
       {unit}
     </SelectItem>

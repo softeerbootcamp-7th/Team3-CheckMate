@@ -178,7 +178,7 @@ export const IngredientEditDialog = ({
                   메뉴 제조에 필요한 식재료를 등록해주세요
                 </div>
               ) : (
-                <div className="grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
+                <div className="body-medium-semibold grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
                   {fields.map((field, index) => (
                     <div
                       key={field.id}
@@ -198,7 +198,7 @@ export const IngredientEditDialog = ({
                           errors.ingredients?.[index]?.name
                             ? 'border-others-negative'
                             : 'border-transparent',
-                          'bg-grey-200 rounded-200 h-10.5 flex-1 border p-250 focus:outline-none',
+                          'bg-grey-200 rounded-200 placeholder:text-grey-400 h-10.5 flex-1 border p-250 focus:outline-none',
                         )}
                       />
                       <input
@@ -212,7 +212,7 @@ export const IngredientEditDialog = ({
                           errors.ingredients?.[index]?.amount
                             ? 'border-others-negative'
                             : 'border-transparent',
-                          'bg-grey-200 rounded-200 h-10.5 w-20 border p-250 focus:outline-none',
+                          'bg-grey-200 rounded-200 placeholder:text-grey-400 h-10.5 w-20 border p-250 text-center focus:outline-none',
                         )}
                       />
 
@@ -233,7 +233,7 @@ export const IngredientEditDialog = ({
                                   errors.ingredients?.[index]?.unit
                                     ? 'border-others-negative'
                                     : 'border-transparent',
-                                  'bg-grey-200 rounded-150 body-medium-semibold !h-10.5 !w-19 shrink-0 gap-0 border px-250 py-200',
+                                  'bg-grey-200 rounded-150 !h-10.5 !w-19 shrink-0 gap-0 border px-250 py-200',
                                 )}
                               >
                                 <div
