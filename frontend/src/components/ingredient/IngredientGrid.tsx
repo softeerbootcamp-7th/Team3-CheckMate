@@ -8,20 +8,20 @@ import {
 import { X } from 'lucide-react';
 
 import { Button } from '@/components/shared/shadcn-ui';
-import type { FormValues } from '@/types/ingredient';
+import type { IngredientFormValues } from '@/types/ingredient';
 
 import { IngredientAmountInput } from './IngredientAmountInput';
 import { IngredientMenuInput } from './IngredientMenuInput';
 import { IngredientUnitInput } from './IngredientUnitInput';
 
 interface IngredientGridProps {
-  fields: FormValues['ingredients'];
-  register: UseFormRegister<FormValues>;
-  formErrors: FieldErrors<FormValues>;
-  control: Control<FormValues>;
+  fields: IngredientFormValues['ingredients'];
+  register: UseFormRegister<IngredientFormValues>;
+  formErrors: FieldErrors<IngredientFormValues>;
+  control: Control<IngredientFormValues>;
   isIngredientRowEmpty: (index: number) => boolean;
   onClickDeleteIngredient: (index: number) => void;
-  setValue: UseFormSetValue<FormValues>;
+  setValue: UseFormSetValue<IngredientFormValues>;
 }
 
 export const IngredientGrid = ({

@@ -1,1 +1,1 @@
-export { type Ingredient, type FormValues } from './ingredient';
+export { type Ingredient, type IngredientFormValues } from './ingredient';

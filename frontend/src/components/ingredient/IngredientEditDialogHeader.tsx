@@ -1,16 +1,16 @@
 import { type FieldErrors, type UseFormHandleSubmit } from 'react-hook-form';
 
 import { DialogHeader, DialogTitle } from '@/components/shared/shadcn-ui';
-import type { FormValues } from '@/types/ingredient';
+import type { IngredientFormValues } from '@/types/ingredient';
 import { cn } from '@/utils/shared';
 
 import { Button } from '../shared/shadcn-ui';
 
 interface IngredientEditDialogHeaderProps {
-  handleSubmit: UseFormHandleSubmit<FormValues>;
-  onClickSubmit: (data: FormValues) => Promise<void>;
+  handleSubmit: UseFormHandleSubmit<IngredientFormValues>;
+  onClickSubmit: (data: IngredientFormValues) => Promise<void>;
   onClickCancel: () => void;
-  onError: (errors: FieldErrors<FormValues>) => void;
+  onError: (errors: FieldErrors<IngredientFormValues>) => void;
   isDirty: boolean;
   menuName: string;
 }

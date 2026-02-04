@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import { Dialog, DialogContent } from '@/components/shared/shadcn-ui';
 import { useIngredientForm } from '@/hooks/ingredient';
-import type { FormValues } from '@/types/ingredient';
+import type { IngredientFormValues } from '@/types/ingredient';
 
 import { IngredientEditDialogHeader } from './IngredientEditDialogHeader';
 import { IngredientEditInfoHeader } from './IngredientEditInfoHeader';
@@ -41,7 +41,7 @@ export const IngredientEditDialog = ({
     remove,
     isIngredientRowEmpty,
   } = useIngredientForm({
-    formValues: { ingredients: mockMenuIngredients.ingredients },
+    ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
   });
 
   const onClickDeleteIngredient = (index: number) => {
@@ -60,7 +60,7 @@ export const IngredientEditDialog = ({
   const onClickCancel = () => {
     onOpenChange(false);
   };
-  const onError = (errors: FieldErrors<FormValues>) => {
+  const onError = (errors: FieldErrors<IngredientFormValues>) => {
     toast(
       '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
       {

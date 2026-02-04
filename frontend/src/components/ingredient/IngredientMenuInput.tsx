@@ -5,14 +5,14 @@ import type {
 } from 'react-hook-form';
 
 import { Input } from '@/components/shared/shadcn-ui';
-import type { FormValues } from '@/types/ingredient';
+import type { IngredientFormValues } from '@/types/ingredient';
 import { cn } from '@/utils/shared';
 interface IngredientMenuInputProps {
   index: number;
-  register: UseFormRegister<FormValues>;
-  formErrors: FieldErrors<FormValues>;
+  register: UseFormRegister<IngredientFormValues>;
+  formErrors: FieldErrors<IngredientFormValues>;
   isIngredientRowEmpty: (index: number) => boolean;
-  setValue: UseFormSetValue<FormValues>;
+  setValue: UseFormSetValue<IngredientFormValues>;
 }
 
 export const IngredientMenuInput = ({

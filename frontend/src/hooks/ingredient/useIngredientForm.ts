@@ -1,12 +1,14 @@
 import { useFieldArray, useForm } from 'react-hook-form';
 
-import type { FormValues } from '@/types/ingredient';
+import type { IngredientFormValues } from '@/types/ingredient';
 
 interface UseIngredientFormParams {
-  formValues: FormValues;
+  ingredientFormValues: IngredientFormValues;
 }
 
-export const useIngredientForm = ({ formValues }: UseIngredientFormParams) => {
+export const useIngredientForm = ({
+  ingredientFormValues,
+}: UseIngredientFormParams) => {
   const {
     control,
     register,
@@ -14,9 +16,9 @@ export const useIngredientForm = ({ formValues }: UseIngredientFormParams) => {
     getValues,
     setValue,
     formState: { isDirty, errors: formErrors },
-  } = useForm<FormValues>({
+  } = useForm<IngredientFormValues>({
     reValidateMode: 'onBlur',
-    defaultValues: formValues,
+    defaultValues: ingredientFormValues,
   });
   const { fields, append, remove } = useFieldArray({
     control,

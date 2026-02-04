@@ -7,6 +7,6 @@ export interface Ingredient {
   unit: string;
 }
 
-export interface FormValues {
+export interface IngredientFormValues {
   ingredients: Ingredient[];
 }

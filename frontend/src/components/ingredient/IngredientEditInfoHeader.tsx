@@ -1,13 +1,13 @@
 import { Plus } from 'lucide-react';
 
 import { Button } from '@/components/shared/shadcn-ui';
-import type { FormValues } from '@/types/ingredient';
+import type { IngredientFormValues } from '@/types/ingredient';
 import { cn } from '@/utils/shared';
 
 import { IngredientQuestionIconWithTooltip } from './IngredientQuestionIconWithTooltip';
 
 interface IngredientEditInfoHeaderProps {
-  fields: FormValues['ingredients'];
+  fields: IngredientFormValues['ingredients'];
   onClickAddIngredient: () => void;
 }
 

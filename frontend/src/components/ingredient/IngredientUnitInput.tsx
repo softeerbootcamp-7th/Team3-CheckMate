@@ -9,16 +9,16 @@ import {
   SelectValue,
 } from '@/components/shared/shadcn-ui';
 import { INGREDIENT_UNIT } from '@/constants/ingredient';
-import type { FormValues } from '@/types/ingredient';
+import type { IngredientFormValues } from '@/types/ingredient';
 import { cn } from '@/utils/shared';
 
 import { IngredientUnitSelectItem } from './IngredientUnitSelectItem';
 
 interface IngredientUnitInputProps {
   index: number;
-  control: Control<FormValues>;
+  control: Control<IngredientFormValues>;
   isIngredientRowEmpty: (index: number) => boolean;
-  formErrors: FieldErrors<FormValues>;
+  formErrors: FieldErrors<IngredientFormValues>;
 }
 
 export const IngredientUnitInput = ({
