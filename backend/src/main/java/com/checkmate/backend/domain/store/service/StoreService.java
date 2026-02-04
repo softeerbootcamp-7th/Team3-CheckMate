@@ -1,14 +1,15 @@
 package com.checkmate.backend.domain.store.service;
 
-import static com.checkmate.backend.global.response.ErrorStatus.MEMBER_NOT_FOUND_EXCEPTION;
-import static com.checkmate.backend.global.response.ErrorStatus.SSE_CONNECTION_REQUIRED;
+import static com.checkmate.backend.global.response.ErrorStatus.*;
 
 import com.checkmate.backend.domain.member.entity.Member;
 import com.checkmate.backend.domain.member.repository.MemberRepository;
 import com.checkmate.backend.domain.store.dto.request.StoreCreateRequestDTO;
 import com.checkmate.backend.domain.store.entity.BusinessHour;
+import com.checkmate.backend.domain.store.entity.Pos;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.BusinessHourRepository;
+import com.checkmate.backend.domain.store.repository.PosRepository;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
 import com.checkmate.backend.global.exception.BadRequestException;
 import com.checkmate.backend.global.exception.NotFoundException;
@@ -35,6 +36,7 @@ public class StoreService {
     private final BusinessHourRepository businessHourRepository;
     private final BusinessJwtUtil businessJwtUtil;
     private final SseEmitterManager sseEmitterManager;
+    private final PosRepository posRepository;
 
     /*
      * c
@@ -112,6 +114,26 @@ public class StoreService {
         try {
             int waitSeconds = 3 + ThreadLocalRandom.current().nextInt(5);
             TimeUnit.SECONDS.sleep(waitSeconds);
+
+            if (!ThreadLocalRandom.current().nextBoolean()) {
+                emitter.send("fail");
+            }
+
+            Store store =
+                    storeRepository
+                            .findById(storeId)
+                            .orElseThrow(
+                                    () -> {
+                                        log.warn(
+                                                "[connectPOS][store is not found][storeId= {}]",
+                                                storeId);
+                                        return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
+                                    });
+
+            Pos pos = Pos.builder().store(store).build();
+
+            posRepository.save(pos);
+
             emitter.send(ThreadLocalRandom.current().nextBoolean() ? "success" : "fail");
         } catch (InterruptedException | IOException e) {
             log.warn("[connectPOS][storeId= {}, reason= {}]", storeId, e.getMessage());
