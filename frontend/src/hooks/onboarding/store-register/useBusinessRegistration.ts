@@ -41,6 +41,10 @@ export const useBusinessRegistration = () => {
     }
   };
 
+  const handleFocusNextStepButton = (element?: HTMLButtonElement | null) => {
+    element?.focus();
+  };
+
   // error가 있고 한번 이상 blur된 경우
   const isError = !!error && isTouched;
 
@@ -61,5 +65,6 @@ export const useBusinessRegistration = () => {
     isDisabled,
     handlePreventEnter,
     handleBusinessRegistrationNumberChange,
+    handleFocusNextStepButton,
   };
 };

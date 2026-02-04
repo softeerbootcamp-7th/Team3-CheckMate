@@ -19,6 +19,7 @@ export const BusinessRegistrationNumberInputSection = () => {
     isDisabled,
     handlePreventEnter,
     handleBusinessRegistrationNumberChange,
+    handleFocusNextStepButton,
   } = useBusinessRegistration();
 
   return (
@@ -48,7 +49,9 @@ export const BusinessRegistrationNumberInputSection = () => {
           successMessage="사업자 인증이 완료되었어요."
         />
         {isSuccess ? (
-          <NextStepButton />
+          <NextStepButton
+            ref={(element) => handleFocusNextStepButton(element)}
+          />
         ) : (
           <BusinessRegistrationNumberVerifyButton
             disabled={isDisabled}
