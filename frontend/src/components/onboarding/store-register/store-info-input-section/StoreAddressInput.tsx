@@ -10,7 +10,7 @@ export const StoreAddressInput = () => {
     errorMessage,
     isError,
     addressSearchButtonRef,
-    handleFocusNextStepButton,
+    handleClickNextStepButton,
   } = useStoreAddress();
 
   return (
@@ -23,7 +23,7 @@ export const StoreAddressInput = () => {
           inputClassName="w-59"
           {...zonecodeField}
           isError={isError}
-          onClick={handleFocusNextStepButton}
+          onClick={handleClickNextStepButton}
           readOnly
           tabIndex={-1}
         />
@@ -34,7 +34,7 @@ export const StoreAddressInput = () => {
         {...addressField}
         isError={isError}
         errorMessage={errorMessage}
-        onClick={handleFocusNextStepButton}
+        onClick={handleClickNextStepButton}
         readOnly
         tabIndex={-1}
       />

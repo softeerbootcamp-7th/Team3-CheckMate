@@ -37,7 +37,7 @@ export const useStoreAddress = () => {
     defaultValue: '',
   });
 
-  const handleFocusNextStepButton = () => {
+  const handleClickNextStepButton = () => {
     if (addressSearchButtonRef?.current) {
       addressSearchButtonRef.current.click();
     }
@@ -52,6 +52,6 @@ export const useStoreAddress = () => {
     errorMessage,
     isError,
     addressSearchButtonRef,
-    handleFocusNextStepButton,
+    handleClickNextStepButton,
   };
 };
