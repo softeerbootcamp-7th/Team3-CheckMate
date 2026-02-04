@@ -1,1 +1,0 @@
-export { StoreBusinessHoursSelect } from './StoreBusinessHoursSelect';

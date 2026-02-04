@@ -1,6 +1,7 @@
-import { StoreBusinessHoursInputGrid } from '../store-business-hours-input-grid';
 import { StoreRegisterFormTitle } from '../store-register-form-title';
 import { StoreRegisterStepButtonGroup } from '../store-register-step-button-group';
+
+import { StoreBusinessHoursInputGrid } from './StoreBusinessHoursInputGrid';
 
 export const StoreBusinessHoursInputSection = () => {
   return (

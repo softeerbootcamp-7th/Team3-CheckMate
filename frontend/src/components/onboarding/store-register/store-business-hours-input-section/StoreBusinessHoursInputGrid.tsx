@@ -1,9 +1,7 @@
 import { STORE_BUSINESS_WEEK_DAY_LIST } from '@/constants/onboarding/store-register';
 
-import {
-  StoreBusinessHoursHeaderRow,
-  StoreBusinessHoursRow,
-} from '../store-business-hours-row';
+import { StoreBusinessHoursHeaderRow } from './StoreBusinessHoursHeaderRow';
+import { StoreBusinessHoursRow } from './StoreBusinessHoursRow';
 
 export const StoreBusinessHoursInputGrid = () => {
   return (

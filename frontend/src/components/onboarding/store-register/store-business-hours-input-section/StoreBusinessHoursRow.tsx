@@ -3,7 +3,7 @@ import { memo, useCallback, useState } from 'react';
 import { Switch } from '@/components/shared/shadcn-ui';
 import { type StoreBusinessWeekDay } from '@/constants/onboarding/store-register';
 
-import { StoreBusinessHoursSelect } from '../store-business-hours-select';
+import { StoreBusinessHoursSelect } from './StoreBusinessHoursSelect';
 
 interface StoreBusinessHoursRowProps {
   label: StoreBusinessWeekDay['label'];

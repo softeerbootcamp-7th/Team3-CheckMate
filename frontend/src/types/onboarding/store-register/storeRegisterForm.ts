@@ -2,9 +2,9 @@ type DayOfWeek = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
 
 interface BusinessHour {
   dayOfWeek: DayOfWeek;
-  openTime: string; // 00:00 ~ 24:00
-  closeTime: string; // 00:00 ~ 24:00
-  closed: boolean;
+  openTime?: string; // 00:00 ~ 24:00
+  closeTime?: string; // 00:00 ~ 24:00
+  closed?: boolean;
 }
 
 export interface StoreRegisterForm {
