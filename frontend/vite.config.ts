@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { playwright } from '@vitest/browser-playwright';
 import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
 const dirname =
@@ -18,9 +18,9 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+  // const env = loadEnv(mode, process.cwd(), '');
   const isDevelopment = mode === 'development';
-  const apiUrl = env.VITE_API_URL;
+  // const apiUrl = env.VITE_API_URL;
   return {
     plugins: [
       react(),
@@ -68,15 +68,15 @@ export default defineConfig(({ mode }) => {
       ],
     },
     server: {
-      proxy: {
-        '/api': {
-          target: apiUrl,
-          changeOrigin: true,
-          rewrite: (path) => {
-            return path.replaceAll('/api', '');
-          },
-        },
-      },
+      // proxy: {
+      //   '/api': {
+      //     target: apiUrl,
+      //     changeOrigin: true,
+      //     rewrite: (path) => {
+      //       return path.replaceAll('/api', '');
+      //     },
+      //   },
+      // },
       https: isDevelopment
         ? {
             key: fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem')),

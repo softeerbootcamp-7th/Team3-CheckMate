@@ -1,8 +1,8 @@
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import { STORE_REGISTER_STEP } from '@/constants/onboarding/store-register';
 import { useStoreRegisterStepContext } from '@/hooks/onboarding/store-register';
+import type { StoreRegisterForm as StoreRegisterFormType } from '@/types/onboarding/store-register';
 
 import {
   StoreRegisterFormContent,
@@ -10,20 +10,14 @@ import {
 } from '../store-register-form-content';
 
 export const StoreRegisterForm = () => {
-  // TODO: 폼 type 타입 정의하기
-  const navigate = useNavigate();
-  const methods = useForm();
+  const methods = useForm<StoreRegisterFormType>({
+    mode: 'all',
+  });
   const { currentStep, moveNextStep } = useStoreRegisterStepContext();
 
   const handleSubmit = methods.handleSubmit(() => {
     if (currentStep < STORE_REGISTER_STEP.SALES_CLOSING_TIME) {
       moveNextStep();
-      return;
-    }
-    if (currentStep === STORE_REGISTER_STEP.SALES_CLOSING_TIME) {
-      navigate('/onboarding/pos', {
-        replace: true,
-      });
       return;
     }
   });

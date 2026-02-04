@@ -1,2 +1,9 @@
 export { queryClient } from './queryClient';
-export { basicApiClient, authorizedApiClient } from './apiClient';
+export {
+  basicApi,
+  authorizedApi,
+  type ApiResponse,
+  type SuccessResponse,
+  type ErrorResponse,
+} from './apiClient';
+export { ApiError } from './apiError';

@@ -1,5 +1,11 @@
-import { type InputHTMLAttributes, type RefObject, useId } from 'react';
+import {
+  type InputHTMLAttributes,
+  type RefCallback,
+  type RefObject,
+  useId,
+} from 'react';
 
+import { InputSuccessMessage } from '@/components/shared/input/InputSuccessMessage';
 import { cn } from '@/utils/shared';
 
 import { InputErrorMessage } from './InputErrorMessage';
@@ -7,16 +13,22 @@ import { InputErrorMessage } from './InputErrorMessage';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isError?: boolean;
   errorMessage?: string;
+  isSuccess?: boolean;
+  successMessage?: string;
   className?: string;
   inputClassName?: string;
   label?: string;
   description?: string;
-  ref?: RefObject<HTMLInputElement | null>;
+  ref?:
+    | RefObject<HTMLInputElement | null>
+    | RefCallback<HTMLInputElement | null>;
 }
 
 export const Input = ({
   isError,
   errorMessage,
+  isSuccess,
+  successMessage,
   className,
   inputClassName,
   label,
@@ -55,10 +67,12 @@ export const Input = ({
             'rounded-200 bg-grey-100 focus:outline-grey-300 placeholder:text-grey-500 body-large-medium w-full grow px-400 py-250 focus:outline-1',
             isError &&
               'outline-others-negative focus:outline-others-negative outline-1',
+            isSuccess && 'outline-brand-500 focus:outline-brand-500 outline-1',
             inputClassName,
           )}
         />
         {isError && <InputErrorMessage message={errorMessage} />}
+        {isSuccess && <InputSuccessMessage message={successMessage} />}
       </div>
     </div>
   );
