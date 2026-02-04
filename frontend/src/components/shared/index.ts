@@ -7,5 +7,4 @@ export { SectionTitle } from './section-title';
 export { PeriodSelect } from './period-select';
 export { OnboardingLayout } from './onboarding-layout';
 export { Input } from './input';
-export { IngredientEditDialog } from '../ingredient/IngredientEditDialog';
 export { Spinner } from './spinner';

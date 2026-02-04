@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { IngredientEditDialog } from '@/components/shared';
+import { IngredientEditDialog } from '@/components/ingredient';
 
 export const SettingPage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(true);

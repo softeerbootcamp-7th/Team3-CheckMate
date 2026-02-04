@@ -1,12 +1,12 @@
 import { SelectItem } from '@/components/shared/shadcn-ui';
 
-interface IngredientUnitDropDownMenuItemProps {
+interface IngredientUnitSelectItemProps {
   unit: string;
 }
 
 export const IngredientUnitSelectItem = ({
   unit,
-}: IngredientUnitDropDownMenuItemProps) => {
+}: IngredientUnitSelectItemProps) => {
   return (
     <SelectItem
       value={unit}
