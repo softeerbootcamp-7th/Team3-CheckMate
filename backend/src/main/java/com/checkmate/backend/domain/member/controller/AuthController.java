@@ -112,12 +112,12 @@ public class AuthController {
     public ResponseEntity<ApiResponse<LoginResponse>> handleGoogleCallback(
             @RequestParam String code,
             //            @RequestParam String state,
-            @RequestParam(required = false) String redirect_url,
+            @RequestParam(required = false) String redirectUrl,
             HttpSession session) {
         //        validateState(state, session);
 
         GoogleTokenResponse googleTokenResponse =
-                memberService.exchangeCodeForToken(code, redirect_url);
+                memberService.exchangeCodeForToken(code, redirectUrl);
         String email = memberService.extractEmailFromToken(googleTokenResponse.getIdToken());
 
         AuthToken authToken = memberService.processLoginTransaction(email, googleTokenResponse);
