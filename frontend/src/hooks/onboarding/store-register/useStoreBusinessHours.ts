@@ -200,7 +200,7 @@ export const useStoreBusinessHours = () => {
   }, [value]);
 
   // 영업 시간이 자정을 넘어가는지 체크
-  const isOver24 = useMemo(() => {
+  const isOver24FromYesterday = useMemo(() => {
     const over24: Record<number, boolean | undefined> = {};
 
     value.forEach((businessHour, index) => {
@@ -215,7 +215,7 @@ export const useStoreBusinessHours = () => {
     value,
     startHourTimeLimit,
     endHourTimeLimit,
-    isOver24,
+    isOver24FromYesterday,
     handleSelectStartTime,
     handleSelectEndTime,
     handleCheck24,

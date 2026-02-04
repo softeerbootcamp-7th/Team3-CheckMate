@@ -9,7 +9,7 @@ export const StoreBusinessHoursInputGrid = () => {
     value,
     startHourTimeLimit,
     endHourTimeLimit,
-    isOver24,
+    isOver24FromYesterday,
     handleSelectStartTime,
     handleSelectEndTime,
     handleCheck24,
@@ -26,7 +26,7 @@ export const StoreBusinessHoursInputGrid = () => {
             businessHour={value[index]}
             startHourTimeLimit={startHourTimeLimit[index]}
             endHourTimeLimit={endHourTimeLimit[index]}
-            isOver24={isOver24[index]}
+            isOver24FromYesterday={isOver24FromYesterday[index]}
             onSelectStartTime={handleSelectStartTime(index)}
             onSelectEndTime={handleSelectEndTime(index)}
             onCheck24={handleCheck24(index)}

@@ -15,7 +15,7 @@ interface StoreBusinessHoursRowProps {
   businessHour: StoreRegisterForm['businessHours'][number];
   startHourTimeLimit?: string;
   endHourTimeLimit?: string;
-  isOver24?: boolean;
+  isOver24FromYesterday?: boolean;
   onSelectStartTime: (startTime: string) => void;
   onSelectEndTime: (endTime: string) => void;
   onCheck24: (is24: boolean) => void;
@@ -28,7 +28,7 @@ export const StoreBusinessHoursRow = memo(
     businessHour,
     startHourTimeLimit,
     endHourTimeLimit,
-    isOver24,
+    isOver24FromYesterday,
     onSelectStartTime,
     onSelectEndTime,
     onCheck24,
@@ -41,7 +41,9 @@ export const StoreBusinessHoursRow = memo(
         <StoreBusinessHoursSelect
           placeholder={STORE_BUSINESS_HOURS_STATUS.START}
           selectedTime={openTime}
-          startTimeLimit={isOver24 ? startHourTimeLimit : undefined}
+          startTimeLimit={
+            isOver24FromYesterday ? startHourTimeLimit : undefined
+          }
           onSelect={onSelectStartTime}
         />
         <span className="body-large-semibold text-grey-900 flex items-center justify-center leading-loose">
