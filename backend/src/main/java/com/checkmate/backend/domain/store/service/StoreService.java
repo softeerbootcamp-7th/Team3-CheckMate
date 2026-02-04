@@ -134,7 +134,7 @@ public class StoreService {
 
             posRepository.save(pos);
 
-            emitter.send(ThreadLocalRandom.current().nextBoolean() ? "success" : "fail");
+            emitter.send("success");
         } catch (InterruptedException | IOException e) {
             log.warn("[connectPOS][storeId= {}, reason= {}]", storeId, e.getMessage());
         }
