@@ -6,10 +6,12 @@ import { PreviousStepButton } from '../previous-step-button';
 
 interface StoreRegisterStepButtonGroupProps {
   disable?: boolean;
+  isLastStep?: boolean;
 }
 
 export const StoreRegisterStepButtonGroup = ({
   disable = false,
+  isLastStep = false,
 }: StoreRegisterStepButtonGroupProps) => {
   const { currentStep } = useStoreRegisterStepContext();
   const isFirstStep =
@@ -17,7 +19,7 @@ export const StoreRegisterStepButtonGroup = ({
   return (
     <div className="flex items-center gap-4 self-end">
       {!isFirstStep && <PreviousStepButton />}
-      <NextStepButton disable={disable} />
+      <NextStepButton disable={disable} isLastStep={isLastStep} />
     </div>
   );
 };

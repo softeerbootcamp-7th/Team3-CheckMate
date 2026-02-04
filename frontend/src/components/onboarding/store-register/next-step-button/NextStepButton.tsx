@@ -1,12 +1,11 @@
 import type { RefCallback, RefObject } from 'react';
 
 import { Button } from '@/components/shared/shadcn-ui';
-import { STORE_REGISTER_STEP } from '@/constants/onboarding/store-register';
-import { useStoreRegisterStepContext } from '@/hooks/onboarding/store-register';
 import { cn } from '@/utils/shared';
 
 interface NextStepButtonProps {
   disable?: boolean;
+  isLastStep?: boolean;
   ref?:
     | RefObject<HTMLButtonElement | null>
     | RefCallback<HTMLButtonElement | null>;
@@ -14,10 +13,9 @@ interface NextStepButtonProps {
 
 export const NextStepButton = ({
   disable = false,
+  isLastStep = false,
   ref,
 }: NextStepButtonProps) => {
-  const { currentStep } = useStoreRegisterStepContext();
-  const isLastStep = currentStep === STORE_REGISTER_STEP.SALES_CLOSING_TIME;
   return (
     <Button
       variant="ghost"
