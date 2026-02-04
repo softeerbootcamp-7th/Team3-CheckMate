@@ -85,6 +85,24 @@ public class JwtUtil {
         }
     }
 
+    public void validateRefreshToken(String token) {
+        try {
+            parseToken(token);
+        } catch (SecurityException | MalformedJwtException e) {
+            log.warn("Invalid refresh token signature: {}", e.getMessage());
+            throw new UnauthorizedException(ErrorStatus.INVALID_REFRESH_TOKEN);
+        } catch (ExpiredJwtException e) {
+            log.debug("Expired refresh token: {}", e.getMessage());
+            throw new UnauthorizedException(ErrorStatus.EXPIRED_REFRESH_TOKEN);
+        } catch (UnsupportedJwtException e) {
+            log.warn("Unsupported refresh token: {}", e.getMessage());
+            throw new UnauthorizedException(ErrorStatus.INVALID_REFRESH_TOKEN);
+        } catch (IllegalArgumentException e) {
+            log.warn("Refresh token is invalid: {}", e.getMessage());
+            throw new UnauthorizedException(ErrorStatus.INVALID_REFRESH_TOKEN);
+        }
+    }
+
     private Jws<Claims> parseToken(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
     }

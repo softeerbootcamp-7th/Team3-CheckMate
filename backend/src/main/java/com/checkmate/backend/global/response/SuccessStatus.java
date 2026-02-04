@@ -14,6 +14,9 @@ public enum SuccessStatus {
     // 201
     MEMBER_SIGNUP_SUCCESS(HttpStatus.CREATED, "회원 가입에 성공했습니다"),
 
+    /** JWT & Auth */
+    TOKEN_REFRESH_SUCCESS(HttpStatus.OK, "토큰 재발급에 성공했습니다."),
+
     /** Store */
     // 200
     POS_CONNECT_START(HttpStatus.OK, "POS 연동을 시작합니다."),

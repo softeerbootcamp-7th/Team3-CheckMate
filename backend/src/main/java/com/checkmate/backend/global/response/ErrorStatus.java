@@ -43,6 +43,10 @@ public enum ErrorStatus {
     BUSINESS_AUTH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "사업자 인증 토큰이 존재하지 않습니다."),
     EXPIRED_BUSINESS_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 사업자 인증 토큰입니다."),
     INVALID_BUSINESS_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 사업자 인증 토큰입니다."),
+    REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "리프레시 토큰이 존재하지 않습니다."),
+    INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 리프레시 토큰입니다."),
+    EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 리프레시 토큰입니다."),
+    REFRESH_TOKEN_MISMATCH(HttpStatus.UNAUTHORIZED, "저장된 리프레시 토큰과 일치하지 않습니다."),
 
     // 403
     FORBIDDEN_ACCESS(HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
