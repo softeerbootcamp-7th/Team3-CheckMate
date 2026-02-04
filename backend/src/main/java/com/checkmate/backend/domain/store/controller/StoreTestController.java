@@ -43,7 +43,7 @@ public class StoreTestController {
                 description = "INTERNAL_SERVER_EXCEPTION(서버 내부 오류가 발생했습니다.)"),
     })
     @DeleteMapping
-    public ResponseEntity<ApiResponse<Void>> delete(@RequestParam Long storeId) {
+    public ResponseEntity<ApiResponse<Void>> delete(@RequestAttribute Long storeId) {
         Store store =
                 storeRepository
                         .findById(storeId)
@@ -68,7 +68,7 @@ public class StoreTestController {
                 description = "INTERNAL_SERVER_EXCEPTION(서버 내부 오류가 발생했습니다.)"),
     })
     @DeleteMapping("/pos")
-    public ResponseEntity<ApiResponse<Void>> deletePos(@RequestParam Long storeId) {
+    public ResponseEntity<ApiResponse<Void>> deletePos(@RequestAttribute Long storeId) {
         posRepository.deletePosByStoreId(storeId);
 
         return ApiResponse.success_only(POS_CONNECT_START);
