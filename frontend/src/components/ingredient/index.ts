@@ -1,1 +1,1 @@
-export { IngredientEditDialog } from './IngredientEditDialog';
+export { MenuCard } from './menuCard';
