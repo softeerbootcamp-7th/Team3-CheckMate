@@ -1,7 +1,4 @@
-import { useFormContext } from 'react-hook-form';
-
-import { STORE_REGISTER_FORM_FIELD } from '@/constants/onboarding/store-register';
-import type { StoreRegisterForm } from '@/types/onboarding/store-register';
+import { useStoreBusinessHoursStep } from '@/hooks/onboarding/store-register';
 
 import { StoreRegisterFormTitle } from '../store-register-form-title';
 import { StoreRegisterStepButtonGroup } from '../store-register-step-button-group';
@@ -10,14 +7,8 @@ import { StoreBusinessHoursInputErrorMessage } from './StoreBusinessHoursInputEr
 import { StoreBusinessHoursInputGrid } from './StoreBusinessHoursInputGrid';
 
 export const StoreBusinessHoursInputSection = () => {
-  const {
-    formState: { errors },
-  } = useFormContext<StoreRegisterForm>();
-
-  const isError = !!errors[STORE_REGISTER_FORM_FIELD.BUSINESS_HOURS];
-  const errorMessage =
-    errors[STORE_REGISTER_FORM_FIELD.BUSINESS_HOURS]?.message;
-
+  const { isError, errorMessage, has24BusinessHour } =
+    useStoreBusinessHoursStep();
   return (
     <>
       <StoreRegisterFormTitle
@@ -30,7 +21,10 @@ export const StoreBusinessHoursInputSection = () => {
             <StoreBusinessHoursInputErrorMessage errorMessage={errorMessage} />
           )}
         </div>
-        <StoreRegisterStepButtonGroup disable={isError} />
+        <StoreRegisterStepButtonGroup
+          disable={isError}
+          isLastStep={!has24BusinessHour}
+        />
       </div>
     </>
   );
