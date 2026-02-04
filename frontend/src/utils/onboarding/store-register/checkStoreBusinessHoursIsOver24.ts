@@ -2,7 +2,7 @@ export const checkStoreBusinessHoursIsOver24 = (
   openTime?: string,
   closeTime?: string,
 ): boolean | undefined => {
-  if (openTime === undefined || closeTime === undefined) {
+  if (!openTime || !closeTime) {
     return undefined;
   }
 
