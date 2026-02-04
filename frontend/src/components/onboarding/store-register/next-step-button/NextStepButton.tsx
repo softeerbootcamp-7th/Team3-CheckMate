@@ -26,6 +26,7 @@ export const NextStepButton = ({
         disable ? 'bg-grey-100 text-grey-500' : 'text-grey-50 bg-brand-main',
       )}
       ref={ref}
+      disabled={disable}
     >
       {isLastStep ? '제출하기' : '다음'}
     </Button>
