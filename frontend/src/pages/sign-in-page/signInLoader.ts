@@ -11,10 +11,9 @@ export const signInLoader = (queryClient: QueryClient) => async () => {
 
   // google 로그인 이후 redirect_url의 query params 에서 code 와 state 를 추출
   const code = searchParams.get('code');
-  const state = searchParams.get('state');
 
   // code 와 state 가 없으면 로그인 페이지로 바로 이동
-  if (!code || !state) {
+  if (!code) {
     return;
   }
 
@@ -24,8 +23,7 @@ export const signInLoader = (queryClient: QueryClient) => async () => {
   // google oauth토큰으로 jwt 토큰 발급
   await getAuthGoogle({
     code,
-    state,
-    redirect_url: `${window.location.origin}/sign-in`,
+    redirectUrl: `${window.location.origin}/sign-in`,
   }).then(({ accessToken }) => {
     authToken.set(accessToken);
   });
