@@ -12,5 +12,5 @@ public interface PosTestRepository extends JpaRepository<Pos, Long> {
     @Modifying
     @Transactional
     @Query("delete from Pos p" + " where p.store.id=:storeId")
-    void deletePosByStoreId(@Param("storeId") Long store);
+    void deletePosByStoreId(@Param("storeId") Long storeId);
 }

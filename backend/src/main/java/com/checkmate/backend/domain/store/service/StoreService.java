@@ -116,6 +116,7 @@ public class StoreService {
 
             if (!ThreadLocalRandom.current().nextBoolean()) {
                 emitter.send("fail");
+                return;
             }
 
             Store store =

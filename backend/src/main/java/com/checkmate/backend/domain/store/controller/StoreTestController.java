@@ -1,8 +1,7 @@
 package com.checkmate.backend.domain.store.controller;
 
 import static com.checkmate.backend.global.response.ErrorStatus.STORE_NOT_FOUND_EXCEPTION;
-import static com.checkmate.backend.global.response.SuccessStatus.POS_CONNECT_START;
-import static com.checkmate.backend.global.response.SuccessStatus.STORE_DELETE_SUCCESS;
+import static com.checkmate.backend.global.response.SuccessStatus.*;
 
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.PosTestRepository;
@@ -71,6 +70,6 @@ public class StoreTestController {
     public ResponseEntity<ApiResponse<Void>> deletePos(@RequestAttribute Long storeId) {
         posRepository.deletePosByStoreId(storeId);
 
-        return ApiResponse.success_only(POS_CONNECT_START);
+        return ApiResponse.success_only(POS_DELETE_SUCCESS);
     }
 }
