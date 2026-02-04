@@ -1,7 +1,8 @@
-import { type FieldErrors, useFieldArray, useForm } from 'react-hook-form';
+import { type FieldErrors } from 'react-hook-form';
 
 import { toast } from 'sonner';
 
+import { useIngredientForm } from '@/hooks/ingredient';
 import type { FormValues } from '@/types/ingredient';
 
 import { Dialog, DialogContent } from '../shared/shadcn-ui/dialog';
@@ -33,11 +34,14 @@ export const IngredientEditDialog = ({
     control,
     register,
     handleSubmit,
-    getValues,
-    formState: { isDirty, errors },
-  } = useForm<FormValues>({
-    reValidateMode: 'onBlur',
-    defaultValues: { ingredients: mockMenuIngredients.ingredients },
+    isDirty,
+    formErrors,
+    fields,
+    append,
+    remove,
+    isIngredientRowEmpty,
+  } = useIngredientForm({
+    formValues: { ingredients: mockMenuIngredients.ingredients },
   });
 
   const onClickDeleteIngredient = (index: number) => {
@@ -47,14 +51,6 @@ export const IngredientEditDialog = ({
     append({ id: '', name: '', amount: '', unit: '' });
   };
 
-  const isRowEmpty = (index: number) => {
-    const row = getValues(`ingredients.${index}`);
-    const ifAnyFieldFilled = [row.name, row.amount, row.unit].some((field) => {
-      return String(field).trim().length > 0;
-    });
-    return !ifAnyFieldFilled;
-  };
-
   const onSubmit = (data: FormValues) => {
     return data; // 그냥 임시 return. 사용하는 데는 없음
   };
@@ -62,6 +58,7 @@ export const IngredientEditDialog = ({
     toast(
       '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
       {
+        duration: 3500, // 3.5초 동안 띄워져있음
         className:
           '!bg-grey-900 !text-grey-50 !border-none !max-w-auto !w-max body-small-semibold px-400',
         position: 'bottom-center',
@@ -69,15 +66,12 @@ export const IngredientEditDialog = ({
     );
     return errors; // 그냥 임시 return. 사용하는 데는 없음
   };
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'ingredients',
-  });
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="rounded-500 h-175 !w-[1000px] !max-w-[1000px] gap-0 border-none bg-gray-50 p-12.5 [&>button]:hidden">
         <form className="flex h-full min-h-0 w-full flex-col">
+          {/** 메뉴명과 취소, 저장 버튼 있는 행 */}
           <IngredientEditDialogHeader
             onOpenChange={onOpenChange}
             handleSubmit={handleSubmit}
@@ -99,9 +93,9 @@ export const IngredientEditDialog = ({
             <IngredientGrid
               fields={fields}
               register={register}
-              errors={errors}
+              formErrors={formErrors}
               control={control}
-              isRowEmpty={isRowEmpty}
+              isIngredientRowEmpty={isIngredientRowEmpty}
               onClickDeleteIngredient={onClickDeleteIngredient}
             />
           </section>
