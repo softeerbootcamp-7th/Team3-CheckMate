@@ -1,6 +1,9 @@
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { STORE_REGISTER_STEP } from '@/constants/onboarding/store-register';
+import {
+  STORE_REGISTER_FORM_DEFAULT_VALUE,
+  STORE_REGISTER_STEP,
+} from '@/constants/onboarding/store-register';
 import { useStoreRegisterStepContext } from '@/hooks/onboarding/store-register';
 import type { StoreRegisterForm as StoreRegisterFormType } from '@/types/onboarding/store-register';
 
@@ -12,6 +15,7 @@ import {
 export const StoreRegisterForm = () => {
   const methods = useForm<StoreRegisterFormType>({
     mode: 'all',
+    defaultValues: STORE_REGISTER_FORM_DEFAULT_VALUE,
   });
   const { currentStep, moveNextStep } = useStoreRegisterStepContext();
 
