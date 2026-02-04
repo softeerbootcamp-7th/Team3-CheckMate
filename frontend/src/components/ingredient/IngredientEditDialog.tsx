@@ -197,6 +197,7 @@ export const IngredientEditDialog = ({
                       className="flex h-full items-center gap-2.5"
                     >
                       <Input
+                        autoComplete="off"
                         maxLength={10} // 태그 자체 글자수 제한 기능
                         {...register(`ingredients.${index}.name`, {
                           maxLength: 10,
@@ -222,6 +223,7 @@ export const IngredientEditDialog = ({
                         )}
                       />
                       <Input
+                        autoComplete="off"
                         maxLength={5}
                         {...register(`ingredients.${index}.amount`, {
                           validate: (currentFieldValue) => {
