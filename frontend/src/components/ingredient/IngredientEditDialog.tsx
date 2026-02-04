@@ -38,6 +38,8 @@ interface IngredientEditDialogProps {
 interface Ingredient {
   id: string;
   name: string;
+  // input은 값들을 보통 string으로 다룸
+  // -> 그래야 새로운 필드 추가할 때 빈 문자열로 초기화 해 placeholder 뜨게 할 수 있음(숫자는 0으로 초기화 하거나(그러면 placeholder 안뜸) null 허용 해야함)
   amount: string;
   unit: string;
 }
@@ -59,6 +61,7 @@ export const IngredientEditDialog = ({
     control,
     register,
     handleSubmit,
+    getValues,
     formState: { isDirty, errors },
   } = useForm({
     defaultValues: { ingredients: mockMenuIngredients.ingredients },
@@ -69,6 +72,14 @@ export const IngredientEditDialog = ({
   };
   const onClickAddIngredient = () => {
     append({ id: '', name: '', amount: '', unit: '' });
+  };
+
+  const isRowEmpty = (index: number) => {
+    const row = getValues(`ingredients.${index}`);
+    const ifAnyFieldFilled = [row.name, row.amount, row.unit].some((field) => {
+      return String(field).trim().length > 0;
+    });
+    return !ifAnyFieldFilled;
   };
 
   const onSubmit = (data) => console.log(data);
@@ -186,12 +197,20 @@ export const IngredientEditDialog = ({
                       className="flex h-full items-center gap-2.5"
                     >
                       <Input
+                        maxLength={10} // 태그 자체 글자수 제한 기능
                         {...register(`ingredients.${index}.name`, {
-                          required: true,
                           maxLength: 10,
                           onBlur: (e) => {
-                            // 사용자가 입력 마치고 다른 영역 클릭했을 때 실행되는 함수
+                            // 사용자가 입력 마치고 다른 영역 클릭했을 때 실행되는 함수 -> 앞뒤 공백 제거
                             e.target.value = e.target.value.trim();
+                          },
+                          validate: (currentFieldValue) => {
+                            // 한 행의 모든 값 비어있으면 오류 발생 안시키고 검증 통과
+                            if (isRowEmpty(index)) {
+                              return true;
+                            }
+                            // 식자재명은 반드시 입력되어야 함
+                            return currentFieldValue.length > 0;
                           },
                         })}
                         placeholder="식재료명"
@@ -199,21 +218,34 @@ export const IngredientEditDialog = ({
                           errors.ingredients?.[index]?.name
                             ? 'border-others-negative'
                             : 'border-transparent',
-                          'bg-grey-200 rounded-200 placeholder:text-grey-400 h-10.5 flex-1 border p-250 focus:outline-none',
+                          'bg-grey-200 rounded-200 placeholder:text-grey-400 h-10.5 flex-1 border p-250',
                         )}
                       />
                       <Input
+                        maxLength={5}
                         {...register(`ingredients.${index}.amount`, {
-                          required: true,
-                          maxLength: 5,
-                          pattern: /^[0-9]*$/,
+                          validate: (currentFieldValue) => {
+                            // 한 행의 모든 값 비어있으면 오류 발생 안시키고 검증 통과
+                            if (isRowEmpty(index)) {
+                              return true;
+                            }
+                            // 용량은 반드시 입력되어야 함
+                            return currentFieldValue.length > 0;
+                          },
                         })}
+                        onInput={(e) => {
+                          // 숫자만 입력되도록 실시간 필터링 -> 검증때만 입력 불가가 아니라 애초에 입력 불가능하게
+                          e.currentTarget.value = e.currentTarget.value.replace(
+                            /[^0-9]/g, // /: 정규식 시작과 끝 , ^ : 부정, g: 모든 문자에 적용
+                            '',
+                          );
+                        }}
                         placeholder="용량"
                         className={cn(
                           errors.ingredients?.[index]?.amount
                             ? 'border-others-negative'
                             : 'border-transparent',
-                          'bg-grey-200 rounded-200 placeholder:text-grey-400 h-10.5 w-20 border p-250 text-center focus:outline-none',
+                          'bg-grey-200 rounded-200 placeholder:text-grey-400 h-10.5 w-20 border p-250 text-center',
                         )}
                       />
 
@@ -221,7 +253,14 @@ export const IngredientEditDialog = ({
                         name={`ingredients.${index}.unit`}
                         control={control}
                         rules={{
-                          required: true,
+                          validate: (currentFieldValue) => {
+                            // 한 행의 모든 값 비어있으면 오류 발생 안시키고 검증 통과
+                            if (isRowEmpty(index)) {
+                              return true;
+                            }
+                            // 단위는 반드시 선택되어야 함
+                            return currentFieldValue.length > 0;
+                          },
                         }}
                         render={({ field }) => {
                           return (
