@@ -13,7 +13,6 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -186,7 +185,6 @@ public class AuthController {
     - 현재는 memberId를 파라미터로 받아서 처리하지만, 추후에는 필터에서 인증된 사용자 정보를 추출하여 사용
     - @RequestAttribute 또는 ArgumentResolver 등을 활용할 수 있음
     */
-
     @Operation(
             summary = "사용자 상태 조회 API",
             description = "현재 로그인한 사용자의 이메일, 매장 등록 여부, POS 연동 여부를 조회합니다.")
