@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../shared/shadcn-ui';
+import { Input } from '../shared/shadcn-ui';
 import {
   Dialog,
   DialogContent,
@@ -178,13 +179,13 @@ export const IngredientEditDialog = ({
                   메뉴 제조에 필요한 식재료를 등록해주세요
                 </div>
               ) : (
-                <div className="body-medium-semibold grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
+                <div className="!body-medium-semibold grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
                   {fields.map((field, index) => (
                     <div
                       key={field.id}
                       className="flex h-full items-center gap-2.5"
                     >
-                      <input
+                      <Input
                         {...register(`ingredients.${index}.name`, {
                           required: true,
                           maxLength: 10,
@@ -201,7 +202,7 @@ export const IngredientEditDialog = ({
                           'bg-grey-200 rounded-200 placeholder:text-grey-400 h-10.5 flex-1 border p-250 focus:outline-none',
                         )}
                       />
-                      <input
+                      <Input
                         {...register(`ingredients.${index}.amount`, {
                           required: true,
                           maxLength: 5,

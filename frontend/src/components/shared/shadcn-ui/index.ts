@@ -50,3 +50,4 @@ export {
   SelectTrigger,
   SelectValue,
 } from './select';
+export { Input } from './input';
