@@ -4,6 +4,12 @@
  * @returns { hour: number, minute: number }
  */
 export const parseStoreBusinessHour = (time: string) => {
+  if (!time) {
+    return {
+      hour: NaN,
+      minute: NaN,
+    };
+  }
   const [hour, minute] = time.split(':').map(Number);
   return {
     hour,
