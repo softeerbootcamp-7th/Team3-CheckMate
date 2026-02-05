@@ -1,1 +1,1 @@
-export { SALES_SOURCE_DATA } from './salesSource';
+export { ORDER_METHOD_DATA } from './orderMethod';
