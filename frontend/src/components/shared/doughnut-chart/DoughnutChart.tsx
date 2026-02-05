@@ -53,7 +53,7 @@ export const DoughnutChart = ({
 
   // 100% percentage -> 180도 degree
   const getDegreeFromPercentage = (percentage: number) => {
-    const degree = 360 * (percentage / 100); // 0~360도
+    const degree = 359.99 * (percentage / 100); // 0~360도 (360도는 시작점과 동일하므로 호가 그려지지 않음)
     return degree;
   };
 
