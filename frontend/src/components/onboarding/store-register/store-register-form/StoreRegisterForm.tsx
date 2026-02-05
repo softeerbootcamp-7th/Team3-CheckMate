@@ -35,8 +35,16 @@ export const StoreRegisterForm = () => {
         moveNextStep();
         return;
       }
+      // const refinedFormData = refineStoreRegisterFormData(data);
+      // console.log(refinedFormData);
+      // return;
       navigate('../pos', { replace: true });
     }
+
+    // if (currentStep === STORE_REGISTER_STEP.SALES_CLOSING_TIME) {
+    //   const refinedFormData = refineStoreRegisterFormData(data);
+    //   console.log(refinedFormData);
+    // }
   });
 
   return (
