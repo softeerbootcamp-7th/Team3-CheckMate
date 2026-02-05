@@ -4,7 +4,25 @@ import type { QueryClient } from '@tanstack/react-query';
 
 import { getAuthGoogle } from '@/services/auth';
 import { authOptions } from '@/services/auth/options';
-import { authToken } from '@/services/shared';
+
+const getUserOnboardingStatus = async (queryClient: QueryClient) => {
+  const data = await queryClient.ensureQueryData(authOptions.me).catch(() => {
+    return null;
+  });
+
+  if (!data) {
+    return null;
+  }
+
+  switch (data.onboardingStatus) {
+    case 'NONE':
+      return redirect('/onboarding/store');
+    case 'REGISTERED_STORE':
+      return redirect('/onboarding/pos');
+    case 'COMPLETED':
+      return redirect('/dashboard');
+  }
+};
 
 export const signInLoader = (queryClient: QueryClient) => async () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -14,7 +32,7 @@ export const signInLoader = (queryClient: QueryClient) => async () => {
 
   // code 와 state 가 없으면 로그인 페이지로 바로 이동
   if (!code) {
-    return;
+    return await getUserOnboardingStatus(queryClient);
   }
 
   // query params 초기화 (새로고침 없이 지우기 위해 replaceState 사용)
@@ -24,21 +42,7 @@ export const signInLoader = (queryClient: QueryClient) => async () => {
   await getAuthGoogle({
     code,
     redirectUrl: `${window.location.origin}/sign-in`,
-  }).then(({ accessToken }) => {
-    authToken.set(accessToken);
   });
 
-  // 현재 유저 상태에 따라 redirect
-  const { onboaradingStatus } = await queryClient.ensureQueryData(
-    authOptions.me,
-  );
-
-  switch (onboaradingStatus) {
-    case 'NONE':
-      throw redirect('/onboarding/store');
-    case 'REGISTERED_STORE':
-      throw redirect('/onboarding/pos');
-    case 'COMPLETED':
-      throw redirect('/dashboard');
-  }
+  return await getUserOnboardingStatus(queryClient);
 };
