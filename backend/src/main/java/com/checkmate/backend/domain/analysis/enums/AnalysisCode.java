@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum MetricCode {
+public enum AnalysisCode {
 
     /** [매출 - 현황] */
     SLS_01(
