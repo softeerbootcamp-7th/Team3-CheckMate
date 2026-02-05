@@ -34,7 +34,10 @@ export default defineConfig([
       'no-var': 'error',
       'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       eqeqeq: ['error', 'always'],
       'prefer-const': 'error',
       curly: ['error', 'all'],
