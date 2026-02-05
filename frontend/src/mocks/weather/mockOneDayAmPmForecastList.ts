@@ -1,3 +1,4 @@
+import { CDN_BASE_URL } from '@/constants/shared';
 import type { WeatherForecastOneDayAmPm } from '@/types/weather';
 
 const today = new Date();
@@ -13,11 +14,11 @@ export const mockOneDayAmPmForecastList: WeatherForecastOneDayAmPm[] = [
     date: dateList[0],
 
     am: {
-      iconPath: '/assets/temp/sun.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
       temperature: 27,
     },
     pm: {
-      iconPath: '/assets/temp/cloudRain.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
       temperature: 22,
     },
   },
@@ -25,11 +26,11 @@ export const mockOneDayAmPmForecastList: WeatherForecastOneDayAmPm[] = [
     date: dateList[1],
 
     am: {
-      iconPath: '/assets/temp/sun.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/sun.svg`,
       temperature: 27,
     },
     pm: {
-      iconPath: '/assets/temp/cloudRain.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
       temperature: 22,
     },
   },
@@ -37,11 +38,11 @@ export const mockOneDayAmPmForecastList: WeatherForecastOneDayAmPm[] = [
     date: dateList[2],
 
     am: {
-      iconPath: '/assets/temp/sun.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
       temperature: 27,
     },
     pm: {
-      iconPath: '/assets/temp/cloudRain.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
       temperature: 22,
     },
   },
@@ -49,11 +50,11 @@ export const mockOneDayAmPmForecastList: WeatherForecastOneDayAmPm[] = [
     date: dateList[3],
 
     am: {
-      iconPath: '/assets/temp/sun.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
       temperature: 27,
     },
     pm: {
-      iconPath: '/assets/temp/cloudRain.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
       temperature: 22,
     },
   },
@@ -62,11 +63,11 @@ export const mockOneDayAmPmForecastList: WeatherForecastOneDayAmPm[] = [
     date: dateList[4],
 
     am: {
-      iconPath: '/assets/temp/sun.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/sun.svg`,
       temperature: 27,
     },
     pm: {
-      iconPath: '/assets/temp/cloudRain.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
       temperature: 22,
     },
   },
@@ -74,11 +75,11 @@ export const mockOneDayAmPmForecastList: WeatherForecastOneDayAmPm[] = [
     date: dateList[5],
 
     am: {
-      iconPath: '/assets/temp/sun.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/sun.svg`,
       temperature: 27,
     },
     pm: {
-      iconPath: '/assets/temp/cloudRain.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
       temperature: 22,
     },
   },
@@ -86,11 +87,11 @@ export const mockOneDayAmPmForecastList: WeatherForecastOneDayAmPm[] = [
     date: dateList[6],
 
     am: {
-      iconPath: '/assets/temp/sun.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/sun.svg`,
       temperature: 27,
     },
     pm: {
-      iconPath: '/assets/temp/cloudRain.svg',
+      iconPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
       temperature: 22,
     },
   },

@@ -1,3 +1,4 @@
+import { CDN_BASE_URL } from '@/constants/shared';
 import type { WeatherForecastHour } from '@/types/weather';
 
 const today = new Date();
@@ -11,62 +12,62 @@ for (let i = 0; i < 12; i++) {
 export const mockHourlyForecastList: WeatherForecastHour[] = [
   {
     date: dateListFor12Hours[0],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 23,
   },
   {
     date: dateListFor12Hours[1],
-    imgPath: '/assets/temp/rain.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
     temperature: 23,
   },
   {
     date: dateListFor12Hours[2],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 22,
   },
   {
     date: dateListFor12Hours[3],
-    imgPath: '/assets/temp/sun.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/sun.svg`,
     temperature: 21,
   },
   {
     date: dateListFor12Hours[4],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 22,
   },
   {
     date: dateListFor12Hours[5],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 24,
   },
   {
     date: dateListFor12Hours[6],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 25,
   },
   {
     date: dateListFor12Hours[7],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 26,
   },
   {
     date: dateListFor12Hours[8],
-    imgPath: '/assets/temp/rain.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/rain.svg`,
     temperature: 28,
   },
   {
     date: dateListFor12Hours[9],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 22,
   },
   {
     date: dateListFor12Hours[10],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 21,
   },
   {
     date: dateListFor12Hours[11],
-    imgPath: '/assets/temp/cloud.svg',
+    imgPath: `${CDN_BASE_URL}/assets/images/cloud.svg`,
     temperature: 27,
   },
 ];
