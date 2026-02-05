@@ -33,6 +33,11 @@ export const useStoreRegisterForm = () => {
     },
   });
 
+  const submitForm = (data: StoreRegisterForm) => {
+    const refinedFormData = refineStoreRegisterFormData(data);
+    mutate(refinedFormData);
+  };
+
   const handleSubmit = methods.handleSubmit((data) => {
     if (currentStep < STORE_REGISTER_STEP.STORE_BUSINESS_HOURS) {
       moveNextStep();
@@ -47,14 +52,12 @@ export const useStoreRegisterForm = () => {
         moveNextStep();
         return;
       }
-      const refinedFormData = refineStoreRegisterFormData(data);
-      mutate(refinedFormData);
+      submitForm(data);
       return;
     }
 
     if (currentStep === STORE_REGISTER_STEP.SALES_CLOSING_TIME) {
-      const refinedFormData = refineStoreRegisterFormData(data);
-      mutate(refinedFormData);
+      submitForm(data);
     }
   });
 
