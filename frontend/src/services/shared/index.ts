@@ -6,4 +6,5 @@ export {
   type SuccessResponse,
   type ErrorResponse,
 } from './apiClient';
-export { ApiError } from './apiError';
+export { ApiError, isApiError } from './apiError';
+export { authToken } from './authToken';
