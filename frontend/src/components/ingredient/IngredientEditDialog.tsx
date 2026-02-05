@@ -1,10 +1,16 @@
 import { type FieldErrors, FormProvider } from 'react-hook-form';
 
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { Dialog, DialogContent } from '@/components/shared/shadcn-ui';
 import { useIngredientForm } from '@/hooks/ingredient';
-import type { IngredientFormValues } from '@/types/ingredient';
+import { authorizedApi } from '@/services/shared';
+import type {
+  IngredientFormValues,
+  PostAiIngredientRecommendRequestDto,
+  PostAiIngredientRecommendResponseDto,
+} from '@/types/ingredient';
 
 import { IngredientEditDialogHeader } from './IngredientEditDialogHeader';
 import { IngredientEditInfoHeader } from './IngredientEditInfoHeader';
@@ -33,6 +39,47 @@ export const IngredientEditDialog = ({
     useIngredientForm({
       ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
     });
+
+  // AI에서 식재료 추천 받아오는 함수
+  const postAiIngredientRecommend = async (
+    dto: PostAiIngredientRecommendRequestDto,
+  ) => {
+    // 2초 딜레이 줘서 로딩 중(스켈레톤 UI) 보이게
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // 오류 발생하면 tanstack query에서 자동으로 잡아 onError 콜백으로 넘긴다 -> try catch 불필요
+    const { data } =
+      await authorizedApi.post<PostAiIngredientRecommendResponseDto>(
+        '/api/ingredient/ai-ingredient-recommend',
+        {
+          body: JSON.stringify(dto),
+        },
+      );
+
+    return data;
+  };
+
+  const {
+    mutate,
+    isPending: isAiRecommendPending,
+    // isError,
+    // isSuccess,
+  } = useMutation({
+    mutationFn: postAiIngredientRecommend,
+    onSuccess: (data: PostAiIngredientRecommendResponseDto) => {
+      // 성공하면 받아온 데이터 폼에 넣기
+      data.ingredients.forEach((ingredient) => {
+        fieldArrayMethods.append(ingredient);
+      });
+    }, // fields에 들어온 내용 채운다
+    onMutate: () => {},
+    onError: () => {
+      toast('식재료 자동완성에 실패했어요. 다시 시도해 주세요.', {
+        position: 'bottom-center',
+      });
+    },
+    onSettled: () => {},
+  });
 
   const onClickDeleteIngredient = (index: number) => {
     fieldArrayMethods.remove(index);
@@ -82,10 +129,14 @@ export const IngredientEditDialog = ({
               <IngredientEditInfoHeader
                 fields={fieldArrayMethods.fields}
                 onClickAddIngredient={onClickAddIngredient}
+                onClickAiIngredientRecommend={() => {
+                  mutate({ menu: mockMenuIngredients.menu });
+                }}
               />
 
               {/** 식재료 목록 나오는 그리드 영역 */}
               <IngredientGrid
+                isPending={isAiRecommendPending}
                 fields={fieldArrayMethods.fields}
                 isIngredientRowEmpty={isIngredientRowEmpty}
                 onClickDeleteIngredient={onClickDeleteIngredient}

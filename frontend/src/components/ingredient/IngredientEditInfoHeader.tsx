@@ -9,11 +9,13 @@ import { IngredientQuestionIconWithTooltip } from './IngredientQuestionIconWithT
 interface IngredientEditInfoHeaderProps {
   fields: IngredientFormValues['ingredients'];
   onClickAddIngredient: () => void;
+  onClickAiIngredientRecommend: () => void;
 }
 
 export const IngredientEditInfoHeader = ({
   fields,
   onClickAddIngredient,
+  onClickAiIngredientRecommend,
 }: IngredientEditInfoHeaderProps) => {
   return (
     <header className="flex justify-between">
@@ -27,6 +29,7 @@ export const IngredientEditInfoHeader = ({
 
         <div className="flex items-center gap-4">
           <Button
+            onClick={onClickAiIngredientRecommend}
             type="button"
             className={cn(
               fields.length === 0
