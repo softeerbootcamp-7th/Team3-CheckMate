@@ -1,1 +1,2 @@
-export { SALES_SOURCE_COLORS } from './salesSourceColors';
+export { SALES_SOURCE_COLORS } from './salesSource';
+export type { SalesSourceType } from './salesSource';
