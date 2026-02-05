@@ -189,7 +189,7 @@ public class MemberService {
         boolean hasPosIntegration = false;
 
         if (hasStore) {
-            hasPosIntegration = !posRepository.findByStoreId(member.getStore().getId()).isEmpty();
+            hasPosIntegration = posRepository.existsByStoreId(member.getStore().getId());
         }
 
         return new MemberStatusResponse(member.getEmail(), hasStore, hasPosIntegration);
