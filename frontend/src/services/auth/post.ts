@@ -1,9 +1,9 @@
 import type { PostAuthRefreshResponseDto } from '@/types/auth';
 
-import { authorizedApi } from '../shared';
+import { basicApi } from '../shared';
 
 export const postAuthRefresh = async () => {
   const { data } =
-    await authorizedApi.post<PostAuthRefreshResponseDto>('/auth/refresh');
+    await basicApi.post<PostAuthRefreshResponseDto>('/auth/refresh');
   return data;
 };
