@@ -2,6 +2,18 @@ import { useMemo } from 'react';
 
 import { RANKING_COLORS } from '@/constants/shared/doughnut-chart';
 import type { DoughnutChartItem } from '@/types/shared';
+import {
+  computeChartDataWithPercentage,
+  getAnimationDuration,
+  getArcLength,
+  getCoordinates,
+  getDegreeFromPercentage,
+  getSVGPath,
+  getTextColor,
+} from '@/utils/shared/doughnut-chart';
+
+import { DonutSegment } from './DonutSegment';
+import { DoughnutLabel } from './DoughnutLabel';
 
 interface DoughnutChartProps {
   chartData: DoughnutChartItem[];
@@ -17,75 +29,12 @@ export const DoughnutChart = ({
   const CLIP_RADIUS = 100;
   const STROKE_WIDTH = VIEW_RADIUS - CLIP_RADIUS;
   const DONUT_RADIUS = CLIP_RADIUS + STROKE_WIDTH / 2;
+  const MIN_ARC_LENGTH_FOR_LABEL = 45;
 
-  const chartDataWithPercentage = useMemo(() => {
-    const totalValue = chartData.reduce((sum, item) => sum + item.value, 0);
-    if (totalValue === 0) {
-      return chartData.map((item) => ({
-        label: item.label,
-        percentage: 0,
-        color: item.color,
-      }));
-    }
-
-    const mappedData = chartData.map((item) => ({
-      ...item,
-      percentage: Math.round((item.value / totalValue) * 100),
-    }));
-
-    if (mappedData.reduce((sum, item) => sum + item.percentage, 0) < 100) {
-      const difference =
-        100 - mappedData.reduce((sum, item) => sum + item.percentage, 0);
-      for (let i = 0; i < difference; i++) {
-        mappedData[i].percentage++;
-      }
-    } else if (
-      mappedData.reduce((sum, item) => sum + item.percentage, 0) > 100
-    ) {
-      const difference =
-        mappedData.reduce((sum, item) => sum + item.percentage, 0) - 100;
-      for (let i = 0; i < difference; i++) {
-        mappedData[i].percentage--;
-      }
-    }
-    return mappedData;
-  }, [chartData]);
-
-  // 100% percentage -> 180도 degree
-  const getDegreeFromPercentage = (percentage: number) => {
-    const degree = 359.99 * (percentage / 100); // 0~360도 (360도는 시작점과 동일하므로 호가 그려지지 않음)
-    return degree;
-  };
-
-  const getArcLength = (degree: number) => {
-    return 2 * Math.PI * DONUT_RADIUS * (degree / 360);
-  };
-
-  // 180도 degree -> (x, y) coordinate
-  const getCoordinates = (degree: number) => {
-    const radian = (degree / 180) * Math.PI;
-
-    // 0도 시작점은 원의 상단 중앙, 시계방향으로 증가
-    const adjustedRadian = Math.PI / 2 - radian;
-
-    const x = DONUT_RADIUS * Math.cos(adjustedRadian) + VIEW_RADIUS;
-    const y = -DONUT_RADIUS * Math.sin(adjustedRadian) + VIEW_RADIUS; // svg 뷰포트에서 y축 양방향은 아래쪽임
-    return { x, y };
-  };
-
-  const getPath = (degree: number, cumulativeDegree: number) => {
-    const LARGE_ARC_FLAG = degree > 180 ? 1 : 0;
-
-    const { x: START_X, y: START_Y } = getCoordinates(cumulativeDegree);
-    const { x: DELTA_X, y: DELTA_Y } = getCoordinates(
-      cumulativeDegree + degree,
-    );
-    return `M ${START_X} ${START_Y} A ${DONUT_RADIUS} ${DONUT_RADIUS} 0 ${LARGE_ARC_FLAG} 1 ${DELTA_X} ${DELTA_Y}`;
-  };
-
-  const getAnimationDuration = (degree: number) => {
-    return (animationDuration * degree) / 360;
-  };
+  const chartDataWithPercentage = useMemo(
+    () => computeChartDataWithPercentage(chartData),
+    [chartData],
+  );
 
   return (
     <svg
@@ -93,85 +42,69 @@ export const DoughnutChart = ({
       viewBox={`0 0 ${VIEW_SIZE} ${VIEW_SIZE}`}
     >
       {chartDataWithPercentage.map((data, index) => {
+        // 누적 백분율 계산
         const cumulativePercentage = chartDataWithPercentage
           .slice(0, index)
           .reduce((sum, item) => sum + item.percentage, 0);
         const cumulativeDegree = getDegreeFromPercentage(cumulativePercentage);
 
+        // 현재 세그먼트의 각도 계산
         const degree = getDegreeFromPercentage(data.percentage);
-
-        const path = getPath(degree, cumulativeDegree);
-
-        const arcLength = getArcLength(degree);
-        const circumference = getArcLength(360);
-
-        const currentAnimationDuration = getAnimationDuration(degree);
-        const cumulativeAnimationDuration =
-          getAnimationDuration(cumulativeDegree);
-
-        const { x: LABEL_X, y: LABEL_Y } = getCoordinates(
-          cumulativeDegree + degree / 2,
+        // 현재 세그먼트의 SVG Path 계산
+        const path = getSVGPath(
+          degree,
+          cumulativeDegree,
+          DONUT_RADIUS,
+          VIEW_RADIUS,
         );
 
-        // text color 결정 로직 (배경색 대비)
-        const MIDDLE_COLOR_HEX = 0x999999; // 기준이 되는 중간계열 배경색 상수
-        const color = data.color ?? RANKING_COLORS[index];
-        const textColor =
-          parseInt(
-            color.startsWith('var(')
-              ? getComputedStyle(document.documentElement)
-                  .getPropertyValue(color.slice(4, -1).trim())
-                  .trim()
-                  .slice(1)
-              : color.slice(1),
-            16,
-          ) > MIDDLE_COLOR_HEX
-            ? 'var(--color-grey-900)'
-            : 'var(--color-grey-0)';
+        // 현재 세그먼트의 호 길이
+        const arcLength = getArcLength(degree, DONUT_RADIUS);
+        // 원주 계산
+        const circumference = getArcLength(360, DONUT_RADIUS);
+
+        // 애니메이션 지속 시간 계산
+        const currentAnimationDuration = getAnimationDuration(
+          degree,
+          animationDuration,
+        );
+        const cumulativeAnimationDuration = getAnimationDuration(
+          cumulativeDegree,
+          animationDuration,
+        );
+
+        // 현재 세그먼트의 중앙으로 라벨 좌표 계산
+        const { x: LABEL_X, y: LABEL_Y } = getCoordinates(
+          cumulativeDegree + degree / 2,
+          DONUT_RADIUS,
+          VIEW_RADIUS,
+        );
+
+        // 색상 및 텍스트 색상 결정
+        const color = data.color ?? RANKING_COLORS[index]; // 디폴트: 랭킹에 따른 색상
+        const textColor = getTextColor(color);
 
         return (
           <g key={data.label}>
-            <path
-              d={path}
-              stroke={color}
+            <DonutSegment
+              path={path}
               strokeWidth={STROKE_WIDTH}
-              strokeDasharray={` ${arcLength} ${circumference * 2 - arcLength}`} // 50퍼센트가 넘는 경우에도 빈 공간이 생기도록 원주를 한 번 더 더함
-              strokeDashoffset={arcLength}
-              fill="none"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={arcLength}
-                to={0}
-                dur={`${currentAnimationDuration}ms`}
-                begin={`${cumulativeAnimationDuration}ms`}
-                fill="freeze"
-              />
-            </path>
+              color={color}
+              arcLength={arcLength}
+              circumference={circumference}
+              currentAnimationDuration={currentAnimationDuration}
+              cumulativeAnimationDuration={cumulativeAnimationDuration}
+            />
 
-            {/* TODO 45 매직넘버 분리 필요 */}
-            {arcLength > 45 && (
-              <text
+            {arcLength > MIN_ARC_LENGTH_FOR_LABEL && (
+              <DoughnutLabel
                 x={LABEL_X}
-                y={LABEL_Y + 9} // line height 보정
-                fill={textColor}
-                textAnchor="middle"
-                opacity={0}
-                fontSize={'24px'}
-                fontWeight={600}
-              >
-                {data.percentage}%
-                <animate
-                  attributeName="opacity"
-                  from={0}
-                  to={1}
-                  dur={`${currentAnimationDuration / 2}ms`}
-                  begin={`${
-                    cumulativeAnimationDuration + currentAnimationDuration / 2
-                  }ms`}
-                  fill="freeze"
-                />
-              </text>
+                y={LABEL_Y}
+                label={data.percentage}
+                textColor={textColor}
+                currentAnimationDuration={currentAnimationDuration}
+                cumulativeAnimationDuration={cumulativeAnimationDuration}
+              />
             )}
           </g>
         );
