@@ -41,7 +41,7 @@ export const IngredientGrid = ({
         </div>
       ) : (
         <div className="!body-medium-semibold grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
-          {fields.map((field, index) => (
+          {fields.map((_, index) => (
             <div key={index} className="flex h-full items-center gap-2.5">
               <IngredientMenuInput
                 index={index}
