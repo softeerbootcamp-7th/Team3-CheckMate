@@ -17,8 +17,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            true,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            true),
 
     SLS_02(
             "주문건수 현황",
@@ -29,8 +29,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            true,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            true),
 
     SLS_03(
             "건당 평균가",
@@ -41,8 +41,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            true,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            true),
 
     SLS_04(
             "총매출 현황",
@@ -53,8 +53,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            false,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            false),
 
     SLS_05(
             "할인 및 취소",
@@ -65,8 +65,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            false,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            false),
 
     /** [매출 - 유입 구조] */
     SLS_06(
@@ -78,8 +78,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.DONUT,
             ChartType.NONE,
-            true,
-            PeriodType.MIXED),
+            PeriodType.MIXED,
+            true),
 
     SLS_07(
             "주문수단별 매출",
@@ -90,8 +90,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.DONUT,
             ChartType.NONE,
-            true,
-            PeriodType.MIXED),
+            PeriodType.MIXED,
+            true),
 
     SLS_08(
             "결제수단별 매출",
@@ -102,8 +102,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.DONUT,
             ChartType.NONE,
-            true,
-            PeriodType.MIXED),
+            PeriodType.MIXED,
+            true),
 
     /** [매출 - 추이] */
     SLS_09(
@@ -115,8 +115,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.BAR,
             ChartType.LINE,
-            false,
-            PeriodType.ROLLING),
+            PeriodType.ROLLING,
+            false),
 
     SLS_10(
             "주별 매출 추이",
@@ -127,8 +127,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.BAR,
             ChartType.LINE,
-            false,
-            PeriodType.ROLLING),
+            PeriodType.ROLLING,
+            false),
 
     SLS_11(
             "월별 매출 추이",
@@ -139,8 +139,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.BAR,
             ChartType.LINE,
-            false,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            false),
 
     SLS_12(
             "연별 매출 추이",
@@ -151,8 +151,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.BAR,
             ChartType.NONE,
-            false,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            false),
 
     /** [매출 - 패턴] */
     SLS_13(
@@ -164,8 +164,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.LINE,
             ChartType.NONE,
-            true,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            true),
 
     SLS_14(
             "요일별 매출 패턴",
@@ -176,8 +176,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.BAR,
             ChartType.NONE,
-            false,
-            PeriodType.ROLLING),
+            PeriodType.ROLLING,
+            false),
 
     /** [메뉴] */
     MNU_01(
@@ -189,8 +189,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.RANKING,
             ChartType.NONE,
-            false,
-            PeriodType.MIXED),
+            PeriodType.MIXED,
+            false),
 
     MNU_02(
             "카테고리별 매출",
@@ -201,8 +201,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.DONUT,
             ChartType.NONE,
-            false,
-            PeriodType.ROLLING),
+            PeriodType.ROLLING,
+            false),
 
     MNU_03(
             "시간대별 메뉴 주문",
@@ -213,8 +213,8 @@ public enum MetricCode {
             XAxisType.MENU,
             ChartType.STACKED_BAR,
             ChartType.NONE,
-            false,
-            PeriodType.MIXED),
+            PeriodType.MIXED,
+            false),
 
     MNU_04(
             "식재료 소진량",
@@ -225,8 +225,8 @@ public enum MetricCode {
             XAxisType.UNIT,
             ChartType.RANKING,
             ChartType.NONE,
-            false,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            false),
 
     MNU_05(
             "인기 메뉴 조합",
@@ -237,8 +237,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.RANKING,
             ChartType.NONE,
-            false,
-            PeriodType.ROLLING),
+            PeriodType.ROLLING,
+            false),
 
     /** [날씨] */
     WTH_01(
@@ -250,8 +250,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            false,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            false),
 
     WTH_02(
             "오늘 시간별 예보",
@@ -262,8 +262,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.LINE,
-            false,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            false),
 
     WTH_03(
             "주간 날씨 예보",
@@ -274,8 +274,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            false,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            false),
 
     WTH_04(
             "강수 인사이트",
@@ -286,8 +286,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            true,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            true),
 
     WTH_05(
             "강수별 주문 비율",
@@ -298,8 +298,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.BAR,
             ChartType.NONE,
-            true,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            true),
 
     WTH_06(
             "강수별 매출 변화",
@@ -310,8 +310,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.METRIC_CARD,
             ChartType.NONE,
-            true,
-            PeriodType.FIXED),
+            PeriodType.FIXED,
+            true),
 
     WTH_07(
             "기온별 매출 분석",
@@ -322,8 +322,8 @@ public enum MetricCode {
             XAxisType.NONE,
             ChartType.BAR,
             ChartType.NONE,
-            true,
-            PeriodType.FIXED);
+            PeriodType.FIXED,
+            true);
 
     // 지표 설명
     private final String description;
@@ -349,9 +349,9 @@ public enum MetricCode {
     // 서브 차트 타입
     private final ChartType subChartType;
 
-    // 비교 가능 여부
-    private final boolean isCompared;
-
     // 기간 타입 (고정/롤링/혼합)
     private final PeriodType periodType;
+
+    // 비교 가능 여부
+    private final boolean isCompared;
 }
