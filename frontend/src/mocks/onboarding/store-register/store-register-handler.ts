@@ -1,4 +1,4 @@
-import { HttpResponse } from 'msw';
+import { HttpResponse, passthrough } from 'msw';
 
 import { mswHttp } from '@/mocks/shared';
 import type { SuccessResponse } from '@/services/shared';
@@ -6,6 +6,7 @@ import type { PostBusinessRegistrationNumberResponseDto } from '@/types/onboardi
 
 const postHandler = [
   mswHttp.post('/api/stores/business/verify', () => {
+    return passthrough();
     return HttpResponse.json<
       SuccessResponse<PostBusinessRegistrationNumberResponseDto>
     >(
