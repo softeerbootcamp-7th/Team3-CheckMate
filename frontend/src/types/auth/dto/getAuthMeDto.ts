@@ -12,6 +12,6 @@ interface StoreInfo {
 }
 export interface GetAuthMeResponseDto {
   userInfo: UserInfo;
-  onboaradingStatus: OnboardingStatus;
+  onboardingStatus: OnboardingStatus;
   storeInfo: StoreInfo;
 }

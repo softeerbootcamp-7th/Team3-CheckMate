@@ -8,13 +8,10 @@ import type {
 
 import { mswHttp } from '../shared';
 
-let requestCount = false;
-
 const getHandler = [
-  mswHttp.get('/auth/me', () => {
+  mswHttp.get('/auth/me', ({ request }) => {
     // access token 갱신 테스트를 위해 첫 요청은 401 응답
-    if (!requestCount) {
-      requestCount = true;
+    if (request.headers.get('Authorization') === null) {
       return HttpResponse.json<ErrorResponse>(
         {
           success: false,
@@ -34,7 +31,7 @@ const getHandler = [
             name: 'John Doe',
             email: 'john.doe@example.com',
           },
-          onboaradingStatus: 'NONE',
+          onboardingStatus: 'NONE',
           storeInfo: {
             storeId: 1,
             storeName: 'Mock Store',
