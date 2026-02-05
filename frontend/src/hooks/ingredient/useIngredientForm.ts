@@ -9,25 +9,18 @@ interface UseIngredientFormParams {
 export const useIngredientForm = ({
   ingredientFormValues,
 }: UseIngredientFormParams) => {
-  const {
-    control,
-    register,
-    handleSubmit,
-    getValues,
-    setValue,
-    formState: { isDirty, errors: formErrors },
-  } = useForm<IngredientFormValues>({
-    reValidateMode: 'onBlur',
+  const formMethods = useForm<IngredientFormValues>({
     defaultValues: ingredientFormValues,
+    reValidateMode: 'onBlur',
   });
-  const { fields, append, remove } = useFieldArray({
-    control,
+  const fieldArrayMethods = useFieldArray({
+    control: formMethods.control,
     name: 'ingredients',
   });
 
   // 특정 식재료의 모든 input값이 비어있는지 확인하는 함수
   const isIngredientRowEmpty = (index: number) => {
-    const row = getValues(`ingredients.${index}`);
+    const row = formMethods.getValues(`ingredients.${index}`);
     const ifAnyFieldFilled = [row.name, row.amount, row.unit].some((field) => {
       return field.trim().length > 0;
     });
@@ -35,15 +28,8 @@ export const useIngredientForm = ({
   };
 
   return {
-    control,
-    register,
-    handleSubmit,
-    isDirty,
-    formErrors,
-    fields,
-    append,
-    setValue,
-    remove,
+    formMethods,
+    fieldArrayMethods,
     isIngredientRowEmpty,
   };
 };

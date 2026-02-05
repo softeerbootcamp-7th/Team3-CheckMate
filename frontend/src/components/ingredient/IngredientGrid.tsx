@@ -1,9 +1,4 @@
-import {
-  type Control,
-  type FieldErrors,
-  type UseFormRegister,
-  type UseFormSetValue,
-} from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { X } from 'lucide-react';
 
@@ -16,23 +11,21 @@ import { IngredientUnitInput } from './IngredientUnitInput';
 
 interface IngredientGridProps {
   fields: IngredientFormValues['ingredients'];
-  register: UseFormRegister<IngredientFormValues>;
-  formErrors: FieldErrors<IngredientFormValues>;
-  control: Control<IngredientFormValues>;
   isIngredientRowEmpty: (index: number) => boolean;
   onClickDeleteIngredient: (index: number) => void;
-  setValue: UseFormSetValue<IngredientFormValues>;
 }
 
 export const IngredientGrid = ({
   fields,
-  register,
-  formErrors,
-  control,
-  setValue,
   isIngredientRowEmpty,
   onClickDeleteIngredient,
 }: IngredientGridProps) => {
+  const {
+    register,
+    formState: { errors: formErrors },
+    control,
+    setValue,
+  } = useFormContext<IngredientFormValues>();
   return (
     <main className="flex-1 overflow-y-auto p-1">
       {fields.length === 0 ? ( // 식재료가 하나도 없을 때

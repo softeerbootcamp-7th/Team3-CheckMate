@@ -1,4 +1,4 @@
-import { type FieldErrors } from 'react-hook-form';
+import { type FieldErrors, FormProvider } from 'react-hook-form';
 
 import { toast } from 'sonner';
 
@@ -29,26 +29,16 @@ export const IngredientEditDialog = ({
       { id: '3', name: '딸기시럽', amount: '10', unit: 'ml' },
     ],
   };
-  const {
-    control,
-    register,
-    handleSubmit,
-    isDirty,
-    formErrors,
-    fields,
-    append,
-    setValue,
-    remove,
-    isIngredientRowEmpty,
-  } = useIngredientForm({
-    ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
-  });
+  const { formMethods, fieldArrayMethods, isIngredientRowEmpty } =
+    useIngredientForm({
+      ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
+    });
 
   const onClickDeleteIngredient = (index: number) => {
-    remove(index);
+    fieldArrayMethods.remove(index);
   };
   const onClickAddIngredient = () => {
-    append({ id: '', name: '', amount: '', unit: '' });
+    fieldArrayMethods.append({ id: '', name: '', amount: '', unit: '' });
   };
 
   const onClickSubmit = async () =>
@@ -75,39 +65,35 @@ export const IngredientEditDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <form>
-        <DialogContent className="rounded-500 flex h-175 !w-[1000px] !max-w-[1000px] flex-col gap-0 border-none bg-gray-50 p-12.5 [&>button]:hidden">
-          {/** 메뉴명과 취소, 저장 버튼 있는 행 */}
-          <IngredientEditDialogHeader
-            handleSubmit={handleSubmit}
-            onClickSubmit={onClickSubmit}
-            onClickCancel={onClickCancel}
-            onError={onError}
-            isDirty={isDirty}
-            menuName={mockMenuIngredients.menu}
-          />
-
-          <div className="bg-grey-300 mt-5.5 h-[2px]" />
-          <section className="mt-10 flex min-h-0 flex-1 flex-col gap-10">
-            {/** 식재료 목록 영역 위 식재료 입력 관련 정보 및 버튼 행(AI자동완성, 식재료추가 버튼 등) */}
-            <IngredientEditInfoHeader
-              fields={fields}
-              onClickAddIngredient={onClickAddIngredient}
+      <FormProvider {...formMethods}>
+        <form>
+          <DialogContent className="rounded-500 flex h-175 !w-[1000px] !max-w-[1000px] flex-col gap-0 border-none bg-gray-50 p-12.5 [&>button]:hidden">
+            {/** 메뉴명과 취소, 저장 버튼 있는 행 */}
+            <IngredientEditDialogHeader
+              onClickSubmit={onClickSubmit}
+              onClickCancel={onClickCancel}
+              onError={onError}
+              menuName={mockMenuIngredients.menu}
             />
 
-            {/** 식재료 목록 나오는 그리드 영역 */}
-            <IngredientGrid
-              fields={fields}
-              register={register}
-              formErrors={formErrors}
-              control={control}
-              isIngredientRowEmpty={isIngredientRowEmpty}
-              setValue={setValue}
-              onClickDeleteIngredient={onClickDeleteIngredient}
-            />
-          </section>
-        </DialogContent>
-      </form>
+            <div className="bg-grey-300 mt-5.5 h-[2px]" />
+            <section className="mt-10 flex min-h-0 flex-1 flex-col gap-10">
+              {/** 식재료 목록 영역 위 식재료 입력 관련 정보 및 버튼 행(AI자동완성, 식재료추가 버튼 등) */}
+              <IngredientEditInfoHeader
+                fields={fieldArrayMethods.fields}
+                onClickAddIngredient={onClickAddIngredient}
+              />
+
+              {/** 식재료 목록 나오는 그리드 영역 */}
+              <IngredientGrid
+                fields={fieldArrayMethods.fields}
+                isIngredientRowEmpty={isIngredientRowEmpty}
+                onClickDeleteIngredient={onClickDeleteIngredient}
+              />
+            </section>
+          </DialogContent>
+        </form>
+      </FormProvider>
     </Dialog>
   );
 };
