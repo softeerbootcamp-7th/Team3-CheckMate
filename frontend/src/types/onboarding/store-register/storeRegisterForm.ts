@@ -7,7 +7,7 @@ interface BusinessHour {
   is24?: boolean;
   closed?: boolean;
   // client에만 있는 상태, 마감 시간이 다음날 00:00 이후인 경우 체크
-  isOver24: boolean;
+  isOver24?: boolean;
 }
 
 export interface StoreRegisterForm {
