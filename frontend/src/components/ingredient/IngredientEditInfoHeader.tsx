@@ -10,12 +10,14 @@ interface IngredientEditInfoHeaderProps {
   fields: IngredientFormValues['ingredients'];
   onClickAddIngredient: () => void;
   onClickAiIngredientRecommend: () => void;
+  isAiRecommendPending: boolean;
 }
 
 export const IngredientEditInfoHeader = ({
   fields,
   onClickAddIngredient,
   onClickAiIngredientRecommend,
+  isAiRecommendPending,
 }: IngredientEditInfoHeaderProps) => {
   return (
     <header className="flex justify-between">
@@ -30,6 +32,7 @@ export const IngredientEditInfoHeader = ({
         <div className="flex items-center gap-4">
           <Button
             onClick={onClickAiIngredientRecommend}
+            disabled={isAiRecommendPending} // AI 추천 생성 중일 때는 비활성화 -> 클릭 불가
             type="button"
             className={cn(
               fields.length === 0

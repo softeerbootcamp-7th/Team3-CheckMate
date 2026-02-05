@@ -5,10 +5,9 @@ import { toast } from 'sonner';
 
 import { Dialog, DialogContent } from '@/components/shared/shadcn-ui';
 import { useIngredientForm } from '@/hooks/ingredient';
-import { authorizedApi } from '@/services/shared';
+import { postAiIngredientRecommend } from '@/services/ ingredient';
 import type {
   IngredientFormValues,
-  PostAiIngredientRecommendRequestDto,
   PostAiIngredientRecommendResponseDto,
 } from '@/types/ingredient';
 
@@ -30,34 +29,15 @@ export const IngredientEditDialog = ({
     id: '1',
     menu: '딸기 스무디',
     ingredients: [
-      { id: '1', name: '딸기', amount: '200', unit: 'g' },
-      { id: '2', name: '우유', amount: '120', unit: 'ml' },
-      { id: '3', name: '딸기시럽', amount: '10', unit: 'ml' },
+      { ingredientId: '1', name: '딸기', amount: '200', unit: 'g' },
+      { ingredientId: '2', name: '우유', amount: '120', unit: 'ml' },
+      { ingredientId: '3', name: '딸기시럽', amount: '10', unit: 'ml' },
     ],
   };
   const { formMethods, fieldArrayMethods, isIngredientRowEmpty } =
     useIngredientForm({
       ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
     });
-
-  // AI에서 식재료 추천 받아오는 함수
-  const postAiIngredientRecommend = async (
-    dto: PostAiIngredientRecommendRequestDto,
-  ) => {
-    // 2초 딜레이 줘서 로딩 중(스켈레톤 UI) 보이게
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    // 오류 발생하면 tanstack query에서 자동으로 잡아 onError 콜백으로 넘긴다 -> try catch 불필요
-    const { data } =
-      await authorizedApi.post<PostAiIngredientRecommendResponseDto>(
-        '/api/ingredient/ai-ingredient-recommend',
-        {
-          body: JSON.stringify(dto),
-        },
-      );
-
-    return data;
-  };
 
   const {
     mutate,
@@ -68,10 +48,11 @@ export const IngredientEditDialog = ({
     mutationFn: postAiIngredientRecommend,
     onSuccess: (data: PostAiIngredientRecommendResponseDto) => {
       // 성공하면 받아온 데이터 폼에 넣기
+      // AI 자동완성은 식자재 필드에 아무 값도 없을때만 가능 -> 필드 청소할 필요 없이 그냥 append만 해주면 됨
       data.ingredients.forEach((ingredient) => {
         fieldArrayMethods.append(ingredient);
       });
-    }, // fields에 들어온 내용 채운다
+    },
     onMutate: () => {},
     onError: () => {
       toast('식재료 자동완성에 실패했어요. 다시 시도해 주세요.', {
@@ -85,7 +66,7 @@ export const IngredientEditDialog = ({
     fieldArrayMethods.remove(index);
   };
   const onClickAddIngredient = () => {
-    fieldArrayMethods.append({ id: '', name: '', amount: '', unit: '' });
+    fieldArrayMethods.append({ name: '', amount: '', unit: '' });
   };
 
   const onClickSubmit = async () =>
@@ -127,6 +108,7 @@ export const IngredientEditDialog = ({
             <section className="mt-10 flex min-h-0 flex-1 flex-col gap-10">
               {/** 식재료 목록 영역 위 식재료 입력 관련 정보 및 버튼 행(AI자동완성, 식재료추가 버튼 등) */}
               <IngredientEditInfoHeader
+                isAiRecommendPending={isAiRecommendPending}
                 fields={fieldArrayMethods.fields}
                 onClickAddIngredient={onClickAddIngredient}
                 onClickAiIngredientRecommend={() => {
