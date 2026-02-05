@@ -77,25 +77,72 @@ export const DoughnutChart = ({
           const currentAnimationDuration = getAnimationDuration(degree);
           const cumulativeAnimationDuration =
             getAnimationDuration(cumulativeDegree);
+
+          const { x: LABEL_X, y: LABEL_Y } = getCoordinates(
+            cumulativeDegree + degree / 2,
+          );
+
+          // text color 결정 로직 (배경색 대비)
+          const MIDDLE_COLOR_HEX = 0x999999; // 기준이 되는 중간계열 배경색 상수
+          const color = data.color ?? RANKING_COLORS[index];
+          const textColor =
+            parseInt(
+              color.startsWith('var(')
+                ? getComputedStyle(document.documentElement)
+                    .getPropertyValue(color.slice(4, -1).trim())
+                    .trim()
+                    .slice(1)
+                : color.slice(1),
+              16,
+            ) > MIDDLE_COLOR_HEX
+              ? 'var(--color-grey-900)'
+              : 'var(--color-grey-0)';
+
           return (
-            <path
-              key={data.label}
-              d={path}
-              stroke={data.color || RANKING_COLORS[index]}
-              strokeWidth={STROKE_WIDTH}
-              strokeDasharray={` ${arcLength} ${circumference - arcLength}`}
-              strokeDashoffset={arcLength}
-              fill="none"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={arcLength}
-                to={0}
-                dur={`${currentAnimationDuration}ms`}
-                begin={`${cumulativeAnimationDuration}ms`}
-                fill="freeze"
-              />
-            </path>
+            <g key={data.label}>
+              <path
+                d={path}
+                stroke={color}
+                strokeWidth={STROKE_WIDTH}
+                strokeDasharray={` ${arcLength} ${circumference * 2 - arcLength}`} // 50퍼센트가 넘는 경우에도 빈 공간이 생기도록 원주를 한 번 더 더함
+                strokeDashoffset={arcLength}
+                fill="none"
+              >
+                <animate
+                  attributeName="stroke-dashoffset"
+                  from={arcLength}
+                  to={0}
+                  dur={`${currentAnimationDuration}ms`}
+                  begin={`${cumulativeAnimationDuration}ms`}
+                  fill="freeze"
+                />
+              </path>
+
+              {/* TODO 45 매직넘버 분리 필요 */}
+              {arcLength > 45 && (
+                <text
+                  x={LABEL_X}
+                  y={LABEL_Y + 9} // line height 보정
+                  fill={textColor}
+                  textAnchor="middle"
+                  opacity={0}
+                  fontSize={'24px'}
+                  fontWeight={600}
+                >
+                  {data.percentage}%
+                  <animate
+                    attributeName="opacity"
+                    from={0}
+                    to={1}
+                    dur={`${currentAnimationDuration / 2}ms`}
+                    begin={`${
+                      cumulativeAnimationDuration + currentAnimationDuration / 2
+                    }ms`}
+                    fill="freeze"
+                  />
+                </text>
+              )}
+            </g>
           );
         })}
     </svg>
