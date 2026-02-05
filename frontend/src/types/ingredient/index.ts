@@ -1,1 +1,5 @@
-export { type Ingredient, type IngredientFormValues } from './ingredient';
+export {
+  type Ingredient,
+  type IngredientFormValues,
+  type IngredientField,
+} from './ingredient';

@@ -24,9 +24,9 @@ export const IngredientEditDialog = ({
     id: '1',
     menu: '딸기 스무디',
     ingredients: [
-      { id: '1', name: '딸기', amount: '200', unit: 'g' },
-      { id: '2', name: '우유', amount: '120', unit: 'ml' },
-      { id: '3', name: '딸기시럽', amount: '10', unit: 'ml' },
+      { ingredientId: '1', name: '딸기', amount: '200', unit: 'g' },
+      { ingredientId: '2', name: '우유', amount: '120', unit: 'ml' },
+      { ingredientId: '3', name: '딸기시럽', amount: '10', unit: 'ml' },
     ],
   };
   const { formMethods, fieldArrayMethods, isIngredientRowEmpty } =
@@ -38,7 +38,12 @@ export const IngredientEditDialog = ({
     fieldArrayMethods.remove(index);
   };
   const onClickAddIngredient = () => {
-    fieldArrayMethods.append({ id: '', name: '', amount: '', unit: '' });
+    fieldArrayMethods.append({
+      ingredientId: '',
+      name: '',
+      amount: '',
+      unit: '',
+    });
   };
 
   const onClickSubmit = async () =>

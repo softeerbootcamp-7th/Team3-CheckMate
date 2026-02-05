@@ -3,14 +3,14 @@ import { useFormContext } from 'react-hook-form';
 import { X } from 'lucide-react';
 
 import { Button } from '@/components/shared/shadcn-ui';
-import type { IngredientFormValues } from '@/types/ingredient';
+import type { IngredientField, IngredientFormValues } from '@/types/ingredient';
 
 import { IngredientAmountInput } from './IngredientAmountInput';
 import { IngredientMenuInput } from './IngredientMenuInput';
 import { IngredientUnitInput } from './IngredientUnitInput';
 
 interface IngredientGridProps {
-  fields: IngredientFormValues['ingredients'];
+  fields: IngredientField[];
   isIngredientRowEmpty: (index: number) => boolean;
   onClickDeleteIngredient: (index: number) => void;
 }
@@ -34,8 +34,8 @@ export const IngredientGrid = ({
         </div>
       ) : (
         <div className="!body-medium-semibold grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
-          {fields.map((_, index) => (
-            <div key={index} className="flex h-full items-center gap-2.5">
+          {fields.map((field, index) => (
+            <div key={field.id} className="flex h-full items-center gap-2.5">
               <IngredientMenuInput
                 index={index}
                 register={register}
