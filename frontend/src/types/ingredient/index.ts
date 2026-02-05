@@ -1,4 +1,8 @@
-export { type Ingredient, type IngredientFormValues } from './ingredient';
+export {
+  type Ingredient,
+  type IngredientFormValues,
+  IngredientField,
+} from './ingredient';
 export {
   type PostAiIngredientRecommendRequestDto,
   type PostAiIngredientRecommendResponseDto,

@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { X } from 'lucide-react';
 
 import { Button } from '@/components/shared/shadcn-ui';
-import type { IngredientFormValues } from '@/types/ingredient';
+import type { IngredientField, IngredientFormValues } from '@/types/ingredient';
 
 import { IngredientAmountInput } from './IngredientAmountInput';
 import { IngredientMenuInput } from './IngredientMenuInput';
@@ -12,7 +12,7 @@ import { IngredientUnitInput } from './IngredientUnitInput';
 
 interface IngredientGridProps {
   isPending: boolean;
-  fields: IngredientFormValues['ingredients'];
+  fields: IngredientField[];
   isIngredientRowEmpty: (index: number) => boolean;
   onClickDeleteIngredient: (index: number) => void;
 }

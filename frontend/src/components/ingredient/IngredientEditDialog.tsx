@@ -66,7 +66,16 @@ export const IngredientEditDialog = ({
     fieldArrayMethods.remove(index);
   };
   const onClickAddIngredient = () => {
+<<<<<<< HEAD
     fieldArrayMethods.append({ name: '', amount: '', unit: '' });
+=======
+    fieldArrayMethods.append({
+      ingredientId: '',
+      name: '',
+      amount: '',
+      unit: '',
+    });
+>>>>>>> 1a87e26 (feat: 자동으로 식별용 id값 붙여주는 fieldArray 특성에 맞게 id 속성 추가된 새로운 타입 정의 및 사용)
   };
 
   const onClickSubmit = async () =>
