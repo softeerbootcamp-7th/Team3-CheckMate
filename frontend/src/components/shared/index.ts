@@ -8,3 +8,4 @@ export { PeriodSelect } from './period-select';
 export { OnboardingLayout } from './onboarding-layout';
 export { Input } from './input';
 export { Spinner } from './spinner';
+export { BoxSkeleton } from './box-skeleton';
