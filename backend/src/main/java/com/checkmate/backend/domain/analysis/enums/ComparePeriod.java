@@ -13,5 +13,5 @@ public enum ComparePeriod {
     LAST_4_WEEKS_SAME_DAY_AVG("최근 4주 동일요일 평균"),
     NONE("없음");
 
-    private final String displayName;
+    private final String description;
 }

@@ -83,7 +83,7 @@ public enum MetricCardCode {
             ComparePeriod.NONE);
 
     private final String title;
-    private final MetricCode parentMetric;
+    private final MetricCode metricCode;
     private final Period period;
     private final ComparePeriod comparePeriod;
 }

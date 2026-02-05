@@ -353,5 +353,5 @@ public enum MetricCode {
     private final PeriodType periodType;
 
     // 비교 가능 여부
-    private final boolean isCompared;
+    private final boolean isComparable;
 }
