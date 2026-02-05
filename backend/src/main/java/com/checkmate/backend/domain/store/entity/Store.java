@@ -25,9 +25,8 @@ public class Store extends BaseTimeEntity {
     private Long id;
 
     private String storeName;
-    private String zipcode; // 우편번호
+    private String zoneCode; // 우편번호
     private String roadAddress; // 주소
-    private String detailAddress; // 상세 주소
     private String businessRegistrationNumber;
     private Integer salesClosingHour;
 
