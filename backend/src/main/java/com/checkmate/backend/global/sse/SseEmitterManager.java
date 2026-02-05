@@ -1,5 +1,6 @@
 package com.checkmate.backend.global.sse;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,4 +54,9 @@ public class SseEmitterManager {
     public boolean isSubscribed(Long storeId, String topic) {
         return clientTopics.getOrDefault(storeId, Set.of()).contains(topic);
     }
+
+    public Set<String> getSubscribedTopics(Long storeId) {
+        return new HashSet<>(clientTopics.getOrDefault(storeId, Set.of()));
+    }
+
 }
