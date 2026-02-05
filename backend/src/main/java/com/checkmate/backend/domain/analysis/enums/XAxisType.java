@@ -18,7 +18,7 @@ public enum XAxisType {
     MENU("메뉴명"),
     CATEGORY("카테고리명"),
     INGREDIENT("식자재명"),
-    UNIT("단위 (kg/g/L/ml 등)"),
+    UNIT("단위 (kg/g/l/ml)"),
 
     // === 날씨 관련 ===
     WEATHER("날씨 상태 (강수/비강수)"),
