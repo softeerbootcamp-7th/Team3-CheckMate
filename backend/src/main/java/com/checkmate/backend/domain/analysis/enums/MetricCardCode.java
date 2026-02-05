@@ -69,10 +69,18 @@ public enum MetricCardCode {
     WTH_04_07("강수 인사이트", MetricCode.WTH_04, Period.LAST_365_DAYS, ComparePeriod.NONE),
 
     // 날씨 > 강수별 주문 비율
-    WTH_05_07("비강수일 vs 강수일 판매채널별 주문건수 비율 비교", MetricCode.WTH_05, Period.LAST_365_DAYS, ComparePeriod.NONE),
+    WTH_05_07(
+            "비강수일 vs 강수일 판매채널별 주문건수 비율 비교",
+            MetricCode.WTH_05,
+            Period.LAST_365_DAYS,
+            ComparePeriod.NONE),
 
     // 날씨 > 강수별 매출 변화
-    WTH_06_07("비강수일 vs 강수일 평균 주문수 및 매출 비교", MetricCode.WTH_06, Period.LAST_365_DAYS, ComparePeriod.NONE);
+    WTH_06_07(
+            "비강수일 vs 강수일 평균 주문수 및 매출 비교",
+            MetricCode.WTH_06,
+            Period.LAST_365_DAYS,
+            ComparePeriod.NONE);
 
     private final String title;
     private final MetricCode parentMetric;
