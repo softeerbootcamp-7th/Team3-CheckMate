@@ -13,14 +13,13 @@ export const aiIngredientRecommendHandler = [
         success: true,
         data: {
           ingredients: [
-            { id: '1', name: '딸기', amount: '200', unit: 'g' },
-            { id: '2', name: '우유', amount: '120', unit: 'ml' },
-            { id: '4', name: '연유', amount: '5', unit: 'ml' },
-            { id: '5', name: '얼음', amount: '100', unit: 'g' },
+            { ingredientId: '1', name: '딸기', amount: '200', unit: 'g' },
+            { ingredientId: '2', name: '우유', amount: '120', unit: 'ml' },
+            { ingredientId: '4', name: '연유', amount: '5', unit: 'ml' },
+            { ingredientId: '5', name: '얼음', amount: '100', unit: 'g' },
           ],
         },
         message: '식재료 추천 성공',
-        errorCode: '',
       },
       { status: 200 },
     );
