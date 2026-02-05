@@ -10,6 +10,7 @@ public enum SuccessStatus {
     // 200
     GOOGLE_LOGIN_SUCCESS(HttpStatus.OK, "구글 로그인에 성공했습니다."),
     BUSINESS_VERIFICATION_SUCCESS(HttpStatus.OK, "사업자 인증 성공했습니다."),
+    MEMBER_STATUS_SUCCESS(HttpStatus.OK, "사용자 상태 조회에 성공했습니다."),
 
     // 201
     MEMBER_SIGNUP_SUCCESS(HttpStatus.CREATED, "회원 가입에 성공했습니다"),
@@ -20,6 +21,8 @@ public enum SuccessStatus {
     /** Store */
     // 200
     POS_CONNECT_START(HttpStatus.OK, "POS 연동을 시작합니다."),
+    STORE_DELETE_SUCCESS(HttpStatus.OK, "매장을 성공적으로 삭제했습니다."),
+    POS_DELETE_SUCCESS(HttpStatus.OK, "POS를 성공적으로 삭제했습니다."),
 
     // 201
     SEND_PAY_INFO_SAVE_SUCCESS(HttpStatus.CREATED, "결제 정보 등록 성공"),

@@ -3,10 +3,12 @@ package com.checkmate.backend.domain.member.service;
 import static com.checkmate.backend.domain.member.entity.MemberAuth.createWithMember;
 
 import com.checkmate.backend.domain.member.dto.AuthToken;
+import com.checkmate.backend.domain.member.dto.MemberStatusResponse;
 import com.checkmate.backend.domain.member.entity.Member;
 import com.checkmate.backend.domain.member.entity.MemberAuth;
 import com.checkmate.backend.domain.member.repository.MemberAuthRepository;
 import com.checkmate.backend.domain.member.repository.MemberRepository;
+import com.checkmate.backend.domain.store.repository.PosRepository;
 import com.checkmate.backend.global.auth.oidc.OidcService;
 import com.checkmate.backend.global.exception.InternalServerException;
 import com.checkmate.backend.global.exception.NotFoundException;
@@ -41,6 +43,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberAuthRepository memberAuthRepository;
+    private final PosRepository posRepository;
     private final OidcService oidcService;
     private final JwtUtil jwtUtil;
 
@@ -171,6 +174,25 @@ public class MemberService {
         log.debug("Verifying ID Token and extracting email...");
         GoogleIdToken.Payload payload = oidcService.verifyIdToken(idToken);
         return payload.getEmail();
+    }
+
+    public MemberStatusResponse getMemberStatus(Long memberId) {
+        Member member =
+                memberRepository
+                        .findWithStoreById(memberId)
+                        .orElseThrow(
+                                () ->
+                                        new NotFoundException(
+                                                ErrorStatus.MEMBER_NOT_FOUND_EXCEPTION));
+
+        boolean hasStore = member.getStore() != null;
+        boolean hasPosIntegration = false;
+
+        if (hasStore) {
+            hasPosIntegration = posRepository.existsByStoreId(member.getStore().getId());
+        }
+
+        return new MemberStatusResponse(member.getEmail(), hasStore, hasPosIntegration);
     }
 
     private void saveOrUpdateMemberAuth(
