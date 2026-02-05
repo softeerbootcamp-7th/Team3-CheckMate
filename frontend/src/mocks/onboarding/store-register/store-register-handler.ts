@@ -4,18 +4,19 @@ import { mswHttp } from '@/mocks/shared';
 import type { SuccessResponse } from '@/services/shared';
 import type { PostBusinessRegistrationNumberResponseDto } from '@/types/onboarding/store-register';
 
-export const storeRegisterHandler = [
+const postHandler = [
   mswHttp.post('/api/stores/business/verify', () => {
     return HttpResponse.json<
       SuccessResponse<PostBusinessRegistrationNumberResponseDto>
     >(
       {
         success: true,
+        message: 'Success',
         data: { businessAuthToken: 'mock-business-auth-token' },
-        message: '사업자 인증 성공',
-        errorCode: '',
       },
       { status: 201 },
     );
   }),
 ];
+
+export const storeRegisterHandler = [...postHandler];

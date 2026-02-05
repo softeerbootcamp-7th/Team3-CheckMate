@@ -1,0 +1,1 @@
+export { RootErrorFallback } from './RootErrorFallback';
