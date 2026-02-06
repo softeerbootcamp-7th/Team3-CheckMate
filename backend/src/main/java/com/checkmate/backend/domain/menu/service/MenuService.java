@@ -10,6 +10,7 @@ import com.checkmate.backend.domain.menu.entity.Ingredient;
 import com.checkmate.backend.domain.menu.entity.Menu;
 import com.checkmate.backend.domain.menu.entity.MenuVersion;
 import com.checkmate.backend.domain.menu.entity.Recipe;
+import com.checkmate.backend.domain.menu.enums.Unit;
 import com.checkmate.backend.domain.menu.repository.IngredientRepository;
 import com.checkmate.backend.domain.menu.repository.MenuRepository;
 import com.checkmate.backend.domain.menu.repository.MenuVersionRepository;
@@ -127,10 +128,14 @@ public class MenuService {
                                                 INGREDIENT_NOT_FUND_EXCEPTION);
                                     });
 
+            Unit unit = dto.unit();
+            Integer quantity = dto.quantity();
+
             recipeRepository.save(
                     Recipe.builder()
-                            .quantity(dto.quantity())
-                            .unit(dto.unit().getValue())
+                            .quantity(quantity)
+                            .quantityNormalized(unit.normalize(quantity))
+                            .unit(unit.getValue())
                             .menuVersion(menuVersion)
                             .ingredient(ingredient)
                             .build());

@@ -14,4 +14,11 @@ public enum Unit {
     Unit(String value) {
         this.value = value;
     }
+
+    public int normalize(int quantity) {
+        return switch (this) {
+            case G, ML -> quantity;
+            case KG, L -> quantity * 1000;
+        };
+    }
 }
