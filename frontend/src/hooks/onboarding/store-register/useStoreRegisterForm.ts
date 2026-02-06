@@ -33,7 +33,7 @@ export const useStoreRegisterForm = () => {
         queryKey: authKeys.status(),
       });
 
-      navigate('/onboarding/pos');
+      navigate('/onboarding/pos', { replace: true });
     },
     onError: (error) => {
       toast.error(error.message);
