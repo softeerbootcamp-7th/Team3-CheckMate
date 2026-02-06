@@ -108,6 +108,15 @@ public class JwtUtil {
         return Long.parseLong(claims.getSubject());
     }
 
+    public Long getStorerIdFromToken(String token) {
+        Claims claims = parseToken(token).getPayload();
+        Object storeIdObj = claims.get("storeId");
+        if (storeIdObj == null) {
+            return null;
+        }
+        return Long.parseLong(storeIdObj.toString());
+    }
+
     private Jws<Claims> parseToken(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
     }
