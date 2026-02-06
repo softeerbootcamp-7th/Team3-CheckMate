@@ -2,11 +2,9 @@ import { useCallback, useMemo } from 'react';
 
 import {
   DATE_RANGE_PICKER_TYPE,
-  DATE_RANGE_PICKER_TYPE,
   DATE_RANGE_SIDE_CONFIG,
   type DateRangePickerType,
 } from '@/constants/shared';
-import { getMondayOfWeek } from '@/utils/shared';
 import { getMondayOfWeek } from '@/utils/shared';
 
 interface UseDateRangePickerSideProps {

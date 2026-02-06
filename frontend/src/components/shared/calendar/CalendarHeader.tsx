@@ -1,6 +1,4 @@
 import { CalendarNextButton } from './CalendarNextButton';
-import { CalendarNextButton } from './CalendarNextButton';
-import { CalendarPreviousButton } from './CalendarPreviousButton';
 import { CalendarPreviousButton } from './CalendarPreviousButton';
 
 interface CalendarHeaderProps {
