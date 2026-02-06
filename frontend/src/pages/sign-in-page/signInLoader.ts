@@ -4,6 +4,7 @@ import type { QueryClient } from '@tanstack/react-query';
 
 import { getAuthGoogle } from '@/services/auth';
 import { authOptions } from '@/services/auth/options';
+import { authToken } from '@/services/shared';
 
 const getUserAuthStatus = async (queryClient: QueryClient) => {
   const data = await queryClient
@@ -45,6 +46,8 @@ export const signInLoader = (queryClient: QueryClient) => async () => {
   await getAuthGoogle({
     code,
     redirectUrl: `${window.location.origin}/sign-in`,
+  }).then(({ accessToken }) => {
+    authToken.set(accessToken);
   });
 
   return await getUserAuthStatus(queryClient);
