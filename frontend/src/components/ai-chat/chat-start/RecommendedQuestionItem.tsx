@@ -1,13 +1,13 @@
 import { Button } from '@/components/shared/shadcn-ui';
 
-interface RecommendedQuestionProps {
+interface RecommendedQuestionItemProps {
   question: string;
   onSelect: (question: string) => void;
 }
-export const RecommendedQuestion = ({
+export const RecommendedQuestionItem = ({
   question,
   onSelect,
-}: RecommendedQuestionProps) => {
+}: RecommendedQuestionItemProps) => {
   return (
     <Button
       size="sm"

@@ -15,6 +15,8 @@ export {
   type PeriodType,
 } from './periods';
 export { CDN_BASE_URL } from './cdnBaseUrl';
+
+export { ROUTE_PATHS } from './routePaths';
 export { API_BASE_URL } from './apiBaseUrl';
 
 export { EDIT_CARD_WRAPPER } from './edit-card-wrapper';

@@ -1,5 +1,6 @@
 import { Navigate, Outlet, type RouteObject } from 'react-router-dom';
 
+import { ROUTE_PATHS } from '@/constants/shared';
 import { RootErrorFallback } from '@/pages/root-error-fallback';
 
 import { authRoutes } from './AuthRoutes';
@@ -13,14 +14,14 @@ export const rootRoutes: RouteObject = {
   children: [
     {
       index: true,
-      element: <Navigate to="/sign-in" replace />,
+      element: <Navigate to={ROUTE_PATHS.SIGN_IN} replace />,
     },
     mainPageRoutes,
     authRoutes,
     onboardingRoutes,
     {
       path: '*',
-      element: <Navigate to="/dashboard" replace />,
+      element: <Navigate to={ROUTE_PATHS.DASHBOARD} replace />,
     },
   ],
 };

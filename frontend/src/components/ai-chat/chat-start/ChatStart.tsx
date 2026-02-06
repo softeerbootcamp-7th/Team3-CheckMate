@@ -1,6 +1,4 @@
-import { CHAT_RECOMMENDED_QUESTIONS } from '@/constants/ai-chat';
-
-import { RecommendedQuestion } from './RecommendedQuestion';
+import { RecommendedQuestionList } from './RecommendedQuestionList';
 
 interface ChatStartProps {
   onQuestionSelect: (question: string) => void;
@@ -19,15 +17,7 @@ export const ChatStart = ({ onQuestionSelect }: ChatStartProps) => {
           }
         </p>
       </div>
-      <ul className="flex flex-col gap-150">
-        {CHAT_RECOMMENDED_QUESTIONS.map((question) => (
-          <RecommendedQuestion
-            key={question}
-            question={question}
-            onSelect={onQuestionSelect}
-          />
-        ))}
-      </ul>
+      <RecommendedQuestionList onQuestionSelect={onQuestionSelect} />
     </section>
   );
 };
