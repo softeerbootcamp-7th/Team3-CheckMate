@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+/** MUN_01 (메뉴별 매출 랭킹) */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -30,6 +31,6 @@ public class MenuSalesProcessor implements AnalysisProcessor<MenuAnalysisContext
                 menuAnalysisRepository.findMenuSales(
                         context.getStoreId(), context.getStartDate(), context.getEndDate());
 
-        sseEventSender.send(context.getStoreId(), AnalysisCardCode.MNU_01_01, popularMenus);
+        sseEventSender.send(context.getStoreId(), context.getAnalysisCardCode(), popularMenus);
     }
 }
