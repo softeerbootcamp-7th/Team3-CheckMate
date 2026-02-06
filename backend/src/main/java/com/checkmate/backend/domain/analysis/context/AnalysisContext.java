@@ -1,4 +1,4 @@
-package com.checkmate.backend.domain.analysis;
+package com.checkmate.backend.domain.analysis.context;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

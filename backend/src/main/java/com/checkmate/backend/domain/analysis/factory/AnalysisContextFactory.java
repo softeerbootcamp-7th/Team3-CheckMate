@@ -1,6 +1,6 @@
 package com.checkmate.backend.domain.analysis.factory;
 
-import com.checkmate.backend.domain.analysis.AnalysisContext;
+import com.checkmate.backend.domain.analysis.context.AnalysisContext;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.order.OrderCreatedEvent;
 
