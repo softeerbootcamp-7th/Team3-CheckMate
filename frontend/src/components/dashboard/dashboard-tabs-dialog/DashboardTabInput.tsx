@@ -3,6 +3,8 @@ import type { ChangeEvent, KeyboardEvent, Ref } from 'react';
 import { Input } from '@/components/shared';
 import { cn } from '@/utils/shared';
 
+const DUPLICATE_ERROR_MESSAGE = '중복된 이름입니다.';
+
 interface DashboardTabInputProps {
   index: number;
   newTabs: (string | undefined)[];
@@ -11,6 +13,7 @@ interface DashboardTabInputProps {
   setEditingIndex: (index: number | null) => void;
   ref: Ref<HTMLInputElement | null>;
 }
+
 export const DashboardTabInput = ({
   index,
   newTabs,
@@ -39,7 +42,7 @@ export const DashboardTabInput = ({
       disabled={index !== editingIndex}
       isError={hasDuplicate}
       errorMessagePosition="right"
-      errorMessage="중복된 이름입니다."
+      errorMessage={DUPLICATE_ERROR_MESSAGE}
       errorClassName="body-small-medium"
       onBlur={() => setEditingIndex(null)}
       maxLength={6}
