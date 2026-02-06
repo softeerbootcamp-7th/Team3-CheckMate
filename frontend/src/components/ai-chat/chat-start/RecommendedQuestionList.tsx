@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 
-import { getChatRecommendedQuestions } from '@/constants/ai-chat';
+import { getRecommendedQuestions } from '@/utils/ai-chat';
 
 import { RecommendedQuestionItem } from './RecommendedQuestionItem';
 
@@ -12,7 +12,7 @@ export const RecommendedQuestionList = ({
   onQuestionSelect,
 }: RecommendedQuestionListProps) => {
   const location = useLocation();
-  const questions = getChatRecommendedQuestions(location.pathname);
+  const questions = getRecommendedQuestions(location.pathname);
 
   return (
     <ul className="flex flex-col gap-150">
