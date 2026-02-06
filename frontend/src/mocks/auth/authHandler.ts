@@ -27,8 +27,8 @@ const getHandler = [
         message: 'Success',
         data: {
           email: 'john.doe@example.com',
-          hasStore: false,
-          hasPosIntegration: false,
+          hasStore: true,
+          hasPosIntegration: true,
         },
       },
       {

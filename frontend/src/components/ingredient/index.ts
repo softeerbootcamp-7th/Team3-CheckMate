@@ -1,0 +1,1 @@
+export { MenuInfoCard } from './MenuInfoCard';
