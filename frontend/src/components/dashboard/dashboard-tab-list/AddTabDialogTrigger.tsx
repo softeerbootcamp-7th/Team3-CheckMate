@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import PlusIcon from '@/assets/icons/plus.svg?react';
+import { PlusIcon } from '@/assets/icons';
 import {
   Button,
   Tooltip,
