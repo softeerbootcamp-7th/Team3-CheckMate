@@ -1,4 +1,6 @@
-import { CHAT_RECOMMENDED_QUESTIONS } from '@/constants/ai-chat';
+import { useLocation } from 'react-router-dom';
+
+import { getChatRecommendedQuestions } from '@/constants/ai-chat';
 
 import { RecommendedQuestion } from './RecommendedQuestion';
 
@@ -7,6 +9,10 @@ interface ChatStartProps {
 }
 
 export const ChatStart = ({ onQuestionSelect }: ChatStartProps) => {
+  // 현재 url 기반 추천 질문 상수 가져오기
+  const location = useLocation();
+  const questions = getChatRecommendedQuestions(location.pathname);
+
   return (
     <section className="flex h-full flex-col justify-between px-500 pt-18 pb-4.5">
       <div className="flex flex-col gap-y-250">
@@ -20,7 +26,7 @@ export const ChatStart = ({ onQuestionSelect }: ChatStartProps) => {
         </p>
       </div>
       <ul className="flex flex-col gap-150">
-        {CHAT_RECOMMENDED_QUESTIONS.map((question) => (
+        {questions.map((question) => (
           <RecommendedQuestion
             key={question}
             question={question}
