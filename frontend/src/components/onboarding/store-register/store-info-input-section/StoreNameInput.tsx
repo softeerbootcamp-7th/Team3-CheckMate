@@ -2,7 +2,8 @@ import { Input } from '@/components/shared';
 import { useStoreName } from '@/hooks/onboarding/store-register';
 
 export const StoreNameInput = () => {
-  const { combineRefCallback, error, field } = useStoreName();
+  const { combineRefCallback, error, value, handleStoreNameBlur, onChange } =
+    useStoreName();
 
   return (
     <Input
@@ -11,7 +12,9 @@ export const StoreNameInput = () => {
       placeholder="매장명을 입력해주세요"
       isError={!!error}
       errorMessage={error?.message}
-      {...field}
+      value={value}
+      onChange={onChange}
+      onBlur={handleStoreNameBlur}
       ref={combineRefCallback}
     />
   );
