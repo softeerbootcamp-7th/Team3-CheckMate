@@ -1,20 +1,34 @@
+import type { RefCallback, RefObject } from 'react';
+
 import { Button } from '@/components/shared/shadcn-ui';
+import { STORE_REGISTER_STEP } from '@/constants/onboarding/store-register';
+import { useStoreRegisterStepContext } from '@/hooks/onboarding/store-register';
 import { cn } from '@/utils/shared';
 
 interface NextStepButtonProps {
   disable?: boolean;
+  ref?:
+    | RefObject<HTMLButtonElement | null>
+    | RefCallback<HTMLButtonElement | null>;
 }
 
-export const NextStepButton = ({ disable = false }: NextStepButtonProps) => {
+export const NextStepButton = ({
+  disable = false,
+  ref,
+}: NextStepButtonProps) => {
+  const { currentStep } = useStoreRegisterStepContext();
+  const isLastStep = currentStep === STORE_REGISTER_STEP.SALES_CLOSING_TIME;
   return (
     <Button
       variant="ghost"
       className={cn(
-        'rounded-150 bg-grey-100 title-small-semibold! text-grey-500 flex h-12 w-20 items-center justify-center self-end px-3 py-2',
+        'rounded-150 bg-grey-100 title-small-semibold! text-grey-500 flex h-12 min-w-20 items-center justify-center self-end px-3 py-2',
         disable ? 'bg-grey-100 text-grey-500' : 'text-grey-50 bg-brand-main',
       )}
+      ref={ref}
+      disabled={disable}
     >
-      다음
+      {isLastStep ? '제출하기' : '다음'}
     </Button>
   );
 };

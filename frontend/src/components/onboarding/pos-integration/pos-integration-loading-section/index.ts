@@ -1,0 +1,1 @@
+export { PosIntegrationLoadingSection } from './PosIntegrationLoadingSection';

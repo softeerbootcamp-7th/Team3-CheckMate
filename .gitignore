@@ -8,3 +8,7 @@
 
 # macOS
 .DS_Store
+
+# SSL certificates
+fullchain.crt
+private.key

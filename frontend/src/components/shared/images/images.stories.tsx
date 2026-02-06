@@ -9,6 +9,7 @@ const images = [
   'logoWithTitle.svg',
   'ai_chat_column.png',
   'ai_chat_row.svg',
+  'ai_chat_loading.svg',
   'google.svg',
   'analysis.svg',
   'dashboard.svg',

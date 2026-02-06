@@ -39,3 +39,6 @@ storybook-static
 
 .env
 !.env.template
+
+localhost-key.pem
+localhost.pem
