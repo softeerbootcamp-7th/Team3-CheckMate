@@ -13,3 +13,4 @@ export {
   getSundayOfWeek,
   getCurrentMonth,
 } from './calendar';
+export { formatNumber } from './formatNumber';

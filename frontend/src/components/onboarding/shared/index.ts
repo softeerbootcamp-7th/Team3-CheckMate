@@ -1,0 +1,1 @@
+export { OnboardingSidebar } from './OnboardingSidebar';

@@ -1,10 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/shared/shadcn-ui';
 import { SIDEBAR_ITEMS } from '@/constants/shared';
 import type { SidebarOptionItem } from '@/types/shared';
 import { cn } from '@/utils/shared/lib/utils';
-
-import { Button } from '../shadcn-ui/button';
 
 export const Sidebar = () => {
   // 현재 브라우저의 URL 경로를 가져옴
@@ -13,7 +12,7 @@ export const Sidebar = () => {
   const navigate = useNavigate();
 
   return (
-    <aside className="bg-gray-0 h-full w-75">
+    <aside className="bg-grey-0 h-full w-75 shrink-0">
       <img
         src="/assets/logoWithTitle.svg"
         alt="Logo"
@@ -31,8 +30,8 @@ export const Sidebar = () => {
                 onClick={() => navigate(menu.path)}
                 className={cn(
                   isActive
-                    ? 'text-brand-main !body-medium-bold bg-brand-20'
-                    : '!body-medium-medium text-gray-600',
+                    ? 'text-brand-main body-medium-bold! bg-brand-20'
+                    : 'body-medium-medium! text-gray-600',
 
                   `rounded-150 flex h-[40px] w-full cursor-pointer items-center justify-start gap-[6px]`,
                 )}
@@ -41,7 +40,7 @@ export const Sidebar = () => {
                   <menu.Icon
                     className={cn(
                       isActive ? 'text-brand-400' : 'text-gray-600',
-                      'size-[22px]',
+                      'size-5.5',
                     )}
                   />
                 )}
@@ -61,8 +60,8 @@ export const Sidebar = () => {
                         onClick={() => navigate(sub.path)}
                         className={cn(
                           isSubActive
-                            ? 'text-brand-main !body-medium-bold'
-                            : '!body-medium-medium text-gray-400',
+                            ? 'text-brand-main body-medium-bold!'
+                            : 'body-medium-medium! text-gray-400',
 
                           `flex h-[40px] w-full cursor-pointer items-center justify-start pl-[36px]`,
                         )}
