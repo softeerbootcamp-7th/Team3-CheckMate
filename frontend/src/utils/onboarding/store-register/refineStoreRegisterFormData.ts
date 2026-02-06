@@ -9,8 +9,8 @@ export const refineStoreRegisterFormData = (
     businessHours: rest.businessHours.map((businessHour) => {
       return {
         ...businessHour,
-        openTime: businessHour.openTime ? businessHour.openTime : undefined,
-        closeTime: businessHour.closeTime ? businessHour.closeTime : undefined,
+        openTime: businessHour.openTime || undefined,
+        closeTime: businessHour.closeTime || undefined,
         isOver24: undefined,
       };
     }),
