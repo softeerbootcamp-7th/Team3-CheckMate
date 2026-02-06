@@ -34,6 +34,12 @@ export const getLastDayOfMonth = (date: Date) => {
   return new Date(year, nextMonth + 1, 0).getDay();
 };
 
+/**
+ * @description 인자로 주어진 currentDate가 시작 날짜와 동일한지 여부를 반환
+ * @param currentDate
+ * @param selectedStartDate
+ * @returns
+ */
 export const isStartDate = ({
   currentDate,
   selectedStartDate,
@@ -44,6 +50,12 @@ export const isStartDate = ({
   return currentDate.getTime() === selectedStartDate?.getTime();
 };
 
+/**
+ * @description 인자로 주어진 currentDate가 종료 날짜와 동일한지 여부를 반환
+ * @param currentDate
+ * @param selectedEndDate
+ * @returns
+ */
 export const isEndDate = ({
   currentDate,
   selectedEndDate,
@@ -54,6 +66,14 @@ export const isEndDate = ({
   return currentDate.getTime() === selectedEndDate?.getTime();
 };
 
+/**
+ *
+ * @description 인자로 주어진 currentDate가 시작 날짜와 종료 날짜 사이에 있는지 여부를 반환
+ * @param currentDate
+ * @param selectedStartDate
+ * @param selectedEndDate
+ * @returns
+ */
 export const isBetweenSelectedDate = ({
   currentDate,
   selectedStartDate,
@@ -72,6 +92,14 @@ export const isBetweenSelectedDate = ({
   );
 };
 
+/**
+ * @description 인자로 주어진 dateForCalendar의 월을 기준으로 인자로 주어진 date의 날짜를 반환
+ * @param date
+ * @param dateForCalendar
+ * @param isPreviousMonth
+ * @param isNextMonth
+ * @returns
+ */
 export const getCurrentDate = ({
   date,
   dateForCalendar,
@@ -92,6 +120,11 @@ export const getCurrentDate = ({
   );
 };
 
+/**
+ * @description 인자로 주어진 currentDate가 속한 주의 월요일을 반환
+ * @param currentDate
+ * @returns
+ */
 export const getMondayOfWeek = (currentDate: Date) => {
   const dayOfCurrentDate =
     currentDate.getDay() === 0 ? 7 : currentDate.getDay();
@@ -103,6 +136,11 @@ export const getMondayOfWeek = (currentDate: Date) => {
   );
 };
 
+/**
+ * @description 인자로 주어진 currentDate가 속한 주의 일요일을 반환
+ * @param currentDate
+ * @returns
+ */
 export const getSundayOfWeek = (currentDate?: Date) => {
   if (!currentDate) {
     return undefined;
@@ -117,6 +155,12 @@ export const getSundayOfWeek = (currentDate?: Date) => {
   );
 };
 
+/**
+ * @description 인자로 주어진 month와 dateForCalendar의 월을 반환
+ * @param month
+ * @param dateForCalendar
+ * @returns
+ */
 export const getCurrentMonth = ({
   month,
   dateForCalendar,
@@ -125,4 +169,32 @@ export const getCurrentMonth = ({
   dateForCalendar: Date;
 }) => {
   return new Date(dateForCalendar.getFullYear(), month, 1);
+};
+
+/**
+ * @description 인자로 주어진 date의 월의 마지막 날짜를 반환
+ * @param date
+ */
+export const getLastDateOfMonth = (date: Date) => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+};
+
+/**
+ *
+ * @description 인자로 주어진 date의 월이 인자로 주어진 compareDate의 월과 동일한지 여부를 반환
+ * @param date
+ * @param compareDate
+ * @returns
+ */
+export const isSameMonth = ({
+  date,
+  compareDate,
+}: {
+  date: Date;
+  compareDate?: Date;
+}) => {
+  return (
+    date.getFullYear() === compareDate?.getFullYear() &&
+    date.getMonth() === compareDate?.getMonth()
+  );
 };
