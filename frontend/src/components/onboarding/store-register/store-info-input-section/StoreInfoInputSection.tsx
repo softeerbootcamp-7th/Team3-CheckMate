@@ -1,9 +1,5 @@
 import { useFormContext } from 'react-hook-form';
 
-import {
-  STORE_NAME,
-  STORE_REGISTER_FORM_FIELD,
-} from '@/constants/onboarding/store-register';
 import type { StoreRegisterForm } from '@/types/onboarding/store-register';
 
 import { StoreRegisterFormTitle } from '../store-register-form-title';
@@ -13,16 +9,9 @@ import { StoreAddressInput } from './StoreAddressInput';
 import { StoreNameInput } from './StoreNameInput';
 
 export const StoreInfoInputSection = () => {
-  const { watch } = useFormContext<StoreRegisterForm>();
-
-  const isStoreInfoValid =
-    !!watch(STORE_REGISTER_FORM_FIELD.STORE_NAME) &&
-    watch(STORE_REGISTER_FORM_FIELD.STORE_NAME).length >=
-      STORE_NAME.MIN_LENGTH &&
-    watch(STORE_REGISTER_FORM_FIELD.STORE_NAME).length <=
-      STORE_NAME.MAX_LENGTH &&
-    !!watch(STORE_REGISTER_FORM_FIELD.ZONE_CODE) &&
-    !!watch(STORE_REGISTER_FORM_FIELD.ROAD_ADDRESS);
+  const {
+    formState: { isValid },
+  } = useFormContext<StoreRegisterForm>();
 
   return (
     <>
@@ -34,7 +23,7 @@ export const StoreInfoInputSection = () => {
           <StoreNameInput />
           <StoreAddressInput />
         </div>
-        <StoreRegisterStepButtonGroup disable={!isStoreInfoValid} />
+        <StoreRegisterStepButtonGroup disable={!isValid} />
       </div>
     </>
   );

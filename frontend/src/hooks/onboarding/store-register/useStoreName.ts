@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { type FocusEvent, useCallback } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 import { STORE_REGISTER_FORM_FIELD } from '@/constants/onboarding/store-register';
@@ -9,7 +9,7 @@ export const useStoreName = () => {
   const { control } = useFormContext<StoreRegisterForm>();
 
   const {
-    field,
+    field: { onChange, value, ref },
     fieldState: { error },
   } = useController({
     name: STORE_REGISTER_FORM_FIELD.STORE_NAME,
@@ -29,11 +29,17 @@ export const useStoreName = () => {
 
   const combineRefCallback = (element: HTMLInputElement | null) => {
     handleFocusStoreNameInput(element);
-    field.ref(element);
+    ref(element);
+  };
+
+  const handleStoreNameBlur = (event: FocusEvent<HTMLInputElement>) => {
+    onChange(event.target.value.trim());
   };
 
   return {
-    field,
+    value,
+    onChange,
+    handleStoreNameBlur,
     error,
     combineRefCallback,
   };

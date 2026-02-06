@@ -24,8 +24,16 @@ export const AddressSearchButton = ({
   const handleClickAddressSearchButton = () => {
     open({
       onComplete: (data) => {
-        setValue(STORE_REGISTER_FORM_FIELD.ZONE_CODE, data.zonecode);
-        setValue(STORE_REGISTER_FORM_FIELD.ROAD_ADDRESS, data.roadAddress);
+        setValue(STORE_REGISTER_FORM_FIELD.ZONE_CODE, data.zonecode, {
+          shouldDirty: true,
+          shouldValidate: true,
+          shouldTouch: true,
+        });
+        setValue(STORE_REGISTER_FORM_FIELD.ROAD_ADDRESS, data.roadAddress, {
+          shouldDirty: true,
+          shouldValidate: true,
+          shouldTouch: true,
+        });
       },
     });
   };
