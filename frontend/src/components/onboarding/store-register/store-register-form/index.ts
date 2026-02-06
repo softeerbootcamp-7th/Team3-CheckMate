@@ -1,0 +1,1 @@
+export { StoreRegisterForm } from './StoreRegisterForm';

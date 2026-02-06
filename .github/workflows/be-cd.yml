@@ -1,0 +1,149 @@
+name: Backend CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - "nginx/**"
+      - "docker-compose.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 1. AWS OIDC 인증
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_ROLE_NAME }}
+          aws-region: ap-northeast-2
+
+      # 2. 백엔드 JAR 빌드
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: 17
+          cache: gradle
+
+      - name: Build with Gradle
+        working-directory: backend
+        run: |
+          chmod +x gradlew
+          ./gradlew clean build -x test
+
+      # 3. Buildx 설정
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Docker Hub Login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          platforms: linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/checkmate-be:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 4. 설정 파일 전송 (S3 임시 보관)
+      - name: Upload Config to S3
+        run: |
+          mkdir -p nginx/certs
+          # GitHub Secrets에서 인증서 내용을 가져와 파일로 생성
+          echo "${{ secrets.SSL_CERTIFICATE }}" > nginx/certs/fullchain.crt
+          echo "${{ secrets.SSL_PRIVATE_KEY }}" > nginx/certs/private.key
+
+          # 인증서 폴더를 포함하여 압축
+          zip -r deploy.zip docker-compose.yml nginx/default.conf nginx/certs/
+          aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip --sse AES256
+
+      # 5. SSM으로 EC2에 명령
+      - name: AWS SSM Send Command
+        id: ssm
+        run: |
+          COMMAND_ID=$(aws ssm send-command \
+          --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
+          --document-name "AWS-RunShellScript" \
+          --parameters 'commands=[
+           "mkdir -p /home/ec2-user/app",
+           "cd /home/ec2-user/app",
+           "aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip . --sse AES256",
+           "unzip -o deploy.zip",
+           "chown -R ec2-user:ec2-user /home/ec2-user/app",
+           "chmod 600 nginx/certs/private.key",
+           "echo \"DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}\" > .env",
+           "echo \"SPRING_PROFILES_ACTIVE=prod\" >> .env",
+           "echo \"DB_URL=${{ secrets.DB_URL }}\" >> .env",
+           "echo \"DB_USERNAME=${{ secrets.DB_USERNAME }}\" >> .env",
+           "echo \"DB_PASSWORD=${{ secrets.DB_PASSWORD }}\" >> .env",
+           "echo \"GOOGLE_ID=${{ secrets.GOOGLE_ID }}\" >> .env",
+           "echo \"GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}\" >> .env",
+           "echo \"JWT_SECRET=${{ secrets.JWT_SECRET }}\" >> .env",
+           "echo \"JWT_BUSINESS_SECRET=${{ secrets.JWT_BUSINESS_SECRET }}\" >> .env",
+           "echo \"ENC_KEY=${{ secrets.ENC_KEY }}\" >> .env",
+           "docker-compose pull",
+           "docker-compose up -d",
+           "docker image prune -f",
+           "rm deploy.zip"
+          ]' \
+          --region ap-northeast-2 \
+          --output text \
+          --query "Command.CommandId")
+
+          # 다음 단계에서 사용할 수 있도록 환경 변수에 저장
+          echo "COMMAND_ID=$COMMAND_ID" >> $GITHUB_ENV
+
+      # 6. 명령 완료 대기 및 최종 결과 확인
+      - name: Wait for SSM Command Execution
+        run: |
+          echo "명령 실행 대기 중... (Command ID: ${{ env.COMMAND_ID }})"
+
+          aws ssm wait command-executed \
+            --command-id "${{ env.COMMAND_ID }}" \
+            --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+            --region ap-northeast-2
+
+          STATUS=$(aws ssm get-command-invocation \
+            --command-id "${{ env.COMMAND_ID }}" \
+            --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+            --region ap-northeast-2 \
+            --query "Status" \
+            --output text)
+
+          echo "최종 실행 상태: $STATUS"
+
+          if [ "$STATUS" != "Success" ]; then
+            echo "배포 실패!"
+            exit 1
+          fi
+
+      - name: Send result to n8n
+        if: always() #n8n webhook 실행
+        run: |
+          curl -X POST "${{ secrets.BE_CD_SLACK_N8N_WEBHOOK_URL }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "workflow": "${{ github.workflow }}",
+            "status": "${{ job.status }}",
+            "repository": "${{ github.repository }}",
+            "actor": "${{ github.actor }}",
+            "commit_msg": "${{ github.event.head_commit.message }}",
+            "run_url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+            "group_id": "S0AA1TB9VUK"
+          }'

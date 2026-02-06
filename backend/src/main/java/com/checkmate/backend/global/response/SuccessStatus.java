@@ -6,21 +6,58 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum SuccessStatus {
 
-  /** 200 */
-  TEST_RESPONSE_SUCCESS(HttpStatus.OK, "테스트 응답 성공"),
+    /** Member */
+    // 200
+    GOOGLE_LOGIN_SUCCESS(HttpStatus.OK, "구글 로그인에 성공했습니다."),
+    BUSINESS_VERIFICATION_SUCCESS(HttpStatus.OK, "사업자 인증 성공했습니다."),
+    MEMBER_STATUS_SUCCESS(HttpStatus.OK, "사용자 상태 조회에 성공했습니다."),
 
-  /** 201 */
-  SEND_PAY_INFO_SAVE_SUCCESS(HttpStatus.CREATED, "결제 정보 등록 성공");
+    // 201
+    MEMBER_SIGNUP_SUCCESS(HttpStatus.CREATED, "회원 가입에 성공했습니다"),
 
-  private final HttpStatus httpStatus;
-  private final String message;
+    /** JWT & Auth */
+    TOKEN_REFRESH_SUCCESS(HttpStatus.OK, "토큰 재발급에 성공했습니다."),
 
-  SuccessStatus(HttpStatus httpStatus, String message) {
-    this.httpStatus = httpStatus;
-    this.message = message;
-  }
+    /** Store */
+    // 200
+    POS_CONNECT_START(HttpStatus.OK, "POS 연동을 시작합니다."),
+    STORE_DELETE_SUCCESS(HttpStatus.OK, "매장을 성공적으로 삭제했습니다."),
+    POS_DELETE_SUCCESS(HttpStatus.OK, "POS를 성공적으로 삭제했습니다."),
 
-  public int getStatusCode() {
-    return this.httpStatus.value();
-  }
+    // 201
+    SEND_PAY_INFO_SAVE_SUCCESS(HttpStatus.CREATED, "결제 정보 등록 성공"),
+    STORE_CREATE_SUCCESS(HttpStatus.CREATED, "매장 등록 성공했습니다."),
+
+    /** Menu */
+    // 200
+    MENU_GET_SUCCESS(HttpStatus.OK, "메뉴 조회에 성공했습니다."),
+    INGREDIENT_GET_SUCCESS(HttpStatus.OK, "식재료 조회에 성공했습니다."),
+
+    // 201
+    MENU_CREATE_SUCCESS(HttpStatus.CREATED, "메뉴 등록에 성공했습니다."),
+    INGREDIENT_CREATE_SUCCESS(HttpStatus.CREATED, "식재료 등록에 성공했습니다."),
+
+    /** SSE */
+    // 200
+    SSE_SUBSCRIBE_SUCCESS(HttpStatus.OK, "SSE 구독에 성공했습니다."),
+    SSE_UNSUBSCRIBE_SUCCESS(HttpStatus.OK, "SSE 구독 해제에 성공했습니다."),
+    SSE_UNSUBSCRIBE_ALL_SUCCESS(HttpStatus.OK, "모든 SSE 구독을 해제했습니다."),
+    SSE_CONNECT_SUCCESS(HttpStatus.OK, "SSE 연결에 성공했습니다."),
+    SSE_DISCONNECT_SUCCESS(HttpStatus.OK, "SSE 연결을 종료했습니다."),
+
+    /** Order */
+    // 201
+    ORDER_RECEIVE_SUCCESS(HttpStatus.CREATED, "주문 수신에 성공했습니다.");
+
+    private final HttpStatus httpStatus;
+    private final String message;
+
+    SuccessStatus(HttpStatus httpStatus, String message) {
+        this.httpStatus = httpStatus;
+        this.message = message;
+    }
+
+    public int getStatusCode() {
+        return this.httpStatus.value();
+    }
 }

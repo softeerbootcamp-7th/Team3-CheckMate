@@ -1,0 +1,1 @@
+export { StoreInfoInputSection } from './StoreInfoInputSection';
