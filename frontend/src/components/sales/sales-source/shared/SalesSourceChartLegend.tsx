@@ -20,41 +20,39 @@ export const SalesSourceChartLegend = ({
 }: SalesSourceChartLegendProps) => {
   return (
     <ul className="flex w-full flex-col gap-1">
-      {salesSourceData
-        .sort((a, b) => b.revenue - a.revenue)
-        .map((data) => (
-          <li key={data.salesSourceType} className="flex justify-between">
-            <div className="flex w-fit shrink-0 items-center gap-2">
-              <div
-                className="rounded-50 inline-block size-3.5 shrink-0"
-                style={{
-                  backgroundColor: SALES_SOURCE_COLORS[data.salesSourceType],
-                }}
-              />
-              <span className="body-small-medium text-grey-900 shrink-0">
-                {data.salesSourceType}
-              </span>
-            </div>
-            <span className="body-small-medium text-grey-900 align-baseline">
-              {formatNumberInTenThousands(data.revenue)}({data.count}건)
+      {salesSourceData.map((data) => (
+        <li key={data.salesSourceType} className="flex justify-between">
+          <div className="flex w-fit shrink-0 items-center gap-2">
+            <div
+              className="rounded-50 inline-block size-3.5 shrink-0"
+              style={{
+                backgroundColor: SALES_SOURCE_COLORS[data.salesSourceType],
+              }}
+            />
+            <span className="body-small-medium text-grey-900 shrink-0">
+              {data.salesSourceType}
             </span>
-            {data.changeRate && (
-              <span
-                className={cn(
-                  'body-small-semibold text-brand-main',
-                  data.changeRate < 0 && 'text-others-negative',
-                )}
-              >
-                <object
-                  data={`${CDN_BASE_URL}/assets/images/${data.changeRate >= 0 ? 'up' : 'down'}.svg`}
-                  className="inline size-4"
-                />
-                {data.changeRate > 0 ? '+' : ''}
-                {data.changeRate}%p
-              </span>
-            )}
-          </li>
-        ))}
+          </div>
+          <span className="body-small-medium text-grey-900 align-baseline">
+            {formatNumberInTenThousands(data.revenue)}({data.count}건)
+          </span>
+          {data.changeRate && (
+            <span
+              className={cn(
+                'body-small-semibold text-brand-main',
+                data.changeRate < 0 && 'text-others-negative',
+              )}
+            >
+              <object
+                data={`${CDN_BASE_URL}/assets/images/${data.changeRate >= 0 ? 'up' : 'down'}.svg`}
+                className="inline size-4"
+              />
+              {data.changeRate > 0 ? '+' : ''}
+              {data.changeRate}%p
+            </span>
+          )}
+        </li>
+      ))}
     </ul>
   );
 };
