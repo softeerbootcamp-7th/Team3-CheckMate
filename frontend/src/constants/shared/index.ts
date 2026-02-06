@@ -16,3 +16,5 @@ export {
 } from './periods';
 export { CDN_BASE_URL } from './cdnBaseUrl';
 export { API_BASE_URL } from './apiBaseUrl';
+
+export { EDIT_CARD_WRAPPER } from './edit-card-wrapper';
