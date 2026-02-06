@@ -1,4 +1,4 @@
-import { type FieldErrors, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { DialogHeader, DialogTitle } from '@/components/shared/shadcn-ui';
 import type { IngredientFormValues } from '@/types/ingredient';
@@ -7,26 +7,21 @@ import { cn } from '@/utils/shared';
 import { Button } from '../shared/shadcn-ui';
 
 interface IngredientEditDialogHeaderProps {
-  onClickSubmit: (data: IngredientFormValues) => Promise<void>;
   onClickCancel: () => void;
-  onError: (errors: FieldErrors<IngredientFormValues>) => void;
   menuName: string;
 }
 
 export const IngredientEditDialogHeader = ({
   onClickCancel,
-  onClickSubmit,
-  onError,
   menuName,
 }: IngredientEditDialogHeaderProps) => {
   const {
-    handleSubmit,
     formState: { isDirty },
   } = useFormContext<IngredientFormValues>();
 
   return (
     <DialogHeader className="flex w-full flex-row items-center justify-between self-start">
-      <DialogTitle className="!title-large-semibold text-grey-900">
+      <DialogTitle className="title-large-semibold! text-grey-900">
         {menuName}
       </DialogTitle>
       <div className="flex gap-[14px]">
@@ -38,7 +33,6 @@ export const IngredientEditDialogHeader = ({
           취소
         </Button>
         <Button
-          onClick={handleSubmit(onClickSubmit, onError)}
           className={cn(
             isDirty
               ? 'bg-grey-900 text-grey-50'

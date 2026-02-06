@@ -13,7 +13,7 @@ export const MenuInfoCard = ({ menuId, menuName, price }: MenuCardProps) => {
   return (
     <>
       <article
-        className="bg-special-card-bg rounded-200 flex h-[200px] w-[256px] cursor-pointer flex-col justify-between p-6"
+        className="bg-special-card-bg rounded-200 flex h-50 w-64 cursor-pointer flex-col justify-between p-6"
         onClick={() => setIsDialogOpen(true)}
       >
         <p className="title-small-bold">{menuName}</p>

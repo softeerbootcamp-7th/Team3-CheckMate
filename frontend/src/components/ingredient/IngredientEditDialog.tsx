@@ -3,6 +3,7 @@ import { type FieldErrors, FormProvider } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { Dialog, DialogContent } from '@/components/shared/shadcn-ui';
+import { DEFAULT_INGREDIENT } from '@/constants/ingredient';
 import { useIngredientForm } from '@/hooks/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 
@@ -38,12 +39,7 @@ export const IngredientEditDialog = ({
     fieldArrayMethods.remove(index);
   };
   const onClickAddIngredient = () => {
-    fieldArrayMethods.append({
-      ingredientId: '',
-      name: '',
-      amount: '',
-      unit: '',
-    });
+    fieldArrayMethods.append(DEFAULT_INGREDIENT);
   };
 
   const onClickSubmit = async () =>
@@ -71,17 +67,15 @@ export const IngredientEditDialog = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <FormProvider {...formMethods}>
-        <form>
-          <DialogContent className="rounded-500 flex h-175 !w-[1000px] !max-w-[1000px] flex-col gap-0 border-none bg-gray-50 p-12.5 [&>button]:hidden">
+        <DialogContent className="rounded-500 flex h-175 w-[1000px]! max-w-[1000px]! flex-col gap-0 border-none bg-gray-50 p-12.5 [&>button]:hidden">
+          <form onSubmit={formMethods.handleSubmit(onClickSubmit, onError)}>
             {/** 메뉴명과 취소, 저장 버튼 있는 행 */}
             <IngredientEditDialogHeader
-              onClickSubmit={onClickSubmit}
               onClickCancel={onClickCancel}
-              onError={onError}
               menuName={mockMenuIngredients.menu}
             />
 
-            <div className="bg-grey-300 mt-5.5 h-[2px]" />
+            <div className="bg-grey-300 mt-5.5 h-0.5" />
             <section className="mt-10 flex min-h-0 flex-1 flex-col gap-10">
               {/** 식재료 목록 영역 위 식재료 입력 관련 정보 및 버튼 행(AI자동완성, 식재료추가 버튼 등) */}
               <IngredientEditInfoHeader
@@ -96,8 +90,8 @@ export const IngredientEditDialog = ({
                 onClickDeleteIngredient={onClickDeleteIngredient}
               />
             </section>
-          </DialogContent>
-        </form>
+          </form>
+        </DialogContent>
       </FormProvider>
     </Dialog>
   );

@@ -37,7 +37,7 @@ export const IngredientAmountInput = ({
           return currentFieldValue.length > 0;
         },
       })}
-      onInput={(e) => {
+      onChange={(e) => {
         // 숫자만 입력되도록 실시간 필터링 -> 검증때만 입력 불가가 아니라 애초에 입력 불가능하게
         const onlyNumbers = e.currentTarget.value.replace(/[^0-9]/g, '');
         // dom에 반영

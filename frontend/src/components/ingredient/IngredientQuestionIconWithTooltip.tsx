@@ -14,7 +14,7 @@ export const IngredientQuestionIconWithTooltip = () => {
         <CircleQuestionMark className="text-grey-500 size-6" />
       </TooltipTrigger>
       <TooltipContent
-        className="bg-grey-900 [&_svg]:fill-grey-900 body-small-medium rounded-250 flex translate-x-24 flex-col gap-1 px-350 py-300 leading-[22px] [&_svg]:translate-x-24 [&_svg]:-translate-y-[2px] [&_svg]:rotate-0"
+        className="bg-grey-900 [&_svg]:fill-grey-900 body-small-medium rounded-250 flex translate-x-24 flex-col gap-1 px-350 py-300 leading-5.5 [&_svg]:translate-x-24 [&_svg]:-translate-y-0.5 [&_svg]:rotate-0"
         side={'bottom'}
       >
         <p className="text-grey-400">Q. 메뉴별 식재료는 왜 수집하나요?</p>

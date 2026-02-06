@@ -49,7 +49,7 @@ export const IngredientUnitInput = ({
                 formErrors.ingredients?.[index]?.unit
                   ? 'border-others-negative'
                   : 'border-transparent',
-                'bg-grey-200 rounded-150 !h-10.5 !w-19 shrink-0 gap-0 border px-250 py-200',
+                'bg-grey-200 rounded-150 h-10.5! w-19! shrink-0 gap-0 border px-250 py-200',
               )}
             >
               <div
@@ -68,13 +68,16 @@ export const IngredientUnitInput = ({
               position={'popper'}
             >
               <SelectGroup>
-                <IngredientUnitSelectItem unit={INGREDIENT_UNIT.ml} />
-                <SelectSeparator />
-                <IngredientUnitSelectItem unit={INGREDIENT_UNIT.L} />
-                <SelectSeparator />
-                <IngredientUnitSelectItem unit={INGREDIENT_UNIT.g} />
-                <SelectSeparator />
-                <IngredientUnitSelectItem unit={INGREDIENT_UNIT.kg} />
+                {Object.values(INGREDIENT_UNIT).map((unit, index) => {
+                  return (
+                    <>
+                      <IngredientUnitSelectItem unit={unit} />
+                      {index !== Object.values(INGREDIENT_UNIT).length - 1 && (
+                        <SelectSeparator />
+                      )}
+                    </>
+                  );
+                })}
               </SelectGroup>
             </SelectContent>
           </Select>

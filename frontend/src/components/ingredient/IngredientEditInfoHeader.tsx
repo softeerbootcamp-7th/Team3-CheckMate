@@ -18,7 +18,7 @@ export const IngredientEditInfoHeader = ({
   return (
     <header className="flex justify-between">
       <div className="flex items-center gap-5">
-        <div className="flex items-center gap-[6px]">
+        <div className="flex items-center gap-1.5">
           <span className="title-medium-semibold text-grey-900">
             식재료 입력
           </span>
@@ -33,13 +33,13 @@ export const IngredientEditInfoHeader = ({
               'rounded-200 h-8.5 w-23.5 border-[1.5px] border-transparent px-350 py-200',
               '[background-clip:padding-box,border-box] bg-origin-border',
               'bg-[linear-gradient(#fff,#fff),linear-gradient(to_right,#C263FF,#17C4FF,#44C4F5)]',
-              fields.length !== 0 ? 'border-grey-300' : '',
+              fields.length !== 0 && 'border-grey-300',
             )}
           >
             <span
               className={cn(
                 'bg-[linear-gradient(to_right,#C263FF,#17C4FF,#44C4F5)] bg-clip-text text-transparent',
-                fields.length !== 0 ? 'text-grey-300' : '',
+                fields.length !== 0 && 'text-grey-300',
               )}
             >
               AI 자동완성
