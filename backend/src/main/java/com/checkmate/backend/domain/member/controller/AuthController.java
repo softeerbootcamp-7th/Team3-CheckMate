@@ -4,6 +4,8 @@ import com.checkmate.backend.domain.member.dto.AuthToken;
 import com.checkmate.backend.domain.member.dto.LoginResponse;
 import com.checkmate.backend.domain.member.dto.MemberStatusResponse;
 import com.checkmate.backend.domain.member.service.MemberService;
+import com.checkmate.backend.global.auth.LoginMember;
+import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.exception.BadRequestException;
 import com.checkmate.backend.global.exception.UnauthorizedException;
 import com.checkmate.backend.global.response.ApiResponse;
@@ -180,11 +182,6 @@ public class AuthController {
                                 new LoginResponse(newAccessToken)));
     }
 
-    /*
-    TODO: 인증된 사용자만 접근 가능하도록 수정 필요
-    - 현재는 memberId를 파라미터로 받아서 처리하지만, 추후에는 필터에서 인증된 사용자 정보를 추출하여 사용
-    - @RequestAttribute 또는 ArgumentResolver 등을 활용할 수 있음
-    */
     @Operation(
             summary = "사용자 상태 조회 API",
             description = "현재 로그인한 사용자의 이메일, 매장 등록 여부, POS 연동 여부를 조회합니다.")
@@ -202,8 +199,8 @@ public class AuthController {
     @GetMapping("/status")
     @ResponseBody
     public ResponseEntity<ApiResponse<MemberStatusResponse>> getMemberStatus(
-            @RequestParam("memberId") Long memberId) {
-        MemberStatusResponse response = memberService.getMemberStatus(memberId);
+            @LoginMember MemberSession member) {
+        MemberStatusResponse response = memberService.getMemberStatus(member.memberId());
 
         return ApiResponse.success(SuccessStatus.MEMBER_STATUS_SUCCESS, response);
     }

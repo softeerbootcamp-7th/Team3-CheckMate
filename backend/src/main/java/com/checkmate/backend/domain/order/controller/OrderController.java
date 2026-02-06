@@ -4,6 +4,8 @@ import static com.checkmate.backend.global.response.SuccessStatus.ORDER_RECEIVE_
 
 import com.checkmate.backend.domain.order.dto.request.ReceiptRequestDTO;
 import com.checkmate.backend.domain.order.service.OrderService;
+import com.checkmate.backend.global.auth.LoginMember;
+import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,10 +41,10 @@ public class OrderController {
     })
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> receivePosOrder(
-            @RequestAttribute("storeId") Long storeId,
+            @LoginMember MemberSession member,
             @RequestBody ReceiptRequestDTO receiptRequestDTO) {
 
-        orderService.receivePosOrder(storeId, receiptRequestDTO);
+        orderService.receivePosOrder(member.storeId(), receiptRequestDTO);
 
         return ApiResponse.success_only(ORDER_RECEIVE_SUCCESS);
     }
