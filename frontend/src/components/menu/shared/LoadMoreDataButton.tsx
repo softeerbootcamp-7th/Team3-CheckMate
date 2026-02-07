@@ -1,12 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/shared/shadcn-ui';
-import { ROUTE_PATHS } from '@/constants/shared';
 
-export const MenuSalesRankLoadMoreButton = () => {
+interface LoadMoreDataButtonProps {
+  path: string;
+}
+
+export const LoadMoreDataButton = ({ path }: LoadMoreDataButtonProps) => {
   const navigate = useNavigate();
   const handleClickLoadMore = () => {
-    navigate(ROUTE_PATHS.ANALYSIS.MENU_SALES_RANK);
+    navigate(path);
   };
   return (
     <Button

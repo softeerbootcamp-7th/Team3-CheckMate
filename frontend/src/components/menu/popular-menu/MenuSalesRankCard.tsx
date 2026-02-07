@@ -1,6 +1,7 @@
-import { MenuAnalysisCard } from '../shared';
+import { ROUTE_PATHS } from '@/constants/shared';
 
-import { MenuSalesRankLoadMoreButton } from './MenuSalesRankLoadMoreButton';
+import { LoadMoreDataButton, MenuAnalysisCard } from '../shared';
+
 import { MenuSalesRankTable } from './MenuSalesRankTable';
 
 export const MenuSalesRankCard = () => {
@@ -12,7 +13,9 @@ export const MenuSalesRankCard = () => {
     >
       <div className="flex min-h-0 flex-col gap-5">
         <MenuSalesRankTable />
-        <MenuSalesRankLoadMoreButton />
+        <LoadMoreDataButton
+          path={`./${ROUTE_PATHS.ANALYSIS.MENU_SALES_RANK}`}
+        />
       </div>
     </MenuAnalysisCard>
   );
