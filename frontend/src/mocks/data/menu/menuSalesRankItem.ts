@@ -3,7 +3,7 @@ export const menuSalesRankItems = [
     rank: 1,
     menuName: '제주 유기농 말차로 만든 부드러운 라떼 (ICE)',
     totalSalesAmount: 854200,
-    totalOrderCount: 124,
+    totalOrderCount: 999999999,
   },
   {
     rank: 2,
