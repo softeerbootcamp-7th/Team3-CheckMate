@@ -1,1 +1,0 @@
-export { useMenuSalesRank } from './useMenuSalesRank';
