@@ -1,0 +1,1 @@
+export { IngredientConsumptionRankPage } from './IngredientConsumptionRankPage';

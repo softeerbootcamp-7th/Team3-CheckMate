@@ -1,0 +1,1 @@
+export { MenuSalesPatternOverview } from './MenuSalesPatternOverview';

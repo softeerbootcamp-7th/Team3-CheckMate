@@ -41,7 +41,7 @@ const getHandler = [
 
 const postHandler = [
   mswHttp.post('/auth/refresh', () => {
-    HttpResponse.json<SuccessResponse<PostAuthRefreshResponseDto>>(
+    return HttpResponse.json<SuccessResponse<PostAuthRefreshResponseDto>>(
       {
         success: true,
         message: 'Success',

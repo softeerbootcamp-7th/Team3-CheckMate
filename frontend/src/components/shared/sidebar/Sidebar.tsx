@@ -53,7 +53,7 @@ export const Sidebar = () => {
                   {menu.subMenus.map((sub: SidebarOptionItem) => {
                     // 하위 메뉴는 경로가 정확히 일치해야 활성화 표시
                     // /analysis/sales, /analysis/menu 등
-                    const isSubActive = pathname === sub.path;
+                    const isSubActive = pathname.includes(sub.path);
 
                     return (
                       <Button

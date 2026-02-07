@@ -1,0 +1,4 @@
+export const MENU_SALES_RANK = {
+  MAX_DISPLAYED_RANK_ITEMS: 5,
+  HIGHLIGHT_RANK_THRESHOLD: 3,
+} as const;
