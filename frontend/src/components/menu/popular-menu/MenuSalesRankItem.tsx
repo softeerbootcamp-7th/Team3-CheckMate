@@ -27,14 +27,7 @@ export const MenuSalesRankItem = ({
           className="shrink-0"
         />
       </td>
-      <td
-        className="body-medium-semibold w-20 max-w-20"
-        style={{
-          textOverflow: 'ellipsis',
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-        }}
-      >
+      <td className="body-medium-semibold w-20 max-w-20 truncate">
         {menuName}
       </td>
       <td className="text-grey-900 text-end">
