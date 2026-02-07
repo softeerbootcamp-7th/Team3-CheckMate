@@ -11,7 +11,7 @@ export const MainLayout = () => {
     <div className="flex h-screen w-full">
       <Sidebar />
       <main className="bg-special-dashboard-bg flex flex-1 justify-center-safe overflow-x-scroll overflow-y-scroll">
-        <div className="mx-10 min-w-265">
+        <div className="mx-10 h-fit min-w-265">
           <Outlet />
         </div>
       </main>
