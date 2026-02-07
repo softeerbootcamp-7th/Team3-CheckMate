@@ -1,5 +1,6 @@
 package com.checkmate.backend.domain.order.repository;
 
+import com.checkmate.backend.domain.analysis.dto.projection.TimeSlotMenuOrderCountProjection;
 import com.checkmate.backend.domain.analysis.dto.response.CategorySalesResponse;
 import com.checkmate.backend.domain.analysis.dto.response.MenuSalesResponse;
 import com.checkmate.backend.domain.order.entity.Order;
@@ -42,4 +43,21 @@ public interface MenuAnalysisRepository extends JpaRepository<Order, Long> {
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
             Pageable pageable);
+
+    /** MNU_03 (시간대별 메뉴 주문건수) */
+    @Query(
+            "select new com.checkmate.backend.domain.analysis.dto.projection.TimeSlotMenuOrderCountProjection(o.timeSlot2H, m.name, count(*))"
+                    + " from Order o"
+                    + " join OrderItem oi on oi.order.id=o.id"
+                    + " join oi.menuVersion mv"
+                    + " join mv.menu m"
+                    + " where o.store.id = :storeId"
+                    + " and o.orderDate >= :startDate"
+                    + " and o.orderDate < :endDate"
+                    + " group by o.timeSlot2H, m.id, m.name"
+                    + " order by o.timeSlot2H asc")
+    List<TimeSlotMenuOrderCountProjection> findMenuCountPerTimeSlot(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
 }
