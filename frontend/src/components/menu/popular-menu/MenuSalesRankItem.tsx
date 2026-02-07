@@ -18,27 +18,39 @@ export const MenuSalesRankItem = ({
   const isHighlight = rank <= HIGHLIGHT_RANK_THRESHOLD;
 
   return (
-    <li className="flex items-center justify-between gap-3">
-      <div className="flex min-w-0 items-center gap-3">
+    <tr>
+      <td>
         <RankBadge
           rank={rank}
           size="sm"
           variant={isHighlight ? 'highlight' : 'default'}
           className="shrink-0"
         />
-        <span className="body-medium-semibold min-w-0 truncate">
-          {menuName}
+      </td>
+      <td
+        className="body-medium-semibold w-20 max-w-20"
+        style={{
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {menuName}
+      </td>
+      <td className="text-grey-900 text-end">
+        <span className="truncate">
+          {totalSalesAmount.toLocaleString('ko-KR')}
         </span>
-      </div>
-      <div className="body-medium-semibold flex shrink-0 items-center gap-8">
-        <span className="text-grey-900 flex items-center gap-0.5">
-          <span>{totalSalesAmount.toLocaleString('ko-KR')}</span>
-          <span>원</span>
-        </span>
-        <span className="text-grey-600">
-          {totalOrderCount.toLocaleString('ko-KR')}건
-        </span>
-      </div>
-    </li>
+        <span>원</span>
+      </td>
+      <td className="text-grey-600 w-20 max-w-20">
+        <div className="ml-3 flex w-20 items-center justify-end">
+          <span className="block min-w-0 truncate">
+            {totalOrderCount.toLocaleString('ko-KR')}
+          </span>
+          건
+        </div>
+      </td>
+    </tr>
   );
 };
