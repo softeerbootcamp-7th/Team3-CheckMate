@@ -44,7 +44,7 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
 
         List<Ingredient> ingredients = ingredientRepository.findAllByIds(ingredientIds);
 
-        List<IngredientUsageResponse> ingredientUsageResponse = new ArrayList<>();
+        List<IngredientUsageResponse> ingredientUsageResponses = new ArrayList<>();
 
         for (IngredientUsageProjection ingredientUsageProjection : ingredientUsageProjections) {
             Long ingredientId = ingredientUsageProjection.ingredientId();
@@ -56,7 +56,7 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
                             .findFirst() // 첫 번째 찾기
                             .orElse(null); // 없으면 null 반환
 
-            ingredientUsageResponse.add(
+            ingredientUsageResponses.add(
                     new IngredientUsageResponse(
                             ingredientUsageProjection.ingredientName(),
                             ingredientUsageProjection.totalQuantity(),
@@ -64,6 +64,6 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
         }
 
         sseEventSender.send(
-                context.getStoreId(), context.getAnalysisCardCode(), ingredientUsageResponse);
+                context.getStoreId(), context.getAnalysisCardCode(), ingredientUsageResponses);
     }
 }

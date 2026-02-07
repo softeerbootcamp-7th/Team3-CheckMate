@@ -27,10 +27,11 @@ public class MenuSalesProcessor implements AnalysisProcessor<MenuAnalysisContext
     @Override
     public void process(MenuAnalysisContext context) {
 
-        List<MenuSalesResponse> popularMenus =
+        List<MenuSalesResponse> menuSalesResponses =
                 menuAnalysisRepository.findMenuSales(
                         context.getStoreId(), context.getStartDate(), context.getEndDate());
 
-        sseEventSender.send(context.getStoreId(), context.getAnalysisCardCode(), popularMenus);
+        sseEventSender.send(
+                context.getStoreId(), context.getAnalysisCardCode(), menuSalesResponses);
     }
 }

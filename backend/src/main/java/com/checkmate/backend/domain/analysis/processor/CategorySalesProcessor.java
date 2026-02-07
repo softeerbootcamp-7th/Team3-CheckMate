@@ -32,13 +32,14 @@ public class CategorySalesProcessor implements AnalysisProcessor<MenuAnalysisCon
         // 상위 5개만
         Pageable pageable = PageRequest.of(0, 5);
 
-        List<CategorySalesResponse> categorySales =
+        List<CategorySalesResponse> categorySalesResponses =
                 menuAnalysisRepository.findCategorySales(
                         context.getStoreId(),
                         context.getStartDate(),
                         context.getEndDate(),
                         pageable);
 
-        sseEventSender.send(context.getStoreId(), context.getAnalysisCardCode(), categorySales);
+        sseEventSender.send(
+                context.getStoreId(), context.getAnalysisCardCode(), categorySalesResponses);
     }
 }

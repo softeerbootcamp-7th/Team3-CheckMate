@@ -41,7 +41,7 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
             groupedByTimeSlot.computeIfAbsent(m.timeSlot2H(), (k) -> new ArrayList<>()).add(m);
         }
 
-        List<TimeSlotMenuOrderCountResponse> responses = new ArrayList<>();
+        List<TimeSlotMenuOrderCountResponse> timeSlotMenuOrderCountResponses = new ArrayList<>();
 
         for (Map.Entry<Integer, List<TimeSlotMenuOrderCountProjection>> entry :
                 groupedByTimeSlot.entrySet()) {
@@ -85,10 +85,13 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
             }
 
             // 슬롯별 Response 객체 생성
-            responses.add(
+            timeSlotMenuOrderCountResponses.add(
                     new TimeSlotMenuOrderCountResponse(timeSlot, totalCount, menuOrderCounts));
         }
 
-        sseEventSender.send(context.getStoreId(), context.getAnalysisCardCode(), responses);
+        sseEventSender.send(
+                context.getStoreId(),
+                context.getAnalysisCardCode(),
+                timeSlotMenuOrderCountResponses);
     }
 }

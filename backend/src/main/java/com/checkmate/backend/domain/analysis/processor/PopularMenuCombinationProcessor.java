@@ -108,7 +108,7 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                                         MenuIdNameProjection::menuName));
 
         // DTO 변환
-        List<PopularMenuCombinationResponse> popularMenuCombinationResponse = new ArrayList<>();
+        List<PopularMenuCombinationResponse> popularMenuCombinationResponses = new ArrayList<>();
 
         for (Long baseMenuId : combinationCountMap.keySet()) {
             Map<Long, Long> pairedCountMap = combinationCountMap.get(baseMenuId);
@@ -131,7 +131,7 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                                                     ))
                             .toList();
 
-            popularMenuCombinationResponse.add(
+            popularMenuCombinationResponses.add(
                     new PopularMenuCombinationResponse(
                             menuIdToNameMap.get(baseMenuId), // baseMenu 이름
                             pairedMenus));
@@ -140,6 +140,6 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
         sseEventSender.send(
                 context.getStoreId(),
                 context.getAnalysisCardCode(),
-                popularMenuCombinationResponse);
+                popularMenuCombinationResponses);
     }
 }
