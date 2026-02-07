@@ -1,0 +1,1 @@
+export { MenuAnalysisCard } from './MenuAnalysisCard';
