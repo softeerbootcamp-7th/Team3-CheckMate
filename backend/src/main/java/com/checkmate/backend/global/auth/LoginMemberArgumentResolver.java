@@ -1,8 +1,5 @@
 package com.checkmate.backend.global.auth;
 
-import com.checkmate.backend.global.exception.UnauthorizedException;
-import com.checkmate.backend.global.response.ErrorStatus;
-import jakarta.validation.constraints.NotNull;
 import org.jspecify.annotations.NonNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -26,12 +23,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory) {
-        Object session = webRequest.getAttribute("loginMember", NativeWebRequest.SCOPE_REQUEST);
-
-        if (session == null) {
-            throw new UnauthorizedException(ErrorStatus.JWT_TOKEN_NOT_FOUND);
-        }
-
-        return session;
+        return webRequest.getAttribute("loginMember", NativeWebRequest.SCOPE_REQUEST);
     }
 }

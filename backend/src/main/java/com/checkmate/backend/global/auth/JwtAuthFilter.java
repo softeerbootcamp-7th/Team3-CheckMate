@@ -1,6 +1,7 @@
 package com.checkmate.backend.global.auth;
 
 import com.checkmate.backend.global.exception.UnauthorizedException;
+import com.checkmate.backend.global.response.ErrorStatus;
 import com.checkmate.backend.global.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -34,6 +35,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 Long memberId = jwtUtil.getMemberIdFromToken(jwtToken);
                 Long storeId = jwtUtil.getStoreIdFromToken(jwtToken);
 
+                if (memberId == null) {
+                    throw new UnauthorizedException(ErrorStatus.JWT_TOKEN_NOT_FOUND);
+                }
+
                 MemberSession sessionDto = new MemberSession(memberId, storeId);
                 request.setAttribute("loginMember", sessionDto);
             }
@@ -43,7 +48,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } catch (UnauthorizedException ex) {
             handlerExceptionResolver.resolveException(request, response, null, ex);
         } catch (Exception ex) {
-            // Handle other JWT related exceptions
             handlerExceptionResolver.resolveException(request, response, null, ex);
         }
     }
