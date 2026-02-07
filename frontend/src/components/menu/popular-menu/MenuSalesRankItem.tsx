@@ -44,7 +44,7 @@ export const MenuSalesRankItem = ({
         <span>원</span>
       </td>
       <td className="text-grey-600 w-20 max-w-20">
-        <div className="ml-3 flex w-20 items-center justify-end">
+        <div className="flex w-20 items-center justify-end pl-3">
           <span className="block min-w-0 truncate">
             {totalOrderCount.toLocaleString('ko-KR')}
           </span>
