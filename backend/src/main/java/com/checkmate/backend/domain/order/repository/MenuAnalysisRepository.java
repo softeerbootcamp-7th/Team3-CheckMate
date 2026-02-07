@@ -1,6 +1,7 @@
 package com.checkmate.backend.domain.order.repository;
 
 import com.checkmate.backend.domain.analysis.dto.projection.IngredientUsageProjection;
+import com.checkmate.backend.domain.analysis.dto.projection.OrderMenusProjection;
 import com.checkmate.backend.domain.analysis.dto.projection.TimeSlotMenuOrderCountProjection;
 import com.checkmate.backend.domain.analysis.dto.response.CategorySalesResponse;
 import com.checkmate.backend.domain.analysis.dto.response.MenuSalesResponse;
@@ -74,6 +75,39 @@ public interface MenuAnalysisRepository extends JpaRepository<Order, Long> {
                     + " group by ing.id, ing.name"
                     + " order by sum(r.quantityNormalized * oi.quantity) desc")
     List<IngredientUsageProjection> findIngredientUsage(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
+    /** MNU_05(인기 메뉴 조합) */
+
+    // 매출 기준 top3 조회
+    @Query(
+            "select m.id"
+                    + " from Order o"
+                    + " join OrderItem oi on oi.order.id=o.id"
+                    + " join oi.menuVersion mv"
+                    + " join mv.menu m"
+                    + " where o.store.id=:storeId and o.orderDate >= :startDate and o.orderDate < :endDate"
+                    + " group by m.id, m.name"
+                    + " order by sum(oi.lineGrossAmount) desc"
+                    + " limit 3")
+    List<Long> findTop3MenuIds(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
+    // 주문에 포함된 메뉴 ID를 JSON 배열로 조회
+    @Query(
+            value =
+                    "select o.order_id as orderid, json_agg(mv.menu_id) as menuids"
+                            + " from orders o"
+                            + " join order_item oi on oi.order_id = o.order_id"
+                            + " join menu_version mv on mv.menu_version_id = oi.menu_version_id"
+                            + " where o.store_id = :storeId and o.order_date >= :startDate and o.order_date < :endDate"
+                            + " group by o.order_id",
+            nativeQuery = true)
+    List<OrderMenusProjection> findOrderMenuBundles(
             @Param("storeId") Long storeId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
