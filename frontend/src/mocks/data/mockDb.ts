@@ -1,4 +1,4 @@
 export const mockDb = {
-  hasStore: false,
-  hasPosIntegration: false,
+  hasStore: true,
+  hasPosIntegration: true,
 };
