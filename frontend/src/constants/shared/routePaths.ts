@@ -11,6 +11,7 @@ export const ROUTE_PATHS = {
     BASE: '/analysis',
     SALES: 'sales',
     MENU: 'menu',
+    MENU_SALES_RANK: 'sales-rank',
     WEATHER: 'weather',
   },
   DAILY_REPORT: '/daily-report',

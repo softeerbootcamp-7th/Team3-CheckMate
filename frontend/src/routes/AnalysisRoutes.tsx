@@ -2,6 +2,7 @@ import { Navigate, type RouteObject } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@/constants/shared';
 import { MenuPage } from '@/pages/menu-page';
+import { MenuSalesRankPage } from '@/pages/menu-sales-rank-page';
 import { SalesPage } from '@/pages/sales-page';
 import { WeatherPage } from '@/pages/weather-page';
 
@@ -13,7 +14,19 @@ export const analysisRoutes: RouteObject = {
       element: <Navigate to="sales" replace />,
     },
     { path: ROUTE_PATHS.ANALYSIS.SALES, Component: SalesPage },
-    { path: ROUTE_PATHS.ANALYSIS.MENU, Component: MenuPage },
+    {
+      path: ROUTE_PATHS.ANALYSIS.MENU,
+      children: [
+        {
+          index: true,
+          Component: MenuPage,
+        },
+        {
+          path: ROUTE_PATHS.ANALYSIS.MENU_SALES_RANK,
+          Component: MenuSalesRankPage,
+        },
+      ],
+    },
     { path: ROUTE_PATHS.ANALYSIS.WEATHER, Component: WeatherPage },
   ],
 };
