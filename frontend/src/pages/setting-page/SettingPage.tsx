@@ -1,24 +1,12 @@
 import { SettingOption } from '@/components/setting';
 import { SettingMyStoreInfo } from '@/components/setting';
-import { useSettingMyStoreInfo } from '@/hooks/setting';
 
 export const SettingPage = () => {
-  const { data, isPending, error } = useSettingMyStoreInfo();
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-  if (error || !data) {
-    return <div>매장 정보를 불러오지 못했습니다.</div>;
-  }
   return (
     <div className="mt-20 flex flex-col gap-8 pb-29.5">
       <span className="title-large-semibold text-grey-900">환경설정</span>
       {/* 내 매장 정보 섹션 */}
-      <SettingMyStoreInfo
-        storeName={data.storeName}
-        salesClosingTime={data.salesClosingTime}
-        businessHours={data.businessHours}
-      />
+      <SettingMyStoreInfo />
 
       <div className="flex gap-10">
         {/* 메뉴, 식재료 섹션 */}
