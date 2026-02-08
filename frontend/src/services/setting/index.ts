@@ -1,0 +1,1 @@
+export { getSettingMyStoreInfo } from './get';

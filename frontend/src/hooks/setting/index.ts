@@ -1,0 +1,1 @@
+export { useSettingMyStoreInfo } from './useSettingMyStoreInfo';
