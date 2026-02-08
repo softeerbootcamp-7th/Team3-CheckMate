@@ -10,5 +10,7 @@ public interface DashboardRepository extends JpaRepository<Dashboard, Long> {
 
     boolean existsByStoreIdAndName(Long storeId, String name);
 
+    boolean existsByStoreIdAndNameAndIdNot(Long storeId, String name, Long dashboardId);
+
     long countByStoreId(Long storeId);
 }

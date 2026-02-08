@@ -36,7 +36,7 @@ public class DashboardService {
             throw new BadRequestException(ErrorStatus.DASHBOARD_LIMIT_EXCEEDED);
         }
 
-        String trimmedName = validateAndTrimName(storeId, name);
+        String trimmedName = validateAndTrimName(storeId, name, null);
         Store store = findStore(storeId);
 
         Dashboard dashboard = Dashboard.builder().name(trimmedName).store(store).build();
@@ -54,7 +54,7 @@ public class DashboardService {
             throw new BadRequestException(ErrorStatus.DEFAULT_DASHBOARD_MODIFICATION_RESTRICTED);
         }
 
-        String trimmedName = validateAndTrimName(storeId, newName);
+        String trimmedName = validateAndTrimName(storeId, newName, dashboardId);
         dashboard.updateName(trimmedName);
     }
 
@@ -86,17 +86,27 @@ public class DashboardService {
         return dashboard;
     }
 
-    private String validateAndTrimName(Long storeId, String name) {
+    private String validateAndTrimName(Long storeId, String name, Long excludeDashboardId) {
         if (name == null || name.trim().isEmpty()) {
             throw new BadRequestException(ErrorStatus.INVALID_DASHBOARD_NAME);
         }
 
         String trimmedName = name.trim();
+
         if (trimmedName.length() > 6) {
             throw new BadRequestException(ErrorStatus.DASHBOARD_NAME_TOO_LONG);
         }
 
-        if (dashboardRepository.existsByStoreIdAndName(storeId, trimmedName)) {
+        boolean isDuplicate;
+        if (excludeDashboardId == null) {
+            isDuplicate = dashboardRepository.existsByStoreIdAndName(storeId, trimmedName);
+        } else {
+            isDuplicate =
+                    dashboardRepository.existsByStoreIdAndNameAndIdNot(
+                            storeId, trimmedName, excludeDashboardId);
+        }
+
+        if (isDuplicate) {
             throw new BadRequestException(ErrorStatus.DUPLICATE_DASHBOARD_NAME);
         }
 
