@@ -2,6 +2,7 @@ package com.checkmate.backend.global.config;
 
 import com.checkmate.backend.global.auth.JwtAuthFilter;
 import com.checkmate.backend.global.auth.LoginMemberArgumentResolver;
+import com.checkmate.backend.global.interceptor.StoreCheckInterceptor;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private final LoginMemberArgumentResolver loginMemberArgumentResolver;
+    private final StoreCheckInterceptor storeCheckInterceptor;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -34,6 +37,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(loginMemberArgumentResolver);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(storeCheckInterceptor).addPathPatterns("/api/analysis/**");
     }
 
     @Bean
