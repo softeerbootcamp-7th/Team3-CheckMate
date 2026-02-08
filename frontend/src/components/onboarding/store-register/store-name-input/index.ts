@@ -1,1 +1,0 @@
-export { StoreNameInput } from './StoreNameInput';

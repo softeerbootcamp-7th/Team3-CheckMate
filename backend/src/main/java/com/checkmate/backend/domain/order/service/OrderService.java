@@ -4,6 +4,7 @@ import static com.checkmate.backend.global.response.ErrorStatus.STORE_NOT_FOUND_
 
 import com.checkmate.backend.domain.menu.entity.MenuVersion;
 import com.checkmate.backend.domain.menu.repository.MenuVersionRepository;
+import com.checkmate.backend.domain.order.OrderCreatedEvent;
 import com.checkmate.backend.domain.order.dto.request.ReceiptItemRequestDTO;
 import com.checkmate.backend.domain.order.dto.request.ReceiptRequestDTO;
 import com.checkmate.backend.domain.order.entity.Order;
@@ -15,9 +16,11 @@ import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
 import com.checkmate.backend.global.exception.NotFoundException;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +31,7 @@ public class OrderService {
     private final MenuVersionRepository menuVersionRepository;
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
+    private final ApplicationEventPublisher applicationEventPublisher; // TODO 공부
 
     @Transactional
     public void receivePosOrder(Long storeId, ReceiptRequestDTO receiptRequestDTO) {
@@ -53,6 +57,8 @@ public class OrderService {
                         .orderStatus(OrderStatus.COMPLETE.getValue())
                         .paymentMethod(receiptRequestDTO.paymentMethod().getValue())
                         .orderedAt(receiptRequestDTO.orderedAt())
+                        .orderDate(receiptRequestDTO.orderedAt().toLocalDate())
+                        .timeSlot2H(calculate2HourSlot(receiptRequestDTO.orderedAt()))
                         .store(store)
                         .build();
 
@@ -95,5 +101,16 @@ public class OrderService {
 
         // TODO: 나중에 bulk insert로 고려
         orderItemRepository.saveAll(orderItems);
+
+        // 이벤트 발행
+        applicationEventPublisher.publishEvent(new OrderCreatedEvent(storeId, order.getId()));
+    }
+
+    private int calculate2HourSlot(LocalDateTime orderedAt) {
+        int hour = orderedAt.getHour();
+
+        if (hour == 23) return 24;
+        if (hour % 2 != 0) return hour + 1;
+        return hour;
     }
 }

@@ -1,9 +1,11 @@
 import { useCallback, useMemo } from 'react';
 
 import {
+  DATE_RANGE_PICKER_TYPE,
   DATE_RANGE_SIDE_CONFIG,
   type DateRangePickerType,
 } from '@/constants/shared';
+import { getMondayOfWeek } from '@/utils/shared';
 
 interface UseDateRangePickerSideProps {
   selectedStartDate?: Date;
@@ -52,8 +54,22 @@ export const useDateRangePickerSide = ({
   }, [dateRangePickerType, selectedEndDate]);
 
   const handleResetStartDate = useCallback(() => {
-    setSelectedStartDate(undefined);
-  }, [setSelectedStartDate]);
+    if (selectedEndDate) {
+      if (dateRangePickerType === DATE_RANGE_PICKER_TYPE.week) {
+        const mondayOfSelectedEndDate = getMondayOfWeek(selectedEndDate);
+        setSelectedStartDate(mondayOfSelectedEndDate);
+      } else {
+        setSelectedStartDate(new Date(selectedEndDate));
+      }
+      setSelectedEndDate(undefined);
+      return;
+    }
+  }, [
+    selectedEndDate,
+    setSelectedStartDate,
+    setSelectedEndDate,
+    dateRangePickerType,
+  ]);
 
   const handleResetEndDate = useCallback(() => {
     setSelectedEndDate(undefined);

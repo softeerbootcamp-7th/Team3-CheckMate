@@ -1,0 +1,1 @@
+export { DashboardTabsDialog } from './DashboardTabsDialog';

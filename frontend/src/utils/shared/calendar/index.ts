@@ -5,4 +5,7 @@ export {
   isBetweenSelectedDate,
   isStartDate,
   isEndDate,
-} from './calendar';
+  getCurrentDate,
+  getMondayOfWeek,
+  getSundayOfWeek,
+} from './calendarUtil';

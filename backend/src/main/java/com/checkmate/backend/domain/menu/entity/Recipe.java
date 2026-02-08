@@ -28,6 +28,7 @@ public class Recipe extends BaseTimeEntity {
     private Long id;
 
     private Integer quantity;
+    private Integer quantityNormalized; // l -> ml , kg -> g
     private String unit;
 
     @ManyToOne(fetch = LAZY)

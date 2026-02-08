@@ -1,5 +1,7 @@
 package com.checkmate.backend.global.sse;
 
+import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +15,7 @@ public class SseEmitterManager {
     private final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
 
     // StoreId -> subscribed topics
-    private final Map<Long, Set<String>> clientTopics = new ConcurrentHashMap<>();
+    private final Map<Long, Set<AnalysisCardCode>> clientTopics = new ConcurrentHashMap<>();
 
     public void addEmitter(Long storeId, SseEmitter emitter) {
         emitters.put(storeId, emitter);
@@ -28,12 +30,12 @@ public class SseEmitterManager {
         emitters.remove(storeId);
     }
 
-    public void subscribe(Long storeId, String topic) {
+    public void subscribe(Long storeId, AnalysisCardCode topic) {
         clientTopics.computeIfAbsent(storeId, k -> ConcurrentHashMap.newKeySet()).add(topic);
     }
 
-    public void unsubscribe(Long storeId, String topic) {
-        Set<String> topics = clientTopics.get(storeId);
+    public void unsubscribe(Long storeId, AnalysisCardCode topic) {
+        Set<AnalysisCardCode> topics = clientTopics.get(storeId);
         if (topics == null) {
             return;
         }
@@ -50,7 +52,11 @@ public class SseEmitterManager {
         clientTopics.remove(storeId);
     }
 
-    public boolean isSubscribed(Long storeId, String topic) {
+    public boolean isSubscribed(Long storeId, AnalysisCardCode topic) {
         return clientTopics.getOrDefault(storeId, Set.of()).contains(topic);
+    }
+
+    public Set<AnalysisCardCode> getSubscribedTopics(Long storeId) {
+        return new HashSet<>(clientTopics.getOrDefault(storeId, Set.of()));
     }
 }

@@ -2,7 +2,10 @@ package com.checkmate.backend.domain.member.controller;
 
 import com.checkmate.backend.domain.member.dto.AuthToken;
 import com.checkmate.backend.domain.member.dto.LoginResponse;
+import com.checkmate.backend.domain.member.dto.MemberStatusResponse;
 import com.checkmate.backend.domain.member.service.MemberService;
+import com.checkmate.backend.global.auth.LoginMember;
+import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.exception.BadRequestException;
 import com.checkmate.backend.global.exception.UnauthorizedException;
 import com.checkmate.backend.global.response.ApiResponse;
@@ -177,6 +180,29 @@ public class AuthController {
                         ApiResponse.createSuccess(
                                 SuccessStatus.TOKEN_REFRESH_SUCCESS,
                                 new LoginResponse(newAccessToken)));
+    }
+
+    @Operation(
+            summary = "사용자 상태 조회 API",
+            description = "현재 로그인한 사용자의 이메일, 매장 등록 여부, POS 연동 여부를 조회합니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "사용자 상태 조회에 성공했습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "401",
+                description = "인증되지 않은 사용자입니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "해당 사용자를 찾을 수 없습니다.")
+    })
+    @GetMapping("/status")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<MemberStatusResponse>> getMemberStatus(
+            @LoginMember MemberSession member) {
+        MemberStatusResponse response = memberService.getMemberStatus(member.memberId());
+
+        return ApiResponse.success(SuccessStatus.MEMBER_STATUS_SUCCESS, response);
     }
 
     private void validateState(String state, HttpSession session) {

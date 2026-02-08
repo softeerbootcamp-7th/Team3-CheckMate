@@ -1,28 +1,32 @@
-import { CalendarCurrentDate } from './CalendarCurrentDate';
-import { CalendarNextMonthButton } from './CalendarNextMonthButton';
-import { CalendarPreviousMonthButton } from './CalendarPreviousMonthButton';
+import { CalendarNextButton } from './CalendarNextButton';
+import { CalendarPreviousButton } from './CalendarPreviousButton';
 
 interface CalendarHeaderProps {
-  currentYearForCalendar: number;
-  currentMonthForCalendar: number;
+  headerTitle: string;
+  previousAriaLabel?: string;
+  nextAriaLabel?: string;
   handleClickPreviousMonth: () => void;
   handleClickNextMonth: () => void;
 }
 
 export const CalendarHeader = ({
-  currentYearForCalendar,
-  currentMonthForCalendar,
+  headerTitle,
+  previousAriaLabel = '이전으로 이동',
+  nextAriaLabel = '다음으로 이동',
   handleClickPreviousMonth,
   handleClickNextMonth,
 }: CalendarHeaderProps) => {
   return (
     <div className="flex items-center justify-between p-350">
-      <CalendarPreviousMonthButton onClick={handleClickPreviousMonth} />
-      <CalendarCurrentDate
-        currentYearForCalendar={currentYearForCalendar}
-        currentMonthForCalendar={currentMonthForCalendar}
+      <CalendarPreviousButton
+        onClick={handleClickPreviousMonth}
+        ariaLabel={previousAriaLabel}
       />
-      <CalendarNextMonthButton onClick={handleClickNextMonth} />
+      <span className="body-small-bold">{headerTitle}</span>
+      <CalendarNextButton
+        onClick={handleClickNextMonth}
+        ariaLabel={nextAriaLabel}
+      />
     </div>
   );
 };

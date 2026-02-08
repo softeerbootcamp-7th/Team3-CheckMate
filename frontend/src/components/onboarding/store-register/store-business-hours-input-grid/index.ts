@@ -1,1 +1,0 @@
-export { StoreBusinessHoursInputGrid } from './StoreBusinessHoursInputGrid';

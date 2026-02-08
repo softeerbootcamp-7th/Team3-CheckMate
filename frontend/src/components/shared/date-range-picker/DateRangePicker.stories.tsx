@@ -15,18 +15,43 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     startDate: { control: 'date' },
-    endDate: { control: 'date', defaultValue: undefined },
+    endDate: { control: 'date' },
     dateRangePickerType: {
       control: 'select',
       options: Object.values(DATE_RANGE_PICKER_TYPE),
     },
-    setStartDate: { table: { disable: true } },
-    setEndDate: { table: { disable: true } },
   },
 } satisfies Meta<typeof DateRangePicker>;
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+const DefaultDateRangePickerStory = (args: Story['args']) => {
+  const [startDate, setStartDate] = useState<Date | undefined>(args.startDate);
+  const [endDate, setEndDate] = useState<Date | undefined>(args.endDate);
+
+  return (
+    <DateRangePicker
+      key={JSON.stringify(args)}
+      startDate={startDate}
+      setStartDate={setStartDate}
+      endDate={endDate}
+      setEndDate={setEndDate}
+      dateRangePickerType={args.dateRangePickerType}
+    />
+  );
+};
+
+export const Default: Story = {
+  args: {
+    startDate: undefined,
+    endDate: undefined,
+    dateRangePickerType: DATE_RANGE_PICKER_TYPE.date,
+  },
+  render: (args) => {
+    return <DefaultDateRangePickerStory {...args} />;
+  },
+};
 
 const DateRangePickerStory = () => {
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
@@ -42,11 +67,34 @@ const DateRangePickerStory = () => {
   );
 };
 
-export const Default: Story = {
+const WeekDateRangePickerStory = () => {
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  return (
+    <DateRangePicker
+      startDate={startDate}
+      setStartDate={setStartDate}
+      endDate={endDate}
+      setEndDate={setEndDate}
+      dateRangePickerType={DATE_RANGE_PICKER_TYPE.week}
+    />
+  );
+};
+
+export const Date: Story = {
   args: {
     startDate: undefined,
     endDate: undefined,
     dateRangePickerType: DATE_RANGE_PICKER_TYPE.date,
   },
   render: () => <DateRangePickerStory />,
+};
+
+export const Week: Story = {
+  args: {
+    startDate: undefined,
+    endDate: undefined,
+    dateRangePickerType: DATE_RANGE_PICKER_TYPE.week,
+  },
+  render: () => <WeekDateRangePickerStory />,
 };

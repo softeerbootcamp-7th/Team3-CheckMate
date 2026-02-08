@@ -68,15 +68,6 @@ export default defineConfig(({ mode }) => {
       ],
     },
     server: {
-      // proxy: {
-      //   '/api': {
-      //     target: apiUrl,
-      //     changeOrigin: true,
-      //     rewrite: (path) => {
-      //       return path.replaceAll('/api', '');
-      //     },
-      //   },
-      // },
       https: isDevelopment
         ? {
             key: fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem')),

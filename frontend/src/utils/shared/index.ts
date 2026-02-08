@@ -9,6 +9,9 @@ export {
   isBetweenSelectedDate,
   isStartDate,
   isEndDate,
+  getCurrentDate,
+  getMondayOfWeek,
+  getSundayOfWeek,
 } from './calendar';
 export { formatNumber, formatNumberInTenThousands } from './formatNumber';
 

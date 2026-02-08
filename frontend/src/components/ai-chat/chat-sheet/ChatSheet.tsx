@@ -8,11 +8,11 @@ import {
 import { useBodyScrollLock, useChatStream } from '@/hooks/ai-chat';
 
 import { ChatHistory } from '../chat-history';
+import { ChatStart } from '../chat-start';
 
 import { ChatQuestionInput } from './ChatQuestionInput';
 import { ChatSheetHeader } from './ChatSheetHeader';
 import { ChatSheetTrigger } from './ChatSheetTrigger';
-import { ChatStart } from './ChatStart';
 
 export const ChatSheet = () => {
   const [sheetOpen, setSheetOpen] = useState(false);

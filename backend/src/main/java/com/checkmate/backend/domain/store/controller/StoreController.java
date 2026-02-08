@@ -7,6 +7,8 @@ import com.checkmate.backend.domain.store.dto.request.StoreCreateRequestDTO;
 import com.checkmate.backend.domain.store.dto.response.BusinessVerifyResponseDTO;
 import com.checkmate.backend.domain.store.service.BusinessVerificationService;
 import com.checkmate.backend.domain.store.service.StoreService;
+import com.checkmate.backend.global.auth.LoginMember;
+import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -48,9 +50,9 @@ public class StoreController {
     })
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> create(
-            @RequestAttribute("memberId") Long memberId,
+            @LoginMember MemberSession member,
             @Valid @RequestBody StoreCreateRequestDTO storeCreateRequestDTO) {
-        storeService.create(memberId, storeCreateRequestDTO);
+        storeService.create(member.memberId(), storeCreateRequestDTO);
 
         return ApiResponse.success_only(STORE_CREATE_SUCCESS);
     }
@@ -93,8 +95,8 @@ public class StoreController {
                 description = "서버 내부 오류가 발생했습니다."),
     })
     @PostMapping("/pos/connect")
-    public ResponseEntity<ApiResponse<Void>> connectPOS(@RequestAttribute Long storeId) {
-        storeService.connectPOS(storeId);
+    public ResponseEntity<ApiResponse<Void>> connectPOS(@LoginMember MemberSession member) {
+        storeService.connectPOS(member.storeId());
 
         return ApiResponse.success_only(POS_CONNECT_START);
     }

@@ -1,6 +1,7 @@
-import { SalesClosingTimeSelect } from '../sales-closing-time-select';
 import { StoreRegisterFormTitle } from '../store-register-form-title';
 import { StoreRegisterStepButtonGroup } from '../store-register-step-button-group';
+
+import { SalesClosingTimeSelect } from './SalesClosingTimeSelect';
 
 export const SalesClosingTimeSettingSection = () => {
   return (
@@ -19,7 +20,7 @@ export const SalesClosingTimeSettingSection = () => {
             이 시간을 기준으로 24시간 단위로 하루 매출이 집계돼요.
           </p>
         </div>
-        <StoreRegisterStepButtonGroup />
+        <StoreRegisterStepButtonGroup isLastStep />
       </div>
     </>
   );

@@ -6,6 +6,8 @@ import static com.checkmate.backend.global.response.SuccessStatus.*;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.PosTestRepository;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
+import com.checkmate.backend.global.auth.LoginMember;
+import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.exception.NotFoundException;
 import com.checkmate.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +44,8 @@ public class StoreTestController {
                 description = "INTERNAL_SERVER_EXCEPTION(서버 내부 오류가 발생했습니다.)"),
     })
     @DeleteMapping
-    public ResponseEntity<ApiResponse<Void>> delete(@RequestAttribute Long storeId) {
+    public ResponseEntity<ApiResponse<Void>> delete(@LoginMember MemberSession member) {
+        Long storeId = member.storeId();
         Store store =
                 storeRepository
                         .findById(storeId)
@@ -67,8 +70,8 @@ public class StoreTestController {
                 description = "INTERNAL_SERVER_EXCEPTION(서버 내부 오류가 발생했습니다.)"),
     })
     @DeleteMapping("/pos")
-    public ResponseEntity<ApiResponse<Void>> deletePos(@RequestAttribute Long storeId) {
-        posRepository.deletePosByStoreId(storeId);
+    public ResponseEntity<ApiResponse<Void>> deletePos(@LoginMember MemberSession member) {
+        posRepository.deletePosByStoreId(member.storeId());
 
         return ApiResponse.success_only(POS_DELETE_SUCCESS);
     }
