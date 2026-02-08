@@ -44,7 +44,16 @@ public class StoreService {
 
     @Transactional
     public Long create(Long memberId, StoreCreateRequestDTO storeCreateRequestDTO) {
-        // TODO 두 번 등록 막아야 함.
+
+        // 이미 매장 등록했는지 검증
+        storeRepository
+                .findStoreByMemberId(memberId)
+                .ifPresent(
+                        store -> {
+                            log.warn("[create][store already registered][memberId={}]", memberId);
+                            throw new BadRequestException(STORE_ALREADY_REGISTERED);
+                        });
+
         Member member =
                 memberRepository
                         .findById(memberId)
