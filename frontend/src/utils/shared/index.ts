@@ -13,3 +13,4 @@ export {
   getSundayOfWeek,
 } from './calendar';
 export { formatNumber } from './formatNumber';
+export { formatPriceWithComma } from './formatPriceWithComma';
