@@ -5,13 +5,16 @@ import { SALES_SOURCE_COLORS } from '@/constants/sales';
 import type { SalesSource } from '@/types/sales';
 import type { DoughnutChartItem } from '@/types/shared';
 
+import { usePeriodTypeContext } from '../period-type-provider';
+
 import { SalesSourceChartLegend } from './SalesSourceChartLegend';
 
-interface RevenueChartProps {
+interface SalesSourceChartProps {
   data: SalesSource[];
   title: string;
 }
-export const RevenueChart = ({ data, title }: RevenueChartProps) => {
+export const SalesSourceChart = ({ data, title }: SalesSourceChartProps) => {
+  const { periodType } = usePeriodTypeContext();
   const [salesSourceData] = useState<SalesSource[]>(data);
 
   const chartData: DoughnutChartItem[] = useMemo(
@@ -25,13 +28,17 @@ export const RevenueChart = ({ data, title }: RevenueChartProps) => {
   );
 
   return (
-    <article className="card">
+    <article className="card flex h-[400px] flex-col">
       <h3>{title}</h3>
 
       <div className="mx-auto my-4.5 w-45">
         <DoughnutChart chartData={chartData} />
       </div>
-      <SalesSourceChartLegend salesSourceData={salesSourceData} />
+
+      <SalesSourceChartLegend
+        salesSourceData={salesSourceData}
+        periodType={periodType}
+      />
     </article>
   );
 };

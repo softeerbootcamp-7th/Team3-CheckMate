@@ -1,1 +1,0 @@
-export { SalesSourceChartLegend } from './SalesSourceChartLegend';

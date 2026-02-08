@@ -10,7 +10,7 @@ export {
   isStartDate,
   isEndDate,
 } from './calendar';
-export { formatNumber } from './formatNumber';
+export { formatNumber, formatNumberInTenThousands } from './formatNumber';
 
 export {
   computeChartDataWithPercentage,
