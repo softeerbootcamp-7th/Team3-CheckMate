@@ -30,3 +30,14 @@ export const formatDateYYYYMM = (date?: Date) => {
     month: '2-digit',
   }).format(date);
 };
+
+export const formatDateLocalized = (date?: Date) => {
+  if (!date) {
+    return null;
+  }
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};

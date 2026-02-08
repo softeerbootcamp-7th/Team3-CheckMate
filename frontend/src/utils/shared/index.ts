@@ -1,6 +1,10 @@
 export { cn } from './lib';
 export type { ValueOf } from './valueOf';
-export { formatDateYYYYMMDD, formatDateYYYYMM } from './formatDate';
+export {
+  formatDateYYYYMMDD,
+  formatDateYYYYMM,
+  formatDateLocalized,
+} from './formatDate';
 export {
   getNumberOfDate,
   getFirstDayOfMonth,
