@@ -1,5 +1,6 @@
 package com.checkmate.backend.domain.analysis.controller;
 
+import com.checkmate.backend.domain.analysis.dto.request.DashboardNameRequest;
 import com.checkmate.backend.domain.analysis.dto.response.DashboardResponse;
 import com.checkmate.backend.domain.analysis.service.DashboardService;
 import com.checkmate.backend.global.auth.LoginMember;
@@ -53,9 +54,11 @@ public class DashboardController {
     })
     @PostMapping
     public ResponseEntity<ApiResponse<Long>> addDashboard(
-            @LoginMember MemberSession member, @RequestBody String name) {
+            @LoginMember MemberSession member,
+            @RequestBody DashboardNameRequest dashboardNameRequest) {
 
-        Long dashboardId = dashboardService.addDashboard(member.storeId(), name);
+        Long dashboardId =
+                dashboardService.addDashboard(member.storeId(), dashboardNameRequest.name());
 
         return ApiResponse.success(SuccessStatus.DASHBOARD_CREATE_SUCCESS, dashboardId);
     }
@@ -73,9 +76,10 @@ public class DashboardController {
     public ResponseEntity<ApiResponse<Void>> updateDashboardName(
             @LoginMember MemberSession member,
             @PathVariable Long dashboardId,
-            @RequestBody String name) {
+            @RequestBody DashboardNameRequest dashboardNameRequest) {
 
-        dashboardService.updateDashboardName(member.storeId(), dashboardId, name);
+        dashboardService.updateDashboardName(
+                member.storeId(), dashboardId, dashboardNameRequest.name());
 
         return ApiResponse.success_only(SuccessStatus.DASHBOARD_UPDATE_SUCCESS);
     }
