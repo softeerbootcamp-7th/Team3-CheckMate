@@ -15,7 +15,7 @@ export const CategoryRevenueRanking = () => {
 
   const chartData: DoughnutChartItem[] = useMemo(
     () =>
-      categoriesRevenueData
+      [...categoriesRevenueData]
         .sort((a, b) => b.revenue - a.revenue)
         .map((item) => ({
           label: item.category,
