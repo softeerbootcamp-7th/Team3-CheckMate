@@ -1,2 +1,1 @@
-export { PeriodTypeProvider } from './PeriodTypeProvider';
-export { usePeriodTypeContext } from './periodTypeInstance';
+export { PeriodTypeProvider, usePeriodTypeContext } from './periodTypeInstance';
