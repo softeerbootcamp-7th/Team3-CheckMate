@@ -55,6 +55,7 @@ public enum ErrorStatus {
 
     // 400
     SSE_CONNECTION_REQUIRED(HttpStatus.BAD_REQUEST, "포스 연동 전 SSE 연결이 필요합니다."),
+    STORE_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, "이미 매장을 등록하셨습니다."),
     // 404
     STORE_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "매장을 찾을 수 없습니다."),
 
