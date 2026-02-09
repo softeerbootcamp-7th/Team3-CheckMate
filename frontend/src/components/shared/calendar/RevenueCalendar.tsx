@@ -31,7 +31,7 @@ export const RevenueCalendar = ({
     CALENDAR_CONFIG[DATE_RANGE_PICKER_TYPE.date];
 
   return (
-    <section className="rounded-400 bg-special-card-bg w-80 px-[6px] pb-4">
+    <section className="rounded-400 bg-special-card-bg w-fit px-[6px] pb-4">
       <div className="size-full">
         <CalendarHeader
           headerTitle={headerTitle(currentDateForCalendar)}
