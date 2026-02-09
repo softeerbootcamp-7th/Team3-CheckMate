@@ -12,7 +12,7 @@ export const SettingPage = () => {
         {/* 메뉴, 식재료 섹션 */}
         <SettingOption
           optionName="메뉴/식재료"
-          linkTo="/ingredients"
+          linkTo="/settings/ingredient"
           optionDescription="식재료 관리"
         />
         {/* 계정 보안 섹션 */}
