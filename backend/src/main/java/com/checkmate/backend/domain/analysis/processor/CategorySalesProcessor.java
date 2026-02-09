@@ -4,8 +4,9 @@ import com.checkmate.backend.domain.analysis.context.MenuAnalysisContext;
 import com.checkmate.backend.domain.analysis.dto.response.CategorySalesResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
+import com.checkmate.backend.domain.analysis.result.AnalysisResult;
+import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.order.repository.MenuAnalysisRepository;
-import com.checkmate.backend.global.sse.SseEventSender;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CategorySalesProcessor implements AnalysisProcessor<MenuAnalysisContext> {
     private final MenuAnalysisRepository menuAnalysisRepository;
-    private final SseEventSender sseEventSender;
 
     @Override
     public boolean supports(AnalysisCardCode analysisCardCode) {
@@ -27,7 +27,7 @@ public class CategorySalesProcessor implements AnalysisProcessor<MenuAnalysisCon
     }
 
     @Override
-    public void process(MenuAnalysisContext context) {
+    public AnalysisResult process(MenuAnalysisContext context) {
 
         // 상위 5개만
         Pageable pageable = PageRequest.of(0, 5);
@@ -39,7 +39,6 @@ public class CategorySalesProcessor implements AnalysisProcessor<MenuAnalysisCon
                         context.getEndDate(),
                         pageable);
 
-        sseEventSender.send(
-                context.getStoreId(), context.getAnalysisCardCode(), categorySalesResponses);
+        return new DefaultAnalysisResult<>(context.getAnalysisCardCode(), categorySalesResponses);
     }
 }

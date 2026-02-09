@@ -5,10 +5,11 @@ import com.checkmate.backend.domain.analysis.dto.projection.IngredientUsageProje
 import com.checkmate.backend.domain.analysis.dto.response.IngredientUsageResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
+import com.checkmate.backend.domain.analysis.result.AnalysisResult;
+import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.menu.entity.Ingredient;
 import com.checkmate.backend.domain.menu.repository.IngredientRepository;
 import com.checkmate.backend.domain.order.repository.MenuAnalysisRepository;
-import com.checkmate.backend.global.sse.SseEventSender;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisContext> {
     private final MenuAnalysisRepository menuAnalysisRepository;
-    private final SseEventSender sseEventSender;
     private final IngredientRepository ingredientRepository;
 
     @Override
@@ -30,7 +30,7 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
     }
 
     @Override
-    public void process(MenuAnalysisContext context) {
+    public AnalysisResult process(MenuAnalysisContext context) {
 
         // 식재료 사용량 갖고 온다.
         List<IngredientUsageProjection> ingredientUsageProjections =
@@ -63,7 +63,6 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
                             baseUnit));
         }
 
-        sseEventSender.send(
-                context.getStoreId(), context.getAnalysisCardCode(), ingredientUsageResponses);
+        return new DefaultAnalysisResult<>(context.getAnalysisCardCode(), ingredientUsageResponses);
     }
 }
