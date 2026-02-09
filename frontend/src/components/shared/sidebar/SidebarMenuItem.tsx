@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import type { SidebarOptionItem } from '@/types/shared/sidebarOptionItem';
 import { cn } from '@/utils/shared';
 
+import { Badge } from '../badge';
+
 import { SidebarSubmenuItem } from './SidebarSubmenuItem';
 
 interface SidebarMenuItemProps {
@@ -25,7 +27,9 @@ export const SidebarMenuItem = memo(({ menu }: SidebarMenuItemProps) => {
         }
         to={menu.path}
       >
-        {menu.Icon && <menu.Icon />}
+        <Badge show={menu.id === 'DAILY_REPORT'} position="top-left">
+          {menu.Icon && <menu.Icon />}
+        </Badge>
         <span className="mt-[2px]">{menu.name}</span>
       </NavLink>
 
