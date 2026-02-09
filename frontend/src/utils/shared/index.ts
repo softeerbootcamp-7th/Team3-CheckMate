@@ -18,4 +18,4 @@ export {
   getLastDateOfYear,
   isSameYear,
 } from './calendar';
-export { formatNumber } from './formatNumber';
+export { formatNumber, formatNumberInTenThousands } from './formatNumber';
