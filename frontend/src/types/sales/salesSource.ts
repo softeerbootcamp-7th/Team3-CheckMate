@@ -4,5 +4,5 @@ export interface SalesSource {
   salesSourceType: SalesSourceType;
   revenue: number;
   count: number;
-  changeRate: number;
+  changeRate?: number;
 }

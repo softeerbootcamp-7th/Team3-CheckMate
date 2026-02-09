@@ -51,21 +51,22 @@ export const SalesSourceChartLegendItem = ({
         {salesSourceData.count}건)
       </span>
       {/* 변화율 */}
-      {periodType === PERIOD_PRESETS.dayWeekMonth.today && (
-        <span
-          className={cn(
-            'body-small-semibold text-brand-main justify-self-end',
-            salesSourceData.changeRate < 0 && 'text-others-negative',
-          )}
-        >
-          <object
-            data={`${CDN_BASE_URL}/assets/images/${salesSourceData.changeRate >= 0 ? 'up' : 'down'}.svg`}
-            className="inline size-4"
-          />
-          {salesSourceData.changeRate > 0 ? '+' : ''}
-          {salesSourceData.changeRate}%p
-        </span>
-      )}
+      {periodType === PERIOD_PRESETS.dayWeekMonth.today &&
+        salesSourceData.changeRate !== undefined && (
+          <span
+            className={cn(
+              'body-small-semibold text-brand-main justify-self-end',
+              salesSourceData.changeRate < 0 && 'text-others-negative',
+            )}
+          >
+            <object
+              data={`${CDN_BASE_URL}/assets/images/${salesSourceData.changeRate >= 0 ? 'up' : 'down'}.svg`}
+              className="inline size-4"
+            />
+            {salesSourceData.changeRate > 0 ? '+' : ''}
+            {salesSourceData.changeRate}%p
+          </span>
+        )}
     </li>
   );
 };
