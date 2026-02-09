@@ -10,3 +10,9 @@ export {
   useDateRangePickerSide,
 } from './date-range-picker';
 export { useEditCardWrapperMeasure } from './edit-card-wrapper';
+export {
+  useDrawLinePath,
+  useLineAnimation,
+  useLineChartId,
+  useLineChart,
+} from './line-chart';
