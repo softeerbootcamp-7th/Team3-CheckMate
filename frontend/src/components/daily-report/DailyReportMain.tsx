@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
+import { RevenueCalendar } from '../shared';
+
 import { DailyReportContent } from './daily-report-content';
-import { DailyReportCalendar } from './DailyReportCalendar';
 
 export const DailyReportMain = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
@@ -10,10 +11,12 @@ export const DailyReportMain = () => {
 
   return (
     <div className="flex gap-5">
-      <DailyReportCalendar
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-      />
+      <div className="h-fit w-92.5">
+        <RevenueCalendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      </div>
       <DailyReportContent selectedDate={selectedDate} />
     </div>
   );

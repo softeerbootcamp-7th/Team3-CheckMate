@@ -15,7 +15,7 @@ export const DailyReportContent = ({
   const content = DAILY_REPORT_CONTENT_DATA; // mock data 사용
 
   return (
-    <div className="bg-special-card-bg rounded-400 h-176.5 w-175 p-6">
+    <div className="bg-special-card-bg rounded-400 h-176.5 w-170 p-6">
       <div className="flex items-center justify-between">
         <DailyReportTitle selectedDate={selectedDate} title={content.title} />
         <DailyReportEvaluation status_label={content.status_label} />
