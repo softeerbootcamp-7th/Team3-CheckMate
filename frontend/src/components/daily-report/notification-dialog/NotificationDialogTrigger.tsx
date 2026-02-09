@@ -39,7 +39,7 @@ export const NotificationDialogTrigger = () => {
             알림
           </PopoverTitle>
           <Button
-            className="text-grey-500 caption-large-medium absolute top-2 right-0"
+            className="text-grey-500 caption-large-medium! absolute top-2 right-0"
             onClick={handleDeleteAll}
           >
             전체삭제
