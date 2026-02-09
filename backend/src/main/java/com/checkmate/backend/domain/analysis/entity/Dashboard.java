@@ -23,7 +23,6 @@ public class Dashboard {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "store_id",
-            nullable = false,
             foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Store store;
 
@@ -32,6 +31,10 @@ public class Dashboard {
         this.name = name;
         this.isDefault = isDefault != null ? isDefault : false;
         this.store = store;
+    }
+
+    public boolean isSystemDefault() {
+        return this.store == null && this.isDefault;
     }
 
     public void updateName(String newName) {
