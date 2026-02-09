@@ -81,6 +81,34 @@ const WeekDateRangePickerStory = () => {
   );
 };
 
+const MonthDateRangePickerStory = () => {
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  return (
+    <DateRangePicker
+      startDate={startDate}
+      setStartDate={setStartDate}
+      endDate={endDate}
+      setEndDate={setEndDate}
+      dateRangePickerType={DATE_RANGE_PICKER_TYPE.month}
+    />
+  );
+};
+
+const YearDateRangePickerStory = () => {
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  return (
+    <DateRangePicker
+      startDate={startDate}
+      setStartDate={setStartDate}
+      endDate={endDate}
+      setEndDate={setEndDate}
+      dateRangePickerType={DATE_RANGE_PICKER_TYPE.year}
+    />
+  );
+};
+
 export const Date: Story = {
   args: {
     startDate: undefined,
@@ -97,4 +125,22 @@ export const Week: Story = {
     dateRangePickerType: DATE_RANGE_PICKER_TYPE.week,
   },
   render: () => <WeekDateRangePickerStory />,
+};
+
+export const Month: Story = {
+  args: {
+    startDate: undefined,
+    endDate: undefined,
+    dateRangePickerType: DATE_RANGE_PICKER_TYPE.month,
+  },
+  render: () => <MonthDateRangePickerStory />,
+};
+
+export const Year: Story = {
+  args: {
+    startDate: undefined,
+    endDate: undefined,
+    dateRangePickerType: DATE_RANGE_PICKER_TYPE.year,
+  },
+  render: () => <YearDateRangePickerStory />,
 };

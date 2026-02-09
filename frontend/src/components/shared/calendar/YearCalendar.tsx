@@ -1,35 +1,31 @@
 import { CALENDAR_CONFIG, DATE_RANGE_PICKER_TYPE } from '@/constants/shared';
-import { useCalendarNavigation, useDateCalendar } from '@/hooks/shared';
+import { useCalendarNavigation, useYearCalendar } from '@/hooks/shared';
 
-import { CalendarDateGrid } from './CalendarDateGrid';
-import { CalendarDayGrid } from './CalendarDayGrid';
 import { CalendarHeader } from './CalendarHeader';
+import { CalendarYearGrid } from './CalendarYearGrid';
 
-interface DateCalendarProps {
+interface YearCalendarProps {
   selectedStartDate?: Date;
   setSelectedStartDate: (date?: Date) => void;
   selectedEndDate?: Date;
   setSelectedEndDate: (date?: Date) => void;
 }
 
-export const DateCalendar = ({
+export const YearCalendar = ({
   selectedStartDate,
   setSelectedStartDate,
   selectedEndDate,
   setSelectedEndDate,
-}: DateCalendarProps) => {
+}: YearCalendarProps) => {
   const {
     currentDateForCalendar,
-    numberOfDatesForCalendar,
-    lastWeekOfPreviousMonth,
-    firstWeekOfNextMonth,
-    handleMovePreviousMonth,
-    handleMoveNextMonth,
+    setCurrentDateForCalendar,
+    handleMovePrevious10Years,
+    handleMoveNext10Years,
   } = useCalendarNavigation({
     selectedEndDate,
   });
-
-  const { handleSelectDate } = useDateCalendar({
+  const { handleSelectYear } = useYearCalendar({
     selectedStartDate,
     selectedEndDate,
     setSelectedStartDate,
@@ -37,7 +33,12 @@ export const DateCalendar = ({
   });
 
   const { headerTitle, previousAriaLabel, nextAriaLabel } =
-    CALENDAR_CONFIG[DATE_RANGE_PICKER_TYPE.date];
+    CALENDAR_CONFIG[DATE_RANGE_PICKER_TYPE.year];
+
+  if (currentDateForCalendar.getFullYear() % 10 !== 0) {
+    const year = Math.floor(currentDateForCalendar.getFullYear() / 10) * 10;
+    setCurrentDateForCalendar(new Date(year, 0, 1));
+  }
 
   return (
     <section className="rounded-300 border-grey-300 w-80 border p-350">
@@ -46,18 +47,14 @@ export const DateCalendar = ({
           headerTitle={headerTitle(currentDateForCalendar)}
           previousAriaLabel={previousAriaLabel}
           nextAriaLabel={nextAriaLabel}
-          handleClickPrevious={handleMovePreviousMonth}
-          handleClickNext={handleMoveNextMonth}
+          handleClickPrevious={handleMovePrevious10Years}
+          handleClickNext={handleMoveNext10Years}
         />
-        <CalendarDayGrid />
-        <CalendarDateGrid
+        <CalendarYearGrid
           currentDateForCalendar={currentDateForCalendar}
           selectedStartDate={selectedStartDate}
           selectedEndDate={selectedEndDate}
-          lastWeekOfPreviousMonth={lastWeekOfPreviousMonth}
-          numberOfDatesForCalendar={numberOfDatesForCalendar}
-          firstWeekOfNextMonth={firstWeekOfNextMonth}
-          handleSelectDate={handleSelectDate}
+          handleSelectYear={handleSelectYear}
         />
       </div>
     </section>

@@ -1,35 +1,27 @@
 import { CALENDAR_CONFIG, DATE_RANGE_PICKER_TYPE } from '@/constants/shared';
-import { useCalendarNavigation, useDateCalendar } from '@/hooks/shared';
+import { useCalendarNavigation, useMonthCalendar } from '@/hooks/shared';
 
-import { CalendarDateGrid } from './CalendarDateGrid';
-import { CalendarDayGrid } from './CalendarDayGrid';
 import { CalendarHeader } from './CalendarHeader';
+import { CalendarMonthGrid } from './CalendarMonthGrid';
 
-interface DateCalendarProps {
+interface MonthCalendarProps {
   selectedStartDate?: Date;
   setSelectedStartDate: (date?: Date) => void;
   selectedEndDate?: Date;
   setSelectedEndDate: (date?: Date) => void;
 }
 
-export const DateCalendar = ({
+export const MonthCalendar = ({
   selectedStartDate,
   setSelectedStartDate,
   selectedEndDate,
   setSelectedEndDate,
-}: DateCalendarProps) => {
-  const {
-    currentDateForCalendar,
-    numberOfDatesForCalendar,
-    lastWeekOfPreviousMonth,
-    firstWeekOfNextMonth,
-    handleMovePreviousMonth,
-    handleMoveNextMonth,
-  } = useCalendarNavigation({
-    selectedEndDate,
-  });
-
-  const { handleSelectDate } = useDateCalendar({
+}: MonthCalendarProps) => {
+  const { currentDateForCalendar, handleMovePreviousYear, handleMoveNextYear } =
+    useCalendarNavigation({
+      selectedEndDate,
+    });
+  const { handleSelectMonth } = useMonthCalendar({
     selectedStartDate,
     selectedEndDate,
     setSelectedStartDate,
@@ -37,7 +29,7 @@ export const DateCalendar = ({
   });
 
   const { headerTitle, previousAriaLabel, nextAriaLabel } =
-    CALENDAR_CONFIG[DATE_RANGE_PICKER_TYPE.date];
+    CALENDAR_CONFIG[DATE_RANGE_PICKER_TYPE.month];
 
   return (
     <section className="rounded-300 border-grey-300 w-80 border p-350">
@@ -46,18 +38,14 @@ export const DateCalendar = ({
           headerTitle={headerTitle(currentDateForCalendar)}
           previousAriaLabel={previousAriaLabel}
           nextAriaLabel={nextAriaLabel}
-          handleClickPrevious={handleMovePreviousMonth}
-          handleClickNext={handleMoveNextMonth}
+          handleClickPrevious={handleMovePreviousYear}
+          handleClickNext={handleMoveNextYear}
         />
-        <CalendarDayGrid />
-        <CalendarDateGrid
+        <CalendarMonthGrid
           currentDateForCalendar={currentDateForCalendar}
           selectedStartDate={selectedStartDate}
           selectedEndDate={selectedEndDate}
-          lastWeekOfPreviousMonth={lastWeekOfPreviousMonth}
-          numberOfDatesForCalendar={numberOfDatesForCalendar}
-          firstWeekOfNextMonth={firstWeekOfNextMonth}
-          handleSelectDate={handleSelectDate}
+          handleSelectMonth={handleSelectMonth}
         />
       </div>
     </section>

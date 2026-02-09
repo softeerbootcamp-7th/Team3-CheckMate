@@ -1,5 +1,4 @@
 export { Sidebar } from './sidebar';
-export { MainLayout } from './main-layout';
 export { DateRangeLabel } from './date-range-label';
 export { DateRangePicker } from './date-range-picker';
 export { DateCalendar, WeekCalendar } from './calendar';
@@ -9,3 +8,4 @@ export { OnboardingLayout } from './onboarding-layout';
 export { Input } from './input';
 export { DefaultCardWrapper } from './default-card-wrapper';
 export { Spinner } from './spinner';
+export { MainLayout } from './main-layout';
