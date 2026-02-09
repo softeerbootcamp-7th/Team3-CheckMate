@@ -62,6 +62,7 @@ export const SalesSourceChartLegendItem = ({
             <object
               data={`${CDN_BASE_URL}/assets/images/${salesSourceData.changeRate >= 0 ? 'up' : 'down'}.svg`}
               className="inline size-4"
+              aria-hidden="true"
             />
             {salesSourceData.changeRate > 0 ? '+' : ''}
             {salesSourceData.changeRate}%p
