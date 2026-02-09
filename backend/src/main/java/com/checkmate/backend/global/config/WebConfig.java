@@ -41,7 +41,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(storeCheckInterceptor).addPathPatterns("/api/analysis/**");
+        registry.addInterceptor(storeCheckInterceptor)
+                .addPathPatterns("/api/analysis/**")
+                .addPathPatterns("/api/sse/**");
     }
 
     @Bean
