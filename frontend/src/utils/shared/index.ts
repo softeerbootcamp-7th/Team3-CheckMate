@@ -5,6 +5,7 @@ export {
   formatDateYYYYMM,
   formatDateLocalized,
 } from './formatDate';
+export { formatRelativeTime } from './formatTime';
 export {
   getNumberOfDate,
   getFirstDayOfMonth,
