@@ -1,6 +1,7 @@
 package com.checkmate.backend.domain.analysis.service;
 
 import com.checkmate.backend.domain.analysis.dto.request.LayoutUpdateRequest;
+import com.checkmate.backend.domain.analysis.dto.response.CardLayoutResponse;
 import com.checkmate.backend.domain.analysis.entity.Dashboard;
 import com.checkmate.backend.domain.analysis.entity.DashboardCardLayout;
 import com.checkmate.backend.domain.analysis.enums.CardSize;
@@ -26,7 +27,7 @@ public class DashboardLayoutService {
 
     @Transactional
     public Long updateLayout(Long storeId, Long dashboardId, List<LayoutUpdateRequest> requests) {
-        Dashboard dashboard = dashboardValidator.validateDashboardAccess(storeId, dashboardId);
+        Dashboard dashboard = dashboardValidator.validateModificationAccess(storeId, dashboardId);
         validateLayoutRequests(requests);
 
         layoutRepository.deleteAllByDashboardId(dashboardId);
@@ -36,6 +37,14 @@ public class DashboardLayoutService {
         layoutRepository.saveAll(newLayouts);
 
         return dashboard.getId();
+    }
+
+    public List<CardLayoutResponse> getLayout(Long storeId, Long dashboardId) {
+        dashboardValidator.validateAccess(storeId, dashboardId);
+
+        return layoutRepository.findAllByDashboardId(dashboardId).stream()
+                .map(CardLayoutResponse::from)
+                .toList();
     }
 
     private void validateLayoutRequests(List<LayoutUpdateRequest> requests) {
