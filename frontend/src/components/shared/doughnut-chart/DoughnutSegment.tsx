@@ -24,4 +24,3 @@ export const DoughnutSegment = ({
     />
   );
 };
-DoughnutSegment.displayName = 'DoughnutSegment';

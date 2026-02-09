@@ -26,4 +26,3 @@ export const DoughnutLabel = ({
     </text>
   );
 };
-DoughnutLabel.displayName = 'DoughnutLabel';
