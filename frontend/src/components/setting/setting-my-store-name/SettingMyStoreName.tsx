@@ -8,5 +8,11 @@ interface SettingMyStoreNameProps {
 export const SettingMyStoreName = ({ storeName }: SettingMyStoreNameProps) => {
   // 서버에서 받아온 값으로 RHF 폼 값을 초기화(덮어쓰기)
   useInitializeStoreName({ storeName });
-  return <StoreNameInput />;
+  // 처음 환경설정 창 들어가면 매장명 입력란에 focus가서 커서 깜빡거리는 문제 발생
+  // 깜빡이는 커서 이름이 caret임 -> 투명색으로 설정해 안보이게...
+  return (
+    <div className="[&_input]:caret-transparent">
+      <StoreNameInput />
+    </div>
+  );
 };
