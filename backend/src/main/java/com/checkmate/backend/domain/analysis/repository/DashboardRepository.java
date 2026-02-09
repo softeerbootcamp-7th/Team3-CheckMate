@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface DashboardRepository extends JpaRepository<Dashboard, Long> {
 
-    @Query("SELECT d FROM Dashboard d WHERE d.store.id = :storeId OR d.store IS NULL ORDER BY d.id ASC")
+    @Query(
+            "SELECT d FROM Dashboard d WHERE d.store.id = :storeId OR d.store IS NULL ORDER BY d.id ASC")
     List<Dashboard> findAllByStoreIdWithDefault(Long storeId);
 
     boolean existsByStoreIdAndName(Long storeId, String name);
