@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { DoughnutChart } from '@/components/shared';
 import { CATEGORIES_RANKING_DATA } from '@/mocks/data/menu';
-import type { CategoriesRevenue } from '@/types/menu/categoriesRevenue';
+import type { CategoriesRevenue } from '@/types/menu';
 import type { DoughnutChartItem } from '@/types/shared';
 
 import { CategoryRevenueChartLegend } from './CategoryRevenueChartLegend';
