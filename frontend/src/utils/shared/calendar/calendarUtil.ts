@@ -47,7 +47,11 @@ export const isSameDate = ({
   currentDate: Date;
   selectedDate?: Date;
 }) => {
-  return currentDate.getTime() === selectedDate?.getTime();
+  return (
+    currentDate.getFullYear() === selectedDate?.getFullYear() &&
+    currentDate.getMonth() === selectedDate?.getMonth() &&
+    currentDate.getDate() === selectedDate?.getDate()
+  );
 };
 
 /**
