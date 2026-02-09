@@ -13,6 +13,7 @@ import com.checkmate.backend.global.response.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -119,7 +120,7 @@ public class DashboardController {
     public ResponseEntity<ApiResponse<Long>> updateDashboardLayout(
             @LoginMember MemberSession member,
             @PathVariable Long dashboardId,
-            @RequestBody List<LayoutUpdateRequest> layoutUpdateRequests) {
+            @Valid @RequestBody List<LayoutUpdateRequest> layoutUpdateRequests) {
 
         Long updatedId =
                 dashboardLayoutService.updateLayout(

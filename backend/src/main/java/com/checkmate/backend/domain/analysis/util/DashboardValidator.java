@@ -25,7 +25,7 @@ public class DashboardValidator {
             return dashboard;
         }
 
-        if (!dashboard.getStore().getId().equals(storeId)) {
+        if (!storeId.equals(dashboard.getStore().getId())) {
             throw new ForbiddenException(ErrorStatus.DASHBOARD_ACCESS_DENIED);
         }
 
