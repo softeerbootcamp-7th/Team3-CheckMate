@@ -29,9 +29,9 @@ export const getFirstDayOfMonth = (date: Date) => {
  */
 export const getLastDayOfMonth = (date: Date) => {
   const year = date.getFullYear();
-  const nextMonth = date.getMonth();
+  const nextMonth = date.getMonth() + 1;
 
-  return new Date(year, nextMonth + 1, 0).getDay();
+  return new Date(year, nextMonth, 0).getDay();
 };
 
 /**
@@ -171,6 +171,20 @@ export const getCurrentMonth = ({
   return new Date(dateForCalendar.getFullYear(), month, 1);
 };
 
+export const getDateDifference = ({
+  startDate,
+  endDate,
+}: {
+  startDate: Date;
+  endDate: Date;
+}) => {
+  return (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1;
+};
+
+export const getCurrentYear = ({ year }: { year: number }) => {
+  return new Date(year, 0, 1);
+};
+
 /**
  * @description 인자로 주어진 date의 월의 마지막 날짜를 반환
  * @param date
@@ -197,4 +211,29 @@ export const isSameMonth = ({
     date.getFullYear() === compareDate?.getFullYear() &&
     date.getMonth() === compareDate?.getMonth()
   );
+};
+
+/**
+ * @description 인자로 주어진 date의 연도의 마지막 날짜를 반환
+ * @param date
+ * @returns
+ */
+export const getLastDateOfYear = (date: Date) => {
+  return new Date(date.getFullYear() + 1, 0, 0);
+};
+
+/**
+ * @description 인자로 주어진 date의 연도가 인자로 주어진 compareDate의 연도와 동일한지 여부를 반환
+ * @param date
+ * @param compareDate
+ * @returns
+ */
+export const isSameYear = ({
+  date,
+  compareDate,
+}: {
+  date: Date;
+  compareDate?: Date;
+}) => {
+  return date.getFullYear() === compareDate?.getFullYear();
 };
