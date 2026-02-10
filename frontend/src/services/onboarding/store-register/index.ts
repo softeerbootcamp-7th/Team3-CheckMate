@@ -1,1 +1,1 @@
-export { postBusinessRegistrationNumber } from './post';
+export { postBusinessRegistrationNumber, postStoreRegister } from './post';

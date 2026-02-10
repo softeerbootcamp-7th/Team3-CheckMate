@@ -1,5 +1,8 @@
 package com.checkmate.backend.global.sse;
 
+import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,7 +16,7 @@ public class SseEmitterManager {
     private final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
 
     // StoreId -> subscribed topics
-    private final Map<Long, Set<String>> clientTopics = new ConcurrentHashMap<>();
+    private final Map<Long, Set<AnalysisCardCode>> clientTopics = new ConcurrentHashMap<>();
 
     public void addEmitter(Long storeId, SseEmitter emitter) {
         emitters.put(storeId, emitter);
@@ -28,29 +31,42 @@ public class SseEmitterManager {
         emitters.remove(storeId);
     }
 
-    public void subscribe(Long storeId, String topic) {
-        clientTopics.computeIfAbsent(storeId, k -> ConcurrentHashMap.newKeySet()).add(topic);
+    public void subscribe(Long storeId, SubscriptionTopicsRequest SubscriptionTopicsRequest) {
+
+        List<AnalysisCardCode> topics = SubscriptionTopicsRequest.topics();
+
+        for (AnalysisCardCode topic : topics) {
+            clientTopics.computeIfAbsent(storeId, k -> ConcurrentHashMap.newKeySet()).add(topic);
+        }
     }
 
-    public void unsubscribe(Long storeId, String topic) {
-        Set<String> topics = clientTopics.get(storeId);
-        if (topics == null) {
+    public void unsubscribe(Long storeId, SubscriptionTopicsRequest request) {
+
+        Set<AnalysisCardCode> subscribedTopics = clientTopics.get(storeId);
+        if (subscribedTopics == null) {
             return;
         }
 
-        topics.remove(topic);
+        if (request == null || request.topics() == null || request.topics().isEmpty()) {
+            // 전체 구독 해제
+            clientTopics.remove(storeId);
+            return;
+        }
 
-        // 토픽이 하나도 없으면 map에서도 제거 (선택)
-        if (topics.isEmpty()) {
+        // 선택 구독 해제
+        request.topics().forEach(subscribedTopics::remove);
+
+        // 남은 topic 없으면 map에서도 제거
+        if (subscribedTopics.isEmpty()) {
             clientTopics.remove(storeId);
         }
     }
 
-    public void unsubscribeAll(Long storeId) {
-        clientTopics.remove(storeId);
+    public boolean isSubscribed(Long storeId, AnalysisCardCode topic) {
+        return clientTopics.getOrDefault(storeId, Set.of()).contains(topic);
     }
 
-    public boolean isSubscribed(Long storeId, String topic) {
-        return clientTopics.getOrDefault(storeId, Set.of()).contains(topic);
+    public Set<AnalysisCardCode> getSubscribedTopics(Long storeId) {
+        return new HashSet<>(clientTopics.getOrDefault(storeId, Set.of()));
     }
 }

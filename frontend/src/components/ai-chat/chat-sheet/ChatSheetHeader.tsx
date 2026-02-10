@@ -8,6 +8,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/shared/shadcn-ui';
+import { CDN_BASE_URL } from '@/constants/shared';
 
 export const ChatSheetHeader = memo(() => {
   return (
@@ -21,7 +22,7 @@ export const ChatSheetHeader = memo(() => {
       <SheetHeader className="shrink-0 flex-row justify-between p-500">
         <SheetTitle>
           <img
-            src="src/assets/images/ai-mate-logo-row.png"
+            src={`${CDN_BASE_URL}/assets/images/ai_chat_row.svg`}
             alt="AI mate 로고"
             className="h-6 object-contain"
           />

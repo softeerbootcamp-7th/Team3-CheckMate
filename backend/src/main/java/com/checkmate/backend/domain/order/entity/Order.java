@@ -7,6 +7,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(
         name = "orders",
-        indexes = {@Index(name = "idx_order_store_id", columnList = "store_Id")})
+        indexes = {
+            @Index(name = "idx_order_store_id", columnList = "store_id"),
+            @Index(name = "idx_order_store_id_order_date", columnList = "store_id, order_date")
+        })
 public class Order extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -35,10 +39,10 @@ public class Order extends BaseTimeEntity {
     private String orderStatus; // 완료 / 취소
     private String paymentMethod; // 카드, 현금, 간편결제, 기타
     private LocalDateTime orderedAt;
+    private LocalDate orderDate;
+    private Integer timeSlot2H; // orderedAt을 2시간 단위로 자름
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Store store;
-
-    // TODO Pos 추가시킬지 논의 필요
 }

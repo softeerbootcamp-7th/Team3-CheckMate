@@ -20,12 +20,15 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
     @Query(
             value =
                     """
-            INSERT INTO ingredient (store_id, name, created_at, updated_at)
-            VALUES (:storeId, :name, now(), now())
+            INSERT INTO ingredient (store_id, name, base_unit, created_at, updated_at)
+            VALUES (:storeId, :name, :baseUnit, now(), now())
             ON CONFLICT (store_id, name) DO NOTHING
         """,
             nativeQuery = true)
-    void insertIgnore(@Param("storeId") Long storeId, @Param("name") String name);
+    void insertIgnore(
+            @Param("storeId") Long storeId,
+            @Param("name") String name,
+            @Param("baseUnit") String baseUnit);
 
     /*
      * read
@@ -40,4 +43,7 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
                     + " where i.store.id=:storeId and i.name like concat('%', :keyword, '%')")
     List<String> findNameByStoreIdAndKeyword(
             @Param("storeId") Long storeId, @Param("keyword") String keyword);
+
+    @Query("select i from Ingredient i where i.id in :ingredientIds")
+    List<Ingredient> findAllByIds(@Param("ingredientIds") List<Long> ingredientIds);
 }

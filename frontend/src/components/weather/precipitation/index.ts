@@ -1,0 +1,1 @@
+export { WeatherPrecipitation } from './WeatherPrecipitation';

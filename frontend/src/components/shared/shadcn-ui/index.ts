@@ -20,6 +20,8 @@ export {
   PopoverTitle,
   PopoverDescription,
 } from './popover';
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
+export { tabsListVariants } from './tabs.variants';
 export {
   DropdownMenu,
   DropdownMenuPortal,
@@ -37,7 +39,6 @@ export {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from './dropdown-menu';
-export { Switch } from './switch';
 export {
   Select,
   SelectContent,
@@ -50,15 +51,17 @@ export {
   SelectTrigger,
   SelectValue,
 } from './select';
-export { Input } from './input';
 export {
   Dialog,
-  DialogTrigger,
+  DialogClose,
   DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
 } from './dialog';
 export {
   Tooltip,
@@ -66,3 +69,6 @@ export {
   TooltipContent,
   TooltipProvider,
 } from './tooltip';
+export { Checkbox } from './checkbox';
+export { Toaster } from './sonner';
+export { Input } from './input';

@@ -1,0 +1,1 @@
+export { gridItems } from './gridItem';

@@ -9,7 +9,7 @@ import { BusinessRegistrationNumberVerifyButton } from './BusinessRegistrationNu
 
 export const BusinessRegistrationNumberInputSection = () => {
   const {
-    ref,
+    combineRefCallback,
     onBlur,
     value,
     error,
@@ -19,6 +19,7 @@ export const BusinessRegistrationNumberInputSection = () => {
     isDisabled,
     handlePreventEnter,
     handleBusinessRegistrationNumberChange,
+    handleFocusNextStepButton,
   } = useBusinessRegistration();
 
   return (
@@ -37,7 +38,7 @@ export const BusinessRegistrationNumberInputSection = () => {
           placeholder="-없이 숫자만 입력"
           type="text"
           inputMode="numeric"
-          ref={ref}
+          ref={combineRefCallback}
           onChange={handleBusinessRegistrationNumberChange}
           onBlur={onBlur}
           value={value}
@@ -48,7 +49,9 @@ export const BusinessRegistrationNumberInputSection = () => {
           successMessage="사업자 인증이 완료되었어요."
         />
         {isSuccess ? (
-          <NextStepButton />
+          <NextStepButton
+            ref={(element) => handleFocusNextStepButton(element)}
+          />
         ) : (
           <BusinessRegistrationNumberVerifyButton
             disabled={isDisabled}

@@ -1,3 +1,14 @@
+import {
+  DashboardLayout,
+  DashboardTabsDialog,
+  DashboardTabsProvider,
+} from '@/components/dashboard';
+
 export const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return (
+    <DashboardTabsProvider>
+      <DashboardLayout />
+      <DashboardTabsDialog />
+    </DashboardTabsProvider>
+  );
 };

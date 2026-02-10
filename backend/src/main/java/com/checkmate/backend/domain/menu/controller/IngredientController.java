@@ -3,6 +3,8 @@ package com.checkmate.backend.domain.menu.controller;
 import static com.checkmate.backend.global.response.SuccessStatus.INGREDIENT_GET_SUCCESS;
 
 import com.checkmate.backend.domain.menu.service.IngredientService;
+import com.checkmate.backend.global.auth.LoginMember;
+import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -39,9 +41,9 @@ public class IngredientController {
     })
     @GetMapping
     public ResponseEntity<ApiResponse<List<String>>> findIngredientBy(
-            @RequestAttribute("storeId") Long storeId, @RequestParam("keyword") String keyword) {
+            @LoginMember MemberSession member, @RequestParam("keyword") String keyword) {
 
-        List<String> response = ingredientService.getNamesByKeyword(storeId, keyword);
+        List<String> response = ingredientService.getNamesByKeyword(member.storeId(), keyword);
 
         return ApiResponse.success(INGREDIENT_GET_SUCCESS, response);
     }

@@ -2,6 +2,7 @@ import { authorizedApi } from '@/services/shared';
 import type {
   PostBusinessRegistrationNumberRequestDto,
   PostBusinessRegistrationNumberResponseDto,
+  PostStoreRegisterRequestDto,
 } from '@/types/onboarding/store-register';
 
 export const postBusinessRegistrationNumber = async (
@@ -14,6 +15,14 @@ export const postBusinessRegistrationNumber = async (
         body: JSON.stringify(dto),
       },
     );
+
+  return data;
+};
+
+export const postStoreRegister = async (dto: PostStoreRegisterRequestDto) => {
+  const { data } = await authorizedApi.post('/api/stores', {
+    body: JSON.stringify(dto),
+  });
 
   return data;
 };

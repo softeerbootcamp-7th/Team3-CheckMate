@@ -1,5 +1,6 @@
 package com.checkmate.backend.global.sse;
 
+import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class SseEventSender {
         this.sseEmitterManager = sseEmitterManager;
     }
 
-    public void send(Long storeId, String topic, Object data) {
+    public void send(Long storeId, AnalysisCardCode topic, Object data) {
 
         if (!sseEmitterManager.isSubscribed(storeId, topic)) {
             return; // 구독 안 했으면 안 보냄
@@ -25,7 +26,7 @@ public class SseEventSender {
         if (emitter == null) return;
 
         try {
-            emitter.send(SseEmitter.event().name(topic).data(data));
+            emitter.send(SseEmitter.event().name(topic.name()).data(data));
         } catch (IOException e) {
             log.warn(
                     "[send][send failed][storeId= {}, topic= {}] reason={}",

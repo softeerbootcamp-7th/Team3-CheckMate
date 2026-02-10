@@ -10,6 +10,7 @@ public enum Period {
     THIS_WEEK("이번주"),
     THIS_MONTH("이번달"),
     LAST_7_DAYS("최근 7일"),
+    LAST_14_DAYS("최근 14일"),
     LAST_30_DAYS("최근 30일"),
     LAST_8_WEEKS("최근 8주"),
     LAST_6_MONTHS("최근 6개월"),

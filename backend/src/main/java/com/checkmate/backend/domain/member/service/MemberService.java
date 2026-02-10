@@ -9,7 +9,7 @@ import com.checkmate.backend.domain.member.entity.MemberAuth;
 import com.checkmate.backend.domain.member.repository.MemberAuthRepository;
 import com.checkmate.backend.domain.member.repository.MemberRepository;
 import com.checkmate.backend.domain.store.repository.PosRepository;
-import com.checkmate.backend.global.auth.oidc.OidcService;
+import com.checkmate.backend.global.auth.OidcService;
 import com.checkmate.backend.global.exception.InternalServerException;
 import com.checkmate.backend.global.exception.NotFoundException;
 import com.checkmate.backend.global.exception.UnauthorizedException;
@@ -140,7 +140,7 @@ public class MemberService {
         jwtUtil.validateRefreshToken(refreshToken);
 
         // 리프레시 토큰에서 사용자 ID 추출
-        Long memberId = jwtUtil.getUserIdFromToken(refreshToken);
+        Long memberId = jwtUtil.getMemberIdFromToken(refreshToken);
 
         // DB에 저장된 리프레시 토큰과 비교
         Member member =

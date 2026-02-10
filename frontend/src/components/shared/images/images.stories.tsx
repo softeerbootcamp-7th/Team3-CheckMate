@@ -38,6 +38,7 @@ const images = [
   'rain.svg',
   'heavy_rain.svg',
   'snow.svg',
+  'alarm_none.svg',
 ];
 
 export const ImageGallery = () => {

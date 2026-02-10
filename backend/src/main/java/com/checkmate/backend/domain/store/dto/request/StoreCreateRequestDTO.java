@@ -1,7 +1,10 @@
 package com.checkmate.backend.domain.store.dto.request;
 
+import com.checkmate.backend.domain.store.entity.BusinessHour;
+import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.enums.DayOfWeekType;
 import com.checkmate.backend.domain.store.validator.ValidWeeklyBusinessHours;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -16,13 +19,13 @@ public record StoreCreateRequestDTO(
         @Schema(description = "우편번호") @NotBlank(message = "우편번호를 입력해주세요.") String zoneCode,
         @Schema(description = "도로명 주소") @NotBlank(message = "도로명 주소를 입력해주세요.") String roadAddress,
         @Schema(description = "영업 시간 정보") @Valid @ValidWeeklyBusinessHours
-                List<BusinessHour> businessHours,
+                List<BusinessHourRequest> businessHourRequests,
         @Schema(description = "매출 마감 시간")
                 @Min(value = 0, message = "매출 마감 시간은 0시부터 23시까지 선택할 수 있습니다.")
                 @Max(value = 23, message = "매출 마감 시간은 0시부터 23시까지 선택할 수 있습니다.")
                 Integer salesClosingHour) {
 
-    public record BusinessHour(
+    public record BusinessHourRequest(
             @Schema(description = "요일") @NotNull DayOfWeekType dayOfWeek,
             @Schema(description = "영업 시작 시간 (HH:mm, 30분 단위)")
                     @Pattern(
@@ -34,5 +37,19 @@ public record StoreCreateRequestDTO(
                             regexp = "^([01]\\d|2[0-3]):(00|30)$|^24:00$",
                             message = "영업 마감 시간은 30분 단위의 HH:mm 형식이어야 합니다.")
                     String closeTime,
-            @Schema(description = "휴무 여부") boolean closed) {}
+            @Schema(description = "휴무 여부") boolean closed,
+            @Schema(name = "is24", description = "24시간 영업 유무") @JsonProperty("is24")
+                    boolean open24Hours) {
+
+        public BusinessHour toEntity(Store store) {
+            return BusinessHour.builder()
+                    .day(dayOfWeek().getKorean())
+                    .openTime(openTime())
+                    .closeTime(closeTime())
+                    .closed(closed())
+                    .open24Hours(open24Hours())
+                    .store(store)
+                    .build();
+        }
+    }
 }

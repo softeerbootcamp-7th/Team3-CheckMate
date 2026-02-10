@@ -28,6 +28,7 @@ public class BusinessHour extends BaseTimeEntity {
     private String closeTime;
 
     private boolean closed;
+    private boolean open24Hours;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id", foreignKey = @ForeignKey(NO_CONSTRAINT))

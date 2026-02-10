@@ -6,6 +6,8 @@ import com.checkmate.backend.domain.menu.dto.request.IngredientCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.request.MenuCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuCategoryResponseDTO;
 import com.checkmate.backend.domain.menu.service.MenuService;
+import com.checkmate.backend.global.auth.LoginMember;
+import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -42,10 +44,10 @@ public class MenuController {
     })
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createMenu(
-            @RequestAttribute("storeId") Long storeId,
+            @LoginMember MemberSession member,
             @RequestBody MenuCreateRequestDTO menuCreateRequestDTO) {
 
-        menuService.registerMenus(storeId, menuCreateRequestDTO);
+        menuService.registerMenus(member.storeId(), menuCreateRequestDTO);
 
         return ApiResponse.success_only(MENU_CREATE_SUCCESS);
     }
@@ -73,11 +75,11 @@ public class MenuController {
     })
     @PostMapping("/{menu-id}/ingredients")
     public ResponseEntity<ApiResponse<Void>> addIngredientsToMenu(
-            @RequestAttribute("storeId") Long storeId,
+            @LoginMember MemberSession member,
             @PathVariable("menu-id") Long menuId,
             @RequestBody IngredientCreateRequestDTO ingredientCreateRequestDTO) {
 
-        menuService.addIngredientsToMenu(storeId, menuId, ingredientCreateRequestDTO);
+        menuService.addIngredientsToMenu(member.storeId(), menuId, ingredientCreateRequestDTO);
 
         return ApiResponse.success_only(INGREDIENT_CREATE_SUCCESS);
     }
@@ -100,9 +102,9 @@ public class MenuController {
     })
     @GetMapping
     public ResponseEntity<ApiResponse<List<MenuCategoryResponseDTO>>> getMenus(
-            @RequestAttribute("storeId") Long storeId) {
+            @LoginMember MemberSession member) {
 
-        List<MenuCategoryResponseDTO> response = menuService.getMenus(storeId);
+        List<MenuCategoryResponseDTO> response = menuService.getMenus(member.storeId());
 
         return ApiResponse.success(MENU_GET_SUCCESS, response);
     }

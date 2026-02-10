@@ -81,10 +81,11 @@ jobs:
           --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
           --document-name "AWS-RunShellScript" \
           --parameters 'commands=[
-           "mkdir -p ~/app",
-           "cd ~/app",
+           "mkdir -p /home/ec2-user/app",
+           "cd /home/ec2-user/app",
            "aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip . --sse AES256",
            "unzip -o deploy.zip",
+           "chown -R ec2-user:ec2-user /home/ec2-user/app",
            "chmod 600 nginx/certs/private.key",
            "echo \"DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}\" > .env",
            "echo \"SPRING_PROFILES_ACTIVE=prod\" >> .env",

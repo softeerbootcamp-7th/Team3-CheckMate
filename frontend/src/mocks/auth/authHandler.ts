@@ -6,6 +6,7 @@ import type {
   PostAuthRefreshResponseDto,
 } from '@/types/auth';
 
+import { mockDb } from '../data';
 import { mswHttp } from '../shared';
 
 const getHandler = [
@@ -27,8 +28,8 @@ const getHandler = [
         message: 'Success',
         data: {
           email: 'john.doe@example.com',
-          hasStore: true,
-          hasPosIntegration: true,
+          hasStore: mockDb.hasStore,
+          hasPosIntegration: mockDb.hasPosIntegration,
         },
       },
       {

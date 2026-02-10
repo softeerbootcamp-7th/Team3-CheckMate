@@ -1,4 +1,9 @@
-import { type ChangeEvent, type KeyboardEvent, useRef } from 'react';
+import {
+  type ChangeEvent,
+  type KeyboardEvent,
+  useCallback,
+  useRef,
+} from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 import { STORE_REGISTER_FORM_FIELD } from '@/constants/onboarding/store-register';
@@ -35,10 +40,26 @@ export const useBusinessRegistration = () => {
   const handleBusinessRegistrationNumberChange = (
     event: ChangeEvent<HTMLInputElement>,
   ) => {
-    onChange(event.target.value);
+    onChange(event.target.value.trim());
     if (businessAuthToken) {
       setValue(STORE_REGISTER_FORM_FIELD.BUSINESS_AUTH_TOKEN, '');
     }
+  };
+
+  const handleFocusNextStepButton = (element?: HTMLButtonElement | null) => {
+    element?.focus();
+  };
+
+  const handleFocusBusinessRegistrationNumberInput = useCallback(
+    (element: HTMLInputElement | null) => {
+      element?.focus();
+    },
+    [],
+  );
+
+  const combineRefCallback = (element: HTMLInputElement | null) => {
+    handleFocusBusinessRegistrationNumberInput(element);
+    ref(element);
   };
 
   // error가 있고 한번 이상 blur된 경우
@@ -51,7 +72,7 @@ export const useBusinessRegistration = () => {
   const isDisabled = invalid || !value;
 
   return {
-    ref,
+    combineRefCallback,
     onBlur,
     value,
     verifyButtonRef,
@@ -61,5 +82,6 @@ export const useBusinessRegistration = () => {
     isDisabled,
     handlePreventEnter,
     handleBusinessRegistrationNumberChange,
+    handleFocusNextStepButton,
   };
 };

@@ -1,4 +1,9 @@
-import { formatDateYYYYMM, formatDateYYYYMMDD } from '@/utils/shared';
+import {
+  formatDateYYYYMM,
+  formatDateYYYYMMDD,
+  getDateDifference,
+  getMondayOfWeek,
+} from '@/utils/shared';
 
 import { DATE_RANGE_PICKER_TYPE } from './dateRangePickerType';
 
@@ -10,8 +15,10 @@ export const DATE_RANGE_SIDE_CONFIG = {
         return true;
       }
 
-      const dateDifference =
-        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1;
+      const dateDifference = getDateDifference({
+        startDate,
+        endDate,
+      });
 
       return dateDifference <= 30;
     },
@@ -24,13 +31,16 @@ export const DATE_RANGE_SIDE_CONFIG = {
         return true;
       }
 
-      const dateDifference =
-        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1;
+      const mondayOfEndDate = getMondayOfWeek(endDate);
+      const dateDifference = getDateDifference({
+        startDate,
+        endDate: mondayOfEndDate,
+      });
 
       // 7 * 12 = 84
-      return dateDifference <= 84; // 7 * 12 = 84
+      return dateDifference <= 84;
     },
-    formattedDate: formatDateYYYYMM,
+    formattedDate: formatDateYYYYMMDD,
   },
   [DATE_RANGE_PICKER_TYPE.month]: {
     alertText: '최대 12개월까지 선택할 수 있어요.',
