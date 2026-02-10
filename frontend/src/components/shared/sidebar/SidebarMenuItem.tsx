@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { Badge } from '@/components/shared';
-import type { SidebarOptionItem } from '@/types/shared/sidebarOptionItem';
+import type { SidebarOptionItem } from '@/types/shared';
 import { cn } from '@/utils/shared';
 
 import { SidebarSubmenuItem } from './SidebarSubmenuItem';
