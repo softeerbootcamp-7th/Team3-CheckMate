@@ -1,4 +1,4 @@
-import { StoreBusinessHoursInputGrid } from '@/components/onboarding/store-register/store-business-hours-input-section/StoreBusinessHoursInputGrid';
+import { StoreBusinessHoursInputGrid } from '@/components/onboarding/store-register';
 import { useInitializeBusinessHours } from '@/hooks/setting';
 import type { BusinessHour } from '@/types/shared';
 

@@ -1,4 +1,4 @@
-import { StoreNameInput } from '@/components/onboarding/store-register/store-info-input-section/StoreNameInput';
+import { StoreNameInput } from '@/components/onboarding/store-register';
 import { useInitializeStoreName } from '@/hooks/setting/useInitializeStoreName';
 
 interface SettingMyStoreNameProps {
