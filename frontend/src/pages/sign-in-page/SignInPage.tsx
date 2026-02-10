@@ -1,4 +1,8 @@
-import { SignInMainSection, SignInSidebar } from '@/components/auth';
+import {
+  SignInFooterSection,
+  SignInMainSection,
+  SignInSidebar,
+} from '@/components/auth';
 import { OnboardingLayout } from '@/components/shared';
 
 export const SignInPage = () => {
@@ -10,6 +14,9 @@ export const SignInPage = () => {
       <OnboardingLayout.Main>
         <SignInMainSection />
       </OnboardingLayout.Main>
+      <OnboardingLayout.Footer>
+        <SignInFooterSection />
+      </OnboardingLayout.Footer>
     </OnboardingLayout>
   );
 };

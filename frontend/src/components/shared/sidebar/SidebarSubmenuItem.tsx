@@ -10,20 +10,21 @@ export const SidebarSubmenuItem = ({ sub }: SidebarSubmenuItemProps) => {
   // 하위 메뉴는 경로가 정확히 일치해야 활성화 표시
   // /analysis/sales, /analysis/menu 등
   return (
-    <NavLink
-      key={sub.id}
-      className={({ isActive }) =>
-        cn(
-          isActive
-            ? 'text-brand-main body-medium-bold!'
-            : 'body-medium-medium! text-gray-400',
+    <li>
+      <NavLink
+        className={({ isActive }) =>
+          cn(
+            isActive
+              ? 'text-brand-main body-medium-bold!'
+              : 'body-medium-medium! text-gray-400',
 
-          `flex h-[40px] w-full cursor-pointer items-center justify-start pl-[36px]`,
-        )
-      }
-      to={sub.path}
-    >
-      <span>{sub.name}</span>
-    </NavLink>
+            `flex h-10 w-full cursor-pointer items-center justify-start pl-9`,
+          )
+        }
+        to={sub.path}
+      >
+        <span>{sub.name}</span>
+      </NavLink>
+    </li>
   );
 };

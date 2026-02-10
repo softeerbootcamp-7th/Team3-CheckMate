@@ -71,3 +71,4 @@ export {
 } from './tooltip';
 export { Checkbox } from './checkbox';
 export { Toaster } from './sonner';
+export { Input } from './input';

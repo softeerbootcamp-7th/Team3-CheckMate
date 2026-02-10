@@ -1,8 +1,12 @@
+import { SALE_TYPE_DATA } from '@/mocks/data/sales';
+
+import { SalesSourceChart } from './sales-source-chart';
+
 export const RevenueBySaleType = () => {
   return (
-    <article className="card">
-      <h3>판매유형별 매출</h3>
-      <div>Types: 0</div>
-    </article>
+    <SalesSourceChart
+      title="판매유형별 매출"
+      salesSourceData={SALE_TYPE_DATA}
+    />
   );
 };

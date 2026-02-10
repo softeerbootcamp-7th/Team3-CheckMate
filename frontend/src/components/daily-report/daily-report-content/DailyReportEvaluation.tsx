@@ -15,7 +15,7 @@ export const DailyReportEvaluation = ({
       </span>
       <span
         className={cn(
-          'rounded-unlimit bg-special-dashboard-bg body-large-bold px-[12px] py-[6px]',
+          'rounded-unlimit bg-special-dashboard-bg body-large-bold px-3 py-1.5',
           status_label === DAILY_REPORT_STATUS_LABEL.BEST && 'text-brand-main',
           status_label === DAILY_REPORT_STATUS_LABEL.GOOD && 'text-grey-600',
           status_label === DAILY_REPORT_STATUS_LABEL.WARNING &&

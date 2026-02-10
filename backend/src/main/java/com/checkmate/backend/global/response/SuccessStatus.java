@@ -54,6 +54,8 @@ public enum SuccessStatus {
     DASHBOARD_GET_SUCCESS(HttpStatus.OK, "대시보드 조회에 성공했습니다."),
     DASHBOARD_UPDATE_SUCCESS(HttpStatus.OK, "대시보드 수정에 성공했습니다."),
     DASHBOARD_DELETE_SUCCESS(HttpStatus.OK, "대시보드 삭제에 성공했습니다."),
+    DASHBOARD_LAYOUT_UPDATE_SUCCESS(HttpStatus.OK, "대시보드 레이아웃 저장에 성공했습니다."),
+    DASHBOARD_LAYOUT_GET_SUCCESS(HttpStatus.OK, "대시보드 레이아웃 조회에 성공했습니다."),
 
     // 201
     DASHBOARD_CREATE_SUCCESS(HttpStatus.CREATED, "대시보드 등록에 성공했습니다.");
