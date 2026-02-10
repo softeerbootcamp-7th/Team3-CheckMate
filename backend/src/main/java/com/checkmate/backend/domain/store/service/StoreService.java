@@ -5,6 +5,7 @@ import static com.checkmate.backend.global.response.ErrorStatus.*;
 import com.checkmate.backend.domain.member.entity.Member;
 import com.checkmate.backend.domain.member.repository.MemberRepository;
 import com.checkmate.backend.domain.store.dto.request.StoreCreateRequestDTO;
+import com.checkmate.backend.domain.store.dto.response.StoreResponse;
 import com.checkmate.backend.domain.store.entity.BusinessHour;
 import com.checkmate.backend.domain.store.entity.Pos;
 import com.checkmate.backend.domain.store.entity.Store;
@@ -134,5 +135,33 @@ public class StoreService {
         } catch (InterruptedException | IOException e) {
             log.warn("[connectPOS][storeId= {}, reason= {}]", storeId, e.getMessage());
         }
+    }
+
+    /*
+     * read
+     * */
+
+    /** 매장 정보 조회 */
+    public StoreResponse getStore(Long storeId) {
+
+        // 매장 조회
+        Store store =
+                storeRepository
+                        .findById(storeId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn("[getStore][store is not found][storeId={}]", storeId);
+                                    return new BadRequestException(STORE_NOT_FOUND_EXCEPTION);
+                                });
+
+        // 영업 시간 조회
+        List<StoreResponse.BusinessHourResponse> businessHours =
+                businessHourRepository.findBusinessHoursByStoreId(storeId).stream()
+                        .map(StoreResponse.BusinessHourResponse::of)
+                        .toList();
+
+        StoreResponse response = StoreResponse.of(store, businessHours);
+
+        return response;
     }
 }
