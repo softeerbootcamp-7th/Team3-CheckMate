@@ -161,7 +161,15 @@
     }
   }
 }
+@utility no-spinner {
+  -moz-appearance: textfield;
 
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
 @utility headline-large {
   font-size: 2.625rem; /* 42px */
   line-height: 3.6875rem; /* 59px */

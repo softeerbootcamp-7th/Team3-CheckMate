@@ -58,7 +58,7 @@ export const IngredientGrid = ({
               />
 
               <Button
-                className="!P-0 text-grey-600 size-6"
+                className="text-grey-600 size-6 p-0!"
                 type="button"
                 onClick={() => {
                   onClickDeleteIngredient(index);
