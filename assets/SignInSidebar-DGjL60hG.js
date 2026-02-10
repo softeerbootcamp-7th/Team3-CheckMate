@@ -1,1 +1,0 @@
-import{j as s}from"./jsx-runtime-u17CrQMm.js";const e=()=>s.jsx("div",{className:"size-full",children:s.jsx("img",{src:"/assets/logoWithTitle.svg",alt:"Checkmate Logo",className:"pt-20 pl-10"})});e.__docgenInfo={description:"",methods:[],displayName:"SignInSidebar"};export{e as S};
