@@ -10,9 +10,9 @@ export const DailyReportInsight = ({ insights }: DailyReportInsightProps) => {
         오늘의 인사이트
       </h3>
       <div className="flex flex-col gap-3">
-        {insights.map((insight, index) => (
+        {insights.map((insight) => (
           <p
-            key={`insight-${index}`} // 일부만 바뀔 일 없으므로 index 사용
+            key={`insight-${insight.idx}`} // 일부만 바뀔 일 없으므로 index 사용 (idx 값 1,2,3...)
             className="bg-grey-100 rounded-200 text-grey-900 body-small-medium [&>strong]:text-brand-main px-4 py-3"
           >
             {insight.observe}
