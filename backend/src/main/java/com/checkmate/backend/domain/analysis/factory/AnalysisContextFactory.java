@@ -5,7 +5,7 @@ import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.order.OrderCreatedEvent;
 
 public interface AnalysisContextFactory {
-    boolean supports(AnalysisCardCode cardCode);
+    boolean supports(AnalysisCardCode analysisCardCode);
 
-    AnalysisContext create(AnalysisCardCode cardCode, OrderCreatedEvent event);
+    AnalysisContext create(AnalysisCardCode analysisCardCode, OrderCreatedEvent event);
 }
