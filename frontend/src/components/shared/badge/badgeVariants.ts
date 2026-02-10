@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority';
 
 export const badgeVariants = cva(
-  'before:bg-brand-main relative before:absolute before:size-[6px] before:rounded-full',
+  'before:bg-brand-main relative before:absolute before:size-1.5 before:rounded-full',
   {
     variants: {
       position: {

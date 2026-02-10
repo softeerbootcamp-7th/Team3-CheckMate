@@ -18,7 +18,7 @@ export const SidebarSubmenuItem = ({ sub }: SidebarSubmenuItemProps) => {
               ? 'text-brand-main body-medium-bold!'
               : 'body-medium-medium! text-gray-400',
 
-            `flex h-[40px] w-full cursor-pointer items-center justify-start pl-[36px]`,
+            `flex h-10 w-full cursor-pointer items-center justify-start pl-9`,
           )
         }
         to={sub.path}

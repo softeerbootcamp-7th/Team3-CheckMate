@@ -31,7 +31,7 @@ export const WeatherForecastOneDayAmPmItem = ({
       >
         {weekDayInfo}
       </span>
-      <div className="flex gap-[6px]">
+      <div className="flex gap-1.5">
         {halfList.map(({ label, iconPath, temperature }) => {
           return (
             <div

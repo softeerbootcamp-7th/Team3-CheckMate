@@ -21,7 +21,7 @@ export const SidebarMenuItem = memo(({ menu }: SidebarMenuItemProps) => {
               ? 'text-brand-main body-medium-bold! bg-brand-20 [:svg]:text-brand-400'
               : 'body-medium-medium! [:svg]:text-grey-600 text-grey-600',
 
-            `rounded-150 flex h-[40px] w-full cursor-pointer items-center justify-start gap-[6px] px-200 [:svg]:size-5.5`,
+            `rounded-150 flex h-10 w-full cursor-pointer items-center justify-start gap-1.5 px-200 [:svg]:size-5.5`,
           )
         }
         to={menu.path}
@@ -30,7 +30,7 @@ export const SidebarMenuItem = memo(({ menu }: SidebarMenuItemProps) => {
         <Badge show={menu.id === 'DAILY_REPORT'} position="top-left">
           {menu.Icon && <menu.Icon />}
         </Badge>
-        <span className="mt-[2px]">{menu.name}</span>
+        <span className="mt-0.5">{menu.name}</span>
       </NavLink>
 
       {/* 상세분석 하위 메뉴 */}
