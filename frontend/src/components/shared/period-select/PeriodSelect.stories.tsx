@@ -33,7 +33,6 @@ const meta = {
         'recent6Months',
         'recent12Months',
         'recent3Years',
-        'today',
       ],
       disabled: true,
     },
