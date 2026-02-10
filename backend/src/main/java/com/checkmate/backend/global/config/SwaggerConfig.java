@@ -12,7 +12,7 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.utils.SpringDocUtils;
@@ -171,11 +171,10 @@ public class SwaggerConfig {
     }
 
     private Example createExample(String summary, String message, String errorCode) {
-        Map<String, Object> errorResponse = new HashMap<>();
+        Map<String, Object> errorResponse = new LinkedHashMap<>();
         errorResponse.put("success", false);
-        errorResponse.put("message", message);
         errorResponse.put("errorCode", errorCode);
-        errorResponse.put("data", null);
+        errorResponse.put("message", message);
 
         return new Example().summary(summary).value(errorResponse);
     }
