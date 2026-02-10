@@ -25,4 +25,17 @@ public interface SalesAnalysisRepository extends JpaRepository<Order, Long> {
             @Param("storeId") Long storeId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+    /** SLS_03 (건당 평균가) */
+    @Query(
+            "select case when count(o) = 0 then 0.0 "
+                    + "else (sum(o.netAmount)  / count(o)) end "
+                    + "from Order o "
+                    + "where o.store.id = :storeId "
+                    + "and o.orderDate >= :startDate "
+                    + "and o.orderDate < :endDate")
+    Long findAverageOrderAmount(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
 }
