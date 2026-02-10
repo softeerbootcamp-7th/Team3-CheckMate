@@ -3,8 +3,13 @@ import { useStoreBusinessHours } from '@/hooks/onboarding/store-register';
 
 import { StoreBusinessHoursHeaderRow } from './StoreBusinessHoursHeaderRow';
 import { StoreBusinessHoursRow } from './StoreBusinessHoursRow';
+interface StoreBusinessHoursInputGridProps {
+  readOnly?: boolean;
+}
 
-export const StoreBusinessHoursInputGrid = () => {
+export const StoreBusinessHoursInputGrid = ({
+  readOnly = false,
+}: StoreBusinessHoursInputGridProps) => {
   const {
     value,
     startHourTimeLimit,
@@ -31,6 +36,7 @@ export const StoreBusinessHoursInputGrid = () => {
             onSelectEndTime={handleSelectEndTime(index)}
             onCheck24={handleCheck24(index)}
             onCheckClosed={handleCheckClosed(index)}
+            readOnly={readOnly}
           />
         ))}
       </div>

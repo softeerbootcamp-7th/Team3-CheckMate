@@ -18,7 +18,7 @@ export const SettingMyStoreInfo = () => {
           내 매장 정보
         </span>
         <div className="bg-grey-300 mt-6 h-0.5 w-244.5" />
-        <div className="pointer-events-none mt-4 grid w-full grid-cols-2">
+        <div className="mt-4 grid w-full grid-cols-2">
           <div className="flex w-95 flex-col gap-12.5">
             <SettingMyStoreName storeName={data.storeName} />
             <SettingMyStoreSalesClosingTime
