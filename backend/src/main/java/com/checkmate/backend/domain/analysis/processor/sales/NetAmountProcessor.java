@@ -8,6 +8,7 @@ import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
 import com.checkmate.backend.domain.analysis.result.AnalysisResult;
 import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.order.repository.SalesAnalysisRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -38,8 +39,8 @@ public class NetAmountProcessor implements AnalysisProcessor<SalesAnalysisContex
                         context.getComparisonEnd());
 
         // null 방지
-        currentNetAmount = currentNetAmount == null ? 0L : currentNetAmount;
-        comparisonNetAmount = comparisonNetAmount == null ? 0L : comparisonNetAmount;
+        currentNetAmount = Optional.ofNullable(currentNetAmount).orElse(0L);
+        comparisonNetAmount = Optional.ofNullable(comparisonNetAmount).orElse(0L);
 
         long differenceAmount = currentNetAmount - comparisonNetAmount;
 

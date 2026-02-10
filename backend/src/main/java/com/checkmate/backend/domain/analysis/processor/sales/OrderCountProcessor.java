@@ -8,6 +8,7 @@ import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
 import com.checkmate.backend.domain.analysis.result.AnalysisResult;
 import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.order.repository.SalesAnalysisRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -38,8 +39,8 @@ public class OrderCountProcessor implements AnalysisProcessor<SalesAnalysisConte
                         context.getComparisonEnd());
 
         // null 방지
-        currentOrderCount = currentOrderCount == null ? 0L : currentOrderCount;
-        comparisonOrderCount = comparisonOrderCount == null ? 0L : comparisonOrderCount;
+        currentOrderCount = Optional.ofNullable(currentOrderCount).orElse(0L);
+        comparisonOrderCount = Optional.ofNullable(comparisonOrderCount).orElse(0L);
 
         long differenceCount = currentOrderCount - comparisonOrderCount;
 
