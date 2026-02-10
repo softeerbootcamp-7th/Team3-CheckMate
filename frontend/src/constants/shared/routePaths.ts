@@ -18,4 +18,6 @@ export const ROUTE_PATHS = {
     BASE: '/settings',
     INGREDIENT: 'ingredient',
   },
+  PRIVACY: '/privacy',
+  TERMS: '/terms',
 };

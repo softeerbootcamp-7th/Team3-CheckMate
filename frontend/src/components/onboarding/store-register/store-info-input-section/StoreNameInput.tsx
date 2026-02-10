@@ -1,7 +1,10 @@
 import { Input } from '@/components/shared';
 import { useStoreName } from '@/hooks/onboarding/store-register';
 
-export const StoreNameInput = () => {
+interface StoreNameInputProps {
+  readOnly?: boolean;
+}
+export const StoreNameInput = ({ readOnly }: StoreNameInputProps) => {
   const { combineRefCallback, error, value, handleStoreNameBlur, onChange } =
     useStoreName();
 
@@ -16,6 +19,7 @@ export const StoreNameInput = () => {
       onChange={onChange}
       onBlur={handleStoreNameBlur}
       ref={combineRefCallback}
+      readOnly={readOnly}
     />
   );
 };

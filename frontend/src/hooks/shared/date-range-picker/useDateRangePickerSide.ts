@@ -64,6 +64,7 @@ export const useDateRangePickerSide = ({
       setSelectedEndDate(undefined);
       return;
     }
+    setSelectedStartDate(undefined);
   }, [
     selectedEndDate,
     setSelectedStartDate,

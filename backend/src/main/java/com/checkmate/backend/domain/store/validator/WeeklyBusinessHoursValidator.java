@@ -12,11 +12,12 @@ import org.springframework.util.StringUtils;
 
 public class WeeklyBusinessHoursValidator
         implements ConstraintValidator<
-                ValidWeeklyBusinessHours, List<StoreCreateRequestDTO.BusinessHour>> {
+                ValidWeeklyBusinessHours, List<StoreCreateRequestDTO.BusinessHourRequest>> {
 
     @Override
     public boolean isValid(
-            List<StoreCreateRequestDTO.BusinessHour> hours, ConstraintValidatorContext context) {
+            List<StoreCreateRequestDTO.BusinessHourRequest> hours,
+            ConstraintValidatorContext context) {
 
         // 기본 메시지 비활성화 (커스텀 메시지만 사용)
         context.disableDefaultConstraintViolation();
@@ -28,10 +29,10 @@ public class WeeklyBusinessHoursValidator
         }
 
         // 2. 요일 중복 제거 + 월~일 모두 존재 검증
-        Map<DayOfWeekType, StoreCreateRequestDTO.BusinessHour> map =
+        Map<DayOfWeekType, StoreCreateRequestDTO.BusinessHourRequest> map =
                 new EnumMap<>(DayOfWeekType.class);
 
-        for (StoreCreateRequestDTO.BusinessHour hour : hours) {
+        for (StoreCreateRequestDTO.BusinessHourRequest hour : hours) {
             DayOfWeekType day = hour.dayOfWeek();
 
             if (map.containsKey(day)) {
@@ -48,12 +49,13 @@ public class WeeklyBusinessHoursValidator
         }
 
         // 3. 각 요일 단위 검증
-        for (StoreCreateRequestDTO.BusinessHour hour : map.values()) {
+        for (StoreCreateRequestDTO.BusinessHourRequest hour : map.values()) {
             boolean closed = hour.closed();
             String open = hour.openTime();
             String close = hour.closeTime();
+            boolean open24Hours = hour.open24Hours();
 
-            if (closed) {
+            if (closed || open24Hours) {
                 continue;
             }
 
@@ -68,7 +70,8 @@ public class WeeklyBusinessHoursValidator
             int closeMinutes = toMinutes(close);
 
             // 3-2. 시작/마감 동일 불가
-            if (openMinutes == closeMinutes) {
+
+            if (openMinutes == closeMinutes && openMinutes != 0) {
                 ValidatorUtils.addErrorMessage(
                         context, hour.dayOfWeek() + "의 영업 시작 시간과 마감 시간은 같을 수 없습니다.");
                 return false;
@@ -77,10 +80,10 @@ public class WeeklyBusinessHoursValidator
 
         // 4. 연속 요일 영업시간 겹침 검증 (자정 이후만 대상)
         for (DayOfWeekType day : DayOfWeekType.values()) {
-            StoreCreateRequestDTO.BusinessHour today = map.get(day);
-            StoreCreateRequestDTO.BusinessHour next = map.get(day.next());
+            StoreCreateRequestDTO.BusinessHourRequest today = map.get(day);
+            StoreCreateRequestDTO.BusinessHourRequest next = map.get(day.next());
 
-            if (today.closed() || next.closed()) {
+            if (today.closed() || next.closed() || today.open24Hours() || next.open24Hours()) {
                 continue;
             }
 

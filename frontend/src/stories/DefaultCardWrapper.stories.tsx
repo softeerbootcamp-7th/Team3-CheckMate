@@ -25,7 +25,7 @@ type Story = StoryObj<typeof DefaultCardWrapper>;
 
 const SampleChild = () => {
   return (
-    <div className="flex flex-col gap-[6px]">
+    <div className="flex flex-col gap-1.5">
       <div className="title-large-semibold break-keep">
         포장용기/소모품/배달 메뉴 노출을 점검해보세요
       </div>

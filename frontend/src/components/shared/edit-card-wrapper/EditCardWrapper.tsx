@@ -77,10 +77,10 @@ export const EditCardWrapper = ({
       </div>
 
       {isAdded && (
-        <div className="pointer-events-none absolute inset-[10px] flex items-center justify-center">
+        <div className="pointer-events-none absolute inset-2.5 flex items-center justify-center">
           <div
             className={cn(
-              'caption-large-semibold rounded-unlimit border-grey-200 bg-grey-100 text-grey-900 flex gap-1 border py-1 pr-2 pl-[10px] text-center',
+              'caption-large-semibold rounded-unlimit border-grey-200 bg-grey-100 text-grey-900 flex gap-1 border py-1 pr-2 pl-2.5 text-center',
             )}
           >
             대시보드 추가

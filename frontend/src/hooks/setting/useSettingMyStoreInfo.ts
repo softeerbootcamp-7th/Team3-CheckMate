@@ -1,11 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { getSettingMyStoreInfo, settingKeys } from '@/services/setting';
 
 export const useSettingMyStoreInfo = () => {
-  const { data, isPending, error } = useQuery({
+  return useSuspenseQuery({
     queryKey: settingKeys.myStoreInfo(),
     queryFn: getSettingMyStoreInfo,
   });
-  return { data, isPending, error };
 };

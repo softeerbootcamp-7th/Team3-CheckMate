@@ -7,9 +7,10 @@ import com.checkmate.backend.domain.analysis.dto.projection.OrderMenusProjection
 import com.checkmate.backend.domain.analysis.dto.response.PopularMenuCombinationResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
+import com.checkmate.backend.domain.analysis.result.AnalysisResult;
+import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.menu.repository.MenuRepository;
 import com.checkmate.backend.domain.order.repository.MenuAnalysisRepository;
-import com.checkmate.backend.global.sse.SseEventSender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAnalysisContext> {
     private final MenuAnalysisRepository menuAnalysisRepository;
-    private final SseEventSender sseEventSender;
     private final MenuRepository menuRepository;
     private final ObjectMapper objectMapper;
 
@@ -38,7 +38,7 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
 
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     @Override
-    public void process(MenuAnalysisContext context) {
+    public AnalysisResult process(MenuAnalysisContext context) {
 
         // 매출 기준 top3 메뉴 조회 (기준 메뉴)
         List<Long> top3MenuIds =
@@ -138,9 +138,7 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                             pairedMenus));
         }
 
-        sseEventSender.send(
-                context.getStoreId(),
-                context.getAnalysisCardCode(),
-                popularMenuCombinationResponses);
+        return new DefaultAnalysisResult<>(
+                context.getAnalysisCardCode(), popularMenuCombinationResponses);
     }
 }

@@ -1,16 +1,38 @@
 export { cn } from './lib';
 export type { ValueOf } from './valueOf';
-export { formatDateYYYYMMDD, formatDateYYYYMM } from './formatDate';
+export {
+  formatDateYYYYMMDD,
+  formatDateYYYYMM,
+  formatDateLocalized,
+} from './formatDate';
+export { formatRelativeTime } from './formatTime';
+export type { DeepValueOf } from './deepValueOf';
 export {
   getNumberOfDate,
   getFirstDayOfMonth,
   getLastDayOfMonth,
   isBetweenSelectedDate,
-  isStartDate,
-  isEndDate,
+  isSameDate,
   getCurrentDate,
   getMondayOfWeek,
   getSundayOfWeek,
+  getCurrentMonth,
+  getLastDateOfMonth,
+  isSameMonth,
+  getDateDifference,
+  getCurrentYear,
+  getLastDateOfYear,
+  isSameYear,
 } from './calendar';
-export { formatNumber } from './formatNumber';
 export { formatPriceWithComma } from './formatPriceWithComma';
+export { formatNumber, formatNumberInTenThousands } from './formatNumber';
+
+export {
+  computeChartDataWithPercentage,
+  getAngleFromPercentage,
+  getCoordinatesFromAngle,
+  getSVGPathFromAngle,
+  getTextColor,
+} from './doughnut-chart';
+
+export { createPeriodTypeProvider } from './period-select';

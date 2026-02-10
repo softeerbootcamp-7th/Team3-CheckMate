@@ -1,6 +1,8 @@
 import { useMenuCard } from '@/hooks/ingredient';
 import { formatPriceWithComma } from '@/utils/shared';
 
+import { IngredientEditDialog } from './IngredientEditDialog';
+
 interface MenuCardProps {
   menuId: string;
   menuName: string;
@@ -9,28 +11,36 @@ interface MenuCardProps {
 }
 
 export const MenuInfoCard = ({
+  menuId,
   menuName,
   price,
   registeredIngredientCount,
 }: MenuCardProps) => {
-  const { setIsDialogOpen } = useMenuCard();
+  const { setIsDialogOpen, isDialogOpen } = useMenuCard();
   return (
-    <article
-      className="bg-special-card-bg rounded-200 flex h-48 w-64 cursor-pointer flex-col justify-between p-6"
-      onClick={() => setIsDialogOpen(true)}
-    >
-      <div className="text-grey-900 flex flex-col gap-1.5">
-        <span className="title-small-bold">{menuName}</span>
-        {registeredIngredientCount === 0 && (
-          <span className="body-small-semibold text-others-negative">
-            식재료 입력 필요
-          </span>
-        )}
-      </div>
+    <>
+      <article
+        className="bg-special-card-bg rounded-200 flex h-48 w-64 cursor-pointer flex-col justify-between p-6"
+        onClick={() => setIsDialogOpen(true)}
+      >
+        <div className="text-grey-900 flex flex-col gap-1.5">
+          <span className="title-small-bold">{menuName}</span>
+          {registeredIngredientCount === 0 && (
+            <span className="body-small-semibold text-others-negative">
+              식재료 입력 필요
+            </span>
+          )}
+        </div>
 
-      <span className="title-medium-medium text-end">
-        {formatPriceWithComma(price)} 원
-      </span>
-    </article>
+        <span className="title-medium-medium text-end">
+          {formatPriceWithComma(price)} 원
+        </span>
+      </article>
+      <IngredientEditDialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        menuId={menuId}
+      />
+    </>
   );
 };

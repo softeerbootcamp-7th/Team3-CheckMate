@@ -22,6 +22,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return "OPTIONS".equalsIgnoreCase(request.getMethod());
+    }
+
+    @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
@@ -35,12 +40,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 Long memberId = jwtUtil.getMemberIdFromToken(jwtToken);
                 Long storeId = jwtUtil.getStoreIdFromToken(jwtToken);
 
-                if (memberId == null) {
-                    throw new UnauthorizedException(ErrorStatus.JWT_TOKEN_NOT_FOUND);
-                }
-
                 MemberSession sessionDto = new MemberSession(memberId, storeId);
                 request.setAttribute("loginMember", sessionDto);
+            } else {
+                throw new UnauthorizedException(ErrorStatus.JWT_TOKEN_NOT_FOUND);
             }
 
             filterChain.doFilter(request, response);

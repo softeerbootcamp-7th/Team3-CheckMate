@@ -46,8 +46,8 @@ export const DateCalendar = ({
           headerTitle={headerTitle(currentDateForCalendar)}
           previousAriaLabel={previousAriaLabel}
           nextAriaLabel={nextAriaLabel}
-          handleClickPreviousMonth={handleMovePreviousMonth}
-          handleClickNextMonth={handleMoveNextMonth}
+          handleClickPrevious={handleMovePreviousMonth}
+          handleClickNext={handleMoveNextMonth}
         />
         <CalendarDayGrid />
         <CalendarDateGrid

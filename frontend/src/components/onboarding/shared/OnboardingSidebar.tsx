@@ -8,7 +8,7 @@ export const OnboardingSidebar = ({ children }: PropsWithChildren) => {
       <img
         src={`${CDN_BASE_URL}/assets/images/logoWithTitle.svg`}
         alt="Checkmate Logo"
-        className="h-[74px] w-[183px]"
+        className="h-18.5 w-45.75"
       />
       {children}
     </div>
