@@ -15,4 +15,6 @@ export const ROUTE_PATHS = {
   },
   DAILY_REPORT: '/daily-report',
   SETTINGS: '/settings',
+  PRIVACY: '/privacy',
+  TERMS: '/terms',
 };

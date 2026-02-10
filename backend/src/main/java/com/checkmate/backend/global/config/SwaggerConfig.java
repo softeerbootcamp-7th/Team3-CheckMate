@@ -43,9 +43,15 @@ public class SwaggerConfig {
         SecurityRequirement refreshTokenRequirement =
                 new SecurityRequirement().addList(refreshTokenHeader);
 
-        Server server = new Server();
-        server.setUrl("http://localhost:8080");
-        //        server.setUrl("https://api.korfit.co.kr");
+        // 1. 운영 서버 설정
+        Server prodServer = new Server();
+        prodServer.setUrl("https://api-check-mate.kro.kr");
+        prodServer.setDescription("운영 서버");
+
+        // 2. 로컬 서버 설정
+        Server localServer = new Server();
+        localServer.setUrl("http://localhost:8080");
+        localServer.setDescription("로컬 환경");
 
         return new OpenAPI()
                 .info(
@@ -53,12 +59,13 @@ public class SwaggerConfig {
                                 .title("CheckMate")
                                 .description(
                                         "Softeer Team3 - Checkmate API Document - Backend Developer : 한울, 용범")
-                                .version("2.0.0"))
+                                .version("0.2.3"))
                 .components(
                         new Components()
                                 .addSecuritySchemes(accessTokenHeader, accessTokenScheme)
                                 .addSecuritySchemes(refreshTokenHeader, refreshTokenScheme))
-                .addServersItem(server)
+                .addServersItem(prodServer)
+                .addServersItem(localServer)
                 .addSecurityItem(accessTokenRequirement)
                 .addSecurityItem(refreshTokenRequirement);
     }

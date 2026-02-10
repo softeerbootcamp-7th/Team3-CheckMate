@@ -1,23 +1,24 @@
 import { useMemo } from 'react';
 
-import type { PERIOD_PRESET_KEYS, PeriodType } from '@/constants/shared';
 import { getPeriodComparisonMessage } from '@/utils/sales';
 import { cn, formatNumber } from '@/utils/shared';
 
+import { usePeriodTypeContext } from '../period-type-provider';
+
 interface SalesComparisonProps {
-  periodType: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth> | undefined; // 오늘 / 이번주/ 이번달
   title: string;
   unit: string;
   lastValue?: number;
   currentValue: number;
 }
 export const SalesComparison = ({
-  periodType,
   title,
   unit,
   lastValue,
   currentValue,
 }: SalesComparisonProps) => {
+  const { periodType } = usePeriodTypeContext();
+
   const deltaValue = useMemo(
     () => (lastValue ? currentValue - lastValue : 0),
     [currentValue, lastValue],

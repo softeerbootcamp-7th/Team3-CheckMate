@@ -6,6 +6,7 @@ export {
   formatDateLocalized,
 } from './formatDate';
 export { formatRelativeTime } from './formatTime';
+export type { DeepValueOf } from './deepValueOf';
 export {
   getNumberOfDate,
   getFirstDayOfMonth,
@@ -24,3 +25,13 @@ export {
   isSameYear,
 } from './calendar';
 export { formatNumber, formatNumberInTenThousands } from './formatNumber';
+
+export {
+  computeChartDataWithPercentage,
+  getAngleFromPercentage,
+  getCoordinatesFromAngle,
+  getSVGPathFromAngle,
+  getTextColor,
+} from './doughnut-chart';
+
+export { createPeriodTypeProvider } from './period-select';

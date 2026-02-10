@@ -1,7 +1,10 @@
 package com.checkmate.backend.domain.analysis.controller;
 
 import com.checkmate.backend.domain.analysis.dto.request.DashboardNameRequest;
+import com.checkmate.backend.domain.analysis.dto.request.LayoutUpdateRequest;
+import com.checkmate.backend.domain.analysis.dto.response.CardLayoutResponse;
 import com.checkmate.backend.domain.analysis.dto.response.DashboardResponse;
+import com.checkmate.backend.domain.analysis.service.DashboardLayoutService;
 import com.checkmate.backend.domain.analysis.service.DashboardService;
 import com.checkmate.backend.global.auth.LoginMember;
 import com.checkmate.backend.global.auth.MemberSession;
@@ -10,6 +13,7 @@ import com.checkmate.backend.global.response.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 public class DashboardController {
 
     private final DashboardService dashboardService;
+    private final DashboardLayoutService dashboardLayoutService;
 
     @Operation(summary = "대시보드 목록 조회 API (한울)", description = "매장의 모든 대시보드 탭을 조회합니다.")
     @ApiResponses({
@@ -100,5 +105,46 @@ public class DashboardController {
         dashboardService.deleteDashboard(member.storeId(), dashboardId);
 
         return ApiResponse.success_only(SuccessStatus.DASHBOARD_DELETE_SUCCESS);
+    }
+
+    @Operation(summary = "대시보드 레이아웃 편집 및 저장 API (한울)", description = "특정 대시보드 내의 지표 카드 배치를 저장합니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "레이아웃 저장에 성공했습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "400",
+                description = "위치 중복 또는 잘못된 카드 코드입니다.")
+    })
+    @PutMapping("/{dashboardId}/layout")
+    public ResponseEntity<ApiResponse<Long>> updateDashboardLayout(
+            @LoginMember MemberSession member,
+            @PathVariable Long dashboardId,
+            @Valid @RequestBody List<LayoutUpdateRequest> layoutUpdateRequests) {
+
+        Long updatedId =
+                dashboardLayoutService.updateLayout(
+                        member.storeId(), dashboardId, layoutUpdateRequests);
+
+        return ApiResponse.success(SuccessStatus.DASHBOARD_LAYOUT_UPDATE_SUCCESS, updatedId);
+    }
+
+    @Operation(summary = "대시보드 레이아웃 상세 조회 API (한울)", description = "특정 대시보드의 지표 카드 배치 정보를 조회합니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "레이아웃 조회에 성공했습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "대시보드를 찾을 수 없습니다.")
+    })
+    @GetMapping("/{dashboardId}/layout")
+    public ResponseEntity<ApiResponse<List<CardLayoutResponse>>> getDashboardLayout(
+            @LoginMember MemberSession member, @PathVariable Long dashboardId) {
+
+        List<CardLayoutResponse> response =
+                dashboardLayoutService.getLayout(member.storeId(), dashboardId);
+
+        return ApiResponse.success(SuccessStatus.DASHBOARD_LAYOUT_GET_SUCCESS, response);
     }
 }

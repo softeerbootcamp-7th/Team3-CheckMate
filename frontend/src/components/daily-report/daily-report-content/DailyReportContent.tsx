@@ -14,22 +14,24 @@ export const DailyReportContent = ({
 }: DailyReportContentProps) => {
   const content = DAILY_REPORT_CONTENT_DATA; // mock data 사용
 
+  const { title, status_label, kpi, insights, strategies } = content;
+
   return (
     <div className="bg-special-card-bg rounded-400 h-176.5 w-162 overflow-y-auto p-6">
       <div className="flex items-center justify-between">
-        <DailyReportTitle selectedDate={selectedDate} title={content.title} />
-        <DailyReportEvaluation status_label={content.status_label} />
+        <DailyReportTitle selectedDate={selectedDate} title={title} />
+        <DailyReportEvaluation status_label={status_label} />
       </div>
 
       <div className="mt-6 flex gap-5">
-        <DailyReportKPI kpi={content.kpi.net_sales} />
-        <DailyReportKPI kpi={content.kpi.orders} />
-        <DailyReportKPI kpi={content.kpi.aov} />
+        <DailyReportKPI kpi={kpi.net_sales} />
+        <DailyReportKPI kpi={kpi.orders} />
+        <DailyReportKPI kpi={kpi.aov} />
       </div>
 
       <div className="mt-10 grid grid-cols-2 gap-5">
-        <DailyReportInsight insights={content.insights} />
-        <DailyReportStrategy strategies={content.strategies} />
+        <DailyReportInsight insights={insights} />
+        <DailyReportStrategy strategies={strategies} />
       </div>
     </div>
   );

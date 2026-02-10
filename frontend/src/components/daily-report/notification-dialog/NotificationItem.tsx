@@ -1,7 +1,6 @@
+import { Badge } from '@/components/shared';
 import type { Notification } from '@/types/daily-report';
 import { formatRelativeTime } from '@/utils/shared';
-
-import { Badge } from '../../shared';
 
 interface NotificationItemProps {
   notification: Notification;

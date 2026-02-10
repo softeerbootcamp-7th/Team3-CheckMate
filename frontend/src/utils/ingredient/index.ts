@@ -1,0 +1,1 @@
+export { checkValidation } from './checkValidation';

@@ -80,6 +80,10 @@ public enum ErrorStatus {
     DUPLICATE_DASHBOARD_NAME(HttpStatus.BAD_REQUEST, "이미 존재하는 대시보드 이름입니다."),
     DEFAULT_DASHBOARD_MODIFICATION_RESTRICTED(HttpStatus.BAD_REQUEST, "기본 대시보드는 수정할 수 없습니다."),
     DEFAULT_DASHBOARD_DELETE_RESTRICTED(HttpStatus.BAD_REQUEST, "기본 대시보드는 삭제할 수 없습니다."),
+    DUPLICATE_CARD_TYPE(HttpStatus.BAD_REQUEST, "중복된 카드 타입이 존재합니다."),
+    INVALID_DASHBOARD_CARD_POSITION(HttpStatus.BAD_REQUEST, "유효하지 않은 카드 위치입니다."),
+    DUPLICATE_CARD_POSITION(HttpStatus.BAD_REQUEST, "카드 위치가 겹칩니다."),
+    INVALID_CARD_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 카드 타입입니다."),
 
     // 403
     DASHBOARD_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 대시보드에 접근할 권한이 없습니다."),

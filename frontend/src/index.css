@@ -159,8 +159,36 @@
       @apply body-medium-semibold text-grey-700;
     }
   }
-}
 
+  .onboarding-layout {
+    @apply grid size-full;
+
+    grid-template:
+      'sidebar main' 1fr
+      'sidebar footer' 6.25rem / 18.75rem 1fr;
+  }
+
+  .onboarding-sidebar {
+    grid-area: sidebar;
+  }
+
+  .onboarding-main {
+    grid-area: main;
+  }
+
+  .onboarding-footer {
+    grid-area: footer;
+  }
+}
+@utility no-spinner {
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
 @utility headline-large {
   font-size: 2.625rem; /* 42px */
   line-height: 3.6875rem; /* 59px */

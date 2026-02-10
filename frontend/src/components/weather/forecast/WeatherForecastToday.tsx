@@ -5,7 +5,7 @@ export const WeatherForecastToday = () => {
   const { mainText, subText, weatherAlert } = mockTodayForecastData;
   return (
     <DefaultCardWrapper title="오늘 날씨 예보" width={340} height={228}>
-      <div className="flex flex-col gap-[6px]">
+      <div className="flex flex-col gap-1.5">
         {weatherAlert && (
           <div className="absolute top-5 right-5 flex flex-col items-center">
             <img src={weatherAlert.iconPath} className="size-15" />
