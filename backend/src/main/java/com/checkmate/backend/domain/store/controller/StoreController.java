@@ -36,6 +36,9 @@ public class StoreController {
                 responseCode = "201",
                 description = "매장 등록 성공했습니다."),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "400",
+                description = "이미 매장을 등록하셨습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "401",
                 description = "만료된 사업자 인증 토큰입니다."),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(

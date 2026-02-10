@@ -1,0 +1,1 @@
+export { CategoryRevenueChartLegend } from './CategoryRevenueChartLegend';

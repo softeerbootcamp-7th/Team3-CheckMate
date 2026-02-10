@@ -20,9 +20,6 @@ export const SignInMainSection = () => {
         </div>
         <SignInButton />
       </div>
-      <p className="body-medium-medium text-grey-500">
-        Copyright(C) CHECKMATE.ALL RIGHTS RESERVED.
-      </p>
     </section>
   );
 };

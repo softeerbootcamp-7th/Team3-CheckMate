@@ -1,8 +1,12 @@
+import { PAYMENT_METHOD_DATA } from '@/mocks/data/sales';
+
+import { SalesSourceChart } from './sales-source-chart';
+
 export const RevenueByPaymentMethod = () => {
   return (
-    <article className="card">
-      <h3>결제수단별 매출</h3>
-      <div>Types: 0</div>
-    </article>
+    <SalesSourceChart
+      title="결제수단별 매출"
+      salesSourceData={PAYMENT_METHOD_DATA}
+    />
   );
 };

@@ -5,28 +5,25 @@ interface CalendarHeaderProps {
   headerTitle: string;
   previousAriaLabel?: string;
   nextAriaLabel?: string;
-  handleClickPreviousMonth: () => void;
-  handleClickNextMonth: () => void;
+  handleClickPrevious: () => void;
+  handleClickNext: () => void;
 }
 
 export const CalendarHeader = ({
   headerTitle,
   previousAriaLabel = '이전으로 이동',
   nextAriaLabel = '다음으로 이동',
-  handleClickPreviousMonth,
-  handleClickNextMonth,
+  handleClickPrevious,
+  handleClickNext,
 }: CalendarHeaderProps) => {
   return (
     <div className="flex items-center justify-between p-350">
       <CalendarPreviousButton
-        onClick={handleClickPreviousMonth}
+        onClick={handleClickPrevious}
         ariaLabel={previousAriaLabel}
       />
       <span className="body-small-bold">{headerTitle}</span>
-      <CalendarNextButton
-        onClick={handleClickNextMonth}
-        ariaLabel={nextAriaLabel}
-      />
+      <CalendarNextButton onClick={handleClickNext} ariaLabel={nextAriaLabel} />
     </div>
   );
 };

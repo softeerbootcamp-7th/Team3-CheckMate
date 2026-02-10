@@ -75,11 +75,11 @@ public class MenuController {
     })
     @PostMapping("/{menu-id}/ingredients")
     public ResponseEntity<ApiResponse<Void>> addIngredientsToMenu(
-            @RequestAttribute("storeId") Long storeId,
+            @LoginMember MemberSession member,
             @PathVariable("menu-id") Long menuId,
             @RequestBody IngredientCreateRequestDTO ingredientCreateRequestDTO) {
 
-        menuService.addIngredientsToMenu(storeId, menuId, ingredientCreateRequestDTO);
+        menuService.addIngredientsToMenu(member.storeId(), menuId, ingredientCreateRequestDTO);
 
         return ApiResponse.success_only(INGREDIENT_CREATE_SUCCESS);
     }
@@ -102,9 +102,9 @@ public class MenuController {
     })
     @GetMapping
     public ResponseEntity<ApiResponse<List<MenuCategoryResponseDTO>>> getMenus(
-            @RequestAttribute("storeId") Long storeId) {
+            @LoginMember MemberSession member) {
 
-        List<MenuCategoryResponseDTO> response = menuService.getMenus(storeId);
+        List<MenuCategoryResponseDTO> response = menuService.getMenus(member.storeId());
 
         return ApiResponse.success(MENU_GET_SUCCESS, response);
     }
