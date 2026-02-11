@@ -86,7 +86,13 @@ public class StoreController {
 
     @Operation(
             summary = "포스 연동 시작 API (용범)",
-            description = "성공 시 data:success<br>" + "실패 시 data:fail")
+            description =
+                    "<연동 시작><br>"
+                            + "event: pos-connect<br>data: STARTED <br><br>"
+                            + "<연동 성공><br>"
+                            + "event: pos-connect<br>data: SUCCESS <br><br>"
+                            + "<연동 실패><br>"
+                            + "event: pos-connect<br>data: FAILURE ")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "200",
