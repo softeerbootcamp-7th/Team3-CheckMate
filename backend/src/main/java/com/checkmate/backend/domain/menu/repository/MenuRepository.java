@@ -3,6 +3,7 @@ package com.checkmate.backend.domain.menu.repository;
 import com.checkmate.backend.domain.analysis.dto.projection.MenuIdNameProjection;
 import com.checkmate.backend.domain.menu.entity.Menu;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,7 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
             "select new com.checkmate.backend.domain.analysis.dto.projection.MenuIdNameProjection(m.id, m.name) from Menu m"
                     + " where m.id in :menusIds")
     List<MenuIdNameProjection> findMenuIdAndNameByIds(@Param("menusIds") Set<Long> menusIds);
+
+    @Query("select menu from Menu menu" + " join fetch menu.store" + " where menu.id=:menuId")
+    Optional<Menu> findMenuByMenuIdWithStore(@Param("menuId") Long menuId);
 }

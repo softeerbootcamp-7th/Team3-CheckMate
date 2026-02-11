@@ -7,18 +7,11 @@ import lombok.Getter;
 @Getter
 public class MenuAnalysisContext extends AnalysisContext {
 
-    private final AnalysisCardCode analysisCardCode;
-    private final LocalDate startDate;
-    private final LocalDate endDate;
-
     public MenuAnalysisContext(
             Long storeId,
             AnalysisCardCode analysisCardCode,
             LocalDate startDate,
             LocalDate endDate) {
-        super(storeId);
-        this.analysisCardCode = analysisCardCode;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        super(storeId, analysisCardCode, startDate, endDate);
     }
 }

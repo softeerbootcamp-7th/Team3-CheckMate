@@ -1,4 +1,4 @@
-package com.checkmate.backend.domain.analysis.dto.response;
+package com.checkmate.backend.domain.analysis.dto.response.menu;
 
 import java.util.List;
 

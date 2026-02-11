@@ -1,10 +1,11 @@
-package com.checkmate.backend.domain.analysis.processor;
+package com.checkmate.backend.domain.analysis.processor.menu;
 
 import com.checkmate.backend.domain.analysis.context.MenuAnalysisContext;
 import com.checkmate.backend.domain.analysis.dto.projection.IngredientUsageProjection;
-import com.checkmate.backend.domain.analysis.dto.response.IngredientUsageResponse;
+import com.checkmate.backend.domain.analysis.dto.response.menu.IngredientUsageResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
+import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
 import com.checkmate.backend.domain.analysis.result.AnalysisResult;
 import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.menu.entity.Ingredient;

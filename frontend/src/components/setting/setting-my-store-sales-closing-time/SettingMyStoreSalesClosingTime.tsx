@@ -1,8 +1,10 @@
+interface SettingMyStoreSalesClosingTimeProps {
+  salesClosingTime: number;
+}
+
 export const SettingMyStoreSalesClosingTime = ({
   salesClosingTime,
-}: {
-  salesClosingTime: number;
-}) => {
+}: SettingMyStoreSalesClosingTimeProps) => {
   return (
     <article className="flex flex-col gap-4">
       <span className="body-large-semibold text-grey-900">매출 마감 시간</span>

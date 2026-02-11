@@ -24,6 +24,7 @@ export {
   getLastDateOfYear,
   isSameYear,
 } from './calendar';
+export { formatPriceWithComma } from './formatPriceWithComma';
 export { formatNumber, formatNumberInTenThousands } from './formatNumber';
 
 export {

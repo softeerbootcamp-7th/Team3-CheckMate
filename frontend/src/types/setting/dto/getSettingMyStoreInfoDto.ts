@@ -1,7 +1,3 @@
-import type { BusinessHour } from '@/types/shared';
+import type { StoreInfo } from '@/types/shared';
 
-export interface GetSettingMyStoreInfoResponseDto {
-  storeName: string;
-  salesClosingTime: number;
-  businessHours: BusinessHour[];
-}
+export type GetSettingMyStoreInfoResponseDto = StoreInfo;

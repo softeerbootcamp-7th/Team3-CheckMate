@@ -3,8 +3,8 @@ package com.checkmate.backend.domain.order.repository;
 import com.checkmate.backend.domain.analysis.dto.projection.IngredientUsageProjection;
 import com.checkmate.backend.domain.analysis.dto.projection.OrderMenusProjection;
 import com.checkmate.backend.domain.analysis.dto.projection.TimeSlotMenuOrderCountProjection;
-import com.checkmate.backend.domain.analysis.dto.response.CategorySalesResponse;
-import com.checkmate.backend.domain.analysis.dto.response.MenuSalesResponse;
+import com.checkmate.backend.domain.analysis.dto.response.menu.CategorySalesResponse;
+import com.checkmate.backend.domain.analysis.dto.response.menu.MenuSalesResponse;
 import com.checkmate.backend.domain.order.entity.Order;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +17,7 @@ public interface MenuAnalysisRepository extends JpaRepository<Order, Long> {
 
     /** MUN_01 (메뉴별 매출 랭킹) */
     @Query(
-            "select new com.checkmate.backend.domain.analysis.dto.response.MenuSalesResponse(m.name, sum(oi.lineGrossAmount), count(*))"
+            "select new com.checkmate.backend.domain.analysis.dto.response.menu.MenuSalesResponse(m.name, sum(oi.lineGrossAmount), count(*))"
                     + " from Order o"
                     + " join OrderItem oi on oi.order.id=o.id"
                     + " join oi.menuVersion mv"
@@ -32,7 +32,7 @@ public interface MenuAnalysisRepository extends JpaRepository<Order, Long> {
 
     /** MNU_02 (카테코리별 매출) */
     @Query(
-            "select new com.checkmate.backend.domain.analysis.dto.response.CategorySalesResponse(m.category, sum(oi.lineGrossAmount))"
+            "select new com.checkmate.backend.domain.analysis.dto.response.menu.CategorySalesResponse(m.category, sum(oi.lineGrossAmount))"
                     + " from Order o"
                     + " join OrderItem oi on oi.order.id=o.id"
                     + " join oi.menuVersion mv"

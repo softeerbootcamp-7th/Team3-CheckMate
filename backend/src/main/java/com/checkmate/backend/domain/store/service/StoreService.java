@@ -5,6 +5,7 @@ import static com.checkmate.backend.global.response.ErrorStatus.*;
 import com.checkmate.backend.domain.member.entity.Member;
 import com.checkmate.backend.domain.member.repository.MemberRepository;
 import com.checkmate.backend.domain.store.dto.request.StoreCreateRequestDTO;
+import com.checkmate.backend.domain.store.dto.response.StoreResponse;
 import com.checkmate.backend.domain.store.entity.BusinessHour;
 import com.checkmate.backend.domain.store.entity.Pos;
 import com.checkmate.backend.domain.store.entity.Store;
@@ -37,6 +38,10 @@ public class StoreService {
     private final BusinessJwtUtil businessJwtUtil;
     private final SseEmitterManager sseEmitterManager;
     private final PosRepository posRepository;
+    private static final String POS_CONNECT = "pos-connect";
+    private static final String POS_CONNECT_STARTED = "STARTED";
+    private static final String POS_CONNECT_SUCCESS = "SUCCESS";
+    private static final String POS_CONNECT_FAILURE = "FAILURE";
 
     /*
      * c
@@ -107,11 +112,14 @@ public class StoreService {
         if (emitter == null) throw new BadRequestException(SSE_CONNECTION_REQUIRED);
 
         try {
+            // 포스 연동 시작
+            emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_STARTED));
+
             int waitSeconds = 3 + ThreadLocalRandom.current().nextInt(5);
             TimeUnit.SECONDS.sleep(waitSeconds);
 
             if (!ThreadLocalRandom.current().nextBoolean()) {
-                emitter.send("fail");
+                emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_FAILURE));
                 return;
             }
 
@@ -130,9 +138,37 @@ public class StoreService {
 
             posRepository.save(pos);
 
-            emitter.send("success");
+            emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_SUCCESS));
         } catch (InterruptedException | IOException e) {
             log.warn("[connectPOS][storeId= {}, reason= {}]", storeId, e.getMessage());
         }
+    }
+
+    /*
+     * read
+     * */
+
+    /** 매장 정보 조회 */
+    public StoreResponse getStore(Long storeId) {
+
+        // 매장 조회
+        Store store =
+                storeRepository
+                        .findById(storeId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn("[getStore][store is not found][storeId={}]", storeId);
+                                    return new BadRequestException(STORE_NOT_FOUND_EXCEPTION);
+                                });
+
+        // 영업 시간 조회
+        List<StoreResponse.BusinessHourResponse> businessHours =
+                businessHourRepository.findBusinessHoursByStoreId(storeId).stream()
+                        .map(StoreResponse.BusinessHourResponse::of)
+                        .toList();
+
+        StoreResponse response = StoreResponse.of(store, businessHours);
+
+        return response;
     }
 }

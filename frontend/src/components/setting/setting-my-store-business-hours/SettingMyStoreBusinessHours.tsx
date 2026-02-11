@@ -16,7 +16,7 @@ export const SettingMyStoreBusinessHours = ({
     <article className="flex flex-col gap-3">
       <span className="body-large-semibold text-grey-900">매장 운영 시간</span>
 
-      <StoreBusinessHoursInputGrid />
+      <StoreBusinessHoursInputGrid readOnly={true} />
     </article>
   );
 };

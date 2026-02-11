@@ -20,6 +20,7 @@ interface StoreBusinessHoursRowProps {
   onSelectEndTime: (endTime: string) => void;
   onCheck24: (is24: boolean) => void;
   onCheckClosed: (closed: boolean) => void;
+  readOnly?: boolean;
 }
 
 export const StoreBusinessHoursRow = memo(
@@ -33,6 +34,7 @@ export const StoreBusinessHoursRow = memo(
     onSelectEndTime,
     onCheck24,
     onCheckClosed,
+    readOnly,
   }: StoreBusinessHoursRowProps) => {
     const { openTime, closeTime, is24, closed } = businessHour;
     return (
@@ -45,6 +47,7 @@ export const StoreBusinessHoursRow = memo(
             isOver24FromYesterday ? startHourTimeLimit : undefined
           }
           onSelect={onSelectStartTime}
+          readOnly={readOnly}
         />
         <span className="body-large-semibold text-grey-900 flex items-center justify-center leading-loose">
           ~
@@ -54,15 +57,18 @@ export const StoreBusinessHoursRow = memo(
           selectedTime={closeTime}
           startTimeLimit={endHourTimeLimit}
           onSelect={onSelectEndTime}
+          readOnly={readOnly}
         />
         <StoreBusinessCheckbox
           checked={is24 ?? false}
           onCheckedChange={onCheck24}
           className="mr-4"
+          readOnly={readOnly}
         />
         <StoreBusinessCheckbox
           checked={closed ?? false}
           onCheckedChange={onCheckClosed}
+          readOnly={readOnly}
         />
       </>
     );
