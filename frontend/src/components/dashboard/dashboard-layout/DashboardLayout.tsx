@@ -12,7 +12,7 @@ export const DashboardLayout = () => {
     <Tabs
       value={tabs[currentTabIndex]}
       onValueChange={(tabName) => setCurrentTabIndex(tabs.indexOf(tabName))}
-      className="mt-8"
+      className="mt-8 w-265"
     >
       <DashboardHeader />
       <DashboardMain />
