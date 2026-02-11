@@ -33,7 +33,7 @@ export const IngredientGrid = ({
   if (isPending) {
     return (
       <main className="flex-1 p-1">
-        <div className="!body-medium-semibold grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
+        <div className="body-medium-semibold! grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
           {Array.from({ length: 5 }).map((_, index) => (
             <IngredientSkeleton key={index} />
           ))}

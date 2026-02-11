@@ -60,7 +60,7 @@ export const IngredientEditInfoHeader = ({
       <Button
         onClick={onClickAddIngredient}
         type="button"
-        className="rounded-200 bg-grey-200 text-grey-700 flex h-9.5 gap-[6px] border-[1.5px] border-none px-350 py-200"
+        className="rounded-200 bg-grey-200 text-grey-700 flex h-9.5 gap-1.5 border-[1.5px] border-none px-350 py-200"
       >
         <Plus className="size-5" />
         식재료 추가

@@ -33,37 +33,25 @@ export const IngredientEditDialog = ({
       { ingredientId: '3', name: '딸기시럽', amount: '10', unit: 'ml' },
     ],
   };
-  const { formMethods, fieldArrayMethods, isIngredientRowEmpty } =
-    useIngredientForm({
-      ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
-    });
+  const {
+    formMethods,
+    fieldArrayMethods,
+    isIngredientRowEmpty,
+    handleAddIngredient,
+    handleRemoveIngredient,
+  } = useIngredientForm({
+    ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
+  });
 
   const { isAiRecommendPending, handleAiIngredientRecommend } =
     useAiIngredientRecommend({
       fieldArrayReplace: fieldArrayMethods.replace,
     });
 
-  const onClickDeleteIngredient = (index: number) => {
-    fieldArrayMethods.remove(index);
-  };
-  const onClickAddIngredient = () => {
-    fieldArrayMethods.append({
-      ingredientId: '',
-      name: '',
-      amount: '',
-      unit: '',
-    });
-  };
   const { onSubmit } = useIngredientEditSubmit({
     onOpenChange,
   });
 
-  const onClickSubmit = async () =>
-    //data: FormValues
-    {
-      // fetch() : fetch 작업 하기
-      onOpenChange(false); // 다이얼로그 닫기
-    };
   const onClickCancel = () => {
     onOpenChange(false);
   };
@@ -83,23 +71,25 @@ export const IngredientEditDialog = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <FormProvider {...formMethods}>
-        <DialogContent className="rounded-500 flex h-175 w-[1000px]! max-w-[1000px]! flex-col gap-0 border-none bg-gray-50 p-12.5 [&>button]:hidden">
-          <form onSubmit={formMethods.handleSubmit(onSubmit, onError)}>
+        {/** w-250, max-w-250 이렇게 tailwind 스타일로 하면 width 속성 적용 안됨. w-250은 tailwind에 없음 */}
+        <DialogContent className="rounded-500 h-175 w-[1000px]! max-w-[1000px]! gap-0 border-none bg-gray-50 p-12.5 [&>button]:hidden">
+          <form
+            className="flex h-full flex-col"
+            onSubmit={formMethods.handleSubmit(onSubmit, onError)}
+          >
             {/** 메뉴명과 취소, 저장 버튼 있는 행 */}
             <IngredientEditDialogHeader
-              onClickSubmit={onClickSubmit}
               onClickCancel={onClickCancel}
-              onError={onError}
               menuName={mockMenuIngredients.menu}
             />
 
-            <div className="bg-grey-300 mt-5.5 h-[2px]" />
+            <div className="bg-grey-300 mt-5.5 h-0.5" />
             <section className="mt-10 flex min-h-0 flex-1 flex-col gap-10">
               {/** 식재료 목록 영역 위 식재료 입력 관련 정보 및 버튼 행(AI자동완성, 식재료추가 버튼 등) */}
               <IngredientEditInfoHeader
                 isAiRecommendPending={isAiRecommendPending}
                 fields={fieldArrayMethods.fields}
-                onClickAddIngredient={onClickAddIngredient}
+                onClickAddIngredient={handleAddIngredient}
                 onClickAiIngredientRecommend={() => {
                   handleAiIngredientRecommend(mockMenuIngredients.menu);
                 }}
@@ -110,7 +100,7 @@ export const IngredientEditDialog = ({
                 isPending={isAiRecommendPending}
                 fields={fieldArrayMethods.fields}
                 isIngredientRowEmpty={isIngredientRowEmpty}
-                onClickDeleteIngredient={onClickDeleteIngredient}
+                onClickDeleteIngredient={handleRemoveIngredient}
               />
             </section>
           </form>
