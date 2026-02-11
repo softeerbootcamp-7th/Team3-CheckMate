@@ -53,10 +53,9 @@ export const Dots = ({
   return (
     <>
       {filteredCoordinate.map(([x, y], index) => {
-        const tooltipContentText = tooltipContent(
-          `${series.data.mainY[index].amount}${series.data.mainY[index].unit}`,
-          `${series.data.subY[index]?.amount}${series.data.subY[index]?.unit}`,
-        );
+        const mainYDatum = `${series.data.mainY[index].amount ?? ''}${series.data.mainY[index].unit ?? ''}`;
+        const subYDatum = `${series.data.subY[index]?.amount ?? ''}${series.data.subY[index]?.unit ?? ''}`;
+        const tooltipContentText = tooltipContent(mainYDatum, subYDatum);
         return (
           <Tooltip key={index}>
             <TooltipTrigger asChild>
