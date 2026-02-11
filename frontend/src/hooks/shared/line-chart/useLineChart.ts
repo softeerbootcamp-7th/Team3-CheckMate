@@ -40,9 +40,10 @@ export const useLineChart = ({
       ...(secondarySeries?.data.mainY.map((datum) => datum.amount) ?? []),
     ].flat();
 
-    const maximumAmount = Math.max(
-      ...totalData.filter((amount) => amount !== null).map(Number),
-    );
+    const maximumAmount =
+      totalData.length > 0
+        ? Math.max(...totalData.filter((amount) => amount !== null).map(Number))
+        : 10;
 
     const adjustedMaximumAmount =
       Math.ceil(Math.ceil(maximumAmount * 1.5) / 10) * 10;
