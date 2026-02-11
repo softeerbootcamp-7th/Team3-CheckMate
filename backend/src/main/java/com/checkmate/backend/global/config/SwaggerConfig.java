@@ -97,10 +97,11 @@ public class SwaggerConfig {
                                                                     operation.getResponses();
 
                                                             if (path.startsWith("/api")
-                                                                    || path.equals(
-                                                                            "/auth/status")
-                                                        || path.startsWith("/auth/refresh")
-                                                            || path.startsWith("/auth/logout")) {
+                                                                    || path.equals("/auth/status")
+                                                                    || path.startsWith(
+                                                                            "/auth/refresh")
+                                                                    || path.startsWith(
+                                                                            "/auth/logout")) {
                                                                 addJwtAuthErrors(responses);
                                                             }
 
