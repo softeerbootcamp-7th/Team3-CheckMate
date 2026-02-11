@@ -14,7 +14,7 @@ export const PeriodTag = ({ isAdded, period }: PeriodTagProps) => {
         isAdded
           ? 'border-grey-200 bg-grey-100 text-grey-900 border'
           : 'bg-grey-900 text-grey-50',
-        'caption-large-semibold rounded-unlimit px-250 py-100 text-center',
+        'caption-large-semibold rounded-unlimit w-fit px-250 py-100 text-center',
       )}
     >
       {period}

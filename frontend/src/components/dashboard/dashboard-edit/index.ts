@@ -1,1 +1,1 @@
-export { CardEditionDialogContent } from './CardEditionDialogContent';
+export { DashboardEditLayout } from './DashboardEditLayout';
