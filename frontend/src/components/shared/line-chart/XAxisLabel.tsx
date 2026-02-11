@@ -1,11 +1,12 @@
 import { memo } from 'react';
 
 import { LINE_CHART } from '@/constants/shared';
+import type { Coordinate } from '@/types/shared';
 
 interface XAxisLabelProps {
   viewBoxHeight: number;
   xLabelList: (string | number)[];
-  xCoordinate: number[][];
+  xCoordinate: Coordinate[];
 }
 
 export const XAxisLabel = memo(
@@ -13,7 +14,7 @@ export const XAxisLabel = memo(
     const { X_AXIS_LABEL_OFFSET } = LINE_CHART;
     return (
       <g className="flex justify-between">
-        {xCoordinate.map(([x], index) => (
+        {xCoordinate.map(({ x }, index) => (
           <text
             key={index}
             x={x ?? 0}

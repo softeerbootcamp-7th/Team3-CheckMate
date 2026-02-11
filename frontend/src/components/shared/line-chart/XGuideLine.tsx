@@ -1,9 +1,10 @@
 import { memo } from 'react';
 
 import { LINE_CHART } from '@/constants/shared';
+import type { Coordinate } from '@/types/shared';
 
 interface XGuideLineProps {
-  xCoordinate: number[][];
+  xCoordinate: Coordinate[];
   svgRect: DOMRect | null;
   adjustedHeight: number;
 }
@@ -18,13 +19,13 @@ export const XGuideLine = memo(
       LINE_CHART;
 
     const xGuideLinePathD = xCoordinate
-      .map(([x]) => {
+      .map(({ x }) => {
         return `M ${x} 0 v ${adjustedHeight - TICK_HEIGHT / 2}`;
       })
       .join(' ');
 
     const xGuideTickPathD = xCoordinate
-      .map(([x]) => {
+      .map(({ x }) => {
         return `M ${x} ${adjustedHeight - TICK_HEIGHT / 2} v ${TICK_HEIGHT}`;
       })
       .join(' ');
