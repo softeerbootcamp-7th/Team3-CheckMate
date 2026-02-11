@@ -14,7 +14,7 @@ export const YGuideLine = memo(
       return null;
     }
 
-    const { GUIDE_LINE_STROKE_WIDTH } = LINE_CHART;
+    const { GUIDE_LINE_STROKE_WIDTH, GUIDE_LINE_DASH_ARRAY } = LINE_CHART;
 
     const intervalY = adjustedHeight / yGuideLineCount;
 
@@ -37,7 +37,7 @@ export const YGuideLine = memo(
         d={pathD}
         strokeWidth={GUIDE_LINE_STROKE_WIDTH}
         stroke="currentColor"
-        strokeDasharray="4 4"
+        strokeDasharray={GUIDE_LINE_DASH_ARRAY}
         className="text-grey-300"
         aria-hidden="true"
       />

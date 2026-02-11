@@ -14,7 +14,8 @@ export const XGuideLine = memo(
       return null;
     }
 
-    const { TICK_HEIGHT, GUIDE_LINE_STROKE_WIDTH } = LINE_CHART;
+    const { TICK_HEIGHT, GUIDE_LINE_STROKE_WIDTH, GUIDE_LINE_DASH_ARRAY } =
+      LINE_CHART;
 
     const xGuideLinePathD = xCoordinate
       .map(([x]) => {
@@ -33,7 +34,7 @@ export const XGuideLine = memo(
           d={xGuideLinePathD}
           strokeWidth={GUIDE_LINE_STROKE_WIDTH}
           stroke="currentColor"
-          strokeDasharray="4 4"
+          strokeDasharray={GUIDE_LINE_DASH_ARRAY}
           className="text-grey-300"
           aria-hidden="true"
         />
