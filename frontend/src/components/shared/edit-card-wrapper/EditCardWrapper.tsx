@@ -17,7 +17,8 @@ interface EditCardWrapperProps {
   children: ReactNode;
   className?: string; // 전체 wrapper 크기나 보더 등 스타일
   period: string; // 오늘, 이번주, 이번달 등 문구
-
+  sizeX?: number; // 가로 크기
+  sizeY?: number; // 세로 크기
   onClickDeleteButton?: () => void; // 대시보드에서 삭제하는 버튼 클릭 헨들러
   onClickAddButton?: () => void; // 대시보드에 추가하는 버튼 클릭 핸들러
 }
@@ -26,6 +27,8 @@ export const EditCardWrapper = ({
   isAdded,
   children,
   className,
+  sizeX = 1,
+  sizeY = 1,
   period = '기간없음',
   onClickDeleteButton,
   onClickAddButton,
@@ -41,8 +44,12 @@ export const EditCardWrapper = ({
   return (
     <div
       style={{
-        width: Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth), // 최소 너비 220px
-        height: Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight), // 최소 높이 147px
+        width:
+          Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth) * sizeX +
+          20 * (sizeX - 1), // 최소 너비 220px, gap 20px
+        height:
+          Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight) * sizeY +
+          20 * (sizeY - 1), // 최소 높이 147px, gap 20px
       }}
       className={cn(
         'bg-special-card-bg rounded-400 border-grey-300 relative flex flex-col overflow-hidden border p-3',
