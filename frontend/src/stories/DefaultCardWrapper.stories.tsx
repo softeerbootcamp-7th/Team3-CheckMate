@@ -13,8 +13,6 @@ const meta: Meta<typeof DefaultCardWrapper> = {
     hasChevronRightIcon: { control: 'boolean' },
     onClickChevronRightIcon: { action: 'onClickChevronRightIcon' },
     className: { control: 'text' },
-    width: { control: { type: 'number', min: 0 } },
-    height: { control: { type: 'number', min: 0 } },
     children: { control: false },
   },
 };

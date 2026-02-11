@@ -6,11 +6,7 @@ import { WeatherPrecipitationOrderTypeRatioGraph } from './WeatherPrecipitationO
 export const WeatherPrecipitationOrderTypeRatio = () => {
   const { graphs: orderTypeRatioData } = mockPrecipitationOrderTypeRatio;
   return (
-    <DefaultCardWrapper
-      title="판매유형별 주문건수 비율"
-      width={340}
-      height={228}
-    >
+    <DefaultCardWrapper title="판매유형별 주문건수 비율">
       <div className="flex flex-col gap-2.5">
         {orderTypeRatioData.map((data) => {
           return (

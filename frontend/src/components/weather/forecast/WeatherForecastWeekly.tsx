@@ -6,7 +6,7 @@ import { WeatherForecastOneDayAmPmItem } from './WeatherForecastOneDayAmPmItem';
 export const WeatherForecastWeekly = () => {
   const oneDayAmPmForecastList = mockOneDayAmPmForecastList;
   return (
-    <DefaultCardWrapper title="주간 날씨 예보" width={1060} height={228}>
+    <DefaultCardWrapper title="주간 날씨 예보" className="w-265">
       <div className="mb-4 flex justify-between">
         {oneDayAmPmForecastList.map((oneDayAmPmForecast) => {
           return (

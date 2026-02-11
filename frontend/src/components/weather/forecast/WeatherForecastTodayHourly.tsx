@@ -6,7 +6,7 @@ import { WeatherForecastHourItem } from './WeatherForecastHourItem';
 export const WeatherForecastTodayHourly = () => {
   const hourlyForecastList = mockHourlyForecastList;
   return (
-    <DefaultCardWrapper title="오늘 시간별 예보" height={228} width={700}>
+    <DefaultCardWrapper title="오늘 시간별 예보" className="w-175">
       <div className="flex flex-col gap-5">
         <div className="mt-4.5 flex flex-1">
           {hourlyForecastList.map((hourForecast) => {

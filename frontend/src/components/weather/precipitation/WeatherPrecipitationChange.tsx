@@ -9,11 +9,7 @@ export const WeatherPrecipitationChange = () => {
   const { description, ordersChangePercentage, salesChangePercentage } =
     mockPrecipitationChange;
   return (
-    <DefaultCardWrapper
-      title="강수 주문수 및 매출 변화"
-      width={340}
-      height={228}
-    >
+    <DefaultCardWrapper title="강수 주문수 및 매출 변화">
       <div className="flex flex-col gap-10">
         <div className="mt-8 flex h-18.5 w-full justify-center gap-7">
           <WeatherPrecipitationChangeItem
