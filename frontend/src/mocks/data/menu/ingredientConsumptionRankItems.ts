@@ -5,7 +5,7 @@ export const ingredientConsumptionRankItems: IngredientConsumptionRank[] = [
     rank: 1,
     ingredientName:
       '매일 아침 목장에서 직송되어 더욱 신선하고 고소한 풍미가 일품인 프리미엄 유기농 저지방 우유',
-    usageAmount: 3920000000,
+    usageAmount: 999999999999,
     unit: 'ml',
   },
   {

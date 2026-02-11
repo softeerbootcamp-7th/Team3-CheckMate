@@ -1,6 +1,7 @@
 import { RankBadge } from '@/components/shared';
 import { MENU_SALES_RANK } from '@/constants/menu';
 import type { MenuSalesRank } from '@/types/menu';
+import { formatNumber } from '@/utils/shared';
 
 interface MenuSalesRankItemProps {
   rank: MenuSalesRank['rank'];
@@ -31,15 +32,13 @@ export const MenuSalesRankItem = ({
         {menuName}
       </td>
       <td className="text-grey-900 text-end">
-        <span className="truncate">
-          {totalSalesAmount.toLocaleString('ko-KR')}
-        </span>
+        <span className="truncate">{formatNumber(totalSalesAmount)}</span>
         <span>원</span>
       </td>
-      <td className="text-grey-600 w-20 max-w-20">
-        <div className="flex w-20 items-center justify-end pl-3">
+      <td className="text-grey-600 w-full">
+        <div className="flex items-center justify-end pl-3">
           <span className="block min-w-0 truncate">
-            {totalOrderCount.toLocaleString('ko-KR')}
+            {formatNumber(totalOrderCount)}
           </span>
           건
         </div>

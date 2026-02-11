@@ -13,9 +13,9 @@ export const MenuSalesRankTable = () => {
       {/* table-fixed 때문에 colgroup을 통해 각 열의 너비 조정 */}
       <colgroup>
         <col className="w-9" />
+        <col className="w-40" />
         <col className="w-auto" />
-        <col className="w-25" />
-        <col className="w-20" />
+        <col className="w-auto" />
       </colgroup>
       <thead>
         <tr className="sr-only">

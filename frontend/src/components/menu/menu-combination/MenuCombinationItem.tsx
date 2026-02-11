@@ -1,5 +1,6 @@
 import { RankBadge } from '@/components/shared';
 import type { MenuCombinationRank } from '@/types/menu';
+import { formatNumber } from '@/utils/shared';
 
 type MenuCombination = MenuCombinationRank['combinationRank'][number];
 
@@ -27,9 +28,9 @@ export const MenuCombinationItem = ({
       <span className="body-medium-semibold text-grey-900 grow truncate">
         {menuName}
       </span>
-      <div className="flex w-18 shrink-0 items-center justify-end gap-1">
+      <div className="flex w-35 shrink-0 items-center justify-end gap-1">
         <span className="text-grey-900 body-medium-semibold truncate">
-          {totalOrderCount.toLocaleString('ko-KR')}
+          {formatNumber(totalOrderCount)}
         </span>
         <span className="text-grey-500 body-medium-medium">회</span>
       </div>

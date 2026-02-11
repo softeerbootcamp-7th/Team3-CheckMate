@@ -1,5 +1,6 @@
 import { RankBadge } from '@/components/shared';
 import type { IngredientConsumptionRank } from '@/types/menu';
+import { formatNumber } from '@/utils/shared';
 
 interface IngredientConsumptionRankItemProps extends IngredientConsumptionRank {
   isHighlight: boolean;
@@ -20,12 +21,12 @@ export const IngredientConsumptionRankItem = ({
         variant={isHighlight ? 'highlight' : 'default'}
         className="size-7 shrink-0"
       />
-      <span className="body-medium-semibold text-grey-900 min-w-0 truncate">
+      <span className="body-medium-semibold text-grey-900 w-40 min-w-0 truncate">
         {ingredientName}
       </span>
-      <div className="flex w-25 shrink-0 items-center justify-end gap-1">
+      <div className="flex shrink-0 grow items-center justify-end gap-1">
         <span className="text-grey-900 body-medium-semibold truncate">
-          {usageAmount.toLocaleString('ko-KR')}
+          {formatNumber(usageAmount)}
         </span>
         <span className="text-grey-600 body-medium-medium">{unit}</span>
       </div>
