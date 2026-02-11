@@ -4,8 +4,11 @@ import com.checkmate.backend.domain.analysis.context.AnalysisContext;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.factory.AnalysisContextFactory;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
+import com.checkmate.backend.domain.analysis.result.AnalysisResult;
 import com.checkmate.backend.global.sse.SseEmitterManager;
+import com.checkmate.backend.global.sse.SseEventSender;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,7 @@ public class OrderEventHandler {
     private final SseEmitterManager sseEmitterManager;
     private final List<AnalysisProcessor<?>> processors;
     private final List<AnalysisContextFactory> contextFactories;
+    private final SseEventSender sseEventSender;
 
     // TODO 스레드 풀 따로 정의해볼 것
     @Async
@@ -47,13 +51,21 @@ public class OrderEventHandler {
             // 2. Processor 실행
             processors.stream()
                     .filter(p -> p.supports(topic))
-                    .forEach(p -> processSafely(p, context));
+                    .map(p -> processSafely(p, context))
+                    .filter(Objects::nonNull)
+                    .findFirst()
+                    .ifPresent(
+                            result ->
+                                    sseEventSender.send(
+                                            context.getStoreId(),
+                                            result.getCardCode(),
+                                            result.getPayload()));
         }
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends AnalysisContext> void processSafely(
+    private <T extends AnalysisContext> AnalysisResult processSafely(
             AnalysisProcessor<T> processor, AnalysisContext context) {
-        processor.process((T) context);
+        return processor.process((T) context);
     }
 }

@@ -29,7 +29,7 @@ const getHandler = [
         data: {
           email: 'john.doe@example.com',
           hasStore: mockDb.hasStore,
-          hasPosIntegration: mockDb.hasPosIntegration,
+          hasPosIntegration: true,
         },
       },
       {

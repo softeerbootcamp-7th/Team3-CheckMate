@@ -1,0 +1,1 @@
+export { SettingMyStoreName } from './SettingMyStoreName';

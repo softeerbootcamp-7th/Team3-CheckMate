@@ -1,0 +1,1 @@
+export { DailyReportContent } from './DailyReportContent';

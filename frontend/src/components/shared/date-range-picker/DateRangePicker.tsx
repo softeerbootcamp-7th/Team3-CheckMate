@@ -60,7 +60,7 @@ export const DateRangePicker = ({
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="shadow-card-floating rounded-400 bg-special-card-bg flex w-full gap-600 border-none p-4"
+        className="shadow-card-floating! rounded-400 bg-special-card-bg flex w-full gap-600 border-none p-4"
         aria-label={ariaLabel}
       >
         {CalendarFactory[dateRangePickerType]({

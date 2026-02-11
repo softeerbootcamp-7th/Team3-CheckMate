@@ -15,6 +15,9 @@ public enum ErrorStatus {
     VALIDATION_EXCEPTION(HttpStatus.BAD_REQUEST, "요청 값이 올바르지 않습니다."),
     BUSINESS_NUMBER_INVALID_EXCEPTION(HttpStatus.BAD_REQUEST, "유효하지 않은 사업자번호입니다."),
 
+    // 403
+    STORE_NOT_REGISTERED(HttpStatus.FORBIDDEN, "등록된 매장이 없습니다. 매장 등록 후 이용해주세요."),
+
     // 500
     INTERNAL_SERVER_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류가 발생했습니다."),
     ENCRYPTION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "암호화에 실패했습니다."),
@@ -55,6 +58,7 @@ public enum ErrorStatus {
 
     // 400
     SSE_CONNECTION_REQUIRED(HttpStatus.BAD_REQUEST, "포스 연동 전 SSE 연결이 필요합니다."),
+    STORE_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, "이미 매장을 등록하셨습니다."),
     // 404
     STORE_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "매장을 찾을 수 없습니다."),
 
@@ -66,8 +70,26 @@ public enum ErrorStatus {
     INGREDIENT_NOT_FUND_EXCEPTION(HttpStatus.NOT_FOUND, "식자재를 찾을 수 없습니다."),
 
     // 409
-    MENU_RECIPE_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 식자재(레시피)가 등록된 메뉴입니다.");
-    ;
+    MENU_RECIPE_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 식자재(레시피)가 등록된 메뉴입니다."),
+
+    /** Dashboard */
+    // 400
+    DASHBOARD_LIMIT_EXCEEDED(HttpStatus.BAD_REQUEST, "대시보드는 최대 5개까지 생성 가능합니다."),
+    INVALID_DASHBOARD_NAME(HttpStatus.BAD_REQUEST, "유효하지 않은 대시보드 이름입니다."),
+    DASHBOARD_NAME_TOO_LONG(HttpStatus.BAD_REQUEST, "대시보드 이름은 최대 6자까지 입력 가능합니다."),
+    DUPLICATE_DASHBOARD_NAME(HttpStatus.BAD_REQUEST, "이미 존재하는 대시보드 이름입니다."),
+    DEFAULT_DASHBOARD_MODIFICATION_RESTRICTED(HttpStatus.BAD_REQUEST, "기본 대시보드는 수정할 수 없습니다."),
+    DEFAULT_DASHBOARD_DELETE_RESTRICTED(HttpStatus.BAD_REQUEST, "기본 대시보드는 삭제할 수 없습니다."),
+    DUPLICATE_CARD_TYPE(HttpStatus.BAD_REQUEST, "중복된 카드 타입이 존재합니다."),
+    INVALID_DASHBOARD_CARD_POSITION(HttpStatus.BAD_REQUEST, "유효하지 않은 카드 위치입니다."),
+    DUPLICATE_CARD_POSITION(HttpStatus.BAD_REQUEST, "카드 위치가 겹칩니다."),
+    INVALID_CARD_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 카드 타입입니다."),
+
+    // 403
+    DASHBOARD_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 대시보드에 접근할 권한이 없습니다."),
+
+    // 404
+    DASHBOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "대시보드를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

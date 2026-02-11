@@ -3,8 +3,7 @@ import {
   getCurrentDate,
   getSundayOfWeek,
   isBetweenSelectedDate,
-  isEndDate,
-  isStartDate,
+  isSameDate,
 } from '@/utils/shared';
 
 import { CalendarDateCell } from './CalendarDateCell';
@@ -47,14 +46,14 @@ export const CalendarWeekGrid = ({
     const sundayOfStartDate = getSundayOfWeek(selectedStartDate);
     const isOnlyStartDateSelected = selectedStartDate && !selectedEndDate;
 
-    const isStart = isStartDate({
+    const isStart = isSameDate({
       currentDate,
-      selectedStartDate,
+      selectedDate: selectedStartDate,
     });
 
-    const isEnd = isEndDate({
+    const isEnd = isSameDate({
       currentDate,
-      selectedEndDate: isOnlyStartDateSelected
+      selectedDate: isOnlyStartDateSelected
         ? sundayOfStartDate
         : selectedEndDate,
     });

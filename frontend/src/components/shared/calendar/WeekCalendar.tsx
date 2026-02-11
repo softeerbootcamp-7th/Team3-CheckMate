@@ -45,8 +45,8 @@ export const WeekCalendar = ({
           headerTitle={headerTitle(currentDateForCalendar)}
           previousAriaLabel={previousAriaLabel}
           nextAriaLabel={nextAriaLabel}
-          handleClickPreviousMonth={handleMovePreviousMonth}
-          handleClickNextMonth={handleMoveNextMonth}
+          handleClickPrevious={handleMovePreviousMonth}
+          handleClickNext={handleMoveNextMonth}
         />
         <CalendarDayGrid />
         <CalendarWeekGrid

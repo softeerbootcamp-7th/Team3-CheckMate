@@ -44,6 +44,16 @@ public class StoreService {
 
     @Transactional
     public Long create(Long memberId, StoreCreateRequestDTO storeCreateRequestDTO) {
+
+        // 이미 매장 등록했는지 검증
+        storeRepository
+                .findStoreByMemberId(memberId)
+                .ifPresent(
+                        store -> {
+                            log.warn("[create][store already registered][memberId={}]", memberId);
+                            throw new BadRequestException(STORE_ALREADY_REGISTERED);
+                        });
+
         Member member =
                 memberRepository
                         .findById(memberId)
@@ -76,30 +86,16 @@ public class StoreService {
         Long storeId = storeRepository.save(store).getId();
 
         // 매장시간
-        Optional.ofNullable(storeCreateRequestDTO.businessHours())
-                .ifPresent(
-                        businessHours -> {
-                            List<BusinessHour> hours =
-                                    businessHours.stream()
-                                            .map(
-                                                    businessHour ->
-                                                            BusinessHour.builder() // 엔티티 변환
-                                                                    .day(
-                                                                            businessHour
-                                                                                    .dayOfWeek()
-                                                                                    .getKorean())
-                                                                    .openTime(
-                                                                            businessHour.openTime())
-                                                                    .closeTime(
-                                                                            businessHour
-                                                                                    .closeTime())
-                                                                    .closed(businessHour.closed())
-                                                                    .store(store)
-                                                                    .build())
-                                            .toList();
+        List<StoreCreateRequestDTO.BusinessHourRequest> businessHourRequests =
+                Optional.ofNullable(storeCreateRequestDTO.businessHourRequests())
+                        .orElseGet(List::of);
 
-                            businessHourRepository.saveAll(hours);
-                        });
+        List<BusinessHour> businessHours =
+                businessHourRequests.stream()
+                        .map((businessHourRequest) -> businessHourRequest.toEntity(store))
+                        .toList();
+
+        businessHourRepository.saveAll(businessHours);
 
         return storeId;
     }

@@ -27,6 +27,7 @@ public class Ingredient extends BaseTimeEntity {
     private Long id;
 
     private String name;
+    private String baseUnit;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id", foreignKey = @ForeignKey(NO_CONSTRAINT))

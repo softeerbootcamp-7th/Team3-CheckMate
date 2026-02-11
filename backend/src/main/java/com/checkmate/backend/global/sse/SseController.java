@@ -2,12 +2,14 @@ package com.checkmate.backend.global.sse;
 
 import static com.checkmate.backend.global.response.SuccessStatus.*;
 
-import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
+import com.checkmate.backend.global.auth.LoginMember;
+import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @RequiredArgsConstructor
 @Slf4j
 public class SseController {
-
     private final SseEmitterManager sseEmitterManager;
 
     @Operation(summary = "SSE 연결 API (용범)")
@@ -40,9 +41,10 @@ public class SseController {
                 responseCode = "500",
                 description = "서버 내부 오류가 발생했습니다.")
     })
-    @GetMapping("/connect")
-    public SseEmitter connect(@RequestAttribute Long storeId) {
-        log.info("[connect][storeId= {}]", storeId);
+    @GetMapping("/connection")
+    public SseEmitter connect(@LoginMember MemberSession member) {
+
+        Long storeId = member.storeId();
 
         SseEmitter emitter = new SseEmitter(0L);
 
@@ -94,15 +96,24 @@ public class SseController {
                 responseCode = "500",
                 description = "서버 내부 오류가 발생했습니다."),
     })
-    @PostMapping("/subscribe")
+    @PostMapping("/subscriptions")
     public ResponseEntity<ApiResponse<Void>> subscribe(
-            @RequestAttribute Long storeId, @RequestParam("topic") AnalysisCardCode topic) {
-        sseEmitterManager.subscribe(storeId, topic);
+            @LoginMember MemberSession member,
+            @Valid @RequestBody SubscriptionTopicsRequest subscriptionTopicsRequest) {
+
+        Long storeId = member.storeId();
+
+        sseEmitterManager.subscribe(storeId, subscriptionTopicsRequest);
 
         return ApiResponse.success_only(SSE_SUBSCRIBE_SUCCESS);
     }
 
-    @Operation(summary = "SSE 구독 해제 API (용범)")
+    @Operation(
+            summary = "SSE 구독 해제 API (용범)",
+            description =
+                    "RequestBody를 전달하지 않거나 topics가 비어있으면 "
+                            + "해당 store의 모든 SSE 구독을 해제합니다.<br> "
+                            + "특정 topic만 해제하려면 topics에 해당 topic을 포함하세요.")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "200",
@@ -111,34 +122,16 @@ public class SseController {
                 responseCode = "500",
                 description = "서버 내부 오류가 발생했습니다."),
     })
-    @PostMapping("/unsubscribe")
+    @DeleteMapping("/subscriptions")
     public ResponseEntity<ApiResponse<Void>> unsubscribe(
-            @RequestAttribute Long storeId, @RequestParam("topic") AnalysisCardCode topic) {
+            @LoginMember MemberSession member,
+            @RequestBody SubscriptionTopicsRequest subscriptionTopicsRequest) {
 
-        sseEmitterManager.unsubscribe(storeId, topic);
+        Long storeId = member.storeId();
 
-        log.info("[unsubscribe][storeId={}, topic={}]", storeId, topic);
+        sseEmitterManager.unsubscribe(storeId, subscriptionTopicsRequest);
 
         return ApiResponse.success_only(SSE_UNSUBSCRIBE_SUCCESS);
-    }
-
-    @Operation(summary = "모든 SSE 구독 해제 API (용범)")
-    @ApiResponses({
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "200",
-                description = "모든 SSE 구독 해제에 성공했습니다."),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "500",
-                description = "서버 내부 오류가 발생했습니다."),
-    })
-    @PostMapping("/unsubscribe/all")
-    public ResponseEntity<ApiResponse<Void>> unsubscribeAll(@RequestAttribute Long storeId) {
-
-        sseEmitterManager.unsubscribeAll(storeId);
-
-        log.info("[unsubscribeAll][storeId={}]", storeId);
-
-        return ApiResponse.success_only(SSE_UNSUBSCRIBE_ALL_SUCCESS);
     }
 
     @Operation(summary = "SSE 연결 종료 API")
@@ -150,11 +143,12 @@ public class SseController {
                 responseCode = "500",
                 description = "서버 내부 오류가 발생했습니다."),
     })
-    @PostMapping("/disconnect")
-    public ResponseEntity<ApiResponse<Void>> disconnect(@RequestAttribute Long storeId) {
+    @DeleteMapping("/connection")
+    public ResponseEntity<ApiResponse<Void>> disconnect(@LoginMember MemberSession member) {
+
+        Long storeId = member.storeId();
 
         sseEmitterManager.removeClient(storeId);
-        log.info("[disconnect][storeId={}]", storeId);
 
         return ApiResponse.success_only(SSE_DISCONNECT_SUCCESS);
     }

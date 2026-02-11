@@ -1,0 +1,2 @@
+export const ONE_HUNDRED_MILLION = 100000000;
+export const TEN_THOUSAND = 10000;
