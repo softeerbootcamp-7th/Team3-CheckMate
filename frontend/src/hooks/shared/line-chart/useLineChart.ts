@@ -1,7 +1,11 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 import type { LineChartSeries } from '@/types/shared';
-import { getCoordinate, getXCoordinate } from '@/utils/shared';
+import {
+  filterCoordinate,
+  getCoordinate,
+  getXCoordinate,
+} from '@/utils/shared';
 
 interface UseLineChartProps {
   primarySeries: LineChartSeries;
@@ -64,15 +68,13 @@ export const useLineChart = ({
   }, [svgRect, adjustedHeight, primarySeries, maximumY]);
 
   const lastXCoordinate = useMemo(() => {
-    const filteredCoordinate = primaryCoordinate.filter(
-      (point): point is number[] => point[1] !== null,
-    );
+    const filteredCoordinate = filterCoordinate(primaryCoordinate);
 
     if (filteredCoordinate.length === 0) {
       return 0;
     }
 
-    return filteredCoordinate[filteredCoordinate.length - 1][0];
+    return filteredCoordinate[filteredCoordinate.length - 1].x;
   }, [primaryCoordinate]);
 
   const secondaryCoordinate = useMemo(() => {
@@ -112,5 +114,6 @@ export const useLineChart = ({
     secondaryCoordinate,
     svgRef,
     xAxisRef,
+    filterCoordinate,
   };
 };

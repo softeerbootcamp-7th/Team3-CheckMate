@@ -4,13 +4,14 @@ import {
   TooltipTrigger,
 } from '@/components/shared/shadcn-ui';
 import { LINE_CHART } from '@/constants/shared';
-import type { LineChartSeries } from '@/types/shared';
+import type { Coordinate, LineChartSeries } from '@/types/shared';
+import { filterCoordinate } from '@/utils/shared';
 
 interface DotsProps {
   series: LineChartSeries;
   activeTooltip: boolean;
   tooltipContent: (...args: string[]) => string;
-  coordinate: (number | null)[][];
+  coordinate: Coordinate[];
   color: string;
 }
 
@@ -23,14 +24,11 @@ export const Dots = ({
 }: DotsProps) => {
   const { DOT_RADIUS } = LINE_CHART;
 
-  const filteredCoordinate: number[][] = coordinate.filter(
-    (point): point is number[] => point[1] !== null,
-  );
-
+  const filteredCoordinate = filterCoordinate(coordinate);
   if (!activeTooltip) {
     return (
       <>
-        {filteredCoordinate.map(([x, y], index) => (
+        {filteredCoordinate.map(({ x, y }, index) => (
           <circle
             key={index}
             cx={x}
@@ -52,7 +50,7 @@ export const Dots = ({
 
   return (
     <>
-      {filteredCoordinate.map(([x, y], index) => {
+      {filteredCoordinate.map(({ x, y }, index) => {
         const mainYDatum = `${series.data.mainY[index].amount ?? ''}${series.data.mainY[index].unit ?? ''}`;
         const subYDatum = `${series.data.subY[index]?.amount ?? ''}${series.data.subY[index]?.unit ?? ''}`;
         const tooltipContentText = tooltipContent(mainYDatum, subYDatum);

@@ -14,3 +14,8 @@ export interface LineChartSeries {
   data: LineChartData;
   color: string;
 }
+
+export interface Coordinate {
+  x: number;
+  y: number | null;
+}

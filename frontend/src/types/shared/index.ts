@@ -10,4 +10,5 @@ export type {
   LineChartDatum,
   LineChartData,
   LineChartSeries,
+  Coordinate,
 } from './line-chart';

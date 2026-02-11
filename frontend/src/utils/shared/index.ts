@@ -26,7 +26,7 @@ export {
 } from './calendar';
 export { formatPriceWithComma } from './formatPriceWithComma';
 export { formatNumber, formatNumberInTenThousands } from './formatNumber';
-export { getCoordinate, getXCoordinate } from './line-chart';
+export { getCoordinate, getXCoordinate, filterCoordinate } from './line-chart';
 
 export {
   computeChartDataWithPercentage,

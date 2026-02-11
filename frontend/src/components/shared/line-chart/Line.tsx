@@ -1,8 +1,9 @@
 import { LINE_CHART } from '@/constants/shared';
 import { useDrawLinePath, useLineAnimation } from '@/hooks/shared';
+import type { Coordinate } from '@/types/shared';
 
 interface LineProps {
-  coordinate: (number | null)[][];
+  coordinate: Coordinate[];
   color: string;
   hasGradient?: boolean;
   gradientId?: string;

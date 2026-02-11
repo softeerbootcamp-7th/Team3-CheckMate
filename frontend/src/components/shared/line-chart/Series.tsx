@@ -1,10 +1,11 @@
 import type { LineChartSeries } from '@/types/shared';
+import type { Coordinate } from '@/types/shared';
 
 import { Dots } from './Dots';
 import { Line } from './Line';
 
 interface SeriesProps {
-  coordinate: (number | null)[][];
+  coordinate: Coordinate[];
   color: string;
   hasGradient?: boolean;
   gradientId?: string;
