@@ -6,6 +6,7 @@ import { DashboardPage } from '@/pages/dashboard-page';
 
 export const dashboardRoutes: RouteObject = {
   path: ROUTE_PATHS.DASHBOARD.BASE,
+
   children: [
     {
       index: true,
@@ -14,6 +15,9 @@ export const dashboardRoutes: RouteObject = {
     {
       path: ROUTE_PATHS.DASHBOARD.EDIT,
       Component: DashboardEditPage,
+      handle: {
+        hideSidebar: true, // 대시보드 편집 페이지에서는 사이드바 숨김
+      },
     },
   ],
 };
