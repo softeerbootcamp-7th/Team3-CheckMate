@@ -4,3 +4,4 @@ export {
   type DashboardTabsDialogMode,
 } from './dashboardTabsDialogMode';
 export { MAX_DASHBOARD_TABS } from './maxDashboardTab';
+export { DASHBOARD_METRICS } from './dashboardMetric';
