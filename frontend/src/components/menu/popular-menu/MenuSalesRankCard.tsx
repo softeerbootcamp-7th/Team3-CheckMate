@@ -1,12 +1,13 @@
+import { DefaultCardWrapper } from '@/components/shared';
 import { ROUTE_PATHS } from '@/constants/shared';
 
-import { LoadMoreDataButton, MenuAnalysisCard } from '../shared';
+import { LoadMoreDataButton } from '../shared';
 
 import { MenuSalesRankTable } from './MenuSalesRankTable';
 
 export const MenuSalesRankCard = () => {
   return (
-    <MenuAnalysisCard
+    <DefaultCardWrapper
       aria-label="메뉴별 매출 랭킹"
       title="메뉴별 매출 랭킹"
       className="flex h-80 min-w-0 flex-1 flex-col"
@@ -17,6 +18,6 @@ export const MenuSalesRankCard = () => {
           path={`./${ROUTE_PATHS.ANALYSIS.MENU_SALES_RANK}`}
         />
       </div>
-    </MenuAnalysisCard>
+    </DefaultCardWrapper>
   );
 };

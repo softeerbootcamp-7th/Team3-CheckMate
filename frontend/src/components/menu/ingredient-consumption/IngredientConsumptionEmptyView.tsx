@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom';
 
+import { DefaultCardWrapper } from '@/components/shared';
 import { Button } from '@/components/shared/shadcn-ui';
 import { CDN_BASE_URL, ROUTE_PATHS } from '@/constants/shared';
 
-import { MenuAnalysisCard } from '../shared';
-
 export const IngredientConsumptionEmptyView = () => {
   return (
-    <MenuAnalysisCard
+    <DefaultCardWrapper
       aria-label="식재료 미등록"
       className="flex h-95.5 flex-col items-center justify-center gap-6"
     >
@@ -25,6 +24,6 @@ export const IngredientConsumptionEmptyView = () => {
       >
         <Link to={ROUTE_PATHS.SETTINGS}>식재료 등록하기</Link>
       </Button>
-    </MenuAnalysisCard>
+    </DefaultCardWrapper>
   );
 };
