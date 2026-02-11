@@ -5,15 +5,18 @@ interface StoreBusinessHourSelectTriggerProps {
   selectedTime?: string;
   isOpen: boolean;
   placeholder: string;
+  readOnly?: boolean;
 }
 
 export const StoreBusinessHourSelectTrigger = ({
   selectedTime,
   isOpen,
   placeholder,
+  readOnly,
 }: StoreBusinessHourSelectTriggerProps) => {
   return (
     <SelectTrigger
+      disabled={readOnly}
       className={cn(
         'rounded-150 bg-grey-100 body-medium-semibold! flex w-25 cursor-pointer items-center justify-end border-none px-250 py-200 [&_svg]:transition-transform [&_svg]:duration-200',
         selectedTime ? 'text-grey-900' : 'text-grey-400',

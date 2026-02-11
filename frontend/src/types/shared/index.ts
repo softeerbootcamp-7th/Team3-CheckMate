@@ -5,3 +5,4 @@ export type {
   DoughnutChartItem,
   DoughtnutChartItemWithPercentage,
 } from './doughnutChartItem';
+export type { StoreInfo } from './storeInfo';

@@ -14,7 +14,10 @@ export const ROUTE_PATHS = {
     WEATHER: 'weather',
   },
   DAILY_REPORT: '/daily-report',
-  SETTINGS: '/settings',
+  SETTINGS: {
+    BASE: '/settings',
+    INGREDIENT: 'ingredient',
+  },
   PRIVACY: '/privacy',
   TERMS: '/terms',
 };

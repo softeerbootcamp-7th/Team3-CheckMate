@@ -4,7 +4,7 @@ import { authorizedApi } from '../shared';
 
 export const getSettingMyStoreInfo = async () => {
   const { data } = await authorizedApi.get<GetSettingMyStoreInfoResponseDto>(
-    'api/setting/my-store-info',
+    '/api/setting/my-store-info',
   );
 
   return data;

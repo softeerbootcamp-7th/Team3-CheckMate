@@ -22,6 +22,7 @@ interface StoreBusinessHoursSelectProps {
   selectedTime?: string;
   startTimeLimit?: string;
   onSelect: (time: string) => void;
+  readOnly?: boolean;
 }
 
 export const StoreBusinessHoursSelect = memo(
@@ -30,6 +31,7 @@ export const StoreBusinessHoursSelect = memo(
     selectedTime,
     startTimeLimit,
     onSelect,
+    readOnly,
   }: StoreBusinessHoursSelectProps) => {
     const [showSelect, setShowSelect] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -79,6 +81,7 @@ export const StoreBusinessHoursSelect = memo(
           selectedTime={selectedTime}
           isOpen={isOpen}
           placeholder={placeholder}
+          readOnly={readOnly}
         />
         <SelectContent
           className="scrollbar-hidden rounded-150 max-h-54 w-25.5! overflow-y-auto border-none"
