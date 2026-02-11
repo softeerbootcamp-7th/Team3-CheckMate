@@ -29,8 +29,8 @@ export const getCoordinate = ({
     return {
       x: index * intervalX + offsetX,
       y:
-        series.data.mainY[index].amount === null ||
-        series.data.mainY[index].amount === undefined
+        series.data.mainY[index]?.amount === null ||
+        series.data.mainY[index]?.amount === undefined
           ? null
           : adjustedHeight -
             (Number(series.data.mainY[index].amount) / maximumY) *
