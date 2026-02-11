@@ -18,10 +18,10 @@ export const SidebarMenuItem = memo(({ menu }: SidebarMenuItemProps) => {
         className={({ isActive }) =>
           cn(
             isActive
-              ? 'text-brand-main body-medium-bold! bg-brand-20 [:svg]:text-brand-400'
-              : 'body-medium-medium! [:svg]:text-grey-600 text-grey-600',
+              ? 'text-brand-main body-medium-bold! bg-brand-20 [& > svg]:text-brand-400'
+              : 'body-medium-medium! [& > svg]:text-grey-600 text-grey-600',
 
-            `rounded-150 flex h-10 w-full cursor-pointer items-center justify-start gap-1.5 px-200 [:svg]:size-5.5`,
+            `rounded-150 [& > svg]:size-5.5 flex h-10 w-full cursor-pointer items-center justify-start gap-1.5 px-200`,
           )
         }
         to={menu.path}
