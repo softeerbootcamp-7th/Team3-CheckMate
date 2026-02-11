@@ -5,6 +5,7 @@ import static com.checkmate.backend.global.response.SuccessStatus.*;
 import com.checkmate.backend.domain.store.dto.request.BusinessVerifyRequestDTO;
 import com.checkmate.backend.domain.store.dto.request.StoreCreateRequestDTO;
 import com.checkmate.backend.domain.store.dto.response.BusinessVerifyResponseDTO;
+import com.checkmate.backend.domain.store.dto.response.StoreResponse;
 import com.checkmate.backend.domain.store.service.BusinessVerificationService;
 import com.checkmate.backend.domain.store.service.StoreService;
 import com.checkmate.backend.global.auth.LoginMember;
@@ -85,7 +86,13 @@ public class StoreController {
 
     @Operation(
             summary = "포스 연동 시작 API (용범)",
-            description = "성공 시 data:success<br>" + "실패 시 data:fail")
+            description =
+                    "<연동 시작><br>"
+                            + "event: pos-connect<br>data: STARTED <br><br>"
+                            + "<연동 성공><br>"
+                            + "event: pos-connect<br>data: SUCCESS <br><br>"
+                            + "<연동 실패><br>"
+                            + "event: pos-connect<br>data: FAILURE ")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "200",
@@ -102,5 +109,28 @@ public class StoreController {
         storeService.connectPOS(member.storeId());
 
         return ApiResponse.success_only(POS_CONNECT_START);
+    }
+
+    /*
+     * read
+     * */
+
+    @Operation(summary = "매장 정보 조회 API (용범)", description = "출력: StoreResponse")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "매장 정보 조회에 성공했습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = " 매장을 찾을 수 없습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류가 발생했습니다."),
+    })
+    @GetMapping
+    public ResponseEntity<ApiResponse<StoreResponse>> getStore(@LoginMember MemberSession member) {
+        StoreResponse response = storeService.getStore(member.storeId());
+
+        return ApiResponse.success(STORE_INFO_FETCH_SUCCESS, response);
     }
 }

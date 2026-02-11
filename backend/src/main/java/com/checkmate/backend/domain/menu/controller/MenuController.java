@@ -5,6 +5,7 @@ import static com.checkmate.backend.global.response.SuccessStatus.*;
 import com.checkmate.backend.domain.menu.dto.request.IngredientCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.request.MenuCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuCategoryResponseDTO;
+import com.checkmate.backend.domain.menu.dto.response.MenuRecipeResponse;
 import com.checkmate.backend.domain.menu.service.MenuService;
 import com.checkmate.backend.global.auth.LoginMember;
 import com.checkmate.backend.global.auth.MemberSession;
@@ -105,6 +106,27 @@ public class MenuController {
             @LoginMember MemberSession member) {
 
         List<MenuCategoryResponseDTO> response = menuService.getMenus(member.storeId());
+
+        return ApiResponse.success(MENU_GET_SUCCESS, response);
+    }
+
+    @Operation(summary = "메뉴 레시피 조회 API (용범)", description = "출력: MenuResponseDTO")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "메뉴 조회에 성공했습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "매장을 찾을 수 없습니다."),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류가 발생했습니다."),
+    })
+    @GetMapping("/{menu-id}/recipe")
+    public ResponseEntity<ApiResponse<MenuRecipeResponse>> getRecipe(
+            @LoginMember MemberSession member, @PathVariable("menu-id") Long menuId) {
+
+        MenuRecipeResponse response = menuService.getRecipe(member.storeId(), menuId);
 
         return ApiResponse.success(MENU_GET_SUCCESS, response);
     }

@@ -34,4 +34,14 @@ public enum Unit {
     public String baseUnitValue() {
         return baseUnit().value;
     }
+
+    /** value로 Unit 조회, 없으면 null 반환 */
+    public static Unit fromValue(String value) {
+        for (Unit unit : values()) {
+            if (unit.value.equalsIgnoreCase(value)) {
+                return unit;
+            }
+        }
+        return null;
+    }
 }
