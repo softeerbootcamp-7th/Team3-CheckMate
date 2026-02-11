@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { ChevronRight } from 'lucide-react';
 
@@ -7,7 +7,7 @@ import { cn } from '@/utils/shared';
 
 import { Button } from '../shadcn-ui';
 
-interface DefaultCardWrapperProps {
+interface DefaultCardWrapperProps extends ComponentProps<'article'> {
   children: ReactNode;
   title?: string;
   hasChevronRightIcon?: boolean;
@@ -25,6 +25,7 @@ export const DefaultCardWrapper = ({
   className,
   width = DEFAULT_CARD_WRAPPER_SIZE.width,
   height = DEFAULT_CARD_WRAPPER_SIZE.height,
+  ...props
 }: DefaultCardWrapperProps) => {
   return (
     <article
@@ -33,6 +34,7 @@ export const DefaultCardWrapper = ({
         'bg-special-card-bg rounded-400 relative flex flex-col justify-between p-5',
         className,
       )}
+      {...props}
     >
       {(title || hasChevronRightIcon) && (
         <div className="text-grey-700 relative flex items-center">
