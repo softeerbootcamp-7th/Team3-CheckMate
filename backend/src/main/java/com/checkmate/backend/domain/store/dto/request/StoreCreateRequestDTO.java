@@ -4,6 +4,7 @@ import com.checkmate.backend.domain.store.entity.BusinessHour;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.enums.DayOfWeekType;
 import com.checkmate.backend.domain.store.validator.ValidWeeklyBusinessHours;
+import com.checkmate.backend.global.util.TimeUtil;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -42,10 +43,13 @@ public record StoreCreateRequestDTO(
                     boolean open24Hours) {
 
         public BusinessHour toEntity(Store store) {
+            boolean closesNextDay = !open24Hours && !closed && TimeUtil.isNextDay(openTime, closeTime);
+
             return BusinessHour.builder()
                     .day(dayOfWeek().getKorean())
                     .openTime(openTime())
                     .closeTime(closeTime())
+                    .closesNextDay(closesNextDay)
                     .closed(closed())
                     .open24Hours(open24Hours())
                     .store(store)
