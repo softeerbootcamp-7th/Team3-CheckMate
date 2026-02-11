@@ -66,7 +66,7 @@ public class DashboardController {
                                         @ExampleObject(
                                                 name = "생성 성공",
                                                 value =
-                                                        "{ \"success\": true, \"message\": \"대시보드 생성에 성공했습니다.\", \"data\": 1 }"))),
+                                                        "{ \"success\": true, \"message\": \"대시보드 등록에 성공했습니다.\", \"data\": 1 }"))),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "400",
                 description = "대시보드 생성 실패 (제약 조건 위반)",
@@ -159,7 +159,19 @@ public class DashboardController {
                                                 name = "권한 부족",
                                                 summary = "타 매장 대시보드 접근",
                                                 value =
-                                                        "{ \"success\": false, \"message\": \"해당 대시보드에 접근할 권한이 없습니다.\", \"errorCode\": \"DASHBOARD_ACCESS_DENIED\" }")))
+                                                        "{ \"success\": false, \"message\": \"해당 대시보드에 접근할 권한이 없습니다.\", \"errorCode\": \"DASHBOARD_ACCESS_DENIED\" }"))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "대시보드 없음",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "대상 미존재",
+                                                summary = "존재하지 않는 대시보드 ID",
+                                                value =
+                                                        "{ \"success\": false, \"message\": \"대시보드를 찾을 수 없습니다.\", \"errorCode\": \"DASHBOARD_NOT_FOUND\" }")))
     })
     @PatchMapping("/{dashboardId}/name")
     public ResponseEntity<ApiResponse<Void>> updateDashboardName(
@@ -209,7 +221,19 @@ public class DashboardController {
                                                 name = "권한 부족",
                                                 summary = "타 매장 대시보드 삭제 시도",
                                                 value =
-                                                        "{ \"success\": false, \"message\": \"해당 대시보드에 접근할 권한이 없습니다.\", \"errorCode\": \"DASHBOARD_ACCESS_DENIED\" }")))
+                                                        "{ \"success\": false, \"message\": \"해당 대시보드에 접근할 권한이 없습니다.\", \"errorCode\": \"DASHBOARD_ACCESS_DENIED\" }"))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "대시보드 없음",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "대상 미존재",
+                                                summary = "존재하지 않는 대시보드 ID",
+                                                value =
+                                                        "{ \"success\": false, \"message\": \"대시보드를 찾을 수 없습니다.\", \"errorCode\": \"DASHBOARD_NOT_FOUND\" }")))
     })
     @DeleteMapping("/{dashboardId}")
     public ResponseEntity<ApiResponse<Void>> deleteDashboard(
