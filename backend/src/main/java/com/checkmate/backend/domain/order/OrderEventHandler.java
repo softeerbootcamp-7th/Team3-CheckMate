@@ -1,10 +1,7 @@
 package com.checkmate.backend.domain.order;
 
-import com.checkmate.backend.domain.analysis.context.AnalysisContext;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
-import com.checkmate.backend.domain.analysis.factory.AnalysisContextFactory;
-import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
-import com.checkmate.backend.domain.analysis.result.AnalysisResult;
+import com.checkmate.backend.domain.analysis.presenter.DashboardAnalysisPresenter;
 import com.checkmate.backend.global.sse.SseEmitterManager;
 import com.checkmate.backend.global.sse.SseEventSender;
 import java.util.List;
@@ -22,8 +19,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class OrderEventHandler {
     private final SseEmitterManager sseEmitterManager;
-    private final List<AnalysisProcessor<?>> processors;
-    private final List<AnalysisContextFactory> contextFactories;
+    private final List<DashboardAnalysisPresenter> presenters;
     private final SseEventSender sseEventSender;
 
     // TODO 스레드 풀 따로 정의해볼 것
@@ -34,38 +30,12 @@ public class OrderEventHandler {
         Set<AnalysisCardCode> topics = sseEmitterManager.getSubscribedTopics(event.storeId());
 
         for (AnalysisCardCode topic : topics) {
-
-            // 1. Context 생성
-            AnalysisContext context =
-                    contextFactories.stream()
-                            .filter(f -> f.supports(topic))
-                            .findFirst()
-                            .map(f -> f.create(topic, event))
-                            .orElse(null);
-
-            if (context == null) {
-                log.error("[handle][No AnalysisContextFactory found.][topic={}]", topic);
-                continue;
-            }
-
-            // 2. Processor 실행
-            processors.stream()
+            presenters.stream()
                     .filter(p -> p.supports(topic))
-                    .map(p -> processSafely(p, context))
+                    .map(p -> p.present(topic))
                     .filter(Objects::nonNull)
                     .findFirst()
-                    .ifPresent(
-                            result ->
-                                    sseEventSender.send(
-                                            context.getStoreId(),
-                                            result.getCardCode(),
-                                            result.getPayload()));
+                    .ifPresent(response -> sseEventSender.send(event.storeId(), topic, response));
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T extends AnalysisContext> AnalysisResult processSafely(
-            AnalysisProcessor<T> processor, AnalysisContext context) {
-        return processor.process((T) context);
     }
 }
