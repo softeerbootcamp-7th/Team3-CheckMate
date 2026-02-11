@@ -7,12 +7,14 @@ import com.checkmate.backend.domain.member.service.MemberService;
 import com.checkmate.backend.global.auth.LoginMember;
 import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.exception.BadRequestException;
-import com.checkmate.backend.global.exception.UnauthorizedException;
 import com.checkmate.backend.global.response.ApiResponse;
 import com.checkmate.backend.global.response.ErrorStatus;
 import com.checkmate.backend.global.response.SuccessStatus;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
@@ -50,7 +52,7 @@ public class AuthController {
     private final MemberService memberService;
 
     @Operation(
-            summary = "구글 로그인 리다이렉트 API",
+            summary = "구글 로그인 리다이렉트 API (한울)",
             description = "구글 로그인 페이지로 리다이렉트합니다. (redirect_url 파라미터는 선택사항)")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
@@ -58,7 +60,16 @@ public class AuthController {
                 description = "구글 로그인 페이지로 리다이렉트 성공"),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "500",
-                description = "서버 내부 오류가 발생했습니다.")
+                description = "서버 내부 오류가 발생했습니다.",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "서버 내부 오류",
+                                                summary = "예상치 못한 서버 오류",
+                                                value =
+                                                        "{ \"success\": false, \"message\": \"서버 내부 오류가 발생했습니다.\", \"errorCode\": \"INTERNAL_SERVER_EXCEPTION\" }")))
     })
     @GetMapping("/google")
     public String redirectToGoogle(
@@ -90,27 +101,61 @@ public class AuthController {
     }
 
     @Operation(
-            summary = "구글 로그인 콜백 API",
+            summary = "구글 로그인 콜백 API (한울)",
             description = "구글 인증 코드를 받아 액세스 토큰을 발급하고, 리프레시 토큰을 쿠키에 설정합니다.")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "200",
-                description = "구글 로그인에 성공했습니다."),
+                description = "구글 로그인 성공",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "성공 응답 예시",
+                                                value =
+                                                        "{ \"success\": true, \"message\": \"구글 로그인에 성공했습니다.\", \"data\": { \"accessToken\": \"eyJ...\" } }"))),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "400",
-                description = "유효하지 않은 OAuth state 파라미터입니다."),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "400",
-                description = "유효하지 않은 ID 토큰입니다."),
+                description = "클라이언트 요청 오류",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples = {
+                                    @ExampleObject(
+                                            name = "유효하지 않은 OAuth state",
+                                            summary = "OAuth state 파라미터 검증 실패",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"유효하지 않은 OAuth state 파라미터입니다.\", \"errorCode\": \"INVALID_OAUTH_STATE\" }"),
+                                    @ExampleObject(
+                                            name = "유효하지 않은 ID 토큰",
+                                            summary = "ID 토큰 형식 또는 내용 오류",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"유효하지 않은 ID 토큰입니다.\", \"errorCode\": \"INVALID_ID_TOKEN\" }")
+                                })),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "500",
-                description = "구글 토큰 교환에 실패했습니다."),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "500",
-                description = "ID 토큰 검증에 실패했습니다."),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "500",
-                description = "서버 내부 오류가 발생했습니다.")
+                description = "서버 내부 오류",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples = {
+                                    @ExampleObject(
+                                            name = "구글 토큰 교환 실패",
+                                            summary = "구글 인증 코드 -> 토큰 교환 과정 실패",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"구글 토큰 교환에 실패했습니다.\", \"errorCode\": \"GOOGLE_TOKEN_EXCHANGE_FAILED\" }"),
+                                    @ExampleObject(
+                                            name = "ID 토큰 검증 실패",
+                                            summary = "구글로부터 받은 ID 토큰 검증 실패",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"ID 토큰 검증에 실패했습니다.\", \"errorCode\": \"ID_TOKEN_VERIFICATION_FAILED\" }"),
+                                    @ExampleObject(
+                                            name = "일반 서버 내부 오류",
+                                            summary = "예상치 못한 서버 오류",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"서버 내부 오류가 발생했습니다.\", \"errorCode\": \"INTERNAL_SERVER_EXCEPTION\" }")
+                                }))
     })
     @GetMapping("/google/callback")
     @ResponseBody
@@ -145,36 +190,65 @@ public class AuthController {
                                 new LoginResponse(authToken.accessToken())));
     }
 
-    @Operation(summary = "액세스 토큰 재발행 API", description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급합니다.")
+    @Operation(summary = "액세스 토큰 재발행 API (한울)", description = "리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급합니다.")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "200",
-                description = "액세스 토큰 재발행에 성공했습니다."),
+                description = "토큰 재발급 성공",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "성공 응답 예시",
+                                                value =
+                                                        "{ \"success\": true, \"message\": \"토큰 재발급에 성공했습니다.\", \"data\": { \"accessToken\": \"eyJ...\" } }"))),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "401",
-                description = "리프레시 토큰이 존재하지 않습니다."),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "401",
-                description = "유효하지 않은 리프레시 토큰입니다."),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "401",
-                description = "만료된 리프레시 토큰입니다."),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "401",
-                description = "저장된 리프레시 토큰과 일치하지 않습니다."),
+                description = "인증 실패 (토큰 오류)",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples = {
+                                    @ExampleObject(
+                                            name = "토큰 누락",
+                                            summary = "리프레시 토큰 없음",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"리프레시 토큰이 존재하지 않습니다.\", \"errorCode\": \"REFRESH_TOKEN_NOT_FOUND\" }"),
+                                    @ExampleObject(
+                                            name = "토큰 불일치",
+                                            summary = "저장된 토큰과 다름",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"저장된 리프레시 토큰과 일치하지 않습니다.\", \"errorCode\": \"REFRESH_TOKEN_MISMATCH\" }"),
+                                    @ExampleObject(
+                                            name = "유효하지 않은 토큰",
+                                            summary = "토큰 형식이 잘못됨",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"유효하지 않은 리프레시 토큰입니다.\", \"errorCode\": \"INVALID_REFRESH_TOKEN\" }"),
+                                    @ExampleObject(
+                                            name = "토큰 만료",
+                                            summary = "리프레시 토큰 기한 만료",
+                                            value =
+                                                    "{ \"success\": false, \"message\": \"만료된 리프레시 토큰입니다.\", \"errorCode\": \"EXPIRED_REFRESH_TOKEN\" }")
+                                })),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",
-                description = "해당 사용자를 찾을 수 없습니다.")
+                description = "사용자 없음",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "대상 미존재",
+                                                summary = "해당 사용자를 찾을 수 없음",
+                                                value =
+                                                        "{ \"success\": false, \"message\": \"해당 사용자를 찾을 수 없습니다.\", \"errorCode\": \"MEMBER_NOT_FOUND_EXCEPTION\" }")))
     })
     @PostMapping("/refresh")
     @ResponseBody
     public ResponseEntity<ApiResponse<LoginResponse>> refreshAccessToken(
-            @CookieValue(value = "refresh_token", required = false) String refreshToken) {
-
-        if (refreshToken == null || refreshToken.isEmpty()) {
-            throw new UnauthorizedException(ErrorStatus.REFRESH_TOKEN_NOT_FOUND);
-        }
-
+            @Parameter(hidden = true) @CookieValue(value = "refresh_token", required = false)
+                    String refreshToken) {
         String newAccessToken = memberService.refreshAccessToken(refreshToken);
 
         return ResponseEntity.ok()
@@ -185,18 +259,32 @@ public class AuthController {
     }
 
     @Operation(
-            summary = "사용자 상태 조회 API",
+            summary = "사용자 상태 조회 API (한울)",
             description = "현재 로그인한 사용자의 이메일, 매장 등록 여부, POS 연동 여부를 조회합니다.")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "200",
-                description = "사용자 상태 조회에 성공했습니다."),
-        @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                responseCode = "401",
-                description = "인증되지 않은 사용자입니다."),
+                description = "사용자 상태 조회 성공",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "성공 응답 예시",
+                                                value =
+                                                        "{ \"success\": true, \"message\": \"사용자 상태 조회에 성공했습니다.\", \"data\": { \"email\": \"user@example.com\", \"hasStore\": true, \"hasPosIntegration\": false } }"))),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",
-                description = "해당 사용자를 찾을 수 없습니다.")
+                description = "조회 실패",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "사용자 없음",
+                                                summary = "존재하지 않는 사용자",
+                                                value =
+                                                        "{ \"success\": false, \"message\": \"해당 사용자를 찾을 수 없습니다.\", \"errorCode\": \"MEMBER_NOT_FOUND_EXCEPTION\" }")))
     })
     @GetMapping("/status")
     @ResponseBody

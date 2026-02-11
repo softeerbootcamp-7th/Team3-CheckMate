@@ -136,6 +136,10 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public String refreshAccessToken(String refreshToken) {
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            throw new UnauthorizedException(ErrorStatus.REFRESH_TOKEN_NOT_FOUND);
+        }
+
         // 리프레시 토큰 검증
         jwtUtil.validateRefreshToken(refreshToken);
 
