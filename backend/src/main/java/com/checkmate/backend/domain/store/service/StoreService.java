@@ -38,6 +38,10 @@ public class StoreService {
     private final BusinessJwtUtil businessJwtUtil;
     private final SseEmitterManager sseEmitterManager;
     private final PosRepository posRepository;
+    private static final String POS_CONNECT = "pos-connect";
+    private static final String POS_CONNECT_STARTED = "STARTED";
+    private static final String POS_CONNECT_SUCCESS = "SUCCESS";
+    private static final String POS_CONNECT_FAILURE = "FAILURE";
 
     /*
      * c
@@ -108,11 +112,14 @@ public class StoreService {
         if (emitter == null) throw new BadRequestException(SSE_CONNECTION_REQUIRED);
 
         try {
+            // 포스 연동 시작
+            emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_STARTED));
+
             int waitSeconds = 3 + ThreadLocalRandom.current().nextInt(5);
             TimeUnit.SECONDS.sleep(waitSeconds);
 
             if (!ThreadLocalRandom.current().nextBoolean()) {
-                emitter.send("fail");
+                emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_FAILURE));
                 return;
             }
 
@@ -131,7 +138,7 @@ public class StoreService {
 
             posRepository.save(pos);
 
-            emitter.send("success");
+            emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_SUCCESS));
         } catch (InterruptedException | IOException e) {
             log.warn("[connectPOS][storeId= {}, reason= {}]", storeId, e.getMessage());
         }
