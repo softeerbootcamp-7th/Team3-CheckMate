@@ -21,7 +21,7 @@ export const IngredientConsumptionRankItem = ({
         variant={isHighlight ? 'highlight' : 'default'}
         className="size-7 shrink-0"
       />
-      <span className="body-medium-semibold text-grey-900 w-40 min-w-0 truncate">
+      <span className="body-medium-semibold text-grey-900 w-60 min-w-0 truncate">
         {ingredientName}
       </span>
       <div className="flex shrink-0 grow items-center justify-end gap-1">
