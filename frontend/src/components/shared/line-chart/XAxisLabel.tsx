@@ -21,7 +21,7 @@ export const XAxisLabel = memo(
             textAnchor="middle"
             className="text-grey-900 body-small-medium"
           >
-            <tspan>{xLabelList[index]}</tspan>
+            {xLabelList[index]}
           </text>
         ))}
       </g>
