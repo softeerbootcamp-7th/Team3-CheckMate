@@ -102,6 +102,8 @@ export const LineChart = ({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      width={viewBoxWidth}
+      height={viewBoxHeight}
       viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
       ref={svgRef}
       role="graphics-document"
