@@ -1,0 +1,1 @@
+export { PeriodTag } from './PeriodTag';
