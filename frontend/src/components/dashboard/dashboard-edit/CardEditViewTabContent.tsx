@@ -9,7 +9,7 @@ export const CardEditViewTabContent = ({
   sections,
 }: CardEditViewTabContentProps) => {
   return (
-    <main className="overflow-y-auto">
+    <main className="overflow-y-auto pb-10">
       {sections.map((section) => (
         <div key={section.title} className="mb-10">
           <h2 className="title-small-bold text-grey-900 mt-10">
