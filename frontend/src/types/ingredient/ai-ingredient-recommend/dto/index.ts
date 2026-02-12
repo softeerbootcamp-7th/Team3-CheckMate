@@ -1,2 +1,4 @@
-export { type PostAiIngredientRecommendRequestDto } from './PostAiIngredientRecommendRequestDto';
-export { type PostAiIngredientRecommendResponseDto } from './PostAiIngredientRecommendResponseDto';
+export type {
+  PostAiIngredientRecommendRequestDto,
+  PostAiIngredientRecommendResponseDto,
+} from './PostAiIngredientRecommendDto';
