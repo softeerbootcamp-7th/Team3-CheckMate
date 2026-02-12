@@ -1,15 +1,21 @@
 package com.checkmate.backend.domain.analysis.dto.response.menu;
 
+import com.checkmate.backend.domain.analysis.dto.response.DashboardAnalysisResponse;
+import com.checkmate.backend.domain.analysis.dto.response.DetailAnalysisResponse;
 import java.util.List;
 
 /** MNU_05(인기 메뉴 조합) */
-public record PopularMenuCombinationResponse(
-        String baseMenuName, // 기준(top3) 메뉴 이름
-        List<PairedMenu> pairedMenus // 함께 주문된 메뉴 리스트 + 카운트
-        ) {
+public record PopularMenuCombinationResponse(List<PopularMenuCombinationItem> items)
+        implements DashboardAnalysisResponse, DetailAnalysisResponse {
 
-    public record PairedMenu(
-            String menuName, // 함께 주문된 메뉴 이름
-            Long count // 함께 주문된 횟수
-            ) {}
+    public record PopularMenuCombinationItem(
+            String baseMenuName, // 기준 메뉴 (Top 메뉴)
+            List<PairedMenuItem> pairedMenus // 함께 주문된 메뉴 리스트
+            ) {
+
+        public record PairedMenuItem(
+                String menuName, // 함께 주문된 메뉴 이름
+                Long count // 함께 주문된 횟수
+                ) {}
+    }
 }
