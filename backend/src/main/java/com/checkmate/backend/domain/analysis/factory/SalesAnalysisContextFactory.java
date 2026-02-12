@@ -26,9 +26,11 @@ public class SalesAnalysisContextFactory implements AnalysisContextFactory {
                  * SLS_01_01 (오늘 실매출)
                  * SLS_02_01 (오늘 주문건수)
                  * SLS_03_01 (오늘 건당 평균가)
+                 * SLS_06_01 (오늘 판매유형별 매출)
+                 * SLS_07_01 (오늘 주문수단별 매출)
                  * */
 
-            case SLS_01_01, SLS_02_01, SLS_03_01, SLS_06_01 -> {
+            case SLS_01_01, SLS_02_01, SLS_03_01, SLS_06_01, SLS_07_01 -> {
                 LocalDate start = today;
                 LocalDate end = today.plusDays(1);
 
