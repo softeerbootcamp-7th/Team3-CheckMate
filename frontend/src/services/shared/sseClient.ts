@@ -166,6 +166,9 @@ export const sseClient = (
      */
     const onopen = defaultOnOpen;
 
+    /**
+     * SSE 연결 생성
+     */
     async function create() {
       currentRequestAbortController = new AbortController();
       try {
@@ -214,7 +217,7 @@ export const sseClient = (
             }
           }
         }
-
+        reader.releaseLock();
         onclose?.();
         dispose();
         resolve();
