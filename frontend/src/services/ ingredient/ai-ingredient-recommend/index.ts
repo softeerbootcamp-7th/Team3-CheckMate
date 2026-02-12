@@ -1,0 +1,1 @@
+export { postAiIngredientRecommend } from './postAiIngredientRecommend';

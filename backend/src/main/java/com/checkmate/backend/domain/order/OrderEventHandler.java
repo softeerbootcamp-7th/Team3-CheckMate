@@ -1,10 +1,10 @@
 package com.checkmate.backend.domain.order;
 
 import com.checkmate.backend.domain.analysis.context.AnalysisContext;
+import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.factory.AnalysisContextFactory;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
-import com.checkmate.backend.domain.analysis.result.AnalysisResult;
 import com.checkmate.backend.global.sse.SseEmitterManager;
 import com.checkmate.backend.global.sse.SseEventSender;
 import java.util.List;
@@ -55,16 +55,16 @@ public class OrderEventHandler {
                     .filter(Objects::nonNull)
                     .findFirst()
                     .ifPresent(
-                            result ->
+                            response ->
                                     sseEventSender.send(
                                             context.getStoreId(),
-                                            result.getCardCode(),
-                                            result.getPayload()));
+                                            response.analysisCardCode(),
+                                            response.dashboardAnalysisResponse()));
         }
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends AnalysisContext> AnalysisResult processSafely(
+    private <T extends AnalysisContext> AnalysisResponse processSafely(
             AnalysisProcessor<T> processor, AnalysisContext context) {
         return processor.process((T) context);
     }

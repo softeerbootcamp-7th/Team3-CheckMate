@@ -48,7 +48,10 @@ export const AddTabDialogTrigger = () => {
           <PlusIcon className="size-5" aria-hidden="true" />
         </Button>
       </TooltipTrigger>
-      <TooltipContent side="bottom" className="body-small-medium px-350 py-300">
+      <TooltipContent
+        side="bottom"
+        className="body-small-medium text-grey-100 rounded-250 bg-grey-900 [&_svg]:fill-grey-900 translate-x-20 px-350 py-300 [&_svg]:translate-x-20 [&_svg]:-translate-y-0.5 [&_svg]:rotate-0"
+      >
         원하는 대시보드를 직접 만들 수 있어요.
       </TooltipContent>
     </Tooltip>
