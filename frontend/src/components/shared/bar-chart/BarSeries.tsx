@@ -99,7 +99,9 @@ export const BarSeries = ({
           const barHeight = getBarHeight({ y, hasXAxis, viewBoxHeight });
           const barWidth = getBarWidth({ viewBoxWidth, xCoordinate }); // 막대 너비는 막대 간격의 50%
           return (
-            <g key={index}>
+            <g
+              key={series.data.mainX[index].amount} // 시간대(00시 또는 요일)를 key로 사용
+            >
               {hasBarLabel && (
                 <BarLabel
                   x={x}
