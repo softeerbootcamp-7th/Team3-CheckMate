@@ -27,8 +27,11 @@ export const MiniView = () => {
     () =>
       9 -
       activeCard.reduce((sum, card) => {
-        const { sizeX, sizeY } = DASHBOARD_METRIC_CARDS[card.code];
-        return sum + sizeX * sizeY;
+        const cardInfo = DASHBOARD_METRIC_CARDS[card.code];
+        if (!cardInfo) {
+          return sum; // 카드 정보가 없는 경우 해당 카드는 없는 것으로 간주
+        }
+        return sum + cardInfo.sizeX * cardInfo.sizeY;
       }, 0),
     [activeCard],
   );

@@ -16,7 +16,7 @@ interface MetricCard {
   code: string; // SLS_01_01
   label: string; // 오늘 실매출
   type: ChartType; // 시각화 유형
-  period?: DeepValueOf<typeof PERIOD_PRESETS>; // 오늘, 이번주 등
+  period: DeepValueOf<typeof PERIOD_PRESETS>; // 오늘, 이번주 등
   sizeX: number; // 가로 크기 (기본값 1)
   sizeY: number; // 세로 크기 (기본값 1)
 }
