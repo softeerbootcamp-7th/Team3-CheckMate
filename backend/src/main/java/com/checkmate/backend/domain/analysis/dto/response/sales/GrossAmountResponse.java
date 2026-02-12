@@ -5,6 +5,6 @@ import com.checkmate.backend.domain.analysis.dto.response.DetailAnalysisResponse
 
 /** SLS_04 (총매출) */
 public record GrossAmountResponse(
-        long grossMount, // 총매출
+        long grossAmount, // 총매출
         long orderCount // 주문건수
         ) implements DashboardAnalysisResponse, DetailAnalysisResponse {}
