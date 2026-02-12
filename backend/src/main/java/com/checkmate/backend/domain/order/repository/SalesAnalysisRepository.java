@@ -35,7 +35,7 @@ public interface SalesAnalysisRepository extends JpaRepository<Order, Long> {
 
     /** SLS_03 (건당 평균가) */
     @Query(
-            "select case when count(o) = 0 then 0.0"
+            "select case when count(o) = 0 then 0L"
                     + " else (sum(o.netAmount)  / count(o)) end"
                     + " from Order o"
                     + " where o.store.id = :storeId"
