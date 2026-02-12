@@ -38,4 +38,9 @@ export {
 
 export { createPeriodTypeProvider } from './period-select';
 export { getCoordinateGeneric } from './getCoordinateGeneric';
-export { getBarSegmentInfoList, checkIsStackBarChart } from './bar-chart';
+export {
+  getBarSegmentInfoList,
+  checkIsStackBarChart,
+  getTooltipContent,
+  getStackTotalAmount,
+} from './bar-chart';
