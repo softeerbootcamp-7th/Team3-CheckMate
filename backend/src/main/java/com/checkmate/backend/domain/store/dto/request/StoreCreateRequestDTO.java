@@ -43,7 +43,8 @@ public record StoreCreateRequestDTO(
                     boolean open24Hours) {
 
         public BusinessHour toEntity(Store store) {
-            boolean closesNextDay = !open24Hours && !closed && TimeUtil.isNextDay(openTime, closeTime);
+            boolean closesNextDay =
+                    !open24Hours && !closed && TimeUtil.isNextDay(openTime, closeTime);
 
             return BusinessHour.builder()
                     .day(dayOfWeek().getKorean())
