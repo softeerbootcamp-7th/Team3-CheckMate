@@ -25,7 +25,7 @@ export const rootRoutes: RouteObject = {
     termsRoutes,
     {
       path: '*',
-      element: <Navigate to={ROUTE_PATHS.DASHBOARD} replace />,
+      element: <Navigate to={ROUTE_PATHS.DASHBOARD.BASE} replace />,
     },
   ],
 };

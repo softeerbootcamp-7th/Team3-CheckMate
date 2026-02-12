@@ -2,6 +2,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { X } from 'lucide-react';
 
+import { IngredientAiRecommendLoading } from '@/components/ingredient/ingredient-ai-recommend';
 import { Button } from '@/components/shared/shadcn-ui';
 import type { IngredientField, IngredientFormValues } from '@/types/ingredient';
 
@@ -10,12 +11,14 @@ import { IngredientMenuInput } from './IngredientMenuInput';
 import { IngredientUnitInput } from './IngredientUnitInput';
 
 interface IngredientGridProps {
+  isPending: boolean;
   fields: IngredientField[];
   isIngredientRowEmpty: (index: number) => boolean;
   onClickDeleteIngredient: (index: number) => void;
 }
 
 export const IngredientGrid = ({
+  isPending,
   fields,
   isIngredientRowEmpty,
   onClickDeleteIngredient,
@@ -26,6 +29,10 @@ export const IngredientGrid = ({
     control,
     setValue,
   } = useFormContext<IngredientFormValues>();
+  // 데이터 로딩 중(서버로부터 받아오든, AI 자동생성 중이든) 일 때 보여줄 화면
+  if (isPending) {
+    return <IngredientAiRecommendLoading ingredientSkeletonCount={5} />;
+  }
   return (
     <main className="flex-1 overflow-y-auto p-1">
       {fields.length === 0 ? ( // 식재료가 하나도 없을 때

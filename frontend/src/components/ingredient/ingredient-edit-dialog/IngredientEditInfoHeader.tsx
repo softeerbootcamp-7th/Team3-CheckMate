@@ -9,11 +9,15 @@ import { IngredientQuestionIconWithTooltip } from './IngredientQuestionIconWithT
 interface IngredientEditInfoHeaderProps {
   fields: IngredientField[];
   onClickAddIngredient: () => void;
+  onClickAiIngredientRecommend: () => void;
+  isAiRecommendPending: boolean;
 }
 
 export const IngredientEditInfoHeader = ({
   fields,
   onClickAddIngredient,
+  onClickAiIngredientRecommend,
+  isAiRecommendPending,
 }: IngredientEditInfoHeaderProps) => {
   return (
     <header className="flex justify-between">
@@ -27,7 +31,8 @@ export const IngredientEditInfoHeader = ({
 
         <div className="flex items-center gap-4">
           <Button
-            disabled={fields.length !== 0} // AI 추천 생성 중일 때 or 목록에 식자재 있을때는 비활성화 -> 클릭 불가
+            onClick={onClickAiIngredientRecommend}
+            disabled={isAiRecommendPending || fields.length !== 0} // AI 추천 생성 중일 때 or 목록에 식자재 있을때는 비활성화 -> 클릭 불가
             type="button"
             className={cn(
               'rounded-200 h-8.5 w-23.5 border-[1.5px] border-transparent px-350 py-200',
@@ -55,7 +60,7 @@ export const IngredientEditInfoHeader = ({
       <Button
         onClick={onClickAddIngredient}
         type="button"
-        className="rounded-200 bg-grey-200 text-grey-700 flex h-9.5 gap-[6px] border-[1.5px] border-none px-350 py-200"
+        className="rounded-200 bg-grey-200 text-grey-700 flex h-9.5 gap-1.5 border-[1.5px] border-none px-350 py-200"
       >
         <Plus className="size-5" />
         식재료 추가

@@ -22,4 +22,5 @@ export { RANKING_COLORS, DOUGHNUT_CHART_DEFAULT } from './doughnut-chart';
 export { EDIT_CARD_WRAPPER } from './edit-card-wrapper';
 
 export { ONE_HUNDRED_MILLION, TEN_THOUSAND } from './number';
+export { TOAST_DEFAULT } from './toast';
 export { LINE_CHART } from './line-chart';

@@ -26,14 +26,17 @@ export const IngredientAmountInput = ({
 }: IngredientAmountInputProps) => {
   // 용량 입력값 변경 핸들러
   const handleAmountInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
     // 입력제한(5글자)있음 -> 너무 길면 입력 아예 안되도록
     const lengthLimit = 5;
-    const slicedString = e.currentTarget.value.slice(0, lengthLimit);
+    if (value.length > lengthLimit) {
+      const slicedString = value.slice(0, lengthLimit);
 
-    // dom에 반영
-    e.currentTarget.value = slicedString;
-    //  RHF에게 변경 사항 알림
-    setValue(`ingredients.${index}.amount`, slicedString);
+      // dom에 반영
+      e.currentTarget.value = slicedString;
+      //  RHF에게 변경 사항 알림
+      setValue(`ingredients.${index}.amount`, slicedString);
+    }
   };
   return (
     <Input

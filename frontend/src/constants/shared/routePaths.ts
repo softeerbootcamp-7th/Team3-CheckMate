@@ -6,7 +6,10 @@ export const ROUTE_PATHS = {
     STORE: 'store',
     POS: 'pos',
   },
-  DASHBOARD: '/dashboard',
+  DASHBOARD: {
+    BASE: '/dashboard',
+    EDIT: 'edit',
+  },
   ANALYSIS: {
     BASE: '/analysis',
     SALES: 'sales',

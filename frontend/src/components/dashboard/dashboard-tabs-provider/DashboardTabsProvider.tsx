@@ -6,6 +6,7 @@ import {
 } from '@/constants/dashboard';
 
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
+  const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
   const [tabs, setTabs] = useState<string[]>(['홈 대시보드']);
   const [dialogState, setDialogState] = useState<{
     open: boolean;
@@ -26,9 +27,11 @@ export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
   return (
     <DashboardTabsContext.Provider
       value={{
+        currentTabIndex,
         tabs,
         dialogOpen: dialogState.open,
         dialogMode: dialogState.mode,
+        setCurrentTabIndex,
         setTabs,
         openDialog,
         closeDialog,

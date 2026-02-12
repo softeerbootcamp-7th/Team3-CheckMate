@@ -1,10 +1,8 @@
-import { DialogFooter } from '@/components/shared/shadcn-ui';
+import { ButtonGroup } from '@/components/shared';
 import { MAX_DASHBOARD_TABS } from '@/constants/dashboard';
 import { useDashboardTabsDialog } from '@/hooks/dashboard';
 
 import { DashboardTabInput } from './DashboardTabInput';
-import { DialogCancelButton } from './DialogCancelButton';
-import { DialogSaveButton } from './DialogSaveButton';
 import { TabAddButton } from './TabAddButton';
 import { TabDeleteButton } from './TabDeleteButton';
 import { TabEditButton } from './TabEditButton';
@@ -65,10 +63,10 @@ export const DashboardTabsDialogContent = () => {
             ),
           )}
       </div>
-      <DialogFooter className="flex justify-end gap-2.5">
-        <DialogCancelButton onClick={handleCancel} />
-        <DialogSaveButton onClick={handleSave} />
-      </DialogFooter>
+      <ButtonGroup>
+        <ButtonGroup.Negative message="취소" onClick={handleCancel} />
+        <ButtonGroup.Positive message="저장" onClick={handleSave} />
+      </ButtonGroup>
     </>
   );
 };
