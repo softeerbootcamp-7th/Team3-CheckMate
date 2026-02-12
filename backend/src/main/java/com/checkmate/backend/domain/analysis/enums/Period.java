@@ -15,7 +15,9 @@ public enum Period {
     LAST_8_WEEKS("최근 8주"),
     LAST_6_MONTHS("최근 6개월"),
     LAST_4_WEEKS("최근 4주"),
-    LAST_365_DAYS("최근 365일");
+    LAST_365_DAYS("최근 365일"),
+    LAST_3_YEARS("최근 3년"),
+    ;
 
     private final String displayName;
 }
