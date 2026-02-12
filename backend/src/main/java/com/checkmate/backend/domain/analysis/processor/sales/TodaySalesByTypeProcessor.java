@@ -7,6 +7,7 @@ import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.sales.DashboardTodaySalesByTypeResponse;
 import com.checkmate.backend.domain.analysis.dto.response.sales.DetailTodaySalesByTypeResponse;
 import com.checkmate.backend.domain.analysis.dto.response.sales.SalesByTypeItem;
+import com.checkmate.backend.domain.analysis.dto.response.sales.SalesInsight;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
 import com.checkmate.backend.domain.order.enums.SalesType;
@@ -86,9 +87,9 @@ public class TodaySalesByTypeProcessor implements AnalysisProcessor<SalesAnalysi
 
         double deltaShare = topShare - comparisonShare;
 
-        DashboardTodaySalesByTypeResponse.SalesInsight insight =
-                new DashboardTodaySalesByTypeResponse.SalesInsight(
-                        topType,
+        SalesInsight insight =
+                new SalesInsight(
+                        topType.getValue(),
                         round(topShare),
                         round(deltaShare),
                         Math.abs(deltaShare) >= 3, // 변화 문구 조건
