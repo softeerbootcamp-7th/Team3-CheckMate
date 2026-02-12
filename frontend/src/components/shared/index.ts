@@ -13,3 +13,4 @@ export { StateWrapper } from './state-wrapper';
 export { Badge } from './badge';
 export { DoughnutChart } from './doughnut-chart';
 export { MainLayout } from './main-layout';
+export { PaginationBar } from './pagenation';

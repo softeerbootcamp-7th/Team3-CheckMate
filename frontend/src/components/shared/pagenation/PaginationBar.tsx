@@ -4,7 +4,7 @@ import { cn } from '@/utils/shared';
 import { NextPaginationButton } from './NextPaginationButton';
 import { PrevPaginationButton } from './PrevPaginationButton';
 
-interface IngredientPaginationBarProps {
+interface PaginationBarProps {
   currentPage: number;
   totalPageCount: number;
   isFirstPage: boolean;
@@ -14,7 +14,7 @@ interface IngredientPaginationBarProps {
   handleClickPage: (page: number) => void;
 }
 
-export const IngredientPaginationBar = ({
+export const PaginationBar = ({
   currentPage,
   totalPageCount,
   isFirstPage,
@@ -22,7 +22,7 @@ export const IngredientPaginationBar = ({
   handleClickPrev,
   handleClickNext,
   handleClickPage,
-}: IngredientPaginationBarProps) => {
+}: PaginationBarProps) => {
   return (
     <div className="flex items-center justify-center gap-5">
       <PrevPaginationButton
