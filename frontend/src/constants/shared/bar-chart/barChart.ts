@@ -6,6 +6,7 @@ export const BAR_CHART = {
   DEFAULT_BAR_COLOR: '#212121', // 기본 막대 색상
   ACTIVATED_BAR_COLOR: '#009AFA', // 활성화 되었을 때 막대 색상
   X_AXIS_LABEL_OFFSET: 5,
+  BAR_RADIUS: 4, // 바 상단 모서리 둥글기
   ANIMATION_DURATION_MS: 500, // 바 움직이는 에니메이션의 지속 시간
 };
 

@@ -34,7 +34,8 @@ export const BarSeries = ({
   xCoordinate,
   tooltipContent,
 }: BarSeriesProps) => {
-  const { XAXIS_Y_OFFSET, XAXIS_STROKE_WIDTH } = BAR_CHART; // X축이 있을 때 X축의 Y좌표 오프셋 값
+  const { XAXIS_Y_OFFSET, XAXIS_STROKE_WIDTH, BAR_RADIUS } = BAR_CHART; // X축이 있을 때 X축의 Y좌표 오프셋 값
+
   // 스택바 그래프인지 일반 바 그래프인지 -> mainY의 값이 배열이면 스택바
   const isStackBar = checkIsStackBarChart({ series });
 
@@ -114,6 +115,7 @@ export const BarSeries = ({
                   barTopY={y}
                   height={barHeight}
                   width={barWidth}
+                  radius={BAR_RADIUS}
                   tooltipContent={tooltipContent}
                 />
               ) : (
@@ -122,6 +124,7 @@ export const BarSeries = ({
                   barTopY={y}
                   height={barHeight}
                   width={barWidth}
+                  radius={BAR_RADIUS}
                   hasGradient={hasGradient}
                   bgColor={color}
                 />

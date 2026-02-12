@@ -27,7 +27,7 @@ export const Bar = ({
   barTopY,
   width,
   height,
-  radius = Math.min(height, width, 4),
+  radius,
   hasInitAnimation = true,
   hasMoveAnimation = true,
   hasGradient = true,
@@ -37,13 +37,13 @@ export const Bar = ({
 }: BarProps) => {
   const pathRef = useRef<SVGPathElement>(null);
   const barRef = useRef<SVGGElement>(null); // g 태그 조작(막대 위치 이동시 애니메이션)을 위한 ref
-
+  const adjustedRadius = Math.min(radius ?? 0, width / 2, height); // 반지름이 바의 높이, 너비보다 커서 그래프 깨지는 문제 방지
   const { pathD } = useDrawBarPath({
     barMiddleX,
     barTopY,
     width,
     height,
-    radius,
+    radius: adjustedRadius,
   });
   const gradientId = useId();
   const fill = hasGradient && gradientId ? `url(#${gradientId})` : bgColor;
@@ -51,7 +51,6 @@ export const Bar = ({
   // 마운트 시 등장 애니메이션: 아래에서 위로 올라오기(scaley 0 -> 1)
   useBarInitAnimation({ barRef, hasAnimation: hasInitAnimation });
   // path 애니메이션: d 속성 변경 시 애니메이션 적용
-
   usePathDAnimation({ pathRef, hasAnimation: hasMoveAnimation });
 
   return (
