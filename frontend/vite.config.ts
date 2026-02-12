@@ -74,6 +74,10 @@ export default defineConfig(({ mode }) => {
             cert: fs.readFileSync(path.resolve(__dirname, 'localhost.pem')),
           }
         : undefined,
+      historyApiFallback: true,
+    },
+    preview: {
+      port: 5173,
     },
   };
 });
