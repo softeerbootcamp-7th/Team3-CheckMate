@@ -1,13 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 
 import { ButtonGroup } from '@/components/shared';
+import { useEditCard } from '@/hooks/dashboard';
 
 import { CardEditViewTabs } from './CardEditViewTabs';
 
 export const CardEditView = () => {
   const navigate = useNavigate();
 
-  const isDirty = false;
+  const { isDirty } = useEditCard();
+
   const handleCancel = () => {
     navigate(-1);
   };
