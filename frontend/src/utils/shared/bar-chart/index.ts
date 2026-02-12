@@ -1,2 +1,2 @@
-export { checkIsStackBarChart } from './checkStackBarChart';
+export { checkIsStackBarChart } from './checkIsStackBarChart';
 export { getBarSegmentInfoList } from './getBarSegmentInfoList';
