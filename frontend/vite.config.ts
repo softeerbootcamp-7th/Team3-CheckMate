@@ -16,12 +16,16 @@ const dirname =
     ? __dirname
     : path.dirname(fileURLToPath(import.meta.url));
 
-const httpsConfig = {
-  key: fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem')),
-  cert: fs.readFileSync(path.resolve(__dirname, 'localhost.pem')),
-};
+const keyPath = path.resolve(__dirname, 'localhost-key.pem');
+const certPath = path.resolve(__dirname, 'localhost.pem');
 
-const isHttpsPreview = process.env.HTTPS_PREVIEW === 'true';
+const hasKeyAndCert = fs.existsSync(keyPath) && fs.existsSync(certPath);
+const httpsConfig = hasKeyAndCert
+  ? {
+      key: fs.readFileSync(keyPath),
+      cert: fs.readFileSync(certPath),
+    }
+  : undefined;
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
@@ -71,7 +75,7 @@ export default defineConfig({
     ],
   },
   server: {
-    https: isHttpsPreview ? httpsConfig : undefined,
+    https: httpsConfig,
   },
   preview: {
     port: 5173,

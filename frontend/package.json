@@ -11,7 +11,7 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "preview": "vite preview",
-    "start:prod": "tsc -b && vite build && HTTPS_PREVIEW=true vite preview",
+    "start:prod": "tsc -b && vite build && vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
