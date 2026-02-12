@@ -61,29 +61,30 @@ export const useEditCard = () => {
       });
       return;
     }
-    for (let r = position.y; r < position.y + sizeY; r++) {
-      for (let c = position.x; c < position.x + sizeX; c++) {
-        setGrid((prev) => {
-          const newGrid = prev.map((row) => [...row]);
+
+    setGrid((prev) => {
+      const newGrid = prev.map((row) => [...row]);
+      for (let r = position.y; r < position.y + sizeY; r++) {
+        for (let c = position.x; c < position.x + sizeX; c++) {
           newGrid[r][c] = code;
-          return newGrid;
-        });
+        }
       }
-    }
+      return newGrid;
+    });
   };
 
   const removeCard = (code: string) => {
-    for (let r = 1; r <= GRID_ROW_SIZE; r++) {
-      for (let c = 1; c <= GRID_COL_SIZE; c++) {
-        if (grid[r][c] === code) {
-          setGrid((prev) => {
-            const newGrid = prev.map((row) => [...row]);
+    setGrid((prev) => {
+      const newGrid = prev.map((row) => [...row]);
+      for (let r = 1; r <= GRID_ROW_SIZE; r++) {
+        for (let c = 1; c <= GRID_COL_SIZE; c++) {
+          if (newGrid[r][c] === code) {
             newGrid[r][c] = '';
-            return newGrid;
-          });
+          }
         }
       }
-    }
+      return newGrid;
+    });
   };
 
   // const printGrid = (gridToPrint: string[][]) => {
