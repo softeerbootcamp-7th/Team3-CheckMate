@@ -71,6 +71,10 @@ interface BarChartProps {
    * 각 막대 위에 레이블 표시 여부
    */
   hasBarLabel?: boolean;
+  /**
+   * 가장 우측 막대 바 색상 강조할 것인지 여부
+   */
+  activeLastData?: boolean;
 }
 
 export const BarChart = ({
@@ -88,6 +92,7 @@ export const BarChart = ({
   chartDescription,
   hasBarLabel = true,
   xAxisType,
+  activeLastData = true,
 }: BarChartProps) => {
   const { titleId, descId } = useBarChartId();
 
@@ -160,6 +165,7 @@ export const BarChart = ({
         xCoordinate={xCoordinate}
         hasXAxis={hasXAxis}
         hasBarLabel={hasBarLabel}
+        activeLastData={activeLastData}
       />
     </svg>
   );

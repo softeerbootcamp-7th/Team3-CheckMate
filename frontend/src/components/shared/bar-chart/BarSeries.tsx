@@ -1,5 +1,10 @@
 import { BAR_CHART } from '@/constants/shared';
-import type { BarChartDatum, Coordinate, StackBarDatum } from '@/types/shared';
+import type {
+  BarChartDatum,
+  BarChartSeries,
+  Coordinate,
+  StackBarDatum,
+} from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared';
 import { checkIsStackBarChart } from '@/utils/shared';
 
@@ -20,6 +25,7 @@ interface BarSeriesProps {
   hasXAxis?: boolean; //현재 barchart에서 x축 사용하고 있는지
   tooltipContent?: (...args: string[]) => string;
   xCoordinate: Coordinate[];
+  activeLastData?: boolean; // 가장 우측 막대 바 색상 강조할 것인지 여부. 스택 바에는 적용 안됨.
 }
 
 export const BarSeries = ({
@@ -33,6 +39,8 @@ export const BarSeries = ({
   viewBoxWidth,
   xCoordinate,
   tooltipContent,
+  activeTooltip,
+  activeLastData = true,
 }: BarSeriesProps) => {
   const { XAXIS_Y_OFFSET, XAXIS_STROKE_WIDTH, BAR_RADIUS } = BAR_CHART; // X축이 있을 때 X축의 Y좌표 오프셋 값
 
@@ -98,6 +106,16 @@ export const BarSeries = ({
         if (x !== null && y !== null) {
           const barHeight = getBarHeight({ y, hasXAxis, viewBoxHeight });
           const barWidth = getBarWidth({ viewBoxWidth, xCoordinate }); // 막대 너비는 막대 간격의 50%
+          // 막대 그래프 툴팁에 넣을 내용
+          const tooltipContentText = tooltipContent
+            ? tooltipContent(
+                (series as BarChartSeries).data.mainY[
+                  index
+                ].amount?.toString() ?? '',
+                (series.data.mainY[index] as BarChartDatum).unit?.toString() ??
+                  '',
+              )
+            : null;
           return (
             <g
               key={series.data.mainX[index].amount} // 시간대(00시 또는 요일)를 key로 사용
@@ -118,6 +136,7 @@ export const BarSeries = ({
                   height={barHeight}
                   width={barWidth}
                   radius={BAR_RADIUS}
+                  activeTooltip={activeTooltip}
                   tooltipContent={tooltipContent}
                 />
               ) : (
@@ -129,6 +148,10 @@ export const BarSeries = ({
                   radius={BAR_RADIUS}
                   hasGradient={hasGradient}
                   bgColor={color}
+                  activeTooltip={activeTooltip}
+                  tooltipContentText={tooltipContentText}
+                  // activeLastData가 true이라면 마지막 막대를 강조 표시
+                  isActive={activeLastData && index === coordinate.length - 1}
                 />
               )}
             </g>
