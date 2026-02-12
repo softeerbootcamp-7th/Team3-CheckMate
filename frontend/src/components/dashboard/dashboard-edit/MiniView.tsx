@@ -9,6 +9,7 @@ import { MiniViewEmptyCard } from './MiniViewEmptyCard';
 export const MiniView = () => {
   const searchParams = new URLSearchParams(useLocation().search);
   const title = searchParams.get('tab') || '알 수 없음';
+  // TODO: 대시보드 탭 API 연결 시 search param 방어 로직 추가 필요
 
   const [activeCard] = useState([
     {
