@@ -3,6 +3,8 @@ package com.checkmate.backend.global.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @Builder
@@ -36,7 +38,9 @@ public record ApiResponse<T>(
                         .errorCode(errorStatus.name())
                         .build();
 
-        return ResponseEntity.status(errorStatus.getHttpStatus()).body(apiResponse);
+        return ResponseEntity.status(errorStatus.getHttpStatus())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(apiResponse);
     }
 
     public static ResponseEntity<ApiResponse<Void>> fail(ErrorStatus errorStatus, String message) {
@@ -47,7 +51,9 @@ public record ApiResponse<T>(
                         .errorCode(errorStatus.name())
                         .build();
 
-        return ResponseEntity.status(errorStatus.getHttpStatus()).body(apiResponse);
+        return ResponseEntity.status(errorStatus.getHttpStatus())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(apiResponse);
     }
 
     public static <T> ApiResponse<T> createSuccess(SuccessStatus status, T data) {
