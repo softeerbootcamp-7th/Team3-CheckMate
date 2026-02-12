@@ -22,5 +22,6 @@ export type {
   StackBarDatum,
   StackBarChartData,
   StackBarChartSeries,
-} from './bar-chart/barChartDataType';
+  AllBarChartSeries,
+} from './bar-chart';
 export type { ChartData, ChartSeries } from './chartDataType';

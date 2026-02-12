@@ -19,4 +19,10 @@ export {
   useLineChartId,
   useLineChart,
 } from './line-chart';
-export { useDrawBarPath, useBarChartId, useBarChart } from './bar-chart';
+export {
+  useDrawBarPath,
+  useBarChartId,
+  useBarChart,
+  useBarInitAnimation,
+  usePathDAnimation,
+} from './bar-chart';
