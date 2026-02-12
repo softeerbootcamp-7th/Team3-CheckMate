@@ -1,6 +1,6 @@
 import { DashboardTabList } from '../dashboard-tab-list';
 
-import { CardEditionSheetTrigger } from './CardEditionSheetTrigger';
+import { DashboardEditButton } from './DashboardEditButton';
 import { TabManagementDialogTrigger } from './TabManagementDialogTrigger';
 
 export const DashboardHeader = () => {
@@ -9,7 +9,7 @@ export const DashboardHeader = () => {
       <DashboardTabList />
       <div className="flex gap-3.5">
         <TabManagementDialogTrigger />
-        <CardEditionSheetTrigger />
+        <DashboardEditButton />
       </div>
     </header>
   );

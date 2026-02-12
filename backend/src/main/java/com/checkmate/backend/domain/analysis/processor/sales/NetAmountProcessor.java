@@ -1,12 +1,11 @@
 package com.checkmate.backend.domain.analysis.processor.sales;
 
 import com.checkmate.backend.domain.analysis.context.SalesAnalysisContext;
+import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.sales.NetAmountResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
-import com.checkmate.backend.domain.analysis.result.AnalysisResult;
-import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.order.repository.SalesAnalysisRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ public class NetAmountProcessor implements AnalysisProcessor<SalesAnalysisContex
     }
 
     @Override
-    public AnalysisResult process(SalesAnalysisContext context) {
+    public AnalysisResponse process(SalesAnalysisContext context) {
 
         Long currentNetAmount =
                 salesAnalysisRepository.findTotalNetAmount(
@@ -55,6 +54,6 @@ public class NetAmountProcessor implements AnalysisProcessor<SalesAnalysisContex
         NetAmountResponse response =
                 new NetAmountResponse(currentNetAmount, differenceAmount, changeRate);
 
-        return new DefaultAnalysisResult<>(context.getAnalysisCardCode(), response);
+        return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }
 }

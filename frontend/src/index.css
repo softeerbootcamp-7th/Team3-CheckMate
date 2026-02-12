@@ -151,13 +151,24 @@
   }
 }
 
-/* Card utility */
 @layer components {
   .card {
     @apply bg-special-card-bg rounded-400 p-5;
     & h3 {
       @apply body-medium-semibold text-grey-700;
     }
+  }
+
+  /* input 요소 중 no-spinner 클래스 붙은 요소들은 input 내 토클 버튼 안뜸 */
+  input.no-spinner {
+    -moz-appearance: textfield; /* Firefox 용*/
+    appearance: textfield;
+  }
+
+  input.no-spinner::-webkit-outer-spin-button,
+  input.no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari 용*/
+    margin: 0;
   }
 
   .onboarding-layout {
@@ -180,15 +191,7 @@
     grid-area: footer;
   }
 }
-@utility no-spinner {
-  -moz-appearance: textfield;
 
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-}
 @utility headline-large {
   font-size: 2.625rem; /* 42px */
   line-height: 3.6875rem; /* 59px */

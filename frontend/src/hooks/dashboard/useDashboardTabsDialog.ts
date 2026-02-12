@@ -5,7 +5,14 @@ import { DASHBOARD_TABS_DIALOG_MODE } from '@/constants/dashboard';
 import { useDashboardTabsContext } from '.';
 
 export const useDashboardTabsDialog = () => {
-  const { tabs, dialogMode, setTabs, closeDialog } = useDashboardTabsContext();
+  const {
+    tabs,
+    dialogMode,
+    setTabs,
+    closeDialog,
+    currentTabIndex,
+    setCurrentTabIndex,
+  } = useDashboardTabsContext();
 
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [newTabs, setNewTabs] = useState<(string | undefined)[]>(tabs);
@@ -78,9 +85,12 @@ export const useDashboardTabsDialog = () => {
       return;
     }
 
-    isDeleted.forEach((deleted) => {
+    isDeleted.forEach((deleted, index) => {
       if (deleted) {
         // TODO 서버에 삭제 요청 보내기
+        if (currentTabIndex === index) {
+          setCurrentTabIndex(0);
+        }
       }
     });
 

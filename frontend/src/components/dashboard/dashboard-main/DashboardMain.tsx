@@ -1,14 +1,14 @@
+import { useDashboardTabsContext } from '@/hooks/dashboard';
 import { gridItems } from '@/mocks/data/dashboard';
 
 import { DashboardEmptyContent } from './DashboardEmptyContent';
 import { DashboardMainContent } from './DashboardMainContent';
 
-interface DashboardMainLayoutProps {
-  tabName: string;
-}
+export const DashboardMain = () => {
+  const { tabs, currentTabIndex } = useDashboardTabsContext();
 
-export const DashboardMain = ({ tabName }: DashboardMainLayoutProps) => {
-  const mockedGridItems = tabName === '홈 대시보드' ? gridItems : null;
+  const mockedGridItems =
+    tabs[currentTabIndex] === '홈 대시보드' ? gridItems : null;
 
   return (
     <>
