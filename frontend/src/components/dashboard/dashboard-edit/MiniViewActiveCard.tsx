@@ -17,6 +17,11 @@ export const MiniViewActiveCard = ({
 }: MiniViewActiveCardProps) => {
   const card = DASHBOARD_METRIC_CARDS[cardCode];
 
+  if (!card) {
+    // 카드 정보가 없는 경우 렌더링하지 않음
+    return null;
+  }
+
   const handleRemove = () => alert(`카드 ${card.label} 제거`); // TODO: 카드 제거 로직 구현
 
   return (
