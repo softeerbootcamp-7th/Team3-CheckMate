@@ -3,7 +3,6 @@ package com.checkmate.backend.domain.analysis.service;
 import static com.checkmate.backend.global.response.ErrorStatus.UNSUPPORTED_ANALYSIS_CARD;
 
 import com.checkmate.backend.domain.analysis.context.AnalysisContext;
-import com.checkmate.backend.domain.analysis.dto.request.DetailAnalysisRequest;
 import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.DetailAnalysisResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
@@ -28,9 +27,11 @@ public class DetailAnalysisService {
      * read
      * */
     public DetailAnalysisResponse getDetailAnalysis(
-            Long storeId, DetailAnalysisRequest detailAnalysisRequest) {
-
-        AnalysisCardCode analysisCardCode = detailAnalysisRequest.analysisCardCode();
+            Long storeId,
+            AnalysisCardCode analysisCardCode,
+            Boolean customPeriod,
+            LocalDate from,
+            LocalDate to) {
 
         // 1. Context 생성
         AnalysisContextFactory contextFactory =
@@ -54,15 +55,9 @@ public class DetailAnalysisService {
         }
 
         // 2. 커스텀 기간 적용
-        if (detailAnalysisRequest.customPeriod()) {
-            LocalDate from =
-                    detailAnalysisRequest.from() != null
-                            ? detailAnalysisRequest.from()
-                            : context.getStartDate();
-            LocalDate to =
-                    detailAnalysisRequest.to() != null
-                            ? detailAnalysisRequest.to().plusDays(1)
-                            : context.getEndDate();
+        if (customPeriod) {
+            from = from != null ? from : context.getStartDate();
+            to = to != null ? to.plusDays(1) : context.getEndDate();
 
             // 커스텀 기간으로 새로운 Context 생성
             context = contextFactory.create(analysisCardCode, storeId, from, to);
