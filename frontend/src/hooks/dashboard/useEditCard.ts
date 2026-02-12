@@ -112,11 +112,24 @@ export const useEditCard = () => {
     return cardList;
   }, [grid]);
 
+  const emptyCellCount = useMemo(() => {
+    let count = 0;
+    for (let r = 1; r <= GRID_ROW_SIZE; r++) {
+      for (let c = 1; c <= GRID_COL_SIZE; c++) {
+        if (grid[r][c] === '') {
+          count++;
+        }
+      }
+    }
+    return count;
+  }, [grid]);
+
   return {
     grid,
     isDirty,
     addCard,
     removeCard,
     cards,
+    emptyCellCount,
   };
 };

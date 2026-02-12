@@ -1,11 +1,5 @@
-import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import {
-  DASHBOARD_METRIC_CARDS,
-  GRID_COL_SIZE,
-  GRID_ROW_SIZE,
-} from '@/constants/dashboard';
 import { useEditCard } from '@/hooks/dashboard';
 
 import { MiniViewActiveCard } from './MiniViewActiveCard';
@@ -15,20 +9,7 @@ export const MiniView = () => {
   const searchParams = new URLSearchParams(useLocation().search);
   const title = searchParams.get('tab') || '알 수 없음';
 
-  const { cards } = useEditCard();
-
-  const emptyCellCount = useMemo(
-    () =>
-      GRID_ROW_SIZE * GRID_COL_SIZE -
-      cards.reduce((sum, card) => {
-        const cardInfo = DASHBOARD_METRIC_CARDS[card.code];
-        if (!cardInfo) {
-          return sum; // 카드 정보가 없는 경우 해당 카드는 없는 것으로 간주
-        }
-        return sum + cardInfo.sizeX * cardInfo.sizeY;
-      }, 0),
-    [cards],
-  );
+  const { cards, emptyCellCount } = useEditCard();
 
   return (
     <section className="flex min-w-120 grow flex-col p-6.25 pt-20">
