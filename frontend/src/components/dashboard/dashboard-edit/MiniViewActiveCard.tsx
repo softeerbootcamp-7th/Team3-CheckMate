@@ -4,6 +4,7 @@ import { PeriodTag } from '@/components/shared';
 import { Button } from '@/components/shared/shadcn-ui';
 import { DASHBOARD_METRIC_CARDS } from '@/constants/dashboard';
 import { CDN_BASE_URL } from '@/constants/shared/cdnBaseUrl';
+import { useEditCard } from '@/hooks/dashboard';
 
 interface MiniViewActiveCardProps {
   cardCode: string;
@@ -15,6 +16,7 @@ export const MiniViewActiveCard = ({
   posX,
   posY,
 }: MiniViewActiveCardProps) => {
+  const { removeCard } = useEditCard();
   const card = DASHBOARD_METRIC_CARDS[cardCode];
 
   if (!card) {
@@ -23,7 +25,7 @@ export const MiniViewActiveCard = ({
   }
   const { label, type, period, sizeX, sizeY } = card;
 
-  const handleRemove = () => alert(`카드 ${label} 제거`); // TODO: 카드 제거 로직 구현
+  const handleRemove = () => removeCard(cardCode);
 
   return (
     <div
