@@ -125,7 +125,6 @@ export const sseClient = (
       'Content-Type': 'text/event-stream',
       Authorization: `Bearer ${authToken.get()}`,
       'cache-control': 'no-cache',
-      credentials: 'include',
     });
 
     if (!headers.has('Accept')) {
@@ -178,6 +177,7 @@ export const sseClient = (
           ...rest,
           headers,
           signal: currentRequestAbortController.signal,
+          credentials: 'include',
         });
 
         await onopen(response);
