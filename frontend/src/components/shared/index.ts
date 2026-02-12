@@ -14,4 +14,6 @@ export { StateWrapper } from './state-wrapper';
 export { Badge } from './badge';
 export { DoughnutChart } from './doughnut-chart';
 export { MainLayout } from './main-layout';
+export { PeriodTag, EditCardWrapper } from './edit-card-wrapper';
+export { ButtonGroup } from './button-group';
 export { PaginationBar } from './pagenation';
