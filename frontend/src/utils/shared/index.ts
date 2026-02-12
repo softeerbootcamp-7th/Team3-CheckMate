@@ -37,3 +37,4 @@ export {
 } from './doughnut-chart';
 
 export { createPeriodTypeProvider } from './period-select';
+export { getCoordinateGeneric } from './getCoordinateGeneric';
