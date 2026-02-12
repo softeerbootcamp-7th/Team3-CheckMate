@@ -1,6 +1,7 @@
 package com.checkmate.backend.domain.order.repository;
 
 import com.checkmate.backend.domain.analysis.dto.projection.sales.SalesByOrderChannelProjection;
+import com.checkmate.backend.domain.analysis.dto.projection.sales.SalesByPayMethodProjection;
 import com.checkmate.backend.domain.analysis.dto.projection.sales.SalesByTypeProjection;
 import com.checkmate.backend.domain.order.entity.Order;
 import java.time.LocalDate;
@@ -62,6 +63,18 @@ public interface SalesAnalysisRepository extends JpaRepository<Order, Long> {
                     + " group by o.orderChannel"
                     + " order by sum(o.netAmount) desc")
     List<SalesByOrderChannelProjection> findSalesByOrderChannel(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
+    /** SLS_08 (결제수단별 매출) */
+    @Query(
+            "select new com.checkmate.backend.domain.analysis.dto.projection.sales.SalesByPayMethodProjection(o.orderChannel, sum(o.netAmount), count(o)) "
+                    + " from Order o"
+                    + " where o.store.id=:storeId and o.orderDate >= :startDate and o.orderDate < :endDate"
+                    + " group by o.orderChannel"
+                    + " order by sum(o.netAmount) desc")
+    List<SalesByPayMethodProjection> findSalesByPaymentMethod(
             @Param("storeId") Long storeId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
