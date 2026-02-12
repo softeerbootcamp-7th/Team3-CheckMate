@@ -52,6 +52,27 @@ public interface SalesAnalysisRepository extends JpaRepository<Order, Long> {
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
 
+    /** SLS_05 (할인 & 취소) */
+    // 할인 금액
+    @Query(
+            "select sum(o.discountAmount)"
+                    + " from Order o"
+                    + " where o.store.id=:storeId and o.orderDate >= :startDate and o.orderDate < :endDate ")
+    Long findDiscountAmount(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
+    // 취소 금액
+    @Query(
+            "select sum(o.netAmount)"
+                    + " from Order o"
+                    + " where o.store.id=:storeId and o.orderDate >= :startDate and o.orderDate < :endDate and o.orderStatus = 'CANCEL'")
+    Long findCanceledAmount(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
     /** SLS_06 (판매유형별 매출) */
     @Query(
             "select new com.checkmate.backend.domain.analysis.dto.projection.sales.SalesByTypeProjection (o.salesType, sum(o.netAmount), count(o)) "
