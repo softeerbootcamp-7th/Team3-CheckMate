@@ -1,3 +1,4 @@
+import { RANKING_COLORS } from '@/constants/shared/doughnut-chart';
 export const BAR_CHART = {
   TICK_HEIGHT: 11,
   GUIDE_LINE_STROKE_WIDTH: 1.5,
@@ -14,9 +15,10 @@ export const STACK_BAR_CHART = {
   TOP_RANK: 3,
   // 막대 각 조각의 정해진 색상이 없다면  순위별 색상 고정
   RANK_COLOR: [
-    'var(--color-brand-500)',
-    'var(--color-brand-300)',
-    'var(--color-brand-100)',
-    'var(--color-brand-50)',
+    RANKING_COLORS[0],
+    RANKING_COLORS[1],
+    RANKING_COLORS[2],
+    // '기타' 항목은 아래 색상 사용
+    RANKING_COLORS[4],
   ],
 };

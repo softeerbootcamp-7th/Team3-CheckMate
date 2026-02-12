@@ -6,11 +6,7 @@ import type {
   StackBarDatum,
 } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared/bar-chart';
-import {
-  filterCoordinate,
-  getCoordinateGeneric,
-  getXCoordinate,
-} from '@/utils/shared';
+import { getCoordinateGeneric, getXCoordinate } from '@/utils/shared';
 import { checkIsStackBarChart } from '@/utils/shared/bar-chart';
 
 interface UseBarChartProps {
@@ -96,16 +92,6 @@ export const useBarChart = ({
     });
   }, [svgRect, adjustedHeight, barChartSeries, maximumY, isStackBarChart]);
 
-  const lastXCoordinate = useMemo(() => {
-    const filteredCoordinate = filterCoordinate(primaryCoordinate);
-
-    if (filteredCoordinate.length === 0) {
-      return 0;
-    }
-
-    return filteredCoordinate[filteredCoordinate.length - 1].x;
-  }, [primaryCoordinate]);
-
   useLayoutEffect(() => {
     if (!svgRef.current) {
       return;
@@ -126,10 +112,8 @@ export const useBarChart = ({
     adjustedHeight,
     xLabelList,
     xCoordinate,
-    lastXCoordinate,
     primaryCoordinate,
     svgRef,
     xAxisRef,
-    filterCoordinate,
   };
 };

@@ -101,7 +101,6 @@ export const BarChart = ({
     adjustedHeight,
     xLabelList,
     xCoordinate,
-    //lastXCoordinate,
     primaryCoordinate, // 바의 상단 중앙 좌표
     svgRef,
     xAxisRef,
@@ -115,6 +114,8 @@ export const BarChart = ({
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
       ref={svgRef}
+      width={viewBoxWidth}
+      height={viewBoxHeight}
       role="graphics-document"
       aria-labelledby={titleId}
       aria-describedby={descId}

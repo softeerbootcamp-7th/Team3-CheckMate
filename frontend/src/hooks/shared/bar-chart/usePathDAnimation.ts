@@ -8,7 +8,6 @@ interface UsePathDAnimationProps {
 
 export const usePathDAnimation = ({
   pathRef,
-
   hasAnimation,
 }: UsePathDAnimationProps) => {
   // path 애니메이션: d 속성 변경 시 애니메이션 적용
