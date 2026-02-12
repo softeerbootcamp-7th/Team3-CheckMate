@@ -13,3 +13,14 @@ export type {
   Coordinate,
   XAxisType,
 } from './line-chart';
+export type {
+  BarChartDatum,
+  BarChartData,
+  BarChartSeries,
+  StackBarSegment,
+  StackBarSegmentWithPercentage,
+  StackBarDatum,
+  StackBarChartData,
+  StackBarChartSeries,
+} from './bar-chart/barChartDataType';
+export type { ChartData, ChartSeries } from './chartDataType';
