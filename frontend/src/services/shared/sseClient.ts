@@ -138,8 +138,6 @@ export const sseClient = (
       currentRequestAbortController.abort();
       if (!document.hidden) {
         // 연결 재시작
-        // TODO: 지워야 할 로그
-        console.info('restart connection');
         create();
       }
     };
