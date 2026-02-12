@@ -1,4 +1,4 @@
-import { Tabs, TabsList, TabsTrigger } from '../shared/shadcn-ui';
+import { Tabs, TabsList, TabsTrigger } from '@/components/shared/shadcn-ui';
 
 interface IngredientMenuCategoriesProps {
   categories: string[];

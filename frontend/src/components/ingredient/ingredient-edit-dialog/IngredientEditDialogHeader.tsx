@@ -4,7 +4,7 @@ import { DialogHeader, DialogTitle } from '@/components/shared/shadcn-ui';
 import type { IngredientFormValues } from '@/types/ingredient';
 import { cn } from '@/utils/shared';
 
-import { Button } from '../shared/shadcn-ui';
+import { Button } from '../../shared/shadcn-ui';
 interface IngredientEditDialogHeaderProps {
   onClickCancel: () => void;
   menuName: string;

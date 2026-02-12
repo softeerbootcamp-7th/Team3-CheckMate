@@ -2,12 +2,12 @@ import { useFormContext } from 'react-hook-form';
 
 import { X } from 'lucide-react';
 
+import { IngredientAiRecommendLoading } from '@/components/ingredient/ingredient-ai-recommend';
 import { Button } from '@/components/shared/shadcn-ui';
 import type { IngredientField, IngredientFormValues } from '@/types/ingredient';
 
 import { IngredientAmountInput } from './IngredientAmountInput';
 import { IngredientMenuInput } from './IngredientMenuInput';
-import { IngredientSkeleton } from './IngredientSkeleton';
 import { IngredientUnitInput } from './IngredientUnitInput';
 
 interface IngredientGridProps {
@@ -31,15 +31,7 @@ export const IngredientGrid = ({
   } = useFormContext<IngredientFormValues>();
   // 데이터 로딩 중(서버로부터 받아오든, AI 자동생성 중이든) 일 때 보여줄 화면
   if (isPending) {
-    return (
-      <main className="flex-1 p-1">
-        <div className="body-medium-semibold! grid auto-rows-[42px] grid-cols-2 gap-x-12 gap-y-6">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <IngredientSkeleton key={index} />
-          ))}
-        </div>
-      </main>
-    );
+    return <IngredientAiRecommendLoading ingredientSkeletonCount={5} />;
   }
   return (
     <main className="flex-1 overflow-y-auto p-1">

@@ -1,10 +1,9 @@
-import {
-  IngredientManagementHeader,
-  IngredientMenuCategories,
-  IngredientMenuGrid,
-  IngredientPaginationBar,
-} from '@/components/ingredient';
+import { PaginationBar } from '@/components/shared';
 import { useMenusManagement, useRegisteredMenus } from '@/hooks/ingredient';
+
+import { IngredientManagementHeader } from './IngredientManagementHeader';
+import { IngredientMenuCategories } from './IngredientMenuCategories';
+import { IngredientMenuGrid } from './IngredientMenuGrid';
 
 export const IngredientManagement = () => {
   // 서버에 등록되어 있는 메뉴들 불러오기
@@ -35,7 +34,7 @@ export const IngredientManagement = () => {
       <section className="flex w-265 flex-col gap-6">
         <IngredientMenuGrid currentPageMenus={currentPageItems} />
         {totalPageCount >= 2 && ( // 2페이지 이상일 때만 하단 페이지네이션 바 노출
-          <IngredientPaginationBar
+          <PaginationBar
             currentPage={currentPage}
             totalPageCount={totalPageCount}
             isFirstPage={isFirstPage}

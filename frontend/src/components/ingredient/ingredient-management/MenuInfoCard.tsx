@@ -1,7 +1,7 @@
 import { useMenuDialog } from '@/hooks/ingredient';
 import { formatNumber } from '@/utils/shared';
 
-import { IngredientEditDialog } from './IngredientEditDialog';
+import { IngredientEditDialog } from '../ingredient-edit-dialog';
 
 interface MenuCardProps {
   menuId: string;
