@@ -147,19 +147,19 @@ public enum AnalysisCardCode {
             AnalysisCode.SLS_09,
             Period.LAST_7_DAYS,
             ComparePeriod.NONE,
-            CardSize.SIZE_1X1),
+            CardSize.SIZE_3X1),
     SLS_10_07(
             "주별 매출 추이",
             AnalysisCode.SLS_10,
             Period.LAST_8_WEEKS,
             ComparePeriod.NONE,
-            CardSize.SIZE_1X1),
+            CardSize.SIZE_3X1),
     SLS_11_07(
             "월별 매출 추이",
             AnalysisCode.SLS_11,
             Period.LAST_6_MONTHS,
             ComparePeriod.NONE,
-            CardSize.SIZE_1X1),
+            CardSize.SIZE_3X1),
 
     // 매출 - 패턴
     SLS_13_01(

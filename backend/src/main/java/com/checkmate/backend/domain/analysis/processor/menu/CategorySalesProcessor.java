@@ -1,12 +1,12 @@
 package com.checkmate.backend.domain.analysis.processor.menu;
 
 import com.checkmate.backend.domain.analysis.context.MenuAnalysisContext;
+import com.checkmate.backend.domain.analysis.dto.projection.CategorySalesProjection;
+import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.menu.CategorySalesResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
-import com.checkmate.backend.domain.analysis.result.AnalysisResult;
-import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.order.repository.MenuAnalysisRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,18 +28,23 @@ public class CategorySalesProcessor implements AnalysisProcessor<MenuAnalysisCon
     }
 
     @Override
-    public AnalysisResult process(MenuAnalysisContext context) {
+    public AnalysisResponse process(MenuAnalysisContext context) {
 
         // 상위 5개만
         Pageable pageable = PageRequest.of(0, 5);
 
-        List<CategorySalesResponse> categorySalesResponses =
+        List<CategorySalesProjection> projections =
                 menuAnalysisRepository.findCategorySales(
                         context.getStoreId(),
                         context.getStartDate(),
                         context.getEndDate(),
                         pageable);
 
-        return new DefaultAnalysisResult<>(context.getAnalysisCardCode(), categorySalesResponses);
+        List<CategorySalesResponse.CategorySalesItem> categorySalesItems =
+                projections.stream().map(CategorySalesResponse.CategorySalesItem::of).toList();
+
+        CategorySalesResponse response = new CategorySalesResponse(categorySalesItems);
+
+        return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }
 }

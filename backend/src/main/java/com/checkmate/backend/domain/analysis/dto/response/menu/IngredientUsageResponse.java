@@ -1,8 +1,16 @@
 package com.checkmate.backend.domain.analysis.dto.response.menu;
 
+import com.checkmate.backend.domain.analysis.dto.response.DashboardAnalysisResponse;
+import com.checkmate.backend.domain.analysis.dto.response.DetailAnalysisResponse;
+import java.util.List;
+
 /** MNU_04 (식자재 소진량) */
-public record IngredientUsageResponse(
-        String ingredientName, //  식자재 이름
-        Long totalQuantity, // 식자재 소진량
-        String baseUnit // ml or g
-        ) {}
+public record IngredientUsageResponse(List<IngredientUsageItem> items)
+        implements DashboardAnalysisResponse, DetailAnalysisResponse {
+
+    public record IngredientUsageItem(
+            String ingredientName, // 식자재 이름
+            Long totalQuantity, // 총 소진량
+            String baseUnit // 단위 (g, ml 등)
+            ) {}
+}

@@ -2,12 +2,11 @@ package com.checkmate.backend.domain.analysis.processor.menu;
 
 import com.checkmate.backend.domain.analysis.context.MenuAnalysisContext;
 import com.checkmate.backend.domain.analysis.dto.projection.IngredientUsageProjection;
+import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.menu.IngredientUsageResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
-import com.checkmate.backend.domain.analysis.result.AnalysisResult;
-import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.menu.entity.Ingredient;
 import com.checkmate.backend.domain.menu.repository.IngredientRepository;
 import com.checkmate.backend.domain.order.repository.MenuAnalysisRepository;
@@ -31,7 +30,7 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
     }
 
     @Override
-    public AnalysisResult process(MenuAnalysisContext context) {
+    public AnalysisResponse process(MenuAnalysisContext context) {
 
         // 식재료 사용량 갖고 온다.
         List<IngredientUsageProjection> ingredientUsageProjections =
@@ -45,7 +44,7 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
 
         List<Ingredient> ingredients = ingredientRepository.findAllByIds(ingredientIds);
 
-        List<IngredientUsageResponse> ingredientUsageResponses = new ArrayList<>();
+        List<IngredientUsageResponse.IngredientUsageItem> ingredientUsageItems = new ArrayList<>();
 
         for (IngredientUsageProjection ingredientUsageProjection : ingredientUsageProjections) {
             Long ingredientId = ingredientUsageProjection.ingredientId();
@@ -57,13 +56,15 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
                             .findFirst() // 첫 번째 찾기
                             .orElse(null); // 없으면 null 반환
 
-            ingredientUsageResponses.add(
-                    new IngredientUsageResponse(
+            ingredientUsageItems.add(
+                    new IngredientUsageResponse.IngredientUsageItem(
                             ingredientUsageProjection.ingredientName(),
                             ingredientUsageProjection.totalQuantity(),
                             baseUnit));
         }
 
-        return new DefaultAnalysisResult<>(context.getAnalysisCardCode(), ingredientUsageResponses);
+        IngredientUsageResponse response = new IngredientUsageResponse(ingredientUsageItems);
+
+        return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }
 }

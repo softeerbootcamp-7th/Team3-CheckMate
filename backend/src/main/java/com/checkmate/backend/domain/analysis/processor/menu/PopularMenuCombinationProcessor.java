@@ -4,12 +4,11 @@ import com.checkmate.backend.domain.analysis.context.MenuAnalysisContext;
 import com.checkmate.backend.domain.analysis.dto.OrderMenus;
 import com.checkmate.backend.domain.analysis.dto.projection.MenuIdNameProjection;
 import com.checkmate.backend.domain.analysis.dto.projection.OrderMenusProjection;
+import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.menu.PopularMenuCombinationResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
-import com.checkmate.backend.domain.analysis.result.AnalysisResult;
-import com.checkmate.backend.domain.analysis.result.DefaultAnalysisResult;
 import com.checkmate.backend.domain.menu.repository.MenuRepository;
 import com.checkmate.backend.domain.order.repository.MenuAnalysisRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,7 +38,7 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
 
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     @Override
-    public AnalysisResult process(MenuAnalysisContext context) {
+    public AnalysisResponse process(MenuAnalysisContext context) {
 
         // 매출 기준 top3 메뉴 조회 (기준 메뉴)
         List<Long> top3MenuIds =
@@ -110,7 +109,7 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                                         MenuIdNameProjection::menuName));
 
         // DTO 변환
-        List<PopularMenuCombinationResponse> popularMenuCombinationResponses = new ArrayList<>();
+        List<PopularMenuCombinationResponse.PopularMenuCombinationItem> items = new ArrayList<>();
 
         for (Long baseMenuId : combinationCountMap.keySet()) {
             Map<Long, Long> pairedCountMap = combinationCountMap.get(baseMenuId);
@@ -122,24 +121,29 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                             .toList();
 
             // 정렬된 paired 메뉴를 DTO로 변환
-            List<PopularMenuCombinationResponse.PairedMenu> pairedMenus =
-                    sortedPairedEntries.stream()
-                            .map(
-                                    entry ->
-                                            new PopularMenuCombinationResponse.PairedMenu(
-                                                    menuIdToNameMap.get(
-                                                            entry.getKey()), // pairedMenu 이름
-                                                    entry.getValue() // 카운트
-                                                    ))
-                            .toList();
+            List<PopularMenuCombinationResponse.PopularMenuCombinationItem.PairedMenuItem>
+                    pairedMenus =
+                            sortedPairedEntries.stream()
+                                    .map(
+                                            entry ->
+                                                    new PopularMenuCombinationResponse
+                                                            .PopularMenuCombinationItem
+                                                            .PairedMenuItem(
+                                                            menuIdToNameMap.get(
+                                                                    entry
+                                                                            .getKey()), // pairedMenu 이름
+                                                            entry.getValue() // 카운트
+                                                            ))
+                                    .toList();
 
-            popularMenuCombinationResponses.add(
-                    new PopularMenuCombinationResponse(
+            items.add(
+                    new PopularMenuCombinationResponse.PopularMenuCombinationItem(
                             menuIdToNameMap.get(baseMenuId), // baseMenu 이름
                             pairedMenus));
         }
 
-        return new DefaultAnalysisResult<>(
-                context.getAnalysisCardCode(), popularMenuCombinationResponses);
+        PopularMenuCombinationResponse response = new PopularMenuCombinationResponse(items);
+
+        return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }
 }
