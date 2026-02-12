@@ -1,1 +1,1 @@
-export { PosIntegrationMain } from './PostIntegrationMain';
+export { PosIntegrationMain } from './PosIntegrationMain';
