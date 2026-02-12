@@ -59,7 +59,12 @@ public enum SuccessStatus {
     DASHBOARD_LAYOUT_GET_SUCCESS(HttpStatus.OK, "대시보드 레이아웃 조회에 성공했습니다."),
 
     // 201
-    DASHBOARD_CREATE_SUCCESS(HttpStatus.CREATED, "대시보드 등록에 성공했습니다.");
+    DASHBOARD_CREATE_SUCCESS(HttpStatus.CREATED, "대시보드 등록에 성공했습니다."),
+
+    /** Analysis */
+    // 200
+    ANALYSIS_CARD_GET_SUCCESS(HttpStatus.OK, "지표 카드 조회에 성공했습니다."),
+    ;
 
     private final HttpStatus httpStatus;
     private final String message;
