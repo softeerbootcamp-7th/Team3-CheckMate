@@ -3,6 +3,7 @@ import { type FieldErrors, FormProvider } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { Dialog, DialogContent } from '@/components/shared/shadcn-ui';
+import { TOAST_DEFAULT } from '@/constants/shared';
 import {
   useAiIngredientRecommend,
   useIngredientEditSubmit,
@@ -59,7 +60,7 @@ export const IngredientEditDialog = ({
     toast(
       '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
       {
-        duration: 3500, // 3.5초 동안 띄워져있음
+        duration: TOAST_DEFAULT.DURATION, // 3.5초 동안 띄워져있음
         className:
           '!bg-grey-900 !text-grey-50 !border-none !max-w-auto !w-max body-small-semibold px-400',
         position: 'bottom-center',
