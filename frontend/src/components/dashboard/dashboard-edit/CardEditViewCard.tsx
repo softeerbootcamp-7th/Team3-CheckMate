@@ -27,7 +27,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
     <li key={cardCode} style={{ gridColumn: `span ${sizeX}` }}>
       <EditCardWrapper
         isAdded={cards.some((c) => c.code === cardCode)}
-        period={period as string}
+        period={period}
         className="min-w-full"
         sizeX={sizeX}
         sizeY={sizeY}
