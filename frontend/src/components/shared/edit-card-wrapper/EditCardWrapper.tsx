@@ -23,6 +23,8 @@ interface EditCardWrapperProps {
   onClickAddButton?: () => void; // 대시보드에 추가하는 버튼 클릭 핸들러
 }
 
+const GRID_GAP = 20; // 카드 간격 20px
+
 export const EditCardWrapper = ({
   isAdded,
   children,
@@ -46,10 +48,10 @@ export const EditCardWrapper = ({
       style={{
         width:
           Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth) * sizeX +
-          20 * (sizeX - 1), // 최소 너비 220px, gap 20px
+          GRID_GAP * (sizeX - 1), // 최소 너비 220px, gap 20px
         height:
           Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight) * sizeY +
-          20 * (sizeY - 1), // 최소 높이 147px, gap 20px
+          GRID_GAP * (sizeY - 1), // 최소 높이 147px, gap 20px
       }}
       className={cn(
         'bg-special-card-bg rounded-400 border-grey-300 relative flex flex-col overflow-hidden border p-3',
