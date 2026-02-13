@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/shared/shadcn-ui';
 import { DASHBOARD_METRICS } from '@/constants/dashboard';
@@ -6,10 +6,11 @@ import { DASHBOARD_METRICS } from '@/constants/dashboard';
 import { CardEditViewTabContentGroup } from './CardEditViewTabContentGroup';
 
 export const CardEditViewTabs = memo(() => {
+  const dashboardMetrics = useMemo(() => Object.values(DASHBOARD_METRICS), []);
   return (
-    <Tabs defaultValue={DASHBOARD_METRICS[0].tab} className="h-full">
+    <Tabs defaultValue={dashboardMetrics[0].tab} className="h-full">
       <TabsList className="mx-0 mt-10 gap-1000" variant="line">
-        {DASHBOARD_METRICS.map(({ tab }) => (
+        {dashboardMetrics.map(({ tab }) => (
           <TabsTrigger
             key={tab}
             value={tab}
