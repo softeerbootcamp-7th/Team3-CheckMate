@@ -1,0 +1,1 @@
+export { IngredientAiRecommendLoading } from './IngredientAiRecommendLoading';

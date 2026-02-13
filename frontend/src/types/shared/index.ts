@@ -1,10 +1,11 @@
 export type { SidebarOptionItem } from './sidebarOptionItem';
-export type { BusinessHour } from './businessHour';
+export type { BusinessHourRequest } from './businessHourRequest';
 export type { DayOfWeek } from './dayOfWeek';
 export type {
   DoughnutChartItem,
   DoughtnutChartItemWithPercentage,
 } from './doughnutChartItem';
+export type { RouteHandle } from './routeHandle';
 export type { StoreInfo } from './storeInfo';
 export type {
   LineChartDatum,
@@ -25,3 +26,4 @@ export type {
   AllBarChartSeries,
 } from './bar-chart';
 export type { ChartData, ChartSeries } from './chartDataType';
+export type { EventSourceMessage } from './eventSourceMessage';

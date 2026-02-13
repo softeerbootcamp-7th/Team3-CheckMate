@@ -6,13 +6,13 @@ import { parseStoreBusinessHour } from './parseStoreBusinessHour';
 const storeBusinessHoursValidator = {
   // 영업 시간 또는 상태를 선택하지 않은 경우
   EMPTY_BUSINESS_HOUR: {
-    validate: (value: StoreRegisterForm['businessHours']) => {
+    validate: (value: StoreRegisterForm['businessHourRequests']) => {
       return value.findIndex(
-        (businessHour) =>
-          !businessHour.openTime &&
-          !businessHour.closeTime &&
-          !businessHour.is24 &&
-          !businessHour.closed,
+        (businessHourRequest) =>
+          !businessHourRequest.openTime &&
+          !businessHourRequest.closeTime &&
+          !businessHourRequest.is24 &&
+          !businessHourRequest.closed,
       );
     },
     message: (index: number) => {
@@ -22,13 +22,13 @@ const storeBusinessHoursValidator = {
 
   // 영업 마감 시간만 선택한 경우
   EMPTY_START_TIME: {
-    validate: (value: StoreRegisterForm['businessHours']) => {
-      return value.findIndex((businessHour) => {
-        if (businessHour.is24 || businessHour.closed) {
+    validate: (value: StoreRegisterForm['businessHourRequests']) => {
+      return value.findIndex((businessHourRequest) => {
+        if (businessHourRequest.is24 || businessHourRequest.closed) {
           return false;
         }
 
-        return !businessHour.openTime && businessHour.closeTime;
+        return !businessHourRequest.openTime && businessHourRequest.closeTime;
       });
     },
     message: (index: number) => {
@@ -38,13 +38,13 @@ const storeBusinessHoursValidator = {
 
   // 영업 시작 시간만 선택한 경우
   EMPTY_CLOSE_TIME: {
-    validate: (value: StoreRegisterForm['businessHours']) => {
-      return value.findIndex((businessHour) => {
-        if (businessHour.is24 || businessHour.closed) {
+    validate: (value: StoreRegisterForm['businessHourRequests']) => {
+      return value.findIndex((businessHourRequest) => {
+        if (businessHourRequest.is24 || businessHourRequest.closed) {
           return false;
         }
 
-        return businessHour.openTime && !businessHour.closeTime;
+        return businessHourRequest.openTime && !businessHourRequest.closeTime;
       });
     },
     message: (index: number) => {
@@ -54,18 +54,18 @@ const storeBusinessHoursValidator = {
 
   // 영업 시작 시간과 마감 시간이 같거나 시작 시간이 마감 시간보다 늦은 경우
   INVALID_CLOSE_TIME: {
-    validate: (value: StoreRegisterForm['businessHours']) => {
-      return value.findIndex((businessHour) => {
-        if (businessHour.is24 || businessHour.closed) {
+    validate: (value: StoreRegisterForm['businessHourRequests']) => {
+      return value.findIndex((businessHourRequest) => {
+        if (businessHourRequest.is24 || businessHourRequest.closed) {
           return false;
         }
 
-        if (businessHour.openTime && businessHour.closeTime) {
+        if (businessHourRequest.openTime && businessHourRequest.closeTime) {
           const { hour: openHour, minute: openMinute } = parseStoreBusinessHour(
-            businessHour.openTime,
+            businessHourRequest.openTime,
           );
           const { hour: closeHour, minute: closeMinute } =
-            parseStoreBusinessHour(businessHour.closeTime);
+            parseStoreBusinessHour(businessHourRequest.closeTime);
           return openHour === closeHour && openMinute === closeMinute;
         }
         return false;
@@ -78,13 +78,13 @@ const storeBusinessHoursValidator = {
 
   // 영업 마감 시간이 다음날 시작 시간보다 늦는 경우
   INVALID_CLOSE_TIME_TO_NEXT_DAY_START_TIME: {
-    validate: (value: StoreRegisterForm['businessHours']) => {
-      return value.findIndex((business, index) => {
-        if (business.is24 || business.closed) {
+    validate: (value: StoreRegisterForm['businessHourRequests']) => {
+      return value.findIndex((businessHourRequest, index) => {
+        if (businessHourRequest.is24 || businessHourRequest.closed) {
           return false;
         }
 
-        const closeTime = business.closeTime;
+        const closeTime = businessHourRequest.closeTime;
         const nextDayStartTime =
           value[(index + 1) % STORE_BUSINESS_WEEK_DAY_LIST.length]?.openTime;
 
@@ -112,7 +112,7 @@ const storeBusinessHoursValidator = {
 };
 
 export const validateStoreBusinessHours = (
-  value: StoreRegisterForm['businessHours'],
+  value: StoreRegisterForm['businessHourRequests'],
 ) => {
   for (const validator of Object.values(storeBusinessHoursValidator)) {
     const index = validator.validate(value);

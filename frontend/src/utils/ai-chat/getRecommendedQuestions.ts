@@ -12,7 +12,7 @@ export const getRecommendedQuestions = (pathname: string) => {
   if (pathname.startsWith(ROUTE_PATHS.DAILY_REPORT)) {
     return CHAT_DAILY_REPORT_QUESTIONS;
   }
-  if (pathname.startsWith(ROUTE_PATHS.DASHBOARD)) {
+  if (pathname.startsWith(ROUTE_PATHS.DASHBOARD.BASE)) {
     return CHAT_DASHBOARD_QUESTIONS;
   }
   if (pathname.startsWith(ROUTE_PATHS.ANALYSIS.BASE)) {
