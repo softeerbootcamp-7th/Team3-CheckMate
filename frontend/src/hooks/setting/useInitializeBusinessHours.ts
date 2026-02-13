@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { STORE_REGISTER_FORM_FIELD } from '@/constants/onboarding/store-register';
-import type { BusinessHourRequest } from '@/types/shared';
+import type { BusinessHour } from '@/types/shared';
 
 interface UseInitializeBusinessHoursParams {
-  storeBusinessHours: BusinessHourRequest[];
+  storeBusinessHours: BusinessHour[];
 }
 // 매장 영업시간 시간 초기화 로직 구현
 export const useInitializeBusinessHours = ({

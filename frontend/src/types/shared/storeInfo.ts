@@ -1,7 +1,7 @@
-import type { BusinessHourRequest } from '@/types/shared';
+import type { BusinessHour } from '@/types/shared';
 
 export interface StoreInfo {
   storeName: string;
-  businessHourRequests: BusinessHourRequest[];
+  businessHourRequests: BusinessHour[];
   salesClosingHour: number; // 매출 마감 시간
 }
