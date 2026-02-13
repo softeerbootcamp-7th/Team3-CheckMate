@@ -6,7 +6,7 @@ import type {
   StackBarDatum,
 } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared/bar-chart';
-import { getCoordinateGeneric, getXCoordinate } from '@/utils/shared';
+import { getCoordinate, getXCoordinate } from '@/utils/shared';
 import { checkIsStackBarChart } from '@/utils/shared/bar-chart';
 
 interface UseBarChartProps {
@@ -65,7 +65,7 @@ export const useBarChart = ({
       return [];
     }
     // 만약 stackBarChart면 스택별로 데이터를 하나의 바로 합친 후 좌표를 계산해야 함
-    const seriesForCoordinate = isStackBarChart
+    const barSeriesForCoordinate = isStackBarChart
       ? {
           ...barChartSeries,
           data: {
@@ -84,10 +84,10 @@ export const useBarChart = ({
         }
       : barChartSeries;
 
-    return getCoordinateGeneric<BarChartSeries>({
+    return getCoordinate({
       svgRect,
       adjustedHeight,
-      series: seriesForCoordinate as BarChartSeries,
+      series: barSeriesForCoordinate as BarChartSeries,
       maximumY,
     });
   }, [svgRect, adjustedHeight, barChartSeries, maximumY, isStackBarChart]);

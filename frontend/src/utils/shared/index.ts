@@ -26,7 +26,7 @@ export {
 } from './calendar';
 export { formatPriceWithComma } from './formatPriceWithComma';
 export { formatNumber, formatNumberInTenThousands } from './formatNumber';
-export { getCoordinate, getXCoordinate, filterCoordinate } from './line-chart';
+export { getXCoordinate, filterCoordinate } from './line-chart';
 
 export {
   computeChartDataWithPercentage,
@@ -37,7 +37,7 @@ export {
 } from './doughnut-chart';
 
 export { createPeriodTypeProvider } from './period-select';
-export { getCoordinateGeneric } from './getCoordinateGeneric';
+export { getCoordinate } from './getCoordinate';
 export {
   getBarSegmentInfoList,
   checkIsStackBarChart,

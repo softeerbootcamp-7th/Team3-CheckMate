@@ -1,5 +1,6 @@
 import type { ChartSeries } from '@/types/shared';
 
+// 바, 라인 그래프에서 사용되는 데이터별 좌표 점 계산 유틸
 interface GetCoordinateArgs<T extends ChartSeries> {
   svgRect: DOMRect;
   adjustedHeight: number;
@@ -12,7 +13,7 @@ interface Coordinate {
   y: number | null;
 }
 
-export const getCoordinateGeneric = <T extends ChartSeries>({
+export const getCoordinate = <T extends ChartSeries>({
   svgRect,
   adjustedHeight,
   series,
