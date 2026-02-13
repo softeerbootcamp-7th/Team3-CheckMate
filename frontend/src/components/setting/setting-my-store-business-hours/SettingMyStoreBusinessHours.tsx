@@ -1,9 +1,9 @@
 import { StoreBusinessHoursInputGrid } from '@/components/onboarding/store-register';
 import { useInitializeBusinessHours } from '@/hooks/setting';
-import type { BusinessHour } from '@/types/shared';
+import type { BusinessHourRequest } from '@/types/shared';
 
 interface SettingMyStoreBusinessHoursProps {
-  storeBusinessHours: BusinessHour[];
+  storeBusinessHours: BusinessHourRequest[];
 }
 
 export const SettingMyStoreBusinessHours = ({

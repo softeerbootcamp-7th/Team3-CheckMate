@@ -1,12 +1,18 @@
+import { useCallback } from 'react';
+
 import { XIcon } from 'lucide-react';
 
 import { PeriodTag } from '@/components/shared';
 import { Button } from '@/components/shared/shadcn-ui';
-import { DASHBOARD_METRIC_CARDS } from '@/constants/dashboard';
+import {
+  DASHBOARD_METRIC_CARDS,
+  type MetricCardCode,
+} from '@/constants/dashboard';
 import { CDN_BASE_URL } from '@/constants/shared/cdnBaseUrl';
+import { useEditCard } from '@/hooks/dashboard';
 
 interface MiniViewActiveCardProps {
-  cardCode: string;
+  cardCode: MetricCardCode;
   posX: number;
   posY: number;
 }
@@ -15,15 +21,19 @@ export const MiniViewActiveCard = ({
   posX,
   posY,
 }: MiniViewActiveCardProps) => {
+  const { removeCard } = useEditCard();
   const card = DASHBOARD_METRIC_CARDS[cardCode];
+
+  const handleRemove = useCallback(
+    () => removeCard(cardCode),
+    [removeCard, cardCode],
+  );
 
   if (!card) {
     // 카드 정보가 없는 경우 렌더링하지 않음
     return null;
   }
   const { label, type, period, sizeX, sizeY } = card;
-
-  const handleRemove = () => alert(`카드 ${label} 제거`); // TODO: 카드 제거 로직 구현
 
   return (
     <div

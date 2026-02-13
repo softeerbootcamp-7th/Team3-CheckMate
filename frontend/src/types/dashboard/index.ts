@@ -1,1 +1,1 @@
-export { type DashboardGridItem } from './dashboardGridItem';
+export type { DashboardCard } from './dashboardCard';

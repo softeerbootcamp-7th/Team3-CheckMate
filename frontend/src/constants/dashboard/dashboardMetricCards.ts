@@ -3,7 +3,7 @@ import type { DeepValueOf, ValueOf } from '@/utils/shared';
 import { PERIOD_PRESETS } from '../shared';
 
 const CHART_TYPE = {
-  DOUGHNUT_CHART: 'doughnut_chart',
+  DOUGHNUT_CHART: 'donut_chart',
   BAR_CHART: 'analysis',
   LINE_CHART: 'line_graph',
   WEATHER: 'weather',
@@ -21,7 +21,7 @@ interface MetricCard {
   sizeY: number; // 세로 크기 (기본값 1)
 }
 
-export const DASHBOARD_METRIC_CARDS: Record<string, MetricCard> = {
+export const DASHBOARD_METRIC_CARDS = {
   SLS_01_01: {
     code: 'SLS_01_01',
     label: '오늘 실매출',
@@ -302,4 +302,10 @@ export const DASHBOARD_METRIC_CARDS: Record<string, MetricCard> = {
     sizeX: 1,
     sizeY: 1,
   },
-} as const;
+} as const satisfies Record<string, MetricCard>;
+
+export type MetricCardCode = keyof typeof DASHBOARD_METRIC_CARDS;
+
+export const isMetricCardCode = (code: string): code is MetricCardCode => {
+  return code in DASHBOARD_METRIC_CARDS;
+};

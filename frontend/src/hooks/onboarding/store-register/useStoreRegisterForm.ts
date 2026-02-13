@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -16,7 +15,6 @@ import { refineStoreRegisterFormData } from '@/utils/onboarding/store-register';
 import { useStoreRegisterStepContext } from './useStoreRegisterStepContext';
 
 export const useStoreRegisterForm = () => {
-  const navigate = useNavigate();
   const methods = useForm<StoreRegisterForm>({
     mode: 'all',
     defaultValues: STORE_REGISTER_FORM_DEFAULT_VALUE,
@@ -33,7 +31,7 @@ export const useStoreRegisterForm = () => {
         queryKey: authKeys.status(),
       });
 
-      navigate('/onboarding/pos', { replace: true });
+      window.location.replace('/onboarding/pos');
     },
     onError: (error) => {
       toast.error(error.message);
@@ -52,8 +50,8 @@ export const useStoreRegisterForm = () => {
     }
 
     if (currentStep === STORE_REGISTER_STEP.STORE_BUSINESS_HOURS) {
-      const has24BusinessHour = data.businessHours.some(
-        (businessHour) => businessHour.is24,
+      const has24BusinessHour = data.businessHourRequests.some(
+        (businessHourRequest) => businessHourRequest.is24,
       );
       if (has24BusinessHour) {
         moveNextStep();

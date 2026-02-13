@@ -10,14 +10,16 @@ export const useStoreBusinessHoursStep = () => {
     field: { value },
     fieldState: { error },
   } = useController({
-    name: STORE_REGISTER_FORM_FIELD.BUSINESS_HOURS,
+    name: STORE_REGISTER_FORM_FIELD.BUSINESS_HOUR_REQUESTS,
     control,
   });
 
   const isError = !!error;
   const errorMessage = error?.message;
 
-  const has24BusinessHour = value.some((businessHour) => businessHour.is24);
+  const has24BusinessHour = value.some(
+    (businessHourRequest) => businessHourRequest.is24,
+  );
 
   return {
     isError,

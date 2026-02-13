@@ -17,7 +17,7 @@ export const useStoreBusinessHours = () => {
   const {
     field: { value, onChange },
   } = useController({
-    name: `${STORE_REGISTER_FORM_FIELD.BUSINESS_HOURS}`,
+    name: `${STORE_REGISTER_FORM_FIELD.BUSINESS_HOUR_REQUESTS}`,
     control,
     rules: {
       validate: validateStoreBusinessHours,
@@ -174,7 +174,7 @@ export const useStoreBusinessHours = () => {
   const startHourTimeLimit = useMemo(() => {
     const timeLimit: Record<
       number,
-      StoreRegisterForm['businessHours'][number]['closeTime']
+      StoreRegisterForm['businessHourRequests'][number]['closeTime']
     > = {};
 
     value.forEach((businessHour, index) => {
@@ -189,7 +189,7 @@ export const useStoreBusinessHours = () => {
   const endHourTimeLimit = useMemo(() => {
     const timeLimit: Record<
       number,
-      StoreRegisterForm['businessHours'][number]['openTime']
+      StoreRegisterForm['businessHourRequests'][number]['openTime']
     > = {};
 
     value.forEach((businessHour, index) => {

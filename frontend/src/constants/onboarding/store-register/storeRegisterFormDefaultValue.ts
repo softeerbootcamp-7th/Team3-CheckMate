@@ -3,7 +3,7 @@ import type { StoreRegisterForm } from '@/types/onboarding/store-register';
 import { STORE_BUSINESS_WEEK_DAY_LIST } from './storeBusinessWeekDayList';
 
 export const STORE_REGISTER_FORM_DEFAULT_VALUE: StoreRegisterForm = {
-  businessHours: STORE_BUSINESS_WEEK_DAY_LIST.map(({ id }) => ({
+  businessHourRequests: STORE_BUSINESS_WEEK_DAY_LIST.map(({ id }) => ({
     dayOfWeek: id,
     openTime: '',
     closeTime: '',

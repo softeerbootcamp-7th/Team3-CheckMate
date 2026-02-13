@@ -14,13 +14,13 @@ const meta = {
 
 export default meta;
 
-type ButtonGroupStoryArgs = {
+interface ButtonGroupStoryArgs {
   positiveLabel: string;
   negativeLabel: string;
   onPositiveClick: () => void;
   onNegativeClick: () => void;
   disabled?: boolean;
-};
+}
 
 type Story = StoryObj<ButtonGroupStoryArgs>;
 

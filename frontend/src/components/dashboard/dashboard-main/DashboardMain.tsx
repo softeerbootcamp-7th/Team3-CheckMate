@@ -13,7 +13,7 @@ export const DashboardMain = () => {
   return (
     <>
       {mockedGridItems ? (
-        <DashboardMainContent gridItems={mockedGridItems} />
+        <DashboardMainContent cards={mockedGridItems} />
       ) : (
         <DashboardEmptyContent />
       )}

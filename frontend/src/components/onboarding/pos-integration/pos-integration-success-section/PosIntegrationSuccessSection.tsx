@@ -1,8 +1,19 @@
+import { useEffect } from 'react';
+
+import { useQueryClient } from '@tanstack/react-query';
+
 import { CDN_BASE_URL } from '@/constants/shared';
+import { authKeys } from '@/services/auth';
 
 import { DashboardNavigateButton } from './DashboardNavigateButton';
 
 export const PosIntegrationSuccessSection = () => {
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.refetchQueries({ queryKey: authKeys.status() });
+  }, [queryClient]);
+
   return (
     <section className="flex size-full flex-col items-center gap-[12.5rem] pt-79">
       <div className="flex flex-col items-center gap-8">
