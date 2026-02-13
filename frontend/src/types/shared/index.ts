@@ -1,5 +1,5 @@
 export type { SidebarOptionItem } from './sidebarOptionItem';
-export type { BusinessHourRequest } from './businessHourRequest';
+export type { BusinessHour } from './businessHour';
 export type { DayOfWeek } from './dayOfWeek';
 export type {
   DoughnutChartItem,

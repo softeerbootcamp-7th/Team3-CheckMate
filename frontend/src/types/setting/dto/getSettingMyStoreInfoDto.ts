@@ -1,3 +1,8 @@
-import type { StoreInfo } from '@/types/shared';
+import type { BusinessHour, StoreInfo } from '@/types/shared';
 
-export type GetSettingMyStoreInfoResponseDto = StoreInfo;
+export type GetSettingMyStoreInfoResponseDto = Omit<
+  StoreInfo,
+  'businessHourRequests'
+> & {
+  businessHourResponses: BusinessHour[];
+};

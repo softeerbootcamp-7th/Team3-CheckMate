@@ -1,6 +1,6 @@
 import type { DayOfWeek } from './dayOfWeek';
 
-export interface BusinessHourRequest {
+export interface BusinessHour {
   dayOfWeek: DayOfWeek;
   openTime?: string; // 00:00 ~ 23:30
   closeTime?: string; // 00:00 ~ 23:30

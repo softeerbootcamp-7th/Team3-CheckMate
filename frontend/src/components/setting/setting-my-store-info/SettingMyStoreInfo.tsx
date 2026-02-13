@@ -26,7 +26,7 @@ export const SettingMyStoreInfo = () => {
             />
           </div>
           <SettingMyStoreBusinessHours
-            storeBusinessHours={data.businessHourRequests}
+            storeBusinessHours={data.businessHourResponses}
           />
         </div>
       </section>
