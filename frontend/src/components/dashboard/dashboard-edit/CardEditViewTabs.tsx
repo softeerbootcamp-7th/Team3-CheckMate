@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import {
   Tabs,
   TabsContent,
@@ -9,10 +11,11 @@ import { DASHBOARD_METRICS } from '@/constants/dashboard';
 import { CardEditViewTabContent } from './CardEditViewTabContent';
 
 export const CardEditViewTabs = () => {
+  const dashboardMetrics = useMemo(() => Object.values(DASHBOARD_METRICS), []);
   return (
-    <Tabs defaultValue={DASHBOARD_METRICS[0].tab} className="h-full">
+    <Tabs defaultValue={dashboardMetrics[0].tab} className="h-full">
       <TabsList className="mx-0 mt-10 gap-1000" variant="line">
-        {DASHBOARD_METRICS.map(({ tab }) => (
+        {dashboardMetrics.map(({ tab }) => (
           <TabsTrigger
             key={tab}
             value={tab}
@@ -23,7 +26,7 @@ export const CardEditViewTabs = () => {
         ))}
       </TabsList>
       <hr className="text-grey-300 -mt-2 h-0.5 w-full" />
-      {DASHBOARD_METRICS.map(({ tab, sections }) => (
+      {dashboardMetrics.map(({ tab, sections }) => (
         <TabsContent key={tab} value={tab} className="h-full overflow-y-auto">
           <CardEditViewTabContent sections={sections} />
         </TabsContent>

@@ -8,5 +8,11 @@ export {
   DASHBOARD_METRICS,
   type MetricSection,
   type MetricItem,
+  type MetricTabs,
+  type ExtractCardCodes,
 } from './dashboardMetric';
-export { DASHBOARD_METRIC_CARDS } from './dashboardMetricCards';
+export {
+  DASHBOARD_METRIC_CARDS,
+  isMetricCardCode,
+  type MetricCardCode,
+} from './dashboardMetricCards';
