@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { DASHBOARD_METRIC_CARDS } from '@/constants/dashboard';
+import {
+  DASHBOARD_METRIC_CARDS,
+  isMetricCardCode,
+} from '@/constants/dashboard';
 
 import { MiniViewActiveCard } from './MiniViewActiveCard';
 import { MiniViewEmptyCard } from './MiniViewEmptyCard';
@@ -28,6 +31,9 @@ export const MiniView = () => {
     () =>
       9 -
       activeCard.reduce((sum, card) => {
+        if (!isMetricCardCode(card.code)) {
+          return sum;
+        }
         const cardInfo = DASHBOARD_METRIC_CARDS[card.code];
         if (!cardInfo) {
           return sum; // 카드 정보가 없는 경우 해당 카드는 없는 것으로 간주
@@ -48,14 +54,19 @@ export const MiniView = () => {
           <MiniViewEmptyCard key={`grid-${index}`} />
         ))}
         {/* 활성 카드 */}
-        {activeCard.map((card) => (
-          <MiniViewActiveCard
-            key={card.code}
-            cardCode={card.code}
-            posX={card.posX}
-            posY={card.posY}
-          />
-        ))}
+        {activeCard.map((card) => {
+          if (!isMetricCardCode(card.code)) {
+            return null;
+          }
+          return (
+            <MiniViewActiveCard
+              key={card.code}
+              cardCode={card.code}
+              posX={card.posX}
+              posY={card.posY}
+            />
+          );
+        })}
       </div>
     </section>
   );
