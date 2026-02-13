@@ -1,9 +1,10 @@
-import type { LineChartSeries } from '@/types/shared';
+import type { ChartSeries } from '@/types/shared';
 
-interface GetCoordinateArgs {
+// 바, 라인 그래프에서 사용되는 데이터별 좌표 점 계산 유틸
+interface GetCoordinateArgs<T extends ChartSeries> {
   svgRect: DOMRect;
   adjustedHeight: number;
-  series: LineChartSeries;
+  series: T;
   maximumY: number;
 }
 
@@ -12,12 +13,12 @@ interface Coordinate {
   y: number | null;
 }
 
-export const getCoordinate = ({
+export const getCoordinate = <T extends ChartSeries>({
   svgRect,
   adjustedHeight,
   series,
   maximumY,
-}: GetCoordinateArgs): Coordinate[] => {
+}: GetCoordinateArgs<T>): Coordinate[] => {
   const { width: svgWidth } = svgRect;
   const xDataLength = series.data.mainX.length;
 

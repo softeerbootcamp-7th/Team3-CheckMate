@@ -14,4 +14,16 @@ export type {
   Coordinate,
   XAxisType,
 } from './line-chart';
+export type {
+  BarChartDatum,
+  BarChartData,
+  BarChartSeries,
+  StackBarSegment,
+  StackBarSegmentWithPercentage,
+  StackBarDatum,
+  StackBarChartData,
+  StackBarChartSeries,
+  AllBarChartSeries,
+} from './bar-chart';
+export type { ChartData, ChartSeries } from './chartDataType';
 export type { EventSourceMessage } from './eventSourceMessage';
