@@ -16,6 +16,7 @@ interface EditCardWrapperProps {
   isAdded: boolean;
   children: ReactNode;
   className?: string; // 전체 wrapper 크기나 보더 등 스타일
+  innerClassName?: string; // 자식 컴포넌트 클래스명
   period: string; // 오늘, 이번주, 이번달 등 문구
   sizeX?: number; // 가로 크기
   sizeY?: number; // 세로 크기
@@ -29,6 +30,7 @@ export const EditCardWrapper = ({
   isAdded,
   children,
   className,
+  innerClassName,
   sizeX = 1,
   sizeY = 1,
   period = '기간없음',
@@ -68,7 +70,10 @@ export const EditCardWrapper = ({
       </div>
       <div
         style={{ marginTop: `${EDIT_CARD_WRAPPER.HEADER_MAIN_GAP}px` }}
-        className="flex min-w-0 flex-1 items-end justify-center"
+        className={cn(
+          'flex min-w-0 flex-1 items-end justify-center',
+          innerClassName,
+        )}
       >
         <div
           style={{
