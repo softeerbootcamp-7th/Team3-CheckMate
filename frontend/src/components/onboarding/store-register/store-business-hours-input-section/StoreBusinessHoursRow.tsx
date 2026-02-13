@@ -12,7 +12,7 @@ import { StoreBusinessHoursWeekDayLabel } from './StoreBusinessHoursWeekDayLabel
 
 interface StoreBusinessHoursRowProps {
   label: StoreBusinessWeekDay['label'];
-  businessHour: StoreRegisterForm['businessHours'][number];
+  businessHour: StoreRegisterForm['businessHourRequests'][number];
   startHourTimeLimit?: string;
   endHourTimeLimit?: string;
   isOver24FromYesterday?: boolean;

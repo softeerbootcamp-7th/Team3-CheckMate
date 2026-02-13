@@ -1,0 +1,1 @@
+export { PosIntegrationMain } from './PosIntegrationMain';

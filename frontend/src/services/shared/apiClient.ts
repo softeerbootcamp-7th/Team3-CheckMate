@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '@/constants/shared';
 
-import { ApiError } from './apiError';
+import { ApiError, createApiError } from './apiError';
 import { authToken } from './authToken';
 
 /**
@@ -196,22 +196,7 @@ export const createApiClient = ({
         );
       }
 
-      let errorData: ErrorResponse;
-      try {
-        errorData = (await response.json()) as ErrorResponse;
-      } catch {
-        errorData = {
-          success: false,
-          message: 'Unknown error',
-          errorCode: 'UNKNOWN_ERROR',
-        };
-      }
-
-      throw new ApiError(
-        errorData.message,
-        response.status,
-        errorData.errorCode,
-      );
+      throw await createApiError(response);
     }
 
     /* response 성공 시 인터셉터 호출 */

@@ -6,13 +6,15 @@ export const refineStoreRegisterFormData = (
   const { businessRegistrationNumber: _, ...rest } = data;
   return {
     ...rest,
-    businessHours: rest.businessHours.map((businessHour) => {
-      return {
-        ...businessHour,
-        openTime: businessHour.openTime || undefined,
-        closeTime: businessHour.closeTime || undefined,
-        isOver24: undefined,
-      };
-    }),
+    businessHourRequests: rest.businessHourRequests.map(
+      (businessHourRequest) => {
+        return {
+          ...businessHourRequest,
+          openTime: businessHourRequest.openTime || undefined,
+          closeTime: businessHourRequest.closeTime || undefined,
+          isOver24: undefined,
+        };
+      },
+    ),
   };
 };

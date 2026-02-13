@@ -1,5 +1,5 @@
 export type { SidebarOptionItem } from './sidebarOptionItem';
-export type { BusinessHour } from './businessHour';
+export type { BusinessHourRequest } from './businessHourRequest';
 export type { DayOfWeek } from './dayOfWeek';
 export type {
   DoughnutChartItem,
@@ -14,3 +14,4 @@ export type {
   Coordinate,
   XAxisType,
 } from './line-chart';
+export type { EventSourceMessage } from './eventSourceMessage';

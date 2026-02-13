@@ -8,3 +8,4 @@ export {
 } from './apiClient';
 export { ApiError, isApiError } from './apiError';
 export { authToken } from './authToken';
+export { sseClient } from './sseClient';

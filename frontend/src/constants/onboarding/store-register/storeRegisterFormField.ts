@@ -4,6 +4,6 @@ export const STORE_REGISTER_FORM_FIELD = {
   STORE_NAME: 'storeName',
   ZONE_CODE: 'zoneCode',
   ROAD_ADDRESS: 'roadAddress',
-  BUSINESS_HOURS: 'businessHours',
+  BUSINESS_HOUR_REQUESTS: 'businessHourRequests',
   SALES_CLOSING_HOUR: 'salesClosingHour',
 } as const;
