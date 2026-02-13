@@ -8,7 +8,7 @@ import java.util.List;
 public record StoreResponse(
         @Schema(description = "매장명") String storeName,
         @Schema(description = "매출 마감 시간") Integer salesClosingHour,
-        @Schema(description = "영업 시간 정보") List<BusinessHourResponse> businessHours) {
+        @Schema(description = "영업 시간 정보") List<BusinessHourResponse> businessHourResponses) {
 
     public record BusinessHourResponse(
             @Schema(description = "요일") String dayOfWeek,
