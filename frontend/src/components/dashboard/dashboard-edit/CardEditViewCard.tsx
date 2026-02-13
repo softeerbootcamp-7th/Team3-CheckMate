@@ -18,8 +18,8 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
   const memoisedIsAdded = useMemo(() => isAdded(cardCode), [isAdded, cardCode]);
 
   const handleAddCard = useCallback(() => {
-    addCard(cardCode, 1, 1);
-  }, [addCard, cardCode]);
+    addCard(cardCode, card.sizeX, card.sizeY);
+  }, [addCard, cardCode, card.sizeX, card.sizeY]);
 
   const handleDeleteCard = useCallback(() => {
     removeCard(cardCode);
