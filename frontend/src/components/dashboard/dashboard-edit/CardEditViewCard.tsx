@@ -25,7 +25,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
         className="min-w-full"
         sizeX={sizeX}
         sizeY={sizeY}
-        innerClassName="items-start"
+        //innerClassName="items-start"
       >
         {label}
         <br />
