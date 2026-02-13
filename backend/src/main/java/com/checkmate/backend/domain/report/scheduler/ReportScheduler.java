@@ -11,7 +11,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -42,19 +41,19 @@ public class ReportScheduler {
         log.info("리포트 스케줄러 가동 시각: {}, 탐색 요일: {}", timeStr, today);
 
         // 1. 일반 매장 탐색 (현재 시각에 마감하는 매장)
-        List<BusinessHour> normalStores = businessHourRepository.findNormalClosingStores(today, yesterday, timeStr);
+        List<BusinessHour> normalStores =
+                businessHourRepository.findNormalClosingStores(today, yesterday, timeStr);
         processNormalStores(normalStores, now);
 
         // 2. 24시간 매장 탐색 (정각에만 수행, 현재 시각이 정산 기준 시간인 매장)
         if (now.getMinute() == 0) {
-            List<BusinessHour> stores24H = businessHourRepository.find24HClosingStores(today, hourInt);
+            List<BusinessHour> stores24H =
+                    businessHourRepository.find24HClosingStores(today, hourInt);
             process24HStores(stores24H, now);
         }
     }
 
-    /**
-     * 일반 매장(Normal) Task 생성 및 적재
-     */
+    /** 일반 매장(Normal) Task 생성 및 적재 */
     private void processNormalStores(List<BusinessHour> stores, LocalDateTime now) {
         for (BusinessHour bh : stores) {
             try {
@@ -84,9 +83,7 @@ public class ReportScheduler {
         }
     }
 
-    /**
-     * 24시간 매장(24H) Task 생성 및 적재
-     */
+    /** 24시간 매장(24H) Task 생성 및 적재 */
     private void process24HStores(List<BusinessHour> stores, LocalDateTime now) {
         for (BusinessHour bh : stores) {
             try {
@@ -105,21 +102,27 @@ public class ReportScheduler {
     }
 
     // TODO : 큐 적재 로직 개선 (배치 처리 등), 실패 시 재시도 로직 추가
-    private void enqueueTask(Long storeId, LocalDate targetDate, LocalDateTime startTime, LocalDateTime endTime) {
-        ReportTask task = new ReportTask(
-                UUID.randomUUID().toString(),
-                storeId,
-                ReportType.DAILY,
-                targetDate,
-                startTime,
-                endTime,
-                0,
-                LocalDateTime.now()
-        );
+    private void enqueueTask(
+            Long storeId, LocalDate targetDate, LocalDateTime startTime, LocalDateTime endTime) {
+        ReportTask task =
+                new ReportTask(
+                        UUID.randomUUID().toString(),
+                        storeId,
+                        ReportType.DAILY,
+                        targetDate,
+                        startTime,
+                        endTime,
+                        0,
+                        LocalDateTime.now());
 
         redisTemplate.opsForList().leftPush(QUEUE_KEY, task);
 
-        log.info("큐 적재 완료 [TaskID: {}] 매장: {}, 타겟: {}, 범위: {} ~ {}",
-                task.taskId(), storeId, targetDate, startTime, endTime);
+        log.info(
+                "큐 적재 완료 [TaskID: {}] 매장: {}, 타겟: {}, 범위: {} ~ {}",
+                task.taskId(),
+                storeId,
+                targetDate,
+                startTime,
+                endTime);
     }
 }
