@@ -71,7 +71,7 @@ const CurrentSalesContentAmount = ({
 
 interface CurrentSalesContentComparisonMessageProps {
   comparisonMessage: string;
-  changeRateMessage: string;
+  changeRateMessage?: string;
   metricTrend: MetricTrend;
   className?: string;
 }
@@ -83,19 +83,21 @@ const CurrentSalesContentComparisonMessage = ({
   className,
 }: CurrentSalesContentComparisonMessageProps) => {
   return (
-    <span className={cn('flex flex-col', className)}>
+    <p className={cn('flex flex-col', className)}>
       {comparisonMessage}
-      <strong
-        className={cn(
-          'ml-1',
-          metricTrend === METRIC_TREND.UP && 'text-brand-main',
-          metricTrend === METRIC_TREND.DOWN && 'text-others-negative',
-          metricTrend === METRIC_TREND.SAME && 'text-grey-500',
-        )}
-      >
-        {changeRateMessage}
-      </strong>
-    </span>
+      {changeRateMessage && (
+        <strong
+          className={cn(
+            'ml-1',
+            metricTrend === METRIC_TREND.UP && 'text-brand-main',
+            metricTrend === METRIC_TREND.DOWN && 'text-others-negative',
+            metricTrend === METRIC_TREND.SAME && 'text-grey-500',
+          )}
+        >
+          {changeRateMessage}
+        </strong>
+      )}
+    </p>
   );
 };
 
