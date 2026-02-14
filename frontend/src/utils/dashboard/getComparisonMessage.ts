@@ -1,7 +1,7 @@
 import { METRIC_TREND, type MetricTrend } from '@/constants/dashboard';
 import { DAY_OF_WEEK_LIST, PERIOD_PRESETS } from '@/constants/shared';
 
-import type { ValueOf } from '../shared';
+import { formatNumber, type ValueOf } from '../shared';
 
 interface GetComparisonMessageArgs {
   periodType: ValueOf<typeof PERIOD_PRESETS.dayWeekMonth>;
@@ -43,6 +43,8 @@ export const getComparisonMessage = ({
     [METRIC_TREND.SAME]: '비슷해요.',
   };
 
+  const formattedComparisonAmount = formatNumber(comparisonAmount);
+
   switch (periodType) {
     case PERIOD_PRESETS.dayWeekMonth.today:
       if (metricTrend === METRIC_TREND.SAME) {
@@ -52,7 +54,7 @@ export const getComparisonMessage = ({
       }
       return {
         commonText: `${PERIOD_TEXT[periodType]} 이 시간보다 `,
-        highlightText: `${comparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
+        highlightText: `${formattedComparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
       };
     case PERIOD_PRESETS.dayWeekMonth.thisWeek:
       if (metricTrend === METRIC_TREND.SAME) {
@@ -62,7 +64,7 @@ export const getComparisonMessage = ({
       }
       return {
         commonText: `${PERIOD_TEXT[periodType]}보다 `,
-        highlightText: `${comparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
+        highlightText: `${formattedComparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
       };
     case PERIOD_PRESETS.dayWeekMonth.thisMonth:
       if (metricTrend === METRIC_TREND.SAME) {
@@ -72,7 +74,7 @@ export const getComparisonMessage = ({
       }
       return {
         commonText: `${PERIOD_TEXT[periodType]}보다 `,
-        highlightText: `${comparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
+        highlightText: `${formattedComparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
       };
     default:
       return {
