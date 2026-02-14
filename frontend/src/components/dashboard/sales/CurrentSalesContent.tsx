@@ -14,14 +14,14 @@ export const CurrentSalesContent = ({
   className,
 }: CurrentSalesContentProps) => {
   return (
-    <div
+    <article
       className={cn(
         'flex w-75 flex-col items-start justify-start gap-1',
         className,
       )}
     >
       {children}
-    </div>
+    </article>
   );
 };
 
@@ -36,6 +36,8 @@ const CurrentSalesTrendBadge = ({ trend }: CurrentSalesTrendBadgeProps) => {
         return '/assets/images/graph_up.svg';
       case METRIC_TREND.DOWN:
         return '/assets/images/graph_down.svg';
+      case METRIC_TREND.SAME:
+        return '/assets/images/graph_same.svg';
       default:
         return null;
     }
