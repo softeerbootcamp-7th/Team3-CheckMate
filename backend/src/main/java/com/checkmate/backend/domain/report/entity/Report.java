@@ -42,13 +42,22 @@ public class Report extends BaseTimeEntity {
     @Column(name = "status_label", nullable = false)
     private String statusLabel;
 
+    @Column(name = "net_sales", nullable = false)
+    private Long netSales;
+
     /** 실매출 요약 정보 (텍스트 + 증감률) */
     @Column(name = "net_sales_summary")
     private String netSalesSummary;
 
+    @Column(name = "order_count", nullable = false)
+    private Long orderCount;
+
     /** 주문 건수 요약 정보 */
     @Column(name = "orders_summary")
     private String ordersSummary;
+
+    @Column(name = "aov", nullable = false)
+    private Long aov;
 
     /** 객단가(AOV) 요약 정보 */
     @Column(name = "aov_summary")
@@ -70,8 +79,11 @@ public class Report extends BaseTimeEntity {
             LocalDate targetDate,
             String title,
             String statusLabel,
+            Long netSales,
             String netSalesSummary,
+            Long orderCount,
             String ordersSummary,
+            Long aov,
             String aovSummary,
             List<String> insights,
             List<String> strategies) {
@@ -79,8 +91,11 @@ public class Report extends BaseTimeEntity {
         this.targetDate = targetDate;
         this.title = title;
         this.statusLabel = statusLabel;
+        this.netSales = netSales;
         this.netSalesSummary = netSalesSummary;
+        this.orderCount = orderCount;
         this.ordersSummary = ordersSummary;
+        this.aov = aov;
         this.aovSummary = aovSummary;
         this.insights = insights;
         this.strategies = strategies;
