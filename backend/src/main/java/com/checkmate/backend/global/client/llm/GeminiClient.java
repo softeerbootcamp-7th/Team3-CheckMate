@@ -26,24 +26,28 @@ public class GeminiClient extends BaseClient implements LlmClient {
 
     @Override
     public String ask(String systemInstruction, String userMessage) {
-        String uri = String.format("/v1beta/models/%s:generateContent?key=%s", modelName, apiKey);
+        String uri = String.format("/v1beta/models/%s:generateContent", modelName);
 
-        // 공식 문서의 JSON 구조 그대로 매핑
+        Map<String, String> headers =
+                Map.of("x-goog-api-key", apiKey, "Content-Type", "application/json");
+
+        // 공식 문서의 JSON 구조 매핑
         Map<String, Object> requestBody =
                 Map.of(
                         "system_instruction",
-                                Map.of("parts", List.of(Map.of("text", systemInstruction))),
-                        "contents", List.of(Map.of("parts", List.of(Map.of("text", userMessage)))),
+                        Map.of("parts", List.of(Map.of("text", systemInstruction))),
+                        "contents",
+                        List.of(Map.of("parts", List.of(Map.of("text", userMessage)))),
                         "generationConfig",
-                                Map.of(
-                                        "responseMimeType",
-                                        "application/json",
-                                        "temperature",
-                                        1.0,
-                                        "thinkingConfig",
-                                        Map.of("thinkingLevel", "low")));
+                        Map.of(
+                                "responseMimeType",
+                                "application/json",
+                                "temperature",
+                                1.0,
+                                "thinkingConfig",
+                                Map.of("thinkingLevel", "low")));
 
-        JsonNode response = post(uri, Map.of(), requestBody, JsonNode.class);
+        JsonNode response = post(uri, headers, requestBody, JsonNode.class);
 
         return extractText(response);
     }
