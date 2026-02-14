@@ -1,12 +1,11 @@
 package com.checkmate.backend.domain.analysis.dto.response.menu;
 
-import com.checkmate.backend.domain.analysis.dto.response.DashboardAnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.DetailAnalysisResponse;
 import java.util.List;
 
 /** MNU_03 (시간대별 메뉴 주문건수) */
-public record TimeSlotMenuOrderCountResponse(List<TimeSlotMenuGroupItem> items)
-        implements DashboardAnalysisResponse, DetailAnalysisResponse {
+public record DetailTimeSlotMenuOrderCountResponse(List<TimeSlotMenuGroupItem> items)
+        implements DetailAnalysisResponse {
 
     /** 시간대별 메뉴 주문 그룹 */
     public record TimeSlotMenuGroupItem(
