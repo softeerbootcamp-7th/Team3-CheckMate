@@ -1,7 +1,7 @@
 import { METRIC_TREND, type MetricTrend } from '@/constants/dashboard';
 import { DAY_OF_WEEK_LIST, PERIOD_PRESETS } from '@/constants/shared';
 
-import { formatNumber, type ValueOf } from '../shared';
+import { assertNever, formatNumber, type ValueOf } from '../shared';
 
 interface GetSalesCurrentComparisonMessageArgs {
   periodType: ValueOf<typeof PERIOD_PRESETS.dayWeekMonth>;
@@ -37,7 +37,7 @@ export const getSalesCurrentComparisonMessage = ({
     };
   }
 
-  const METRIC_TRED_TEXT = {
+  const METRIC_TREND_TEXT = {
     [METRIC_TREND.UP]: '늘었어요.',
     [METRIC_TREND.DOWN]: '줄었어요.',
     [METRIC_TREND.SAME]: '비슷해요.',
@@ -49,36 +49,25 @@ export const getSalesCurrentComparisonMessage = ({
     case PERIOD_PRESETS.dayWeekMonth.today:
       if (metricTrend === METRIC_TREND.SAME) {
         return {
-          commonText: `${PERIOD_TEXT[periodType]} 이 시간과 ${METRIC_TRED_TEXT[metricTrend]}`,
+          commonText: `${PERIOD_TEXT[periodType]} 이 시간과 ${METRIC_TREND_TEXT[metricTrend]}`,
         };
       }
       return {
         commonText: `${PERIOD_TEXT[periodType]} 이 시간보다 `,
-        highlightText: `${formattedComparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
+        highlightText: `${formattedComparisonAmount}${unit} ${METRIC_TREND_TEXT[metricTrend]}`,
       };
     case PERIOD_PRESETS.dayWeekMonth.thisWeek:
-      if (metricTrend === METRIC_TREND.SAME) {
-        return {
-          commonText: `${PERIOD_TEXT[periodType]}와 ${METRIC_TRED_TEXT[metricTrend]}`,
-        };
-      }
-      return {
-        commonText: `${PERIOD_TEXT[periodType]}보다 `,
-        highlightText: `${formattedComparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
-      };
     case PERIOD_PRESETS.dayWeekMonth.thisMonth:
       if (metricTrend === METRIC_TREND.SAME) {
         return {
-          commonText: `${PERIOD_TEXT[periodType]}와 ${METRIC_TRED_TEXT[metricTrend]}`,
+          commonText: `${PERIOD_TEXT[periodType]}와 ${METRIC_TREND_TEXT[metricTrend]}`,
         };
       }
       return {
         commonText: `${PERIOD_TEXT[periodType]}보다 `,
-        highlightText: `${formattedComparisonAmount}${unit} ${METRIC_TRED_TEXT[metricTrend]}`,
+        highlightText: `${formattedComparisonAmount}${unit} ${METRIC_TREND_TEXT[metricTrend]}`,
       };
     default:
-      return {
-        commonText: `${PERIOD_TEXT[periodType]}에는 ${metricLabel}이 거의 없었어요.`,
-      };
+      return assertNever(periodType);
   }
 };

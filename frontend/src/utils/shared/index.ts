@@ -38,3 +38,4 @@ export {
 
 export { createPeriodTypeProvider } from './period-select';
 export type { Nullable } from './nullable';
+export { assertNever } from './assertNever';
