@@ -34,3 +34,13 @@ export const SALES_SOURCE_COLORS = {
   [SALES_SOURCE.PAYMENT_METHOD.MOBILE]: 'var(--color-brand-200)',
   [SALES_SOURCE.PAYMENT_METHOD.ETC]: 'var(--color-brand-50)',
 };
+
+const SALES_SOURCE_TYPES: readonly string[] = [
+  ...Object.values(SALES_SOURCE.SALE_TYPE),
+  ...Object.values(SALES_SOURCE.ORDER_METHOD),
+  ...Object.values(SALES_SOURCE.PAYMENT_METHOD),
+];
+
+export const isSalesSourceType = (value: string): value is SalesSourceType => {
+  return SALES_SOURCE_TYPES.includes(value);
+};
