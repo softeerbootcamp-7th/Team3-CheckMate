@@ -10,3 +10,4 @@ export { ORDER_COUNT } from './orderCount';
 export { AVERAGE_PRICE } from './averagePrice';
 export { SALES_TYPE } from './salesType';
 export { ORDER_METHOD } from './orderMethod';
+export { PAYMENT_METHOD } from './paymentMethod';
