@@ -1,5 +1,9 @@
 package com.checkmate.backend.global.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TimeUtil {
     public static int toMinutes(String time) {
         if (time == null || time.isBlank()) return 0;
