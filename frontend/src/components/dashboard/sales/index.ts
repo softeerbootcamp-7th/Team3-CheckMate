@@ -1,2 +1,3 @@
-export { RealSalesCardContent } from './RealSalesCardContent';
-export { OrderCountCardContent } from './OrderCountCardContent';
+export { RealSalesContent } from './RealSalesContent';
+export { OrderCountContent } from './OrderCountContent';
+export { AveragePriceContent } from './AveragePriceContent';
