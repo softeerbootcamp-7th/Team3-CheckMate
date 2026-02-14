@@ -114,8 +114,7 @@ public class SalesByPayMethodProcessor implements AnalysisProcessor<SalesAnalysi
         DashboardSalesByPayMethodResponse dashboardResponse =
                 new DashboardSalesByPayMethodResponse(insight, items);
 
-        DetailSalesByPayMethodResponse detailResponse =
-                new DetailSalesByPayMethodResponse(items);
+        DetailSalesByPayMethodResponse detailResponse = new DetailSalesByPayMethodResponse(items);
 
         return new AnalysisResponse(
                 context.getAnalysisCardCode(), dashboardResponse, detailResponse);

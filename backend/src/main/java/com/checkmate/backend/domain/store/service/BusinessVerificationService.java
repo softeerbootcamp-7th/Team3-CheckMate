@@ -33,7 +33,6 @@ public class BusinessVerificationService {
             throw new BadRequestException(BUSINESS_NUMBER_INVALID_EXCEPTION);
         }
 
-
         // 사업자 인증 토큰 발급
         String businessAuthToken = businessJwtUtil.generateBizAuthToken(businessRegistrationNumber);
 
