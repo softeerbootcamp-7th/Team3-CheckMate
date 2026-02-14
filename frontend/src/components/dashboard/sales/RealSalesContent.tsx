@@ -3,8 +3,8 @@ import {
   type DASHBOARD_METRICS,
   type ExtractCardCodes,
 } from '@/constants/dashboard';
-import { ORDER_COUNT, SALES_UNIT } from '@/constants/sales';
-import type { GetOrderCountResponseDto } from '@/types/sales';
+import { REAL_SALES, SALES_UNIT } from '@/constants/sales';
+import type { GetRealTimeSalesResponseDto } from '@/types/sales';
 import { getComparisonMessage, getMetricTrend } from '@/utils/dashboard';
 import type { Nullable } from '@/utils/shared';
 
@@ -17,24 +17,24 @@ const {
   EXAMPLE_AMOUNT,
   EXAMPLE_CHANGE_RATE,
   EXAMPLE_HAS_PREVIOUS_DATA,
-} = ORDER_COUNT;
+} = REAL_SALES;
 
-type OrderCountCardCodes = ExtractCardCodes<
-  typeof DASHBOARD_METRICS.SALES.sections.CURRENT_SALES.items.ORDER_COUNT
+type RealSalesCardCodes = ExtractCardCodes<
+  typeof DASHBOARD_METRICS.SALES.sections.CURRENT_SALES.items.REAL_SALES
 >;
 
-interface OrderCountCardContentProps extends Nullable<GetOrderCountResponseDto> {
-  cardCode: OrderCountCardCodes;
+interface RealSalesContentProps extends Nullable<GetRealTimeSalesResponseDto> {
+  cardCode: RealSalesCardCodes;
   className?: string;
 }
 
-export const OrderCountCardContent = ({
+export const RealSalesContent = ({
   cardCode,
-  orderCount = EXAMPLE_AMOUNT,
+  netAmount = EXAMPLE_AMOUNT,
   changeRate = EXAMPLE_CHANGE_RATE,
   hasPreviousData = EXAMPLE_HAS_PREVIOUS_DATA,
   className,
-}: OrderCountCardContentProps) => {
+}: RealSalesContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
   const metricTrend = getMetricTrend({
@@ -51,10 +51,11 @@ export const OrderCountCardContent = ({
     comparisonAmount: changeRate,
     unit: SALES_UNIT.PERCENT,
   });
+
   return (
     <CurrentSalesContent className={className}>
       <CurrentSalesContent.TrendBadge trend={metricTrend} />
-      <CurrentSalesContent.Amount amount={orderCount} unit={SALES_UNIT.ORDER} />
+      <CurrentSalesContent.Amount amount={netAmount} unit={SALES_UNIT.WON} />
       <CurrentSalesContent.ComparisonMessage
         comparisonMessage={commonText}
         changeRateMessage={highlightText}
