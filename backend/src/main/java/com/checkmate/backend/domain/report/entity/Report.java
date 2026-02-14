@@ -14,7 +14,11 @@ import org.hibernate.type.SqlTypes;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "report")
+@Table(
+        name = "report",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"store_id", "target_date"})
+        })
 public class Report extends BaseTimeEntity {
 
     @Id
