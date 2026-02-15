@@ -20,13 +20,13 @@ export const DashboardRankingContent = ({
   return (
     <table
       className={cn(
-        'w-75 table-fixed border-separate border-spacing-x-3 border-spacing-y-2',
+        'w-75 table-fixed border-separate border-spacing-y-2',
         className,
       )}
     >
       <colgroup>
-        <col className="w-7" />
-        <col className="w-30" />
+        <col className="w-10" />
+        <col className="w-32" />
         <col className="w-auto" />
       </colgroup>
       <thead>

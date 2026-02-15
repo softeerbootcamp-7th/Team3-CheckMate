@@ -29,7 +29,9 @@ export const RankItem = ({
         />
       </td>
       <td>
-        <span className="body-medium-semibold block truncate">{itemName}</span>
+        <span className="body-medium-semibold block w-30 truncate">
+          {itemName}
+        </span>
       </td>
 
       <td className="text-grey-600 flex justify-end gap-1">
