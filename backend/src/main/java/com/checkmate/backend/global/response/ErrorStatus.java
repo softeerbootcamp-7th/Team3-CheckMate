@@ -97,7 +97,12 @@ public enum ErrorStatus {
 
     /** Report */
     // 404
-    REPORT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 날짜의 리포트를 찾을 수 없습니다.");
+    REPORT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 날짜의 리포트를 찾을 수 없습니다."),
+
+    /** Client */
+    // 500
+    AI_RESPONSE_PARSE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "AI 응답 데이터를 추출하는 데 실패했습니다."),
+    EXTERNAL_API_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "외부 서비스 호출 중 오류가 발생했습니다."),
     ;
 
     private final HttpStatus httpStatus;
