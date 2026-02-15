@@ -26,3 +26,4 @@ export type {
 } from './bar-chart';
 export type { ChartData, ChartSeries, ChartDatum } from './chart';
 export type { EventSourceMessage } from './eventSourceMessage';
+export type { BarLineChartData, BarLineChartSeries } from './bar-line-chart';
