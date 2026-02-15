@@ -75,7 +75,10 @@ export const EditCardWrapper = ({
         <div
           style={{
             transform: `scale(${EDIT_CARD_WRAPPER.CHANGE_SCALE})`,
-            transformOrigin: 'top',
+            transformOrigin:
+              computedCardHeight < EDIT_CARD_WRAPPER.MIN_HEIGHT
+                ? 'center'
+                : 'top',
           }}
           ref={childRef}
           className={cn(isAdded ? 'opacity-10' : 'opacity-100')}
