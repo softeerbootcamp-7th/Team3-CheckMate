@@ -21,5 +21,10 @@ export const MENU_SALES_RANKING = {
       totalSalesAmount: 600000,
       orderCount: 60,
     },
+    {
+      menuName: '카라멜 마끼아또(ICE)',
+      totalSalesAmount: 400000,
+      orderCount: 90,
+    },
   ],
-};
+} as const;

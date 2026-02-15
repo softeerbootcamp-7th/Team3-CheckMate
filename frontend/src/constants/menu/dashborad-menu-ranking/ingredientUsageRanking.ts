@@ -22,5 +22,10 @@ export const INGREDIENT_USAGE_RANKING = {
       totalQuantity: 1,
       baseUnit: 'kg',
     },
+    {
+      ingredientName: '토마토',
+      totalQuantity: 4,
+      baseUnit: 'kg',
+    },
   ],
-};
+} as const;

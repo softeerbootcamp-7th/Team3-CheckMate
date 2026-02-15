@@ -1,7 +1,7 @@
 // 대시보드>메뉴분석에서 식재료별 소진량 랭킹 카드
 import { useMemo } from 'react';
 
-import { INGREDIENT_USAGE_RANKING } from '@/constants/menu';
+import { DASHBOARD_RANKING } from '@/constants/menu';
 import type { DashboardRankItem } from '@/types/menu';
 import type {
   GetIngredientUsageRankingResponseDto,
@@ -34,23 +34,23 @@ const getDashboardIngredientRankItems = ({
         : b.totalQuantity;
     return bQuantity - aQuantity;
   });
-  return sortedItems.map((item, index) => ({
-    rank: index + 1,
-    itemName: item.ingredientName,
-    totalAmount: item.totalQuantity,
-    unit: item.baseUnit as DashboardRankItem['unit'],
-  }));
+  return sortedItems
+    .map((item, index) => ({
+      rank: index + 1,
+      itemName: item.ingredientName,
+      totalAmount: item.totalQuantity,
+      unit: item.baseUnit as DashboardRankItem['unit'],
+    }))
+    .slice(0, DASHBOARD_RANKING.MAX_DISPLAYED_RANK_ITEMS); // 최대 4등까지만 보여줌
 };
-
-const { EXAMPLE_HAS_INGREDIENT, EXAMPLE_ITEMS } = INGREDIENT_USAGE_RANKING;
 
 interface IngredientUsageRankingCardContentProps extends GetIngredientUsageRankingResponseDto {
   className?: string;
 }
 
 export const IngredientUsageRankingCardContent = ({
-  hasIngredient = EXAMPLE_HAS_INGREDIENT,
-  items = EXAMPLE_ITEMS,
+  hasIngredient,
+  items,
 }: IngredientUsageRankingCardContentProps) => {
   // dto -> 대시보드의 메뉴>식재료 소진량 랭킹 카드 UI 데이터 형태로 변환
   const ingredientRankItems = useMemo(

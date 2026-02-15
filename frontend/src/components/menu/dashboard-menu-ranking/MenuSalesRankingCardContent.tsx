@@ -1,7 +1,7 @@
 // 대시보드>메뉴분석에서 메뉴별 매출 랭킹 카드
 import { useMemo } from 'react';
 
-import { MENU_SALES_RANKING } from '@/constants/menu';
+import { DASHBOARD_RANKING } from '@/constants/menu';
 import type { DashboardRankItem } from '@/types//menu';
 import type {
   GetMenuSalesRankingResponseDto,
@@ -21,14 +21,16 @@ const getDashboardMenuRankItems = ({
   const sortedItems = [...items].sort(
     (a, b) => b.totalSalesAmount - a.totalSalesAmount,
   );
-  return sortedItems.map((item, index) => ({
-    rank: index + 1,
-    itemName: item.menuName,
-    totalAmount: item.totalSalesAmount,
-    unit: '원',
-  }));
+  return sortedItems
+    .map((item, index) => ({
+      rank: index + 1,
+      itemName: item.menuName,
+      totalAmount: item.totalSalesAmount,
+      unit: '원' as const,
+    }))
+    .slice(0, DASHBOARD_RANKING.MAX_DISPLAYED_RANK_ITEMS);
+  // 최대 4등까지만 보여줌
 };
-const { EXAMPLE_ITEMS } = MENU_SALES_RANKING;
 
 interface MenuSalesRankingCardContentProps extends Omit<
   GetMenuSalesRankingResponseDto,
@@ -38,7 +40,7 @@ interface MenuSalesRankingCardContentProps extends Omit<
 }
 
 export const MenuSalesRankingCardContent = ({
-  items = EXAMPLE_ITEMS,
+  items,
 }: MenuSalesRankingCardContentProps) => {
   // dto -> 대시보드의 메뉴>매출 랭킹 카드 UI 데이터 형태로 변환
   const menuRankItems = useMemo(
