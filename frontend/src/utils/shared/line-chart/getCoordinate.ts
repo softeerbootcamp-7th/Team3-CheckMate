@@ -1,7 +1,7 @@
 import type { LineChartSeries } from '@/types/shared';
 
 interface GetCoordinateArgs {
-  svgRect: DOMRect;
+  svgWidth: number;
   adjustedHeight: number;
   series: LineChartSeries;
   maximumY: number;
@@ -13,12 +13,11 @@ interface Coordinate {
 }
 
 export const getCoordinate = ({
-  svgRect,
+  svgWidth,
   adjustedHeight,
   series,
   maximumY,
 }: GetCoordinateArgs): Coordinate[] => {
-  const { width: svgWidth } = svgRect;
   const xDataLength = series.data.mainX.length;
 
   const intervalX = svgWidth / xDataLength;

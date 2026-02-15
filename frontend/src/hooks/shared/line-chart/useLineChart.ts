@@ -8,18 +8,21 @@ import {
 } from '@/utils/shared';
 
 interface UseLineChartProps {
+  viewBoxWidth: number;
+  viewBoxHeight: number;
   primarySeries: LineChartSeries;
   secondarySeries?: LineChartSeries;
   hasXAxis?: boolean;
 }
 
 export const useLineChart = ({
+  viewBoxWidth,
+  viewBoxHeight,
   primarySeries,
   secondarySeries,
   hasXAxis = false,
 }: UseLineChartProps) => {
-  const [svgRect, setSvgRect] = useState<DOMRect | null>(null);
-  const [adjustedHeight, setAdjustedHeight] = useState<number>(0);
+  const [adjustedHeight, setAdjustedHeight] = useState<number>(viewBoxHeight);
 
   const svgRef = useRef<SVGSVGElement>(null);
   const xAxisRef = useRef<SVGPathElement>(null);
@@ -29,14 +32,14 @@ export const useLineChart = ({
   }, [primarySeries.data.mainX]);
 
   const xCoordinate = useMemo(() => {
-    if (svgRect === null) {
+    if (primarySeries.data.mainX.length === 0) {
       return [];
     }
     return getXCoordinate({
-      svgRect,
+      svgWidth: viewBoxWidth,
       xDataLength: primarySeries.data.mainX.length,
     });
-  }, [svgRect, primarySeries.data.mainX.length]);
+  }, [viewBoxWidth, primarySeries.data.mainX.length]);
 
   const maximumY = useMemo(() => {
     const totalData = [
@@ -56,16 +59,16 @@ export const useLineChart = ({
   }, [primarySeries.data.mainY, secondarySeries?.data.mainY]);
 
   const primaryCoordinate = useMemo(() => {
-    if (svgRect === null) {
+    if (primarySeries.data.mainX.length === 0) {
       return [];
     }
     return getCoordinate({
-      svgRect,
+      svgWidth: viewBoxWidth,
       adjustedHeight,
       series: primarySeries,
       maximumY,
     });
-  }, [svgRect, adjustedHeight, primarySeries, maximumY]);
+  }, [viewBoxWidth, adjustedHeight, primarySeries, maximumY]);
 
   const lastXCoordinate = useMemo(() => {
     const filteredCoordinate = filterCoordinate(primaryCoordinate);
@@ -78,34 +81,34 @@ export const useLineChart = ({
   }, [primaryCoordinate]);
 
   const secondaryCoordinate = useMemo(() => {
-    if (svgRect === null || secondarySeries === undefined) {
+    if (
+      secondarySeries === undefined ||
+      secondarySeries.data.mainX.length === 0
+    ) {
       return [];
     }
     return getCoordinate({
-      svgRect,
+      svgWidth: viewBoxWidth,
       adjustedHeight,
       series: secondarySeries,
       maximumY,
     });
-  }, [svgRect, adjustedHeight, secondarySeries, maximumY]);
+  }, [viewBoxWidth, adjustedHeight, secondarySeries, maximumY]);
 
   useLayoutEffect(() => {
-    if (!svgRef.current) {
-      return;
-    }
-    setSvgRect(svgRef.current.getBoundingClientRect());
-    setAdjustedHeight(svgRef.current.getBoundingClientRect().height);
-    if (hasXAxis && xAxisRef.current) {
-      setAdjustedHeight(
-        xAxisRef.current.getBoundingClientRect().y -
-          svgRef.current.getBoundingClientRect().y +
-          xAxisRef.current.getBoundingClientRect().height / 2,
-      );
-    }
-  }, [svgRef, xAxisRef, hasXAxis]);
+    const updateAdjustedHeight = () => {
+      if (!hasXAxis || !xAxisRef.current) {
+        setAdjustedHeight(viewBoxHeight);
+        return;
+      }
+      const xAxisBBox = xAxisRef.current.getBBox();
+      setAdjustedHeight(xAxisBBox.y + xAxisBBox.height / 2);
+    };
+    updateAdjustedHeight();
+  }, [hasXAxis, viewBoxHeight]);
 
   return {
-    svgRect,
+    svgWidth: viewBoxWidth,
     adjustedHeight,
     xLabelList,
     xCoordinate,

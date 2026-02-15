@@ -90,7 +90,7 @@ export const LineChart = ({
   const { lineGradientId, backgroundGradientId, titleId, descId } =
     useLineChartId();
   const {
-    svgRect,
+    svgWidth,
     adjustedHeight,
     xLabelList,
     xCoordinate,
@@ -100,6 +100,8 @@ export const LineChart = ({
     svgRef,
     xAxisRef,
   } = useLineChart({
+    viewBoxWidth,
+    viewBoxHeight,
     primarySeries,
     secondarySeries,
     hasXAxis,
@@ -132,17 +134,13 @@ export const LineChart = ({
       )}
       {showYGuideLine && (
         <YGuideLine
-          svgRect={svgRect}
+          svgWidth={svgWidth}
           adjustedHeight={adjustedHeight}
           yGuideLineCount={yGuideLineCount}
         />
       )}
       {showXGuideLine && (
-        <XGuideLine
-          xCoordinate={xCoordinate}
-          svgRect={svgRect}
-          adjustedHeight={adjustedHeight}
-        />
+        <XGuideLine xCoordinate={xCoordinate} adjustedHeight={adjustedHeight} />
       )}
       {hasXAxis && (
         <>
