@@ -23,6 +23,7 @@ export const getSalesPatternByDayMessage = ({
 
   return [
     createMessageToken('최근 4주 기준 '),
-    createMessageToken(`${topDay}요일`, true, 'primary'),
+    createMessageToken(`${topDay}요일 매출`, true, 'primary'),
+    createMessageToken('이 가장 좋아요.'),
   ];
 };
