@@ -25,7 +25,7 @@ interface BarSeriesProps {
   hasXAxis?: boolean; //현재 barchart에서 x축 사용하고 있는지
   tooltipContent?: (...args: string[]) => string;
   xCoordinate: Coordinate[];
-  activeLastData?: boolean; // 가장 우측 막대 바 색상 강조할 것인지 여부. 스택 바에는 적용 안됨.
+  activeDataIndex?: number; // 현재 포커스된 데이터의 인덱스
   barColorChangeOnHover?: boolean; // 바 호버 시 색상 변경할 건지
 }
 
@@ -41,7 +41,7 @@ export const BarSeries = ({
   xCoordinate,
   tooltipContent,
   activeTooltip,
-  activeLastData = true,
+  activeDataIndex,
   barColorChangeOnHover,
 }: BarSeriesProps) => {
   const { XAXIS_Y_OFFSET, XAXIS_STROKE_WIDTH, BAR_RADIUS } = BAR_CHART; // X축이 있을 때 X축의 Y좌표 오프셋 값
@@ -153,7 +153,7 @@ export const BarSeries = ({
                   activeTooltip={activeTooltip}
                   tooltipContentText={tooltipContentText}
                   // activeLastData가 true이라면 마지막 막대를 강조 표시
-                  isActive={activeLastData && index === coordinate.length - 1}
+                  isActive={activeDataIndex === index}
                   barColorChangeOnHover={barColorChangeOnHover}
                 />
               )}
