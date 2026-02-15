@@ -18,9 +18,6 @@ interface GetDashboardIngredientRankItemsParams {
 const getDashboardIngredientRankItems = ({
   items,
 }: GetDashboardIngredientRankItemsParams): DashboardRankItem[] => {
-  if (!items) {
-    return [];
-  }
   // 사용량 기준으로 내림차순 정렬
   // 단 kg , L 단위는 g, ml로 변환하여 비교해야 함
   const sortedItems = [...items].sort((a, b) => {
