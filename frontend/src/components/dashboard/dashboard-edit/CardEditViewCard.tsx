@@ -32,7 +32,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
   const { code, label, type, period, sizeX, sizeY } = card;
 
   return (
-    <li style={{ gridColumn: `span ${sizeX}` }}>
+    <li style={{ gridColumn: `span ${sizeX}` }} onClick={handleAddCard}>
       <EditCardWrapper
         isAdded={memoisedIsAdded}
         period={period}
