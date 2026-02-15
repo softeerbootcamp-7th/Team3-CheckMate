@@ -22,8 +22,8 @@ export const MiniViewGhost = () => {
   return (
     <div
       className={cn(
-        'rounded-400 pointer-events-none absolute opacity-50 transition-all duration-200',
-        ghost.isValid ? 'bg-brand-main' : 'bg-others-negative',
+        'rounded-400 pointer-events-none absolute shadow-[2px_2px_8px_0_rgba(0,0,0,0.15)_inset] transition-all duration-200',
+        ghost.isValid ? 'bg-grey-200' : 'bg-others-negative opacity-40',
       )}
       style={{
         left: colPx,
