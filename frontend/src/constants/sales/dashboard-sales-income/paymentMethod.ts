@@ -1,3 +1,5 @@
+import type { GetIncomStructureByPaymentMethodResponseDto } from '@/types/sales';
+
 export const PAYMENT_METHOD = {
   EXAMPLE_TOP_TYPE: '현금',
   EXAMPLE_TOP_SHARE: 46,
@@ -31,6 +33,6 @@ export const PAYMENT_METHOD = {
       share: 25,
       deltaShare: 2.4,
     },
-  ],
+  ] as const satisfies GetIncomStructureByPaymentMethodResponseDto['items'],
   DOUGHNUT_CHART_TITLE: '결제수단별 매출 관련 도넛 차트',
 } as const;

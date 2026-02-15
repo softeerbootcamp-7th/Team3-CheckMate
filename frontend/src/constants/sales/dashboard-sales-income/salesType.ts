@@ -3,7 +3,7 @@ import type { GetIncomStructureBySalesTypeResponseDto } from '@/types/sales';
 import { SALES_SOURCE } from '../salesSource';
 
 export const SALES_TYPE = {
-  EXAMPLE_TOP_TYPE: '배달',
+  EXAMPLE_TOP_TYPE: '배달' as const,
   EXAMPLE_TOP_SHARE: 43,
   EXAMPLE_DELTA_SHARE: 6.8,
   EXAMPLE_SALES_SOURCE_DATA: [

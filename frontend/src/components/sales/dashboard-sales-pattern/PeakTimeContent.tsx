@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { LineChart } from '@/components/shared';
-import { PEAK_TIME } from '@/constants/sales';
 import { DAY_OF_WEEK_LIST } from '@/constants/shared';
 import type { GetDetailPeakTimeResponseDto } from '@/types/sales';
 import {
@@ -13,12 +12,12 @@ import { cn } from '@/utils/shared';
 import { PeakTimeChartCaption } from './PeakTimeChartCaption';
 
 interface PeakTimeContentProps {
-  peakTimeData?: GetDetailPeakTimeResponseDto;
+  peakTimeData: GetDetailPeakTimeResponseDto;
   className?: string;
 }
 
 export const PeakTimeContent = ({
-  peakTimeData = PEAK_TIME.EXAMPLE_DATA,
+  peakTimeData,
   className,
 }: PeakTimeContentProps) => {
   const weekday = DAY_OF_WEEK_LIST[new Date().getDay()];

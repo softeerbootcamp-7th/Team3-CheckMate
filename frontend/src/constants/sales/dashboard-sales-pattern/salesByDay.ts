@@ -6,7 +6,7 @@ export const SALES_BY_DAY = {
   CHART_COLOR: 'black',
   EXAMPLE_TOP_DAY: '금' as const,
   EXAMPLE_IS_SIGNIFICANT: false,
-  EXAMPLE_SALES_BY_DAY_ITEMS: [
+  EXAMPLE_DATA: [
     {
       day: '월',
       avgNetAmount: 820000,

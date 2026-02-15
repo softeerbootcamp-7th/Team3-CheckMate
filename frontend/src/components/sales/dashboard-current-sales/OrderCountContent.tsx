@@ -7,7 +7,6 @@ import { ORDER_COUNT, SALES_UNIT } from '@/constants/sales';
 import type { GetOrderCountResponseDto } from '@/types/sales';
 import { getMetricTrend } from '@/utils/dashboard';
 import { getSalesCurrentComparisonMessage } from '@/utils/sales';
-import type { Nullable } from '@/utils/shared';
 
 import { CurrentSalesContent } from './CurrentSalesContent';
 
@@ -24,7 +23,10 @@ type OrderCountCardCodes = ExtractCardCodes<
   typeof DASHBOARD_METRICS.SALES.sections.CURRENT_SALES.items.ORDER_COUNT
 >;
 
-interface OrderCountContentProps extends Nullable<GetOrderCountResponseDto> {
+interface OrderCountContentProps extends Omit<
+  GetOrderCountResponseDto,
+  'differenceOrderCount'
+> {
   cardCode: OrderCountCardCodes;
   className?: string;
 }

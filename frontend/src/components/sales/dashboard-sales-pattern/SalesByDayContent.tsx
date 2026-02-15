@@ -2,26 +2,19 @@ import { BarChart } from '@/components/shared/bar-chart';
 import { SALES_BY_DAY } from '@/constants/sales';
 import type { SalesByDayItem, SalesByDaySummary } from '@/types/sales';
 import { getSalesPatternByDayMessage } from '@/utils/sales';
-import { cn, type Nullable } from '@/utils/shared';
+import { cn } from '@/utils/shared';
 
-const {
-  CHART_X_UNIT,
-  CHART_Y_UNIT,
-  CHART_COLOR,
-  EXAMPLE_TOP_DAY,
-  EXAMPLE_IS_SIGNIFICANT,
-  EXAMPLE_SALES_BY_DAY_ITEMS,
-} = SALES_BY_DAY;
+const { CHART_X_UNIT, CHART_Y_UNIT, CHART_COLOR } = SALES_BY_DAY;
 
-interface SalesByDayContentProps extends Nullable<SalesByDaySummary> {
-  salesByDayItems?: SalesByDayItem[];
+interface SalesByDayContentProps extends SalesByDaySummary {
+  salesByDayItems: SalesByDayItem[];
   className?: string;
 }
 
 export const SalesByDayContent = ({
-  salesByDayItems = EXAMPLE_SALES_BY_DAY_ITEMS,
-  topDay = EXAMPLE_TOP_DAY,
-  isSignificant = EXAMPLE_IS_SIGNIFICANT,
+  salesByDayItems,
+  topDay,
+  isSignificant,
   className,
 }: SalesByDayContentProps) => {
   const salesByDayBriefingMessage = getSalesPatternByDayMessage({

@@ -7,7 +7,6 @@ import { REAL_SALES, SALES_UNIT } from '@/constants/sales';
 import type { GetRealTimeSalesResponseDto } from '@/types/sales';
 import { getMetricTrend } from '@/utils/dashboard';
 import { getSalesCurrentComparisonMessage } from '@/utils/sales';
-import type { Nullable } from '@/utils/shared';
 
 import { CurrentSalesContent } from './CurrentSalesContent';
 
@@ -24,7 +23,10 @@ type RealSalesCardCodes = ExtractCardCodes<
   typeof DASHBOARD_METRICS.SALES.sections.CURRENT_SALES.items.REAL_SALES
 >;
 
-interface RealSalesContentProps extends Nullable<GetRealTimeSalesResponseDto> {
+interface RealSalesContentProps extends Omit<
+  GetRealTimeSalesResponseDto,
+  'differenceAmount'
+> {
   cardCode: RealSalesCardCodes;
   className?: string;
 }

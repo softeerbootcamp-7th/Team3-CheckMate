@@ -14,6 +14,6 @@ export interface SalesIncomeStructureInsight {
   topType: SalesIncomeStructureTopType;
   topShare: number;
   deltaShare: number;
-  showDeltaText: boolean;
-  showFocusText: boolean;
+  showDeltaText?: boolean;
+  showFocusText?: boolean;
 }

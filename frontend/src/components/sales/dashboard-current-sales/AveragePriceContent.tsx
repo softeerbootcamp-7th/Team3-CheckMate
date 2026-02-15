@@ -7,7 +7,6 @@ import { AVERAGE_PRICE, SALES_UNIT } from '@/constants/sales';
 import type { GetAveragePriceResponseDto } from '@/types/sales';
 import { getMetricTrend } from '@/utils/dashboard';
 import { getSalesCurrentComparisonMessage } from '@/utils/sales';
-import type { Nullable } from '@/utils/shared';
 
 import { CurrentSalesContent } from './CurrentSalesContent';
 
@@ -24,7 +23,7 @@ type AveragePriceCardCodes = ExtractCardCodes<
   typeof DASHBOARD_METRICS.SALES.sections.CURRENT_SALES.items.AVERAGE_PRICE
 >;
 
-interface AveragePriceContentProps extends Nullable<GetAveragePriceResponseDto> {
+interface AveragePriceContentProps extends GetAveragePriceResponseDto {
   cardCode: AveragePriceCardCodes;
   className?: string;
 }

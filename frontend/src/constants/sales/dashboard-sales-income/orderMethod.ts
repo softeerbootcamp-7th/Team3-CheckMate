@@ -1,3 +1,5 @@
+import type { GetIncomStructureByOrderMethodResponseDto } from '@/types/sales';
+
 export const ORDER_METHOD = {
   EXAMPLE_TOP_TYPE: '키오스크',
   EXAMPLE_TOP_SHARE: 50,
@@ -31,6 +33,6 @@ export const ORDER_METHOD = {
       share: 25,
       deltaShare: -1.8,
     },
-  ],
+  ] as const satisfies GetIncomStructureByOrderMethodResponseDto['items'],
   DOUGHNUT_CHART_TITLE: '주문수단별 매출 관련 도넛 차트',
 } as const;
