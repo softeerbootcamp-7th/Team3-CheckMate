@@ -1,6 +1,6 @@
 import type { GetIncomStructureBySalesTypeResponseDto } from '@/types/sales';
 
-import { SALES_SOURCE } from './salesSource';
+import { SALES_SOURCE } from '../salesSource';
 
 export const SALES_TYPE = {
   EXAMPLE_TOP_TYPE: '배달',
