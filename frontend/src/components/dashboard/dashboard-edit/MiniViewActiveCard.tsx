@@ -5,23 +5,32 @@ import { XIcon } from 'lucide-react';
 import { PeriodTag } from '@/components/shared';
 import { Button } from '@/components/shared/shadcn-ui';
 import {
+  DASHBOARD_EDIT_AREA,
   DASHBOARD_METRIC_CARDS,
   type MetricCardCode,
 } from '@/constants/dashboard';
-import { CDN_BASE_URL } from '@/constants/shared/cdnBaseUrl';
-import { useEditCard } from '@/hooks/dashboard';
+import { CDN_BASE_URL } from '@/constants/shared';
+import {
+  useDragAndDropCard,
+  useEditCard,
+  useGridCellSize,
+} from '@/hooks/dashboard';
+import { cn } from '@/utils/shared';
 
 interface MiniViewActiveCardProps {
   cardCode: MetricCardCode;
   colNo: number;
   rowNo: number;
+  isDragging: boolean;
 }
 export const MiniViewActiveCard = ({
   cardCode,
   colNo,
   rowNo,
+  isDragging,
 }: MiniViewActiveCardProps) => {
   const { removeCard } = useEditCard();
+  const { handleDragStart, handleDragEnd } = useDragAndDropCard();
   const { getGridPosition, getGridCardSize } = useGridCellSize();
 
   const card = DASHBOARD_METRIC_CARDS[cardCode];
@@ -42,7 +51,19 @@ export const MiniViewActiveCard = ({
 
   return (
     <div
-      className="rounded-400 bg-grey-0 relative border-none"
+      draggable
+      onDragStart={(e) =>
+        handleDragStart(e, DASHBOARD_EDIT_AREA.GRID, {
+          cardCode,
+          colNo,
+          rowNo,
+        })
+      }
+      onDragEnd={handleDragEnd}
+      className={cn(
+        'rounded-300 bg-grey-0 absolute cursor-grab border-none transition-all duration-200 select-none active:cursor-grabbing',
+        isDragging ? 'opacity-0' : 'opacity-100',
+      )}
       style={{
         left: colPx,
         top: rowPx,
