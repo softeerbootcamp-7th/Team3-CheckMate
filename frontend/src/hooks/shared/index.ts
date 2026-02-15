@@ -26,3 +26,5 @@ export {
   useBarInitAnimation,
   usePathDAnimation,
 } from './bar-chart';
+export { useBarLineChartId } from './bar-line-chart';
+export { useBarLineChart } from './bar-line-chart';
