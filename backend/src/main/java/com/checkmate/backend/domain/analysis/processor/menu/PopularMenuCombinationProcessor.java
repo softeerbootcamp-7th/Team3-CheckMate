@@ -5,7 +5,8 @@ import com.checkmate.backend.domain.analysis.dto.OrderMenus;
 import com.checkmate.backend.domain.analysis.dto.projection.menu.MenuIdNameProjection;
 import com.checkmate.backend.domain.analysis.dto.projection.menu.OrderMenusProjection;
 import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
-import com.checkmate.backend.domain.analysis.dto.response.menu.PopularMenuCombinationResponse;
+import com.checkmate.backend.domain.analysis.dto.response.menu.DashboardPopularMenuCombinationResponse;
+import com.checkmate.backend.domain.analysis.dto.response.menu.DetailPopularMenuCombinationResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
@@ -109,7 +110,8 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                                         MenuIdNameProjection::menuName));
 
         // DTO 변환
-        List<PopularMenuCombinationResponse.PopularMenuCombinationItem> items = new ArrayList<>();
+        List<DetailPopularMenuCombinationResponse.PopularMenuCombinationItem> items =
+                new ArrayList<>();
 
         for (Long baseMenuId : combinationCountMap.keySet()) {
             Map<Long, Long> pairedCountMap = combinationCountMap.get(baseMenuId);
@@ -121,12 +123,12 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                             .toList();
 
             // 정렬된 paired 메뉴를 DTO로 변환
-            List<PopularMenuCombinationResponse.PopularMenuCombinationItem.PairedMenuItem>
+            List<DetailPopularMenuCombinationResponse.PopularMenuCombinationItem.PairedMenuItem>
                     pairedMenus =
                             sortedPairedEntries.stream()
                                     .map(
                                             entry ->
-                                                    new PopularMenuCombinationResponse
+                                                    new DetailPopularMenuCombinationResponse
                                                             .PopularMenuCombinationItem
                                                             .PairedMenuItem(
                                                             menuIdToNameMap.get(
@@ -137,13 +139,25 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                                     .toList();
 
             items.add(
-                    new PopularMenuCombinationResponse.PopularMenuCombinationItem(
+                    new DetailPopularMenuCombinationResponse.PopularMenuCombinationItem(
                             menuIdToNameMap.get(baseMenuId), // baseMenu 이름
                             pairedMenus));
         }
 
-        PopularMenuCombinationResponse response = new PopularMenuCombinationResponse(items);
+        DetailPopularMenuCombinationResponse.PopularMenuCombinationItem popularMenuCombinationItem =
+                items.get(0);
 
-        return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
+        String firstMenuName = popularMenuCombinationItem.baseMenuName();
+        DetailPopularMenuCombinationResponse.PopularMenuCombinationItem.PairedMenuItem
+                pairedMenuItem = popularMenuCombinationItem.pairedMenus().get(0);
+        String secondMenuName = pairedMenuItem.menuName();
+
+        DetailPopularMenuCombinationResponse response =
+                new DetailPopularMenuCombinationResponse(items);
+
+        DashboardPopularMenuCombinationResponse dashboardResponse =
+                new DashboardPopularMenuCombinationResponse(firstMenuName, secondMenuName);
+
+        return new AnalysisResponse(context.getAnalysisCardCode(), dashboardResponse, response);
     }
 }

@@ -1,12 +1,11 @@
 package com.checkmate.backend.domain.analysis.dto.response.menu;
 
-import com.checkmate.backend.domain.analysis.dto.response.DashboardAnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.DetailAnalysisResponse;
 import java.util.List;
 
 /** MNU_05(인기 메뉴 조합) */
-public record PopularMenuCombinationResponse(List<PopularMenuCombinationItem> items)
-        implements DashboardAnalysisResponse, DetailAnalysisResponse {
+public record DetailPopularMenuCombinationResponse(List<PopularMenuCombinationItem> items)
+        implements DetailAnalysisResponse {
 
     public record PopularMenuCombinationItem(
             String baseMenuName, // 기준 메뉴 (Top 메뉴)

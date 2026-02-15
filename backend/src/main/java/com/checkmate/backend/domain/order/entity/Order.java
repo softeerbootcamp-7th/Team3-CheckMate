@@ -41,6 +41,7 @@ public class Order extends BaseTimeEntity {
     private LocalDateTime orderedAt;
     private LocalDate orderDate;
     private Integer timeSlot2H; // orderedAt을 2시간 단위로 자름
+    private Integer orderDayOfWeek; // 1(월), 2(화), 3(수), 4(목), 5(금), 6(토), 7(일) <- 다국어 때문에 integer
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "store_id", foreignKey = @ForeignKey(NO_CONSTRAINT))

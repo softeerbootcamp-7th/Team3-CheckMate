@@ -11,6 +11,7 @@ import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
 import com.checkmate.backend.domain.order.OrderCreatedEvent;
 import com.checkmate.backend.global.exception.BadRequestException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,8 @@ public class DetailAnalysisService {
                                 });
 
         AnalysisContext context =
-                contextFactory.create(analysisCardCode, new OrderCreatedEvent(storeId));
+                contextFactory.create(
+                        analysisCardCode, new OrderCreatedEvent(storeId, LocalDateTime.now()));
 
         if (context == null) {
             log.warn("[getDetailAnalysis][context is null][analysisCardCode={}]", analysisCardCode);

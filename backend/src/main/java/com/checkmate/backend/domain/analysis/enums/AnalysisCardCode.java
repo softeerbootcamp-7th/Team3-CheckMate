@@ -143,23 +143,50 @@ public enum AnalysisCardCode {
 
     // 매출 - 추이
     SLS_09_04(
-            "일별 매출 추이",
+            "일별 매출 추이 (최근 7일)",
             AnalysisCode.SLS_09,
             Period.LAST_7_DAYS,
             ComparePeriod.NONE,
             CardSize.SIZE_3X1),
+    // 매출 - 추이
+    SLS_09_05(
+            "일별 매출 추이 (최근 14일)",
+            AnalysisCode.SLS_09,
+            Period.LAST_14_DAYS,
+            ComparePeriod.NONE,
+            null),
+    // 매출 - 추이
+    SLS_09_06(
+            "일별 매출 추이 (최근 30일)",
+            AnalysisCode.SLS_09,
+            Period.LAST_30_DAYS,
+            ComparePeriod.NONE,
+            null),
+
     SLS_10_07(
-            "주별 매출 추이",
+            "주별 매출 추이 (최근 8주)",
             AnalysisCode.SLS_10,
             Period.LAST_8_WEEKS,
             ComparePeriod.NONE,
             CardSize.SIZE_3X1),
+    SLS_10_08(
+            "주별 매출 추이 (최근 12주)",
+            AnalysisCode.SLS_10,
+            Period.LAST_12_WEEKS,
+            ComparePeriod.NONE,
+            null),
     SLS_11_07(
-            "월별 매출 추이",
+            "월별 매출 추이 (최근 6개월)",
             AnalysisCode.SLS_11,
             Period.LAST_6_MONTHS,
             ComparePeriod.NONE,
             CardSize.SIZE_3X1),
+    SLS_11_08(
+            "월별 매출 추이 (최근 12개월)",
+            AnalysisCode.SLS_11,
+            Period.LAST_12_MONTHS,
+            ComparePeriod.NONE,
+            null),
     SLS_12_01("연별 매출 추이", AnalysisCode.SLS_12, Period.LAST_3_YEARS, ComparePeriod.NONE, null),
 
     // 매출 - 패턴
