@@ -2,6 +2,8 @@ package com.checkmate.backend.global.client.llm;
 
 import com.checkmate.backend.domain.chat.dto.Message;
 import com.checkmate.backend.global.client.BaseClient;
+import com.checkmate.backend.global.exception.InternalServerException;
+import com.checkmate.backend.global.response.ErrorStatus;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -94,7 +96,7 @@ public class GeminiClient extends BaseClient implements LlmClient {
                     .asText();
         } catch (Exception e) {
             log.error("Gemini 응답 추출 실패. 전체 응답: {}", response);
-            throw new RuntimeException("Gemini Data Extraction Error");
+            throw new InternalServerException(ErrorStatus.AI_RESPONSE_PARSE_FAILED);
         }
     }
 }
