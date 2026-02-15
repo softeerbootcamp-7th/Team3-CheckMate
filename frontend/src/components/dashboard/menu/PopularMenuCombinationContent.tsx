@@ -19,13 +19,13 @@ export const PopularMenuCombinationContent = ({
       )}
     >
       <span>최고 인기 조합은</span>
-      <strong className="title-large-bold text-brand-main min-w-0 truncate">
+      <span className="title-large-bold text-brand-main min-w-0 truncate">
         {baseMenuName}
-      </strong>
+      </span>
       <span className="flex w-full items-center gap-1">
-        <strong className="title-large-bold text-brand-main min-w-0 truncate">
+        <span className="title-large-bold text-brand-main min-w-0 truncate">
           &{pairedMenu}
-        </strong>
+        </span>
         <span className="whitespace-nowrap">입니다</span>
       </span>
     </p>
