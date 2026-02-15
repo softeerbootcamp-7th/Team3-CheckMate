@@ -7,6 +7,8 @@ import {
 } from '@/constants/dashboard';
 import { useEditCard } from '@/hooks/dashboard';
 
+import { EditCardContent } from './EditCardContent';
+
 interface CardEditViewCardProps {
   cardCode: MetricCardCode;
 }
@@ -30,7 +32,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
     return null; // 카드 정보가 없는 경우 렌더링하지 않음
   }
 
-  const { code, period, sizeX } = card;
+  const { period, sizeX } = card;
 
   return (
     <li style={{ gridColumn: `span ${sizeX}` }}>
@@ -42,10 +44,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
         onClickAddButton={handleAddCard}
         onClickDeleteButton={handleDeleteCard}
       >
-        <br />
-        {code}
-        <br />
-        <br />
+        <EditCardContent cardCode={cardCode} />
       </EditCardWrapper>
     </li>
   );
