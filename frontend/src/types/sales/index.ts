@@ -8,5 +8,7 @@ export type {
   GetIncomStructureByPaymentMethodResponseDto,
   GetDetailPeakTimeResponseDto,
   GetDashboardPeakTimeResponseDto,
+  GetDetailSalesByDayResponseDto,
+  GetDashboardSalesByDayResponseDto,
 } from './dto';
 export type { SalesIncomeStructureInsight } from './salesIncomeStructureInsight';

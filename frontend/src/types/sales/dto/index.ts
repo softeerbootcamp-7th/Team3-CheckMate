@@ -8,3 +8,7 @@ export type {
   GetDetailPeakTimeResponseDto,
   GetDashboardPeakTimeResponseDto,
 } from './getPeakTimeDto';
+export type {
+  GetDetailSalesByDayResponseDto,
+  GetDashboardSalesByDayResponseDto,
+} from './getSalesByDayDto';
