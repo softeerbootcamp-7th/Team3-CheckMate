@@ -1,2 +1,2 @@
 export { dashboardMenuIngredientRankItems } from './dashboardMenuIngredientRankItems';
-export { dashboardMenuSalesRankItems } from './dashboradMenuSalesRank';
+export { dashboardMenuSalesRankItems } from './dashboardMenuSalesRank';

@@ -5,7 +5,7 @@ import { cn } from '@/utils/shared';
 
 import { RankItem } from './RankItem';
 
-interface MenuSalesRankingCardContentProps {
+interface DashboardRankingContentProps {
   className?: string;
   children?: ReactNode;
   tHeadLabels?: string[];
@@ -16,7 +16,7 @@ export const DashboardRankingContent = ({
   className,
   children,
   tHeadLabels = ['순위', '메뉴명', '매출액'], // 테이블 각 열의 이름, sr-only 클래스로 화면에서는 보이지 않지만 스크린 리더로 읽을 수 있도록 함
-}: MenuSalesRankingCardContentProps) => {
+}: DashboardRankingContentProps) => {
   return (
     <table
       className={cn(

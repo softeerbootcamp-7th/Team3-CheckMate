@@ -4,7 +4,7 @@ export {
   MENU_SALES_RANKING,
   INGREDIENT_USAGE_RANKING,
   DASHBOARD_RANKING,
-} from './dashborad-menu-ranking';
-export { ORDER_COUNT } from './dashborad-menu-order';
-export { POPULAR_MENU_COMBINATION } from './dashborad-menu-combination';
+} from './dashboard-menu-ranking';
+export { ORDER_COUNT } from './dashboard-menu-order';
+export { POPULAR_MENU_COMBINATION } from './dashboard-menu-combination';
 export { MENU_SALES_RANK } from './menuSalesRank';

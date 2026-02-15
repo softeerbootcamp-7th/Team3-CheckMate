@@ -1,12 +1,11 @@
 import { ORDER_COUNT } from '@/constants/menu';
 import type { GetDashboardTimeSlotMenuOrderCountResponseDto } from '@/types/menu/dto';
-import type { Nullable } from '@/utils/shared';
 
 import { TimeSlotMenuOrderCountContent } from './TimeSlotMenuOrderCountContent';
 
 const { EXAMPLE_TIME_SLOT_2H, EXAMPLE_MENU_NAME } = ORDER_COUNT;
 // 현재 주문건수가 가장 많은 메뉴 카드
-interface TimeSlotMenuOrderCountCardContentProps extends Nullable<GetDashboardTimeSlotMenuOrderCountResponseDto> {
+interface TimeSlotMenuOrderCountCardContentProps extends GetDashboardTimeSlotMenuOrderCountResponseDto {
   className?: string;
 }
 

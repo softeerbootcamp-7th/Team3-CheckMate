@@ -32,10 +32,7 @@ const getDashboardMenuRankItems = ({
   // 최대 4등까지만 보여줌
 };
 
-interface MenuSalesRankingCardContentProps extends Omit<
-  GetMenuSalesRankingResponseDto,
-  'orderCount'
-> {
+interface MenuSalesRankingCardContentProps extends GetMenuSalesRankingResponseDto {
   className?: string;
 }
 
