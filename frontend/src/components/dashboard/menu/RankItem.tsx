@@ -2,7 +2,7 @@ import { RankBadge } from '@/components/shared';
 import type { IngredientUnit } from '@/constants/ingredient';
 import { formatNumber } from '@/utils/shared';
 
-// 매출 랭킹, 식자재 랭킹에서 사용하는 랭킹 아이템 컴포넌트
+// 대시보드의 매출 랭킹, 식자재 랭킹 테이블에서 사용하는 각 행 아이템 컴포넌트
 interface RankItemProps {
   rank: number;
   itemName: string;
@@ -36,7 +36,7 @@ export const RankItem = ({
 
       <td className="text-grey-600 flex w-full justify-end">
         <span className="truncate">{formatNumber(totalAmount)}</span>
-        <span>{unit}</span>
+        <span>&nbsp;{unit}</span>
       </td>
     </tr>
   );
