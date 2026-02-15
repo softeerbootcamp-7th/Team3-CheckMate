@@ -3,7 +3,7 @@ import type { DeepValueOf, ValueOf } from '@/utils/shared';
 import { PERIOD_PRESETS } from '../shared';
 
 const CHART_TYPE = {
-  DOUGHNUT_CHART: 'doughnut_chart',
+  DOUGHNUT_CHART: 'donut_chart',
   BAR_CHART: 'analysis',
   LINE_CHART: 'line_graph',
   WEATHER: 'weather',

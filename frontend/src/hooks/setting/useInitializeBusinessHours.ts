@@ -14,6 +14,9 @@ export const useInitializeBusinessHours = ({
   const { setValue } = useFormContext();
   // 서버값으로 RHF 폼 값을 초기화(덮어쓰기)
   useEffect(() => {
-    setValue(STORE_REGISTER_FORM_FIELD.BUSINESS_HOURS, storeBusinessHours);
+    setValue(
+      STORE_REGISTER_FORM_FIELD.BUSINESS_HOUR_REQUESTS,
+      storeBusinessHours,
+    );
   }, [storeBusinessHours, setValue]);
 };

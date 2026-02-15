@@ -7,7 +7,7 @@ import { MENUS } from '../data/ingredient';
 import { mswHttp } from '../shared';
 
 const getHandler = [
-  mswHttp.get('/api/ingredient/registered-menus', () => {
+  mswHttp.get('/api/ingredients', () => {
     return HttpResponse.json<SuccessResponse<GetRegisteredMenusDto>>(
       {
         success: true,

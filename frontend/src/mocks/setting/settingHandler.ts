@@ -14,7 +14,7 @@ const getHandler = [
         data: {
           storeName: '최고삼 카페',
           salesClosingHour: 13,
-          businessHours: [
+          businessHourResponses: [
             {
               dayOfWeek: 'MON',
               openTime: '09:00',

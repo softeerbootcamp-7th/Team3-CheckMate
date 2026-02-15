@@ -1,16 +1,11 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/shared/shadcn-ui';
+import { Tabs, TabsList, TabsTrigger } from '@/components/shared/shadcn-ui';
 import { DASHBOARD_METRICS } from '@/constants/dashboard';
 
-import { CardEditViewTabContent } from './CardEditViewTabContent';
+import { CardEditViewTabContentGroup } from './CardEditViewTabContentGroup';
 
-export const CardEditViewTabs = () => {
+export const CardEditViewTabs = memo(() => {
   const dashboardMetrics = useMemo(() => Object.values(DASHBOARD_METRICS), []);
   return (
     <Tabs defaultValue={dashboardMetrics[0].tab} className="h-full">
@@ -26,11 +21,9 @@ export const CardEditViewTabs = () => {
         ))}
       </TabsList>
       <hr className="text-grey-300 -mt-2 h-0.5 w-full" />
-      {dashboardMetrics.map(({ tab, sections }) => (
-        <TabsContent key={tab} value={tab} className="h-full overflow-y-auto">
-          <CardEditViewTabContent sections={sections} />
-        </TabsContent>
-      ))}
+      <CardEditViewTabContentGroup />
     </Tabs>
   );
-};
+});
+
+CardEditViewTabs.displayName = 'CardEditViewTabs';

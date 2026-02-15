@@ -1,10 +1,6 @@
-import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import {
-  DASHBOARD_METRIC_CARDS,
-  isMetricCardCode,
-} from '@/constants/dashboard';
+import { useEditCard } from '@/hooks/dashboard';
 
 import { MiniViewActiveCard } from './MiniViewActiveCard';
 import { MiniViewEmptyCard } from './MiniViewEmptyCard';
@@ -12,36 +8,8 @@ import { MiniViewEmptyCard } from './MiniViewEmptyCard';
 export const MiniView = () => {
   const searchParams = new URLSearchParams(useLocation().search);
   const title = searchParams.get('tab') || '알 수 없음';
-  // TODO: 대시보드 탭 API 연결 시 search param 방어 로직 추가 필요
 
-  const [activeCard] = useState([
-    {
-      code: 'SLS_01_01',
-      posX: 1,
-      posY: 2,
-    },
-    {
-      code: 'SLS_01_02',
-      posX: 1,
-      posY: 3,
-    },
-  ]);
-
-  const emptyCellCount = useMemo(
-    () =>
-      9 -
-      activeCard.reduce((sum, card) => {
-        if (!isMetricCardCode(card.code)) {
-          return sum;
-        }
-        const cardInfo = DASHBOARD_METRIC_CARDS[card.code];
-        if (!cardInfo) {
-          return sum; // 카드 정보가 없는 경우 해당 카드는 없는 것으로 간주
-        }
-        return sum + cardInfo.sizeX * cardInfo.sizeY;
-      }, 0),
-    [activeCard],
-  );
+  const { cards, emptyCellCount } = useEditCard();
 
   return (
     <section className="flex min-w-120 grow flex-col p-6.25 pt-20">
@@ -49,24 +17,18 @@ export const MiniView = () => {
         <h1 className="title-large-bold text-grey-900">{title}</h1>
       </header>
       <div className="grid grow grid-cols-3 grid-rows-3 gap-5">
-        {/* 가이드라인 */}
         {Array.from({ length: emptyCellCount }).map((_, index) => (
           <MiniViewEmptyCard key={`grid-${index}`} />
         ))}
         {/* 활성 카드 */}
-        {activeCard.map((card) => {
-          if (!isMetricCardCode(card.code)) {
-            return null;
-          }
-          return (
-            <MiniViewActiveCard
-              key={card.code}
-              cardCode={card.code}
-              posX={card.posX}
-              posY={card.posY}
-            />
-          );
-        })}
+        {cards.map((card) => (
+          <MiniViewActiveCard
+            key={`mini-${card.cardCode}`}
+            cardCode={card.cardCode}
+            posX={card.colNo}
+            posY={card.rowNo}
+          />
+        ))}
       </div>
     </section>
   );

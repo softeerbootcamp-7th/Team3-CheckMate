@@ -8,9 +8,9 @@ export {
   DASHBOARD_METRICS,
   type MetricSection,
   type MetricItem,
+  type ExtractCardCodesFromSection,
   type MetricTabs,
   type ExtractCardCodes,
-  type ExtractCardCodesFromSection,
 } from './dashboardMetric';
 export {
   DASHBOARD_METRIC_CARDS,
@@ -18,3 +18,4 @@ export {
   type MetricCardCode,
 } from './dashboardMetricCards';
 export { METRIC_TREND, type MetricTrend } from './metricTrend';
+export { GRID_ROW_SIZE, GRID_COL_SIZE } from './dashboardGridSize';

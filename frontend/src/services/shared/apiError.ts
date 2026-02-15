@@ -16,3 +16,17 @@ export class ApiError extends Error implements ErrorResponse {
 export const isApiError = (error: unknown): error is ApiError => {
   return error instanceof ApiError;
 };
+
+export const createApiError = async (response: Response): Promise<ApiError> => {
+  let errorData: ErrorResponse;
+  try {
+    errorData = (await response.json()) as ErrorResponse;
+  } catch {
+    errorData = {
+      success: false,
+      message: 'Unknown error',
+      errorCode: 'UNKNOWN_ERROR',
+    };
+  }
+  return new ApiError(errorData.message, response.status, errorData.errorCode);
+};

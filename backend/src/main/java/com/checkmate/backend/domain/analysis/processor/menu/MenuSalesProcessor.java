@@ -1,7 +1,7 @@
 package com.checkmate.backend.domain.analysis.processor.menu;
 
 import com.checkmate.backend.domain.analysis.context.MenuAnalysisContext;
-import com.checkmate.backend.domain.analysis.dto.projection.MenuSalesProjection;
+import com.checkmate.backend.domain.analysis.dto.projection.menu.MenuSalesProjection;
 import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.menu.MenuSalesResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
