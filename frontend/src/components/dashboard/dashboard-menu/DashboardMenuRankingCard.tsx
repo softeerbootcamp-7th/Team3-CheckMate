@@ -1,13 +1,26 @@
 import { useNavigate } from 'react-router-dom';
 
 import { DefaultCardWrapper } from '@/components/shared';
-import { DASHBOARD_METRIC_CARDS } from '@/constants/dashboard';
+import {
+  DASHBOARD_METRIC_CARDS,
+  DASHBOARD_METRICS,
+  type ExtractCardCodes,
+} from '@/constants/dashboard';
 import { dashboardMenuSalesRankItems } from '@/mocks/data/dashboard';
 
 import { DashboardMenuRankItem } from './DashboardMenuRankItem';
 
-export const DashBoardMenuRankingCard = () => {
-  const cardCode = 'MNU_01_01';
+type MenuSalesRankingCardCode = ExtractCardCodes<
+  typeof DASHBOARD_METRICS.MENU.sections.POPULAR_MENU.items.MENU_SALES_RANKING
+>;
+
+// 메뉴분석 > 메뉴별 매출 랭킹
+interface DashBoardMenuRankingCardProps {
+  cardCode: MenuSalesRankingCardCode;
+}
+export const DashBoardMenuRankingCard = ({
+  cardCode,
+}: DashBoardMenuRankingCardProps) => {
   const cardInfo = DASHBOARD_METRIC_CARDS[cardCode];
 
   const navigate = useNavigate();
