@@ -10,3 +10,5 @@ export type {
   GetPopularMenuCombinationResponseDto,
   PoplularMenuCombination,
 } from './getPopularMenuCombinationDto';
+export type { GetDashboardTimeSlotMenuOrderCountResponseDto } from './getDashboardTimeSlotMenuOrderCountDto';
+export type { GetDashboardPopularMenuCombinationResponseDto } from './getDashboardPopularMenuCombinationDto';

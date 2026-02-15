@@ -1,1 +1,0 @@
-export { MenuSalesRankingCardContent } from './MenuSalesRankingCardContent';

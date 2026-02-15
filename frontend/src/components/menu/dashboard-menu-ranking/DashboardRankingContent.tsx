@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { DashboardRankItem } from '@/types/dashboard/menu';
+import type { DashboardRankItem } from '@/types/menu';
 import { cn } from '@/utils/shared';
 
 import { RankItem } from './RankItem';

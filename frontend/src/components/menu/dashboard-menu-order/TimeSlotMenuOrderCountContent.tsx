@@ -2,8 +2,8 @@ import { cn, getNextHour } from '@/utils/shared';
 
 interface TimeSlotMenuOrderCountContentProps {
   className?: string;
-  timeSlot2H?: number;
-  menuName?: string;
+  timeSlot2H: number;
+  menuName: string;
 }
 // 현재 주문건수가 가장 많은 메뉴 카드
 export const TimeSlotMenuOrderCountContent = ({
@@ -11,9 +11,6 @@ export const TimeSlotMenuOrderCountContent = ({
   timeSlot2H,
   menuName,
 }: TimeSlotMenuOrderCountContentProps) => {
-  // timeSlot2H과 menuName이 null인 경우 처리해줘서 오류 안나도록
-  timeSlot2H = timeSlot2H ?? 0; // 기본값 0
-  menuName = menuName ?? ''; // 기본값 ''
   return (
     <p
       className={cn(
