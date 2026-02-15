@@ -26,7 +26,7 @@ export const getSalesIncomeStructureComparisonMessage = ({
     return [
       createMessageToken('최근 7일 대비 '),
       createMessageToken(
-        `${topType} 비중이 ${deltaShare >= 0 && '+'}${formatNumber(deltaShare)}%p `,
+        `${topType} 비중이 ${deltaShare >= 0 ? '+' : ''}${formatNumber(deltaShare)}%p `,
         true,
         deltaShare >= 0 ? 'primary' : 'negative',
       ),
