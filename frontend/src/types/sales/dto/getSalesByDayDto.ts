@@ -1,13 +1,7 @@
-interface SalesByDaySummary {
-  topDay: string;
-  isSignificant: boolean;
-}
-
-interface SalesByDayItem {
-  day: string;
-  avgNetAmount: number;
-  orderCount: number;
-}
+import type {
+  SalesByDayItem,
+  SalesByDaySummary,
+} from '../dashboard-sales-pattern';
 
 export interface GetDetailSalesByDayResponseDto extends SalesByDaySummary {
   items: SalesByDayItem[];
