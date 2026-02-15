@@ -5,16 +5,11 @@ import type { Coordinate } from '@/types/shared';
 
 interface XGuideLineProps {
   xCoordinate: Coordinate[];
-  svgRect: DOMRect | null;
   adjustedHeight: number;
 }
 
 export const XGuideLine = memo(
-  ({ xCoordinate, svgRect, adjustedHeight }: XGuideLineProps) => {
-    if (svgRect === null) {
-      return null;
-    }
-
+  ({ xCoordinate, adjustedHeight }: XGuideLineProps) => {
     const { TICK_HEIGHT, GUIDE_LINE_STROKE_WIDTH, GUIDE_LINE_DASH_ARRAY } =
       LINE_CHART;
 

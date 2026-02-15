@@ -1,13 +1,10 @@
-export interface LineChartDatum {
-  amount: number | string | null;
-  unit: string;
-}
+import type { ChartDatum } from '../chart';
 
 export interface LineChartData {
-  mainX: LineChartDatum[];
-  subX: LineChartDatum[];
-  mainY: LineChartDatum[];
-  subY: LineChartDatum[];
+  mainX: ChartDatum[];
+  subX: ChartDatum[];
+  mainY: ChartDatum[];
+  subY: ChartDatum[];
 }
 
 export interface LineChartSeries {

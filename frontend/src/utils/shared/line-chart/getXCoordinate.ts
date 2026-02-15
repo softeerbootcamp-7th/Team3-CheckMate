@@ -1,14 +1,12 @@
 import type { Coordinate } from '@/types/shared';
 
 export const getXCoordinate = ({
-  svgRect,
+  svgWidth,
   xDataLength,
 }: {
-  svgRect: DOMRect;
+  svgWidth: number;
   xDataLength: number;
 }): Coordinate[] => {
-  const { width: svgWidth } = svgRect;
-
   const intervalX = svgWidth / xDataLength;
   const lastX = intervalX * (xDataLength - 1);
   const offsetX = (svgWidth - lastX) / 2;

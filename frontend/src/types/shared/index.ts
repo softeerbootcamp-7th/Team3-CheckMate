@@ -8,7 +8,6 @@ export type {
 export type { RouteHandle } from './routeHandle';
 export type { StoreInfo } from './storeInfo';
 export type {
-  LineChartDatum,
   LineChartData,
   LineChartSeries,
   Coordinate,
@@ -25,5 +24,5 @@ export type {
   StackBarChartSeries,
   AllBarChartSeries,
 } from './bar-chart';
-export type { ChartData, ChartSeries } from './chartDataType';
+export type { ChartData, ChartSeries, ChartDatum } from './chart';
 export type { EventSourceMessage } from './eventSourceMessage';

@@ -28,9 +28,19 @@ export const SALES_SOURCE_COLORS = {
   [SALES_SOURCE.SALE_TYPE.TAKEOUT]: 'var(--color-brand-50)',
   [SALES_SOURCE.ORDER_METHOD.POS]: 'var(--color-brand-500)',
   [SALES_SOURCE.ORDER_METHOD.KIOSK]: 'var(--color-grey-500)',
-  [SALES_SOURCE.ORDER_METHOD.DELIVERY_APP]: 'var(--color-brand-50)',
+  [SALES_SOURCE.ORDER_METHOD.DELIVERY_APP]: 'var(--color-brand-200)',
   [SALES_SOURCE.PAYMENT_METHOD.CARD]: 'var(--color-brand-500)',
   [SALES_SOURCE.PAYMENT_METHOD.CASH]: 'var(--color-grey-500)',
   [SALES_SOURCE.PAYMENT_METHOD.MOBILE]: 'var(--color-brand-200)',
   [SALES_SOURCE.PAYMENT_METHOD.ETC]: 'var(--color-brand-50)',
+};
+
+const SALES_SOURCE_TYPES: readonly string[] = [
+  ...Object.values(SALES_SOURCE.SALE_TYPE),
+  ...Object.values(SALES_SOURCE.ORDER_METHOD),
+  ...Object.values(SALES_SOURCE.PAYMENT_METHOD),
+];
+
+export const isSalesSourceType = (value: string): value is SalesSourceType => {
+  return SALES_SOURCE_TYPES.includes(value);
 };

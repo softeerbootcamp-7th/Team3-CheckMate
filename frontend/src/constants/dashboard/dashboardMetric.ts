@@ -56,7 +56,7 @@ const SALES_METRICS = {
         },
       },
     },
-    SAELS_TREND: {
+    SALES_TREND: {
       title: '매출 추이',
       items: {
         DAILY_SALES_TREND: {
@@ -190,4 +190,18 @@ export type ExtractCardCodes<T> = T extends {
   readonly cardCodes: readonly (infer U extends MetricCardCode)[];
 }
   ? U
+  : never;
+
+/**
+ * 주어진 T가 MetricSection 타입인 경우
+ *
+ * MetricSection의 item들의 cardCodes 타입을 추출하는 유틸리티 타입
+ *
+ * @example
+ * type RealSalesCardCode = ExtractCardCodesFromSection<typeof SALES_METRICS.sections.CURRENT_SALES>;
+ * 결과: 'SLS_01_01' | 'SLS_01_02' | 'SLS_01_03' | 'SLS_02_01' | 'SLS_02_02' | 'SLS_02_03' | 'SLS_03_01' | 'SLS_03_02' | 'SLS_03_03';
+ *
+ */
+export type ExtractCardCodesFromSection<T> = T extends MetricSection
+  ? ExtractCardCodes<T['items'][keyof T['items']]>
   : never;
