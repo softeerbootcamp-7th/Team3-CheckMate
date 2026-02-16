@@ -7,6 +7,7 @@ interface DotProps {
   color: string;
   hasHoverEffect?: boolean;
   ariaLabel: string;
+  className?: string;
 }
 
 export const Dot = ({
@@ -15,6 +16,7 @@ export const Dot = ({
   color,
   ariaLabel,
   hasHoverEffect = false,
+  className,
 }: DotProps) => {
   const { DOT_RADIUS } = LINE_CHART;
 
@@ -28,7 +30,10 @@ export const Dot = ({
       role="graphics-symbol"
       tabIndex={-1}
       aria-label={ariaLabel}
-      className={cn(hasHoverEffect && 'hover:brightness-75 hover:saturate-200')}
+      className={cn(
+        hasHoverEffect && 'hover:brightness-75 hover:saturate-200',
+        className,
+      )}
       style={{
         transition: 'cx 0.5s ease-in-out, cy 0.5s ease-in-out',
       }}
