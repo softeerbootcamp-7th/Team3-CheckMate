@@ -1,8 +1,7 @@
 import { RotateCw } from 'lucide-react';
 
+import { Button } from '@/components/shared/shadcn-ui';
 import { cn, formatDateYYMMDDHHMM } from '@/utils/shared';
-
-import { Button } from '../shadcn-ui';
 
 // 데이터 새로고침된 시간과 새로고침 버튼이 있는 컴포넌트
 interface RefreshControlProps {
