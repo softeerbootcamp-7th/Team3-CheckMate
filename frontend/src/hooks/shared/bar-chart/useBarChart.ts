@@ -1,10 +1,6 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import type {
-  BarChartDatum,
-  BarChartSeries,
-  StackBarDatum,
-} from '@/types/shared';
+import type { BarChartDatum, StackBarDatum } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared/bar-chart';
 import { getCoordinate, getXCoordinate } from '@/utils/shared';
 import { checkIsStackBarChart } from '@/utils/shared/bar-chart';
@@ -90,7 +86,8 @@ export const useBarChart = ({
     return getCoordinate({
       svgWidth: viewBoxWidth,
       adjustedHeight,
-      series: barSeriesForCoordinate as BarChartSeries,
+      xDataLength: barSeriesForCoordinate.data.mainX.length,
+      yData: barSeriesForCoordinate.data.mainY as BarChartDatum[],
       maximumY,
     });
   }, [viewBoxWidth, adjustedHeight, barChartSeries, maximumY, isStackBarChart]);

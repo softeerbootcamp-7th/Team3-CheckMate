@@ -50,7 +50,8 @@ export const useBarLineChart = ({
     return getCoordinate({
       svgWidth: viewBoxWidth,
       adjustedHeight,
-      series: barLineChartSeries,
+      xDataLength: barLineChartSeries.data.mainX.length,
+      yData: barLineChartSeries.data.mainY,
       maximumY: barMaximumY,
     });
   }, [viewBoxWidth, adjustedHeight, barLineChartSeries, barMaximumY]);
@@ -66,7 +67,8 @@ export const useBarLineChart = ({
     return getCoordinate({
       svgWidth: viewBoxWidth,
       adjustedHeight,
-      series: barLineChartSeries,
+      xDataLength: barLineChartSeries.data.mainX.length,
+      yData: barLineChartSeries.data.subY,
       maximumY: lineMaximumY,
     });
   }, [viewBoxWidth, adjustedHeight, barLineChartSeries, lineMaximumY]);

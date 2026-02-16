@@ -65,7 +65,8 @@ export const useLineChart = ({
     return getCoordinate({
       svgWidth: viewBoxWidth,
       adjustedHeight,
-      series: primarySeries,
+      xDataLength: primarySeries.data.mainX.length,
+      yData: primarySeries.data.mainY,
       maximumY,
     });
   }, [viewBoxWidth, adjustedHeight, primarySeries, maximumY]);
@@ -90,7 +91,8 @@ export const useLineChart = ({
     return getCoordinate({
       svgWidth: viewBoxWidth,
       adjustedHeight,
-      series: secondarySeries,
+      xDataLength: secondarySeries.data.mainX.length,
+      yData: secondarySeries.data.mainY,
       maximumY,
     });
   }, [viewBoxWidth, adjustedHeight, secondarySeries, maximumY]);
