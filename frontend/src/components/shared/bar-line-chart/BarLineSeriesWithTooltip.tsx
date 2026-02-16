@@ -15,7 +15,7 @@ interface BarLineSeriesWithTooltipProps {
   lineY: number;
   color: string;
   tooltipContentText: string;
-  tooltipTriggerPathD: string;
+  interactionPathD: string;
   barWidth: number;
   barHeight: number;
 }
@@ -27,7 +27,7 @@ export const BarLineSeriesWithTooltip = ({
   lineY,
   color,
   tooltipContentText,
-  tooltipTriggerPathD,
+  interactionPathD,
   barWidth,
   barHeight,
 }: BarLineSeriesWithTooltipProps) => {
@@ -36,7 +36,7 @@ export const BarLineSeriesWithTooltip = ({
       <TooltipTrigger asChild>
         <g>
           <path
-            d={tooltipTriggerPathD}
+            d={interactionPathD}
             fill="transparent"
             stroke="transparent"
             className="peer z-1"
