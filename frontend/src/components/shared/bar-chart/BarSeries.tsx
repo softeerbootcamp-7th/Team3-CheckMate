@@ -59,7 +59,10 @@ export const BarSeries = ({
       {coordinate.map(({ x, y }, index) => {
         if (x !== null && y !== null) {
           const barHeight = getBarHeight({ y, hasXAxis, viewBoxHeight });
-          const barWidth = getBarWidth({ viewBoxWidth, xCoordinate }); // 막대 너비는 막대 간격의 50%
+          const barWidth = getBarWidth({
+            viewBoxWidth,
+            xDataLength: xCoordinate.length,
+          }); // 막대 너비는 막대 간격의 50%
           // 막대 그래프 툴팁에 넣을 내용
           const tooltipContentText = tooltipContent
             ? tooltipContent(
