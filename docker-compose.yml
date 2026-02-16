@@ -26,6 +26,9 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
+    extra_hosts:
+      - "db-server:${DB_HOST}"
+      - "redis-server:${REDIS_HOST}"
     container_name: prometheus
     restart: always
     volumes:

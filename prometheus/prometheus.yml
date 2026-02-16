@@ -9,8 +9,8 @@ scrape_configs:
 
   - job_name: 'postgres'
     static_configs:
-      - targets: ['${DB_HOST}:9187']
+      - targets: ['db-server:9187']
 
   - job_name: 'redis'
     static_configs:
-      - targets: ['${REDIS_HOST}:9121']
+      - targets: ['redis-server:9121']
