@@ -139,6 +139,9 @@ export const BarLineChart = ({
         gradientId={lineGradientId}
       />
       {Array.from({ length: seriesLength }).map((_, index) => {
+        if (!barCoordinate[index].y || !lineCoordinate[index].y) {
+          return null;
+        }
         return (
           <BarLineSeries
             key={index}
@@ -152,8 +155,8 @@ export const BarLineChart = ({
             viewBoxWidth={viewBoxWidth}
             xCoordinate={xCoordinate}
             tooltipContentText={tooltipContent(
-              barLineChartSeries.data.mainY[index].amount?.toString() ?? '',
-              barLineChartSeries.data.subY[index].amount?.toString() ?? '',
+              `${barLineChartSeries.data.mainY[index].amount?.toString() ?? ''}${barLineChartSeries.data.mainY[index].unit?.toString() ?? ''}`,
+              `${barLineChartSeries.data.subY[index].amount?.toString() ?? ''}${barLineChartSeries.data.subY[index].unit?.toString() ?? ''}`,
             )}
           />
         );
