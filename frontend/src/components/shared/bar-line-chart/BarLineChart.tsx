@@ -5,6 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/shared/shadcn-ui';
+import { BAR_CHART } from '@/constants/shared';
 import { useBarLineChart, useBarLineChartId } from '@/hooks/shared';
 import type { BarLineChartSeries, XAxisType } from '@/types/shared';
 import { getBarHeight, getBarWidth } from '@/utils/shared';
@@ -25,10 +26,6 @@ interface BarLineChartProps {
    * X축과 X축 레이블 표시 여부
    */
   hasXAxis?: boolean;
-  /**
-   * Y축과 Y축 레이블 표시 여부
-   */
-  hasYAxis?: boolean;
   /**
    * X축 가이드 라인 표시 여부 (X축과 수직으로 표시되는 점선, 개수는 x축 데이터와 동일)
    */
@@ -75,12 +72,10 @@ export const BarLineChart = ({
   viewBoxWidth,
   viewBoxHeight,
   hasXAxis = false,
-  // hasYAxis = false,
   showXGuideLine = false,
   showYGuideLine = false,
   yGuideLineCount,
-  // activeTooltip = false,
-  // tooltipContent = (...args: string[]) => args.join(' '),
+  tooltipContent = (...args: string[]) => args.join(' '),
   xAxisType,
   barLineChartSeries,
   chartTitle,
@@ -155,21 +150,56 @@ export const BarLineChart = ({
             viewBoxHeight,
           });
           const barWidth = getBarWidth({ viewBoxWidth, xCoordinate });
+          const tooltipTriggerMiddle = barCoordinate[index].x ?? 0;
+          const tooltipTriggerTop = Math.min(
+            barCoordinate[index].y ?? 0,
+            lineCoordinate[index].y ?? 0,
+          );
+          const tooltipTriggerWidth = barWidth;
+          const tooltipTriggerHeight = getBarHeight({
+            y: Math.min(
+              lineCoordinate[index].y ?? 0,
+              barCoordinate[index].y ?? 0,
+            ),
+            hasXAxis,
+            viewBoxHeight,
+          });
+
+          const bottomY = tooltipTriggerTop + tooltipTriggerHeight;
+          const leftX = tooltipTriggerMiddle - tooltipTriggerWidth / 2;
+          const rightX = tooltipTriggerMiddle + tooltipTriggerWidth / 2;
+
+          const tooltipTriggerPathd = `
+          M ${tooltipTriggerMiddle} ${tooltipTriggerTop}
+          H ${leftX}
+          V ${bottomY}
+          H ${rightX}
+          V ${tooltipTriggerTop}
+          Z
+          `;
+
+          const tooltipContentText = tooltipContent(
+            `${barLineChartSeries.data.mainY[index].amount?.toString() ?? ''}${barLineChartSeries.data.mainY[index].unit?.toString() ?? ''}`,
+            `${barLineChartSeries.data.subY[index].amount?.toString() ?? ''}${barLineChartSeries.data.subY[index].unit?.toString() ?? ''}`,
+          );
+
           return (
             <Tooltip key={index}>
               <TooltipTrigger asChild>
-                <rect
-                  x={lineCoordinate[index].x}
-                  y={lineCoordinate[index].y ?? 0}
-                  width={barWidth}
-                  height={barHeight}
-                >
+                <g>
+                  <path
+                    d={tooltipTriggerPathd}
+                    fill="transparent"
+                    stroke="transparent"
+                    className="peer z-1"
+                  />
                   <Dot
                     x={lineCoordinate[index].x}
                     y={lineCoordinate[index].y ?? 0}
                     color={barLineChartSeries.color}
                     ariaLabel={`${barLineChartSeries.data.mainX[index].amount} ${barLineChartSeries.data.mainX[index].unit}`}
                     hasHoverEffect
+                    className="peer-hover:brightness-75 peer-hover:saturate-200"
                   />
                   <Bar
                     barMiddleX={barCoordinate[index].x ?? 0}
@@ -177,16 +207,20 @@ export const BarLineChart = ({
                     width={barWidth}
                     height={barHeight}
                     bgColor={barLineChartSeries.color}
+                    radius={BAR_CHART.BAR_RADIUS}
                     hasGradient
                     barColorChangeOnHover
+                    className="peer-hover:[&_path]:fill-brand-main"
                   />
-                </rect>
+                </g>
               </TooltipTrigger>
               <TooltipContent
                 side="top"
                 className="transition-duration-200 bg-black px-250! text-gray-50 [&_svg]:-translate-y-1 [&_svg]:rotate-0 [&_svg]:text-black"
               >
-                <p className="text-grey-0 caption-medium-semibold">응애</p>
+                <p className="text-grey-0 caption-medium-semibold">
+                  {tooltipContentText}
+                </p>
               </TooltipContent>
             </Tooltip>
           );
