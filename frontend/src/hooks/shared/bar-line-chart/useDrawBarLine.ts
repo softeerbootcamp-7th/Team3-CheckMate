@@ -25,33 +25,36 @@ export const useDrawBarLine = ({
     hasXAxis,
     viewBoxHeight,
   });
-  const barWidth = getBarWidth({ viewBoxWidth, xCoordinate });
+  const barWidth = getBarWidth({
+    viewBoxWidth,
+    xDataLength: xCoordinate.length,
+  });
 
-  const tooltipTriggerMiddle = barX;
-  const tooltipTriggerTop = Math.min(barY, lineY);
-  const tooltipTriggerWidth = barWidth;
-  const tooltipTriggerHeight = getBarHeight({
+  const interactionMiddle = barX;
+  const interactionTop = Math.min(barY, lineY);
+  const interactionWidth = barWidth;
+  const interactionHeight = getBarHeight({
     y: Math.min(lineY, barY),
     hasXAxis,
     viewBoxHeight,
   });
 
-  const bottomY = tooltipTriggerTop + tooltipTriggerHeight;
-  const leftX = tooltipTriggerMiddle - tooltipTriggerWidth / 2;
-  const rightX = tooltipTriggerMiddle + tooltipTriggerWidth / 2;
+  const bottomY = interactionTop + interactionHeight;
+  const leftX = interactionMiddle - interactionWidth / 2;
+  const rightX = interactionMiddle + interactionWidth / 2;
 
-  const tooltipTriggerPathD = `
-  M ${tooltipTriggerMiddle} ${tooltipTriggerTop}
+  const interactionPathD = `
+  M ${interactionMiddle} ${interactionTop}
   H ${leftX}
   V ${bottomY}
   H ${rightX}
-  V ${tooltipTriggerTop}
+  V ${interactionTop}
   Z
   `;
 
   return {
     barHeight,
     barWidth,
-    tooltipTriggerPathD,
+    interactionPathD,
   };
 };

@@ -4,7 +4,7 @@ import type { BarLineChartSeries, XAxisType } from '@/types/shared';
 import { XAxis, XAxisLabel, XGuideLine, YGuideLine } from '../chart';
 import { Line, LineChartGradient } from '../line-chart';
 
-import { BarLineSeries } from './BarLineSeries';
+import { BarLineSeriesRenderer } from './BarLineSeriesRenderer';
 
 interface BarLineChartProps {
   /**
@@ -31,6 +31,10 @@ interface BarLineChartProps {
    * Y축 가이드 라인 개수 (Y축과 수평으로 표시되는 점선의 개수)
    */
   yGuideLineCount: number;
+  /**
+   * 각 데이터의 툴팁 표시 여부
+   */
+  activeTooltip?: boolean;
   /**
    * 각 데이터의 툴팁 내용 표시 함수 (실시간 데이터와 평균 데이터의 값을 받아 표시 ex: (mainY, subY) => {mainY} {subY}))
    */
@@ -64,6 +68,7 @@ export const BarLineChart = ({
   showXGuideLine = false,
   showYGuideLine = false,
   yGuideLineCount,
+  activeTooltip = false,
   tooltipContent = (...args: string[]) => args.join(' '),
   xAxisType,
   barLineChartSeries,
@@ -143,21 +148,22 @@ export const BarLineChart = ({
           return null;
         }
         return (
-          <BarLineSeries
+          <BarLineSeriesRenderer
             key={index}
             barX={barCoordinate[index].x}
             barY={barCoordinate[index].y ?? 0}
             lineX={lineCoordinate[index].x}
             lineY={lineCoordinate[index].y ?? 0}
             color={barLineChartSeries.color}
-            hasXAxis={hasXAxis}
-            viewBoxHeight={viewBoxHeight}
-            viewBoxWidth={viewBoxWidth}
-            xCoordinate={xCoordinate}
             tooltipContentText={tooltipContent(
               `${barLineChartSeries.data.mainY[index].amount?.toString() ?? ''}${barLineChartSeries.data.mainY[index].unit?.toString() ?? ''}`,
               `${barLineChartSeries.data.subY[index].amount?.toString() ?? ''}${barLineChartSeries.data.subY[index].unit?.toString() ?? ''}`,
             )}
+            hasXAxis={hasXAxis}
+            viewBoxHeight={viewBoxHeight}
+            viewBoxWidth={viewBoxWidth}
+            xCoordinate={xCoordinate}
+            activeTooltip={activeTooltip}
           />
         );
       })}
