@@ -92,6 +92,7 @@ jobs:
            "echo \"DB_URL=${{ secrets.DB_URL }}\" >> .env",
            "echo \"DB_USERNAME=${{ secrets.DB_USERNAME }}\" >> .env",
            "echo \"DB_PASSWORD=${{ secrets.DB_PASSWORD }}\" >> .env",
+           "echo \"DB_HOST=${{ secrets.DB_HOST }}\" >> .env",
            "echo \"GOOGLE_ID=${{ secrets.GOOGLE_ID }}\" >> .env",
            "echo \"GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}\" >> .env",
            "echo \"JWT_SECRET=${{ secrets.JWT_SECRET }}\" >> .env",
