@@ -68,7 +68,12 @@ public enum SuccessStatus {
     /** Report */
     // 200
     REPORT_GET_SUCCESS(HttpStatus.OK, "리포트 조회에 성공했습니다."),
-    REPORT_CALENDAR_GET_SUCCESS(HttpStatus.OK, "캘린더 조회에 성공했습니다.");
+    REPORT_CALENDAR_GET_SUCCESS(HttpStatus.OK, "캘린더 조회에 성공했습니다."),
+
+    /** Chat */
+    // 200
+    CHAT_GET_SUCCESS(HttpStatus.OK, "AI 응답 생성에 성공했습니다."),
+    ;
 
     private final HttpStatus httpStatus;
     private final String message;
