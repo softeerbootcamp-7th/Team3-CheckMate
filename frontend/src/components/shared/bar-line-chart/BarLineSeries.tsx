@@ -54,6 +54,7 @@ export const BarLineSeries = ({
             fill="transparent"
             stroke="transparent"
             className="peer z-1"
+            pointerEvents="all"
           />
           <Dot
             x={lineX}
