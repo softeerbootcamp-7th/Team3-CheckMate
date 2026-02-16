@@ -6,6 +6,8 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    networks:
+      - checkmate-net
 
   nginx:
     image: nginx:latest
@@ -19,3 +21,39 @@ services:
     depends_on:
       - backend
     restart: always
+    networks:
+      - checkmate-net
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - checkmate-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    environment:
+      - GF_SERVER_ROOT_URL=https://api-check-mate.kro.kr/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - checkmate-net
+
+networks:
+  checkmate-net:
+    driver: bridge
+
+volumes:
+  prometheus-data:
+  grafana-data:
