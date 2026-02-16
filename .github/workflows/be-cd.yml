@@ -70,7 +70,7 @@ jobs:
           echo "${{ secrets.SSL_PRIVATE_KEY }}" > nginx/certs/private.key
 
           # 인증서 폴더를 포함하여 압축
-          zip -r deploy.zip docker-compose.yml nginx/default.conf nginx/certs/
+          zip -r deploy.zip docker-compose.yml nginx/default.conf nginx/certs/ prometheus/
           aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip --sse AES256
 
       # 5. SSM으로 EC2에 명령
