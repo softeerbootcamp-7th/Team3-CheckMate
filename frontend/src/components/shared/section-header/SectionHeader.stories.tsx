@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { PERIOD_PRESET_KEYS } from '@/constants/shared';
 
+import { PeriodSelect } from '../period-select';
+
 import { SectionHeader } from './SectionHeader';
 
 const meta = {
@@ -32,18 +34,6 @@ const meta = {
       control: 'boolean',
       defaultValue: false,
     },
-    periodSelectProps: {
-      control: 'object',
-      defaultValue: {
-        periodPreset: PERIOD_PRESET_KEYS.dayWeekMonth,
-        periodType: undefined,
-        startDate: undefined,
-        endDate: undefined,
-        setPeriodType: () => {},
-        setStartDate: () => {},
-        setEndDate: () => {},
-      },
-    },
   },
 } satisfies Meta<typeof SectionHeader>;
 
@@ -58,22 +48,24 @@ export const Default: Story = {
     lastUpdatedDate: new Date(),
     onRefresh: () => alert('새로고침 버튼이 클릭되었습니다!'),
     isLoading: false,
-    periodSelectProps: {
-      periodPreset: 'dayWeekMonth',
-      periodType: undefined,
-      setPeriodType: () => {},
-      setStartDate: () => {},
-      setEndDate: () => {},
-    },
   },
 };
 
-export const WithoutPeriodSelect: Story = {
+export const WithPeriodSelect: Story = {
   args: {
     title: '섹션 제목',
     description: '섹션에 대한 설명이 들어가는 자리입니다.',
     lastUpdatedDate: new Date(),
     onRefresh: () => alert('새로고침 버튼이 클릭되었습니다!'),
     isLoading: false,
+    rightSlot: (
+      <PeriodSelect
+        periodPreset={PERIOD_PRESET_KEYS.dayWeekMonth}
+        periodType={undefined}
+        setPeriodType={() => {}}
+        setStartDate={() => {}}
+        setEndDate={() => {}}
+      />
+    ),
   },
 };

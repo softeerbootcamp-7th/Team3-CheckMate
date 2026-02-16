@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { SectionHeader } from '@/components/shared';
+import { PeriodSelect, SectionHeader } from '@/components/shared';
 import {
   PERIOD_PRESET_KEYS,
   PERIOD_PRESETS,
@@ -28,15 +28,17 @@ export const IngredientConsumptionOverview = () => {
         lastUpdatedDate={new Date()}
         onRefresh={() => {}}
         isLoading={false}
-        periodSelectProps={{
-          periodPreset: PERIOD_PRESET_KEYS.todayOnly,
-          periodType,
-          startDate,
-          endDate,
-          setPeriodType,
-          setStartDate,
-          setEndDate,
-        }}
+        rightSlot={
+          <PeriodSelect
+            periodPreset={PERIOD_PRESET_KEYS.todayOnly}
+            periodType={periodType}
+            startDate={startDate}
+            endDate={endDate}
+            setPeriodType={setPeriodType}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
+        }
       />
       <IngredientConsumptionRankCard />
     </section>

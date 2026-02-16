@@ -13,6 +13,11 @@ export const WeatherPrecipitation = () => {
         lastUpdatedDate={new Date()}
         onRefresh={() => {}}
         isLoading={false}
+        rightSlot={
+          <span className="body-small-medium text-grey-500">
+            최근 365일 기준
+          </span>
+        }
       />
 
       <section className="flex gap-5">

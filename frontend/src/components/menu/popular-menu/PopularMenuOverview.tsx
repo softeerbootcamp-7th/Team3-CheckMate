@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { SectionHeader } from '@/components/shared';
+import { PeriodSelect, SectionHeader } from '@/components/shared';
 import {
   PERIOD_PRESET_KEYS,
   PERIOD_PRESETS,
@@ -28,15 +28,17 @@ export const PopularMenuOverview = () => {
         lastUpdatedDate={new Date()}
         onRefresh={() => {}}
         isLoading={false}
-        periodSelectProps={{
-          periodPreset: PERIOD_PRESET_KEYS.today7_30,
-          periodType,
-          startDate,
-          endDate,
-          setPeriodType,
-          setStartDate,
-          setEndDate,
-        }}
+        rightSlot={
+          <PeriodSelect
+            periodPreset={PERIOD_PRESET_KEYS.today7_30}
+            periodType={periodType}
+            startDate={startDate}
+            endDate={endDate}
+            setPeriodType={setPeriodType}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
+        }
       />
 
       <div className="flex gap-5">

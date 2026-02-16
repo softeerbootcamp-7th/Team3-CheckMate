@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { SectionHeader } from '@/components/shared';
+import { PeriodSelect, SectionHeader } from '@/components/shared';
 import {
   PERIOD_PRESET_KEYS,
   PERIOD_PRESETS,
@@ -27,15 +27,17 @@ export const MenuCombinationOverview = () => {
         lastUpdatedDate={new Date()}
         onRefresh={() => {}}
         isLoading={false}
-        periodSelectProps={{
-          periodPreset: PERIOD_PRESET_KEYS.recent7_14,
-          periodType,
-          startDate,
-          endDate,
-          setPeriodType,
-          setStartDate,
-          setEndDate,
-        }}
+        rightSlot={
+          <PeriodSelect
+            periodPreset={PERIOD_PRESET_KEYS.recent7_14}
+            periodType={periodType}
+            startDate={startDate}
+            endDate={endDate}
+            setPeriodType={setPeriodType}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
+        }
       />
 
       <MenuCombinationRankCard />

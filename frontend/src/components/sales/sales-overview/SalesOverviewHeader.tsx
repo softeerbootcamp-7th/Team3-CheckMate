@@ -1,4 +1,4 @@
-import { SectionHeader } from '@/components/shared';
+import { PeriodSelect, SectionHeader } from '@/components/shared';
 import { PERIOD_PRESET_KEYS } from '@/constants/shared';
 
 import { usePeriodTypeContext } from './period-type-provider';
@@ -20,15 +20,17 @@ export const SalesOverviewHeader = () => {
       lastUpdatedDate={new Date()}
       onRefresh={() => {}}
       isLoading={false}
-      periodSelectProps={{
-        periodPreset: PERIOD_PRESET_KEYS.dayWeekMonth,
-        periodType,
-        startDate,
-        endDate,
-        setPeriodType,
-        setStartDate,
-        setEndDate,
-      }}
+      rightSlot={
+        <PeriodSelect
+          periodPreset={PERIOD_PRESET_KEYS.dayWeekMonth}
+          periodType={periodType}
+          startDate={startDate}
+          endDate={endDate}
+          setPeriodType={setPeriodType}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
+      }
     />
   );
 };
