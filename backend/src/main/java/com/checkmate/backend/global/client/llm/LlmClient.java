@@ -19,7 +19,6 @@ public interface LlmClient {
      */
     String askWithHistory(String systemInstruction, List<Message> history, String currentQuestion);
 
-
     /**
      * @param systemInstruction 시스템 지침
      * @param menuName 메뉴 이름
