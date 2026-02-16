@@ -1,17 +1,10 @@
-import { Bar } from '@/components/shared/bar-chart/Bar';
-import { Dot } from '@/components/shared/line-chart/Dot';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/shared/shadcn-ui';
-import { BAR_CHART } from '@/constants/shared';
 import { useBarLineChart, useBarLineChartId } from '@/hooks/shared';
 import type { BarLineChartSeries, XAxisType } from '@/types/shared';
-import { getBarHeight, getBarWidth } from '@/utils/shared';
 
 import { XAxis, XAxisLabel, XGuideLine, YGuideLine } from '../chart';
 import { Line, LineChartGradient } from '../line-chart';
+
+import { BarLineSeries } from './BarLineSeries';
 
 interface BarLineChartProps {
   /**
@@ -38,10 +31,6 @@ interface BarLineChartProps {
    * Y축 가이드 라인 개수 (Y축과 수평으로 표시되는 점선의 개수)
    */
   yGuideLineCount: number;
-  /**
-   * 각 데이터의 툴팁 표시 여부
-   */
-  activeTooltip?: boolean;
   /**
    * 각 데이터의 툴팁 내용 표시 함수 (실시간 데이터와 평균 데이터의 값을 받아 표시 ex: (mainY, subY) => {mainY} {subY}))
    */
@@ -97,6 +86,13 @@ export const BarLineChart = ({
     barLineChartSeries,
     hasXAxis,
   });
+
+  const seriesLength = Math.min(
+    barLineChartSeries.data.mainX.length,
+    barCoordinate.length,
+    lineCoordinate.length,
+  );
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -142,90 +138,26 @@ export const BarLineChart = ({
         hasGradient={false}
         gradientId={lineGradientId}
       />
-      {Array.from({ length: barLineChartSeries.data.mainX.length }).map(
-        (_, index) => {
-          const barHeight = getBarHeight({
-            y: barCoordinate[index].y ?? 0,
-            hasXAxis,
-            viewBoxHeight,
-          });
-          const barWidth = getBarWidth({ viewBoxWidth, xCoordinate });
-          const tooltipTriggerMiddle = barCoordinate[index].x ?? 0;
-          const tooltipTriggerTop = Math.min(
-            barCoordinate[index].y ?? 0,
-            lineCoordinate[index].y ?? 0,
-          );
-          const tooltipTriggerWidth = barWidth;
-          const tooltipTriggerHeight = getBarHeight({
-            y: Math.min(
-              lineCoordinate[index].y ?? 0,
-              barCoordinate[index].y ?? 0,
-            ),
-            hasXAxis,
-            viewBoxHeight,
-          });
-
-          const bottomY = tooltipTriggerTop + tooltipTriggerHeight;
-          const leftX = tooltipTriggerMiddle - tooltipTriggerWidth / 2;
-          const rightX = tooltipTriggerMiddle + tooltipTriggerWidth / 2;
-
-          const tooltipTriggerPathd = `
-          M ${tooltipTriggerMiddle} ${tooltipTriggerTop}
-          H ${leftX}
-          V ${bottomY}
-          H ${rightX}
-          V ${tooltipTriggerTop}
-          Z
-          `;
-
-          const tooltipContentText = tooltipContent(
-            `${barLineChartSeries.data.mainY[index].amount?.toString() ?? ''}${barLineChartSeries.data.mainY[index].unit?.toString() ?? ''}`,
-            `${barLineChartSeries.data.subY[index].amount?.toString() ?? ''}${barLineChartSeries.data.subY[index].unit?.toString() ?? ''}`,
-          );
-
-          return (
-            <Tooltip key={index}>
-              <TooltipTrigger asChild>
-                <g>
-                  <path
-                    d={tooltipTriggerPathd}
-                    fill="transparent"
-                    stroke="transparent"
-                    className="peer z-1"
-                  />
-                  <Dot
-                    x={lineCoordinate[index].x}
-                    y={lineCoordinate[index].y ?? 0}
-                    color={barLineChartSeries.color}
-                    ariaLabel={`${barLineChartSeries.data.mainX[index].amount} ${barLineChartSeries.data.mainX[index].unit}`}
-                    hasHoverEffect
-                    className="peer-hover:brightness-75 peer-hover:saturate-200"
-                  />
-                  <Bar
-                    barMiddleX={barCoordinate[index].x ?? 0}
-                    barTopY={barCoordinate[index].y ?? 0}
-                    width={barWidth}
-                    height={barHeight}
-                    bgColor={barLineChartSeries.color}
-                    radius={BAR_CHART.BAR_RADIUS}
-                    hasGradient
-                    barColorChangeOnHover
-                    className="peer-hover:[&_path]:fill-brand-main"
-                  />
-                </g>
-              </TooltipTrigger>
-              <TooltipContent
-                side="top"
-                className="transition-duration-200 bg-black px-250! text-gray-50 [&_svg]:-translate-y-1 [&_svg]:rotate-0 [&_svg]:text-black"
-              >
-                <p className="text-grey-0 caption-medium-semibold">
-                  {tooltipContentText}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          );
-        },
-      )}
+      {Array.from({ length: seriesLength }).map((_, index) => {
+        return (
+          <BarLineSeries
+            key={index}
+            barX={barCoordinate[index].x}
+            barY={barCoordinate[index].y ?? 0}
+            lineX={lineCoordinate[index].x}
+            lineY={lineCoordinate[index].y ?? 0}
+            color={barLineChartSeries.color}
+            hasXAxis={hasXAxis}
+            viewBoxHeight={viewBoxHeight}
+            viewBoxWidth={viewBoxWidth}
+            xCoordinate={xCoordinate}
+            tooltipContentText={tooltipContent(
+              barLineChartSeries.data.mainY[index].amount?.toString() ?? '',
+              barLineChartSeries.data.subY[index].amount?.toString() ?? '',
+            )}
+          />
+        );
+      })}
     </svg>
   );
 };
