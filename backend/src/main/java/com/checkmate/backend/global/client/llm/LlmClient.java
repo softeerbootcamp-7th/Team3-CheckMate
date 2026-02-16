@@ -18,4 +18,11 @@ public interface LlmClient {
      * @return LLM 응답 텍스트
      */
     String askWithHistory(String systemInstruction, List<Message> history, String currentQuestion);
+
+    /**
+     * @param systemInstruction 시스템 지침
+     * @param menuName 메뉴 이름
+     * @return LLM이 생성한 식재료 목록 텍스트
+     */
+    String generateIngredients(String systemInstruction, String menuName);
 }

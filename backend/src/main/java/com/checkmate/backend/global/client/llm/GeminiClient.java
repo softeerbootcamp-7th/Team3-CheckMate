@@ -24,6 +24,9 @@ public class GeminiClient extends BaseClient implements LlmClient {
     @Value("${gemini.model-name}")
     private String modelName;
 
+    @Value("${gemini.lite-model-name}")
+    private String liteModelName;
+
     public GeminiClient(RestClient.Builder restClientBuilder, ObjectMapper objectMapper) {
         super(restClientBuilder, objectMapper, "https://generativelanguage.googleapis.com");
     }
@@ -82,6 +85,27 @@ public class GeminiClient extends BaseClient implements LlmClient {
 
         JsonNode response =
                 post(uri, Map.of("x-goog-api-key", apiKey), requestBody, JsonNode.class);
+        return extractText(response);
+    }
+
+    @Override
+    public String generateIngredients(String systemInstruction, String menuName) {
+        String uri = String.format("/v1beta/models/%s:generateContent", liteModelName);
+
+        Map<String, String> headers =
+                Map.of("x-goog-api-key", apiKey, "Content-Type", "application/json");
+
+        Map<String, Object> requestBody =
+                Map.of(
+                        "system_instruction",
+                        Map.of("parts", List.of(Map.of("text", systemInstruction))),
+                        "contents",
+                        List.of(Map.of("parts", List.of(Map.of("text", "메뉴명: " + menuName)))),
+                        "generationConfig",
+                        Map.of("responseMimeType", "application/json", "temperature", 0.1));
+
+        JsonNode response = post(uri, headers, requestBody, JsonNode.class);
+
         return extractText(response);
     }
 

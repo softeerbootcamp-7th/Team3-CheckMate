@@ -333,4 +333,92 @@ public class MenuController {
 
         return ApiResponse.success(MENU_GET_SUCCESS, response);
     }
+
+    @Operation(
+            summary = "식재료 AI 자동완성 API (한울)",
+            description = "입력된 메뉴명을 바탕으로 LLM을 통해 식재료 리스트를 자동으로 생성합니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "레시피 자동완성 성공",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                value =
+                                                        """
+                    {
+                      "success": true,
+                      "message": "메뉴 레시피 자동 완성에 성공했습니다.",
+                      "data": {
+                        "menuName": "김치찌개",
+                        "ingredients": [
+                          { "name": "돼지고기", "quantity": 150, "unit": "G" },
+                          { "name": "김치", "quantity": 200, "unit": "G" },
+                          { "name": "두부", "quantity": 100, "unit": "G" }
+                        ]
+                      }
+                    }
+                    """))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "메뉴 없음",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples = {
+                                    @ExampleObject(
+                                            name = "메뉴 미존재 예시",
+                                            value =
+                                                    "{\n"
+                                                            + "  \"success\": false,\n"
+                                                            + "  \"message\": \"메뉴를 찾을 수 없습니다.\",\n"
+                                                            + "  \"errorCode\": \"MENU_NOT_FOUND_EXCEPTION\"\n"
+                                                            + "}")
+                                })),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples = {
+                                    @ExampleObject(
+                                            name = "외부 API 호출 실패",
+                                            summary = "LLM API 호출 중 오류 발생",
+                                            value =
+                                                    """
+                                            {
+                                              "success": false,
+                                              "message": "외부 서비스 호출 중 오류가 발생했습니다.",
+                                              "errorCode": "EXTERNAL_API_ERROR"
+                                            }
+                                            """),
+                                    @ExampleObject(
+                                            name = "데이터 파싱 실패",
+                                            summary = "AI 응답 결과 추출 실패",
+                                            value =
+                                                    """
+                                            {
+                                              "success": false,
+                                              "message": "AI 응답 데이터를 추출하는 데 실패했습니다.",
+                                              "errorCode": "AI_RESPONSE_PARSE_FAILED"
+                                            }
+                                            """)
+                                }))
+    })
+    @PostMapping("/{menuId}/auto-complete")
+    public ResponseEntity<ApiResponse<MenuRecipeResponse>> autoCompleteIngredients(
+            @LoginMember MemberSession member, @PathVariable Long menuId) {
+
+        log.info(
+                "AI Auto-complete request received: storeId={}, menuId={}",
+                member.storeId(),
+                menuId);
+
+        MenuRecipeResponse response = menuService.autoCompleteIngredients(member.storeId(), menuId);
+
+        return ApiResponse.success(MENU_RECIPE_AUTO_COMPLETE_SUCCESS, response);
+    }
 }
