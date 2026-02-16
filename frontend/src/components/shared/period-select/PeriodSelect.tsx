@@ -8,7 +8,7 @@ import {
 import { DateRangeLabel } from '../date-range-label';
 import { DateRangePicker } from '../date-range-picker';
 
-export interface PeriodSelectProps<T extends PeriodPresetType> {
+interface PeriodSelectProps<T extends PeriodPresetType> {
   periodPreset: T; // 현재 선택된 프리셋 그룹 객체 e.g. 'dayWeekMonth'
   periodType: PeriodType<T> | undefined; // 해당 그룹 내의 키값들 (유니온) 또는 기간선택 e.g. '오늘', '이번주', '이번달'
   setPeriodType: (preset: PeriodType<T> | undefined) => void;
