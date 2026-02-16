@@ -12,3 +12,4 @@ export type {
   GetDetailSalesByDayResponseDto,
   GetDashboardSalesByDayResponseDto,
 } from './getSalesByDayDto';
+export type { GetSalesTrendResponseDto } from './getSalesTrendDto';
