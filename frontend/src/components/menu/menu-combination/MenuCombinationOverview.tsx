@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { PeriodSelect, SectionTitle } from '@/components/shared';
+import { SectionHeader } from '@/components/shared';
 import {
   PERIOD_PRESET_KEYS,
   PERIOD_PRESETS,
@@ -21,21 +21,23 @@ export const MenuCombinationOverview = () => {
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   return (
     <section className="flex flex-col gap-4" aria-label="인기 메뉴 조합 분석">
-      <div className="flex items-center justify-between">
-        <SectionTitle
-          title="인기 메뉴 조합"
-          description="손님들이 자주 함께 고르는 메뉴 조합을 확인해요."
-        />
-        <PeriodSelect
-          periodPreset={PERIOD_PRESET_KEYS.recent7_14}
-          periodType={periodType}
-          setPeriodType={setPeriodType}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        />
-      </div>
+      <SectionHeader
+        title="인기 메뉴 조합"
+        description="손님들이 자주 함께 고르는 메뉴 조합을 확인해요."
+        lastUpdatedDate={new Date()}
+        onRefresh={() => {}}
+        isLoading={false}
+        periodSelectProps={{
+          periodPreset: PERIOD_PRESET_KEYS.recent7_14,
+          periodType,
+          startDate,
+          endDate,
+          setPeriodType,
+          setStartDate,
+          setEndDate,
+        }}
+      />
+
       <MenuCombinationRankCard />
     </section>
   );

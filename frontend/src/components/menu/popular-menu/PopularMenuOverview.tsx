@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { PeriodSelect, SectionTitle } from '@/components/shared';
+import { SectionHeader } from '@/components/shared';
 import {
   PERIOD_PRESET_KEYS,
   PERIOD_PRESETS,
@@ -22,21 +22,23 @@ export const PopularMenuOverview = () => {
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   return (
     <section className="flex flex-col gap-4" aria-label="인기 메뉴 분석">
-      <div className="flex items-center justify-between">
-        <SectionTitle
-          title="인기 메뉴"
-          description="잘 팔리는 메뉴와 카테고리별 매출 구성을 한눈에 확인해요."
-        />
-        <PeriodSelect
-          periodPreset={PERIOD_PRESET_KEYS.today7_30}
-          periodType={periodType}
-          setPeriodType={setPeriodType}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        />
-      </div>
+      <SectionHeader
+        title="인기 메뉴"
+        description="잘 팔리는 메뉴와 카테고리별 매출 구성을 한눈에 확인해요."
+        lastUpdatedDate={new Date()}
+        onRefresh={() => {}}
+        isLoading={false}
+        periodSelectProps={{
+          periodPreset: PERIOD_PRESET_KEYS.today7_30,
+          periodType,
+          startDate,
+          endDate,
+          setPeriodType,
+          setStartDate,
+          setEndDate,
+        }}
+      />
+
       <div className="flex gap-5">
         <MenuSalesRankCard />
         <CategorySalesCard />
