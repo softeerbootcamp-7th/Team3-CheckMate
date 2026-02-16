@@ -21,7 +21,8 @@ public class PromptProvider {
     public enum PromptType {
         DAILY_REPORT("prompts/daily-report.txt"),
         MONTHLY_REPORT("prompts/monthly-report.txt"),
-        CHATBOT("prompts/chatbot.txt");
+        CHATBOT("prompts/chatbot.txt"),
+        MENU_INGREDIENTS("prompts/menu-ingredients.txt");
 
         private final String path;
 
