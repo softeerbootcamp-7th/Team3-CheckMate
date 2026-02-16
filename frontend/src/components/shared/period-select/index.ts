@@ -1,1 +1,1 @@
-export { PeriodSelect } from './PeriodSelect';
+export { PeriodSelect, type PeriodSelectProps } from './PeriodSelect';
