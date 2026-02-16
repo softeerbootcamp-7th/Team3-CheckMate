@@ -144,7 +144,10 @@ export const BarLineChart = ({
         gradientId={lineGradientId}
       />
       {Array.from({ length: seriesLength }).map((_, index) => {
-        if (!barCoordinate[index].y || !lineCoordinate[index].y) {
+        if (
+          barCoordinate[index].y === null ||
+          lineCoordinate[index].y === null
+        ) {
           return null;
         }
         return (
