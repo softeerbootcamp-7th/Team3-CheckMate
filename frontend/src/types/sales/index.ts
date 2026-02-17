@@ -1,6 +1,6 @@
 export type { SalesSource } from './salesSource';
 export type {
-  GetRealTimeSalesResponseDto,
+  GetRealSalesResponseDto,
   GetOrderCountResponseDto,
   GetAveragePriceResponseDto,
   GetIncomeStructureBySalesTypeResponseDto,

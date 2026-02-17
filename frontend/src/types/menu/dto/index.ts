@@ -8,7 +8,7 @@ export type {
 } from './getIngredientUsageRankingDto';
 export type {
   GetPopularMenuCombinationResponseDto,
-  PoplularMenuCombination,
+  PopularMenuCombination,
 } from './getPopularMenuCombinationDto';
 export type { GetDashboardTimeSlotMenuOrderCountResponseDto } from './getDashboardTimeSlotMenuOrderCountDto';
 export type { GetDashboardPopularMenuCombinationResponseDto } from './getDashboardPopularMenuCombinationDto';

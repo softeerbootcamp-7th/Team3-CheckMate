@@ -10,11 +10,11 @@ export interface PairedMenu {
 //         { "menuName": "콜라", "count": 70 }
 //       ]
 //     }
-export interface PoplularMenuCombination {
+export interface PopularMenuCombination {
   baseMenuName: string;
   pairedMenus: PairedMenu[];
 }
 
 export interface GetPopularMenuCombinationResponseDto {
-  items: PoplularMenuCombination[];
+  items: PopularMenuCombination[];
 }
