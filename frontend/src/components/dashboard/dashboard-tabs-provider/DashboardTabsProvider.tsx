@@ -9,9 +9,11 @@ import {
 import { dashboardOptions } from '@/services/dashboard';
 
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
-  useSuspenseQuery(dashboardOptions.list);
+  const { data: tabs } = useSuspenseQuery(dashboardOptions.list);
 
-  const [currentDashboardId, setCurrentDashboardId] = useState<number>(1);
+  const [currentDashboardId, setCurrentDashboardId] = useState<number>(
+    () => tabs.find((tab) => tab.isDefault)?.id ?? 1,
+  );
   const [dialogState, setDialogState] = useState<{
     open: boolean;
     mode: DashboardTabsDialogMode | null;
