@@ -71,7 +71,7 @@ export const SalesTrendContent = ({
         viewBoxHeight={trendChartHeightValue}
         barLineChartSeries={salesTrendData}
         hasXAxis
-        showYGuideLine={true}
+        showYGuideLine
         yGuideLineCount={5}
         activeTooltip={false}
         xAxisType="right-arrow"
