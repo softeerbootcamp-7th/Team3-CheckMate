@@ -1,5 +1,5 @@
 export interface SalesTrendItem {
-  timeSlot: string;
+  label: string;
   netAmount: number;
   orderCount: number;
 }
