@@ -5,6 +5,7 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 import { DASHBOARD_TABS_DIALOG_MODE } from '@/constants/dashboard';
 import {
@@ -170,7 +171,7 @@ export const useDashboardTabsDialog = () => {
     } catch (e) {
       const message = (e as Error).message || '알 수 없는 오류가 발생했습니다.';
       // TODO 에러 처리 개선 필요
-      alert(message);
+      toast(message);
     }
 
     // 모든 mutation이 완료된 후 한 번만 invalidate
@@ -181,6 +182,7 @@ export const useDashboardTabsDialog = () => {
 
   const handleCancel = () => {
     setNewTabs(tabs.map((tab) => tab.name));
+    toast('변경 사항이 저장되지 않았어요.');
     closeDialog();
   };
 
