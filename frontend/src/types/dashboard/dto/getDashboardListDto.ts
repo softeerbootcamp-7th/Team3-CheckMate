@@ -1,3 +1,3 @@
 import type { Dashboard } from '../dashboard';
 
-export type GetDashboardListResponseDto = Array<Dashboard>;
+export type GetDashboardListResponseDto = Dashboard[];
