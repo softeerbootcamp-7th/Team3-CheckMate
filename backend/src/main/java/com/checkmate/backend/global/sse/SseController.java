@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -41,7 +42,7 @@ public class SseController {
                 responseCode = "500",
                 description = "서버 내부 오류가 발생했습니다.")
     })
-    @GetMapping("/connection")
+    @GetMapping(value = "/connection", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter connect(@LoginMember MemberSession member) {
 
         Long storeId = member.storeId();
