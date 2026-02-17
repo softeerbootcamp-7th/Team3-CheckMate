@@ -5,7 +5,7 @@ import { useDashboardTabsContext } from '@/hooks/dashboard';
 
 import { DashboardHeader } from '../dashboard-header';
 import { DashboardMain } from '../dashboard-main';
-import { DashboardMainSuspense } from '../dashboard-main/DashboardMainSuspense';
+import { DashboardMainSuspense } from '../dashboard-main';
 
 export const DashboardLayout = () => {
   const { currentDashboardId, setCurrentDashboardId } =
