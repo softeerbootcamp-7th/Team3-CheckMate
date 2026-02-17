@@ -8,7 +8,7 @@ import { authorizedApi } from '../shared';
 /**
  * 대시보드 탭 이름 변경
  */
-export const patchDashboard = async (
+export const patchDashboardName = async (
   query: PatchDashboardNameQuery,
   request: PatchDashboardNameRequestDto,
 ) => {

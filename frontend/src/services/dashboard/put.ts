@@ -6,7 +6,7 @@ import type {
 
 import { authorizedApi } from '../shared';
 
-export const putDashboardCards = async (
+export const putDashboardCardList = async (
   query: PutDashboardCardListQuery,
   request: PutDashboardCardListRequestDto,
 ) => {
