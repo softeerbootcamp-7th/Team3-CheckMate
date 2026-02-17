@@ -1,8 +1,11 @@
+import { Suspense } from 'react';
+
 import { Tabs } from '@/components/shared/shadcn-ui';
 import { useDashboardTabsContext } from '@/hooks/dashboard';
 
 import { DashboardHeader } from '../dashboard-header';
 import { DashboardMain } from '../dashboard-main';
+import { DashboardMainSuspense } from '../dashboard-main/DashboardMainSuspense';
 
 export const DashboardLayout = () => {
   const { currentDashboardId, setCurrentDashboardId } =
@@ -15,7 +18,9 @@ export const DashboardLayout = () => {
       className="mt-8 w-265"
     >
       <DashboardHeader />
-      <DashboardMain />
+      <Suspense fallback={<DashboardMainSuspense />}>
+        <DashboardMain />
+      </Suspense>
     </Tabs>
   );
 };

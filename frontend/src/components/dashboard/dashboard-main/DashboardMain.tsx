@@ -15,7 +15,7 @@ export const DashboardMain = () => {
 
   return (
     <>
-      {cardList ? (
+      {cardList?.length > 0 ? (
         <DashboardMainContent cards={cardList} />
       ) : (
         <DashboardEmptyContent />
