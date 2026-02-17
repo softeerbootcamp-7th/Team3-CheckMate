@@ -36,10 +36,10 @@ export const SalesTrendContent = ({
   } = SALES_TREND;
 
   const trendChartWidthValue =
-    (trendChartWidth ??
-    period === PERIOD_PRESETS.recentDays7_14_30.recent30Days)
+    trendChartWidth ??
+    (period === PERIOD_PRESETS.recentDays7_14_30.recent30Days
       ? DEFAULT_TREND_CHART_WIDTH_FOR_RECENT_30_DAYS
-      : DEFAULT_TREND_CHART_WIDTH;
+      : DEFAULT_TREND_CHART_WIDTH);
 
   const trendChartHeightValue = trendChartHeight ?? DEFAULT_TREND_CHART_HEIGHT;
 
