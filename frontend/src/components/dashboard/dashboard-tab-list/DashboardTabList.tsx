@@ -7,7 +7,7 @@ import { dashboardOptions } from '@/services/dashboard';
 import { AddTabDialogTrigger } from './AddTabDialogTrigger';
 
 export const DashboardTabList = () => {
-  const { data: tabs } = useSuspenseQuery(dashboardOptions.list) ?? undefined;
+  const { data: tabs } = useSuspenseQuery(dashboardOptions.list);
 
   return (
     <TabsList
