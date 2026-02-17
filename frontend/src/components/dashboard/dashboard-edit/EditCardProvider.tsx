@@ -14,6 +14,8 @@ export const EditCardProvider = ({ children }: PropsWithChildren) => {
   const dashboardId = tabs.find((tab) => tab.name === dashboardName)?.id;
   if (dashboardId === undefined) {
     throw new Error('존재하지 않는 대시보드입니다.');
+  } else if (tabs.find((tab) => tab.id === dashboardId)?.isDefault) {
+    throw new Error('기본 대시보드는 편집할 수 없습니다.');
   }
 
   const { data: cardList } = useSuspenseQuery(
