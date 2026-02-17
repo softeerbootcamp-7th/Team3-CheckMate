@@ -1,5 +1,5 @@
 export type { DashboardCard } from './dashboardCard';
-
+export type { Dashboard } from './dashboard';
 export type {
   GetDashboardListResponseDto,
   PostDashboardRequestDto,

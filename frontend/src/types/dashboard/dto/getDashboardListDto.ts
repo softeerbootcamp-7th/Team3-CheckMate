@@ -1,6 +1,3 @@
-interface Dashboard {
-  id: number;
-  name: string;
-  isDefault: boolean;
-}
+import type { Dashboard } from '../dashboard';
+
 export type GetDashboardListResponseDto = Array<Dashboard>;
