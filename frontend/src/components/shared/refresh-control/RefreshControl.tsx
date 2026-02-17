@@ -15,7 +15,7 @@ export const RefreshControl = ({
   isLoading,
 }: RefreshControlProps) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex shrink-0 items-center gap-2">
       <span className="body-small-medium text-grey-500">
         {isLoading
           ? '데이터를 불러오는 중입니다'

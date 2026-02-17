@@ -26,3 +26,4 @@ export {
   useBarInitAnimation,
   usePathDAnimation,
 } from './bar-chart';
+export { useSectionRefresh } from './useSectionRefresh';

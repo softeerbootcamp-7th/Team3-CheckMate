@@ -23,8 +23,8 @@ export const SectionHeader = ({
   rightSlot,
 }: SectionHeaderProps) => {
   return (
-    <header className="flex justify-between">
-      <div className="flex items-center gap-3">
+    <header className="flex justify-between gap-600">
+      <div className="flex min-w-0 items-center gap-3">
         <SectionTitle title={title} description={description} />
         <RefreshControl
           lastUpdatedDate={lastUpdatedDate}
