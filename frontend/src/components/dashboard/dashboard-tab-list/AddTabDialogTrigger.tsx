@@ -10,10 +10,11 @@ import {
   TooltipTrigger,
 } from '@/components/shared/shadcn-ui';
 import { DASHBOARD_TABS_DIALOG_MODE } from '@/constants/dashboard';
+import { LOCAL_STORAGE_KEY } from '@/constants/shared/localStorageKey';
 import { useDashboardTabsContext } from '@/hooks/dashboard';
 import { dashboardOptions } from '@/services/dashboard/options';
 
-const TOOLTIP_DISMISSED_KEY = 'dashboard_add_tooltip_dismissed_v1';
+const { TOOLTIP_DISMISSED: storageKey } = LOCAL_STORAGE_KEY;
 const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
 
 const firstActiveDatetime = new Date(); // mocked
@@ -27,11 +28,11 @@ export const AddTabDialogTrigger = () => {
   const [showTooltip, setShowTooltip] = useState(
     tabs.length === 1 &&
       new Date().getTime() - firstActiveDatetime.getTime() <= TWELVE_HOURS_MS &&
-      !localStorage.getItem(TOOLTIP_DISMISSED_KEY),
+      !localStorage.getItem(storageKey),
   );
 
   const dismissPermanently = useCallback(() => {
-    localStorage.setItem(TOOLTIP_DISMISSED_KEY, '1');
+    localStorage.setItem(storageKey, '1');
     setShowTooltip(false);
   }, []);
 

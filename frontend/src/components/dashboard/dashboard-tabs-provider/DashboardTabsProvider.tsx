@@ -6,16 +6,18 @@ import {
   DashboardTabsContext,
   type DashboardTabsDialogMode,
 } from '@/constants/dashboard';
+import { LOCAL_STORAGE_KEY } from '@/constants/shared';
 import { dashboardOptions } from '@/services/dashboard';
 
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
   const { data: tabs } = useSuspenseQuery(dashboardOptions.list);
 
   // localStorage에 대시보드 ID 저장
-  const STORAGE_KEY = 'dashboard_current_id';
+  const { CURRENT_DASHBOARD_ID: storageKey } = LOCAL_STORAGE_KEY;
+
   const getSavedDashboardId = () => {
-    if (localStorage.getItem(STORAGE_KEY)) {
-      const parsedId = Number(localStorage.getItem(STORAGE_KEY));
+    if (localStorage.getItem(storageKey)) {
+      const parsedId = Number(localStorage.getItem(storageKey));
       if (tabs.some((t) => t.id === parsedId)) {
         return parsedId;
       }
@@ -23,7 +25,7 @@ export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
   };
   const saveDashboardId = (id: number) => {
     try {
-      localStorage.setItem(STORAGE_KEY, String(id));
+      localStorage.setItem(storageKey, String(id));
     } catch (e) {
       if (e instanceof Error) {
         throw new Error(e.message);
