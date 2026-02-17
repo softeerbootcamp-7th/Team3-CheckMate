@@ -77,7 +77,7 @@ export const Default: Story = {
     chartTitle: '일별 매출 꺾은선 차트',
     chartDescription: '일별 매출 꺾은선 차트 설명',
     xAxisType: 'right-arrow',
-    activeLastData: true,
+    activeDataIndex: 3,
     barColorChangeOnHover: true,
   },
   render: (args) => (
@@ -108,7 +108,7 @@ export const StackBar: Story = {
     chartTitle: '일별 매출 꺾은선 차트',
     chartDescription: '일별 매출 꺾은선 차트 설명',
     xAxisType: 'right-arrow',
-    activeLastData: true,
+    activeDataIndex: 3,
     barColorChangeOnHover: true,
   },
   render: (args) => (
@@ -130,6 +130,10 @@ const RealtimeBarChart = (args: Story['args']) => {
     args.barChartSeries as BarChartSeries,
   );
 
+  const [activeDataIndex, setActiveDataIndex] = useState<number>(
+    args.barChartSeries.data.mainX.length - 1,
+  );
+
   const handleUpdateCurrentBarChartSeries = () => {
     let currentIndex =
       barChartSeries.data.mainY.filter((datum) => datum.amount !== null)
@@ -138,6 +142,8 @@ const RealtimeBarChart = (args: Story['args']) => {
     if (currentIndex < 0) {
       currentIndex = 0;
     }
+
+    setActiveDataIndex(currentIndex);
 
     setBarChartSeries((prev) => {
       const newMainY = [...prev.data.mainY];
@@ -176,6 +182,8 @@ const RealtimeBarChart = (args: Story['args']) => {
     // if (nextIndex === barChartSeries.data.mainY.length) {
     //   return;
     // }
+
+    setActiveDataIndex(nextIndex);
 
     setBarChartSeries((prev) => ({
       ...prev,
@@ -216,6 +224,7 @@ const RealtimeBarChart = (args: Story['args']) => {
           <BarChart
             {...args}
             barChartSeries={barChartSeries}
+            activeDataIndex={activeDataIndex}
             //secondarySeries={secondarySeries}
           />
         </div>

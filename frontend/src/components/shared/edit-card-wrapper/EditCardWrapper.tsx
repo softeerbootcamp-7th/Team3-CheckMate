@@ -47,9 +47,12 @@ export const EditCardWrapper = ({
     <div
       style={{
         width:
-          Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth) * sizeX +
-          GRID_GAP * (sizeX - 1), // 최소 너비 220px, gap 20px
-        height: Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight), // 최소 높이 147px,
+          Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth) +
+          GRID_GAP * (sizeX - 1),
+        // 최소 너비 220px, gap 20px
+        height:
+          Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight) +
+          GRID_GAP * (sizeY - 1), // 최소 높이 147px,
       }}
       className={cn(
         'bg-special-card-bg rounded-400 border-grey-300 relative flex flex-col overflow-hidden border p-3',
@@ -74,10 +77,10 @@ export const EditCardWrapper = ({
         <div
           style={{
             transform: `scale(${EDIT_CARD_WRAPPER.CHANGE_SCALE})`,
-            transformOrigin: 'top',
+            transformOrigin: 'left top',
           }}
           ref={childRef}
-          className={cn(isAdded ? 'opacity-10' : 'opacity-100')}
+          className={cn('w-full', isAdded ? 'opacity-10' : 'opacity-100')}
         >
           {children}
         </div>

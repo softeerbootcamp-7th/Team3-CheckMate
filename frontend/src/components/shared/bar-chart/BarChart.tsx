@@ -1,13 +1,9 @@
-import {
-  XAxis,
-  XAxisLabel,
-  XGuideLine,
-  YGuideLine,
-} from '@/components/shared/line-chart';
 import { useBarChart } from '@/hooks/shared';
 import { useBarChartId } from '@/hooks/shared';
 import type { XAxisType } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared';
+
+import { XAxis, XAxisLabel, XGuideLine, YGuideLine } from '../chart';
 
 import { BarSeries } from './BarSeries';
 /**
@@ -72,9 +68,9 @@ interface BarChartProps {
    */
   hasBarLabel?: boolean;
   /**
-   * 가장 우측 막대 바 색상 강조할 것인지 여부
+   * 현재 포커스된 데이터의 인덱스
    */
-  activeLastData?: boolean;
+  activeDataIndex?: number;
   /**
    * 바 호버 시 색상 변경할 건지
    */
@@ -96,13 +92,13 @@ export const BarChart = ({
   chartDescription,
   hasBarLabel = true,
   xAxisType,
-  activeLastData = true,
+  activeDataIndex,
   barColorChangeOnHover = true,
 }: BarChartProps) => {
   const { titleId, descId } = useBarChartId();
 
   const {
-    svgRect,
+    svgWidth,
     adjustedHeight,
     xLabelList,
     xCoordinate,
@@ -110,6 +106,8 @@ export const BarChart = ({
     svgRef,
     xAxisRef,
   } = useBarChart({
+    viewBoxWidth,
+    viewBoxHeight,
     barChartSeries,
     hasXAxis,
   });
@@ -132,17 +130,13 @@ export const BarChart = ({
 
       {showYGuideLine && (
         <YGuideLine
-          svgRect={svgRect}
+          svgWidth={svgWidth}
           adjustedHeight={adjustedHeight}
           yGuideLineCount={yGuideLineCount}
         />
       )}
       {showXGuideLine && (
-        <XGuideLine
-          xCoordinate={xCoordinate}
-          svgRect={svgRect}
-          adjustedHeight={adjustedHeight}
-        />
+        <XGuideLine xCoordinate={xCoordinate} adjustedHeight={adjustedHeight} />
       )}
       {hasXAxis && (
         <>
@@ -171,7 +165,7 @@ export const BarChart = ({
         xCoordinate={xCoordinate}
         hasXAxis={hasXAxis}
         hasBarLabel={hasBarLabel}
-        activeLastData={activeLastData}
+        activeDataIndex={activeDataIndex}
         barColorChangeOnHover={barColorChangeOnHover}
       />
     </svg>
