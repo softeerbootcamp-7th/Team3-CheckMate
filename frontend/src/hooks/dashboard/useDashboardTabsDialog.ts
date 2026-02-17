@@ -133,39 +133,38 @@ export const useDashboardTabsDialog = () => {
           if (deleted) {
             return mutateDeletion.mutateAsync({ dashboardId: tabs[index].id });
           }
+          return Promise.resolve();
         }),
       );
 
       // 이름 변경 요청 (삭제한 적이 없고, 이전과 이름이 다른 경우)
       await Promise.all(
         trimmedTabs.map((tab, index) => {
-          if (!tab) {
-            return Promise.resolve();
+          if (tab) {
+            if (
+              !isDeleted[index] &&
+              tabs[index]?.name &&
+              tab !== tabs[index]?.name
+            ) {
+              return mutatePatch.mutateAsync({
+                query: { dashboardId: tabs[index].id },
+                request: { name: tab },
+              });
+            }
           }
-
-          if (
-            !isDeleted[index] &&
-            tabs[index]?.name &&
-            tab !== tabs[index]?.name
-          ) {
-            return mutatePatch.mutateAsync({
-              query: { dashboardId: tabs[index].id },
-              request: { name: tab },
-            });
-          }
+          return Promise.resolve();
         }),
       );
 
       // 추가 요청 (삭제한 곳에 작성했거나 빈칸에 새로 작성한 경우)
       await Promise.all(
         trimmedTabs.map((tab, index) => {
-          if (!tab) {
-            return Promise.resolve();
+          if (tab) {
+            if (isDeleted[index] || !tabs[index]?.name) {
+              return mutatePost.mutateAsync({ name: tab });
+            }
           }
-
-          if (isDeleted[index] || !tabs[index]?.name) {
-            return mutatePost.mutateAsync({ name: tab });
-          }
+          return Promise.resolve();
         }),
       );
     } catch (e) {
