@@ -37,6 +37,7 @@ export const EditCardProvider = ({ children }: PropsWithChildren) => {
   return (
     <EditCardContext.Provider
       value={{
+        dashboardId,
         initPlacedCards,
         placedCards,
         setPlacedCards,
