@@ -28,20 +28,13 @@ export const BarLineSeries = ({
 }: BarLineSeriesProps) => {
   return (
     <g>
-      <path
-        d={interactionPathD}
-        fill="transparent"
-        stroke="transparent"
-        className="peer z-1"
-        pointerEvents="all"
-      />
+      <path d={interactionPathD} fill="transparent" stroke="transparent" />
       <Dot
         x={lineX}
         y={lineY}
         color={color}
         ariaLabel={tooltipContentText}
-        hasHoverEffect
-        className="peer-hover:brightness-75 peer-hover:saturate-200"
+        hasHoverEffect={false}
       />
       <Bar
         barMiddleX={barX}
@@ -51,8 +44,7 @@ export const BarLineSeries = ({
         bgColor={color}
         radius={BAR_CHART.BAR_RADIUS}
         hasGradient
-        barColorChangeOnHover
-        className="peer-hover:[&_path]:fill-brand-main"
+        barColorChangeOnHover={false}
       />
     </g>
   );
