@@ -1,19 +1,22 @@
+import { useSuspenseQuery } from '@tanstack/react-query';
+
 import { useDashboardTabsContext } from '@/hooks/dashboard';
-import { gridItems } from '@/mocks/data/dashboard';
+import { dashboardOptions } from '@/services/dashboard';
 
 import { DashboardEmptyContent } from './DashboardEmptyContent';
 import { DashboardMainContent } from './DashboardMainContent';
 
 export const DashboardMain = () => {
-  const { tabs, currentTabIndex } = useDashboardTabsContext();
+  const { currentDashboardId } = useDashboardTabsContext();
 
-  const mockedGridItems =
-    tabs[currentTabIndex] === '홈 대시보드' ? gridItems : null;
+  const { data: cardList } = useSuspenseQuery(
+    dashboardOptions.cardList(currentDashboardId),
+  );
 
   return (
     <>
-      {mockedGridItems ? (
-        <DashboardMainContent cards={mockedGridItems} />
+      {cardList ? (
+        <DashboardMainContent cards={cardList} />
       ) : (
         <DashboardEmptyContent />
       )}

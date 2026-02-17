@@ -5,13 +5,13 @@ import { DashboardHeader } from '../dashboard-header';
 import { DashboardMain } from '../dashboard-main';
 
 export const DashboardLayout = () => {
-  const { tabs, currentTabIndex, setCurrentTabIndex } =
+  const { currentDashboardId, setCurrentDashboardId } =
     useDashboardTabsContext();
 
   return (
     <Tabs
-      value={tabs[currentTabIndex]}
-      onValueChange={(tabName) => setCurrentTabIndex(tabs.indexOf(tabName))}
+      value={currentDashboardId.toString()}
+      onValueChange={(value) => setCurrentDashboardId(Number(value))}
       className="mt-8 w-265"
     >
       <DashboardHeader />
