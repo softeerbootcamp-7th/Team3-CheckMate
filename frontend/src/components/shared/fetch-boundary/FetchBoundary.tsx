@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { ErrorFallback } from './ErrorFallback';
+import { FetchErrorFallback } from './FetchErrorFallback';
 import { LoadingFallback } from './LoadingFallback';
 
 // 기본 카드(흰 배경, 모서리 라운드)용 에러 바운더리 컴포넌트
@@ -11,7 +11,9 @@ type FetchBoundaryProps = {
 
 export const FetchBoundary = ({ children }: FetchBoundaryProps) => {
   return (
-    <ErrorBoundary fallbackRender={(props) => <ErrorFallback {...props} />}>
+    <ErrorBoundary
+      fallbackRender={(props) => <FetchErrorFallback {...props} />}
+    >
       <Suspense fallback={<LoadingFallback />}>{children}</Suspense>
     </ErrorBoundary>
   );
