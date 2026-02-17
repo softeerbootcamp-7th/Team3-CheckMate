@@ -44,3 +44,4 @@ export {
   getTooltipContent,
   getStackTotalAmount,
 } from './bar-chart';
+export { throttle } from './throttle';

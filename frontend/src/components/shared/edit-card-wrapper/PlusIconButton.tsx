@@ -8,7 +8,10 @@ interface PlusIconButtonProps {
 export const PlusIconButton = ({ onClickAddButton }: PlusIconButtonProps) => {
   return (
     <button
-      onClick={onClickAddButton}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClickAddButton?.();
+      }}
       className="rounded-unlimit border-grey-200 bg-grey-100 text-grey-900 hover:border-grey-900 active:bg-grey-900 active:text-grey-50 flex size-6.5 items-center justify-center border"
     >
       <Plus className="size-4" />

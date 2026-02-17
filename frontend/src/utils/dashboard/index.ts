@@ -1,8 +1,6 @@
 export {
   getAvailablePositionOnGrid,
-  addCardOnGrid,
-  hasCardOnGrid,
-  isAreaAvailableOnGrid,
-  removeCardFromGrid,
+  isCardPlaced,
   isSameGrid,
+  getConflictingCards,
 } from './editCard';
