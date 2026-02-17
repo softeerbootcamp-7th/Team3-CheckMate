@@ -8,11 +8,7 @@ export const DashboardMainSuspense = () => {
           <Skeleton
             key={`dashboard-card-${index}`}
             className="rounded-400 bg-special-card-bg"
-            style={{
-              gridColumn: `${(index % 3) + 1} / span 1`,
-              gridRow: `${Math.floor(index / 3) + 1} / span 1`,
-            }}
-          ></Skeleton>
+          />
         );
       })}
     </div>
