@@ -1,4 +1,4 @@
-import type { MetricCardCode } from './dashboardMetricCards';
+import { isMetricCardCode, type MetricCardCode } from './dashboardMetricCards';
 
 /**
  * 카드 및 섹션 구조 인터페이스
@@ -205,3 +205,106 @@ export type ExtractCardCodes<T> = T extends {
 export type ExtractCardCodesFromSection<T> = T extends MetricSection
   ? ExtractCardCodes<T['items'][keyof T['items']]>
   : never;
+
+type ExtractCardCodesFromMetricTabs<T> = T extends MetricTabs
+  ? ExtractCardCodesFromSection<T['sections'][keyof T['sections']]>
+  : never;
+
+const createMetricCardCodeByCategoryGuard = <M extends MetricTabs>(
+  metrics: M,
+) => {
+  const codesInMetrics = new Set<MetricCardCode>(
+    Object.values(metrics.sections).flatMap((section) =>
+      Object.values(section.items).flatMap((item) => item.cardCodes),
+    ),
+  );
+
+  return (code: string): code is ExtractCardCodesFromMetricTabs<M> => {
+    return codesInMetrics.has(code as MetricCardCode);
+  };
+};
+
+export const isSalesMetricCardCode =
+  createMetricCardCodeByCategoryGuard(SALES_METRICS);
+export const isMenuMetricCardCode =
+  createMetricCardCodeByCategoryGuard(MENU_METRICS);
+
+const createMetricCardCodeBySectionItemGuard = <M extends MetricItem>(
+  metrics: M,
+) => {
+  const codesInMetrics = new Set<MetricCardCode>(metrics.cardCodes);
+
+  return (code: string): code is ExtractCardCodes<M> => {
+    if (!isMetricCardCode(code)) {
+      return false;
+    }
+    return codesInMetrics.has(code);
+  };
+};
+
+/**
+ * 매출현황 관련 카드 코드 타입 가드
+ */
+export const isRealSalesMetricCardCode = createMetricCardCodeBySectionItemGuard(
+  SALES_METRICS.sections.CURRENT_SALES.items.REAL_SALES,
+);
+export const isOrderCountMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    SALES_METRICS.sections.CURRENT_SALES.items.ORDER_COUNT,
+  );
+export const isAveragePriceMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    SALES_METRICS.sections.CURRENT_SALES.items.AVERAGE_PRICE,
+  );
+export const isSalesTypeMetricCardCode = createMetricCardCodeBySectionItemGuard(
+  SALES_METRICS.sections.INCOME_STRUCTURE.items.SALES_TYPE,
+);
+export const isOrderMethodMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    SALES_METRICS.sections.INCOME_STRUCTURE.items.ORDER_METHOD,
+  );
+export const isPaymentMethodMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    SALES_METRICS.sections.INCOME_STRUCTURE.items.PAYMENT_METHOD,
+  );
+export const isDailySalesTrendMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    SALES_METRICS.sections.SALES_TREND.items.DAILY_SALES_TREND,
+  );
+export const isWeeklySalesTrendMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    SALES_METRICS.sections.SALES_TREND.items.WEEKLY_SALES_TREND,
+  );
+export const isMonthlySalesTrendMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    SALES_METRICS.sections.SALES_TREND.items.MONTHLY_SALES_TREND,
+  );
+export const isPeakTimeMetricCardCode = createMetricCardCodeBySectionItemGuard(
+  SALES_METRICS.sections.SALES_PATTERN.items.PEAK_TIME,
+);
+export const isWeekdaySalesPatternMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    SALES_METRICS.sections.SALES_PATTERN.items.WEEKDAY_SALES_PATTERN,
+  );
+
+/**
+ * 메뉴분석 관련 카드 코드 타입 가드
+ */
+export const isMenuSalesRankingMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    MENU_METRICS.sections.POPULAR_MENU.items.MENU_SALES_RANKING,
+  );
+export const isTimeBasedMenuOrderCountMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    MENU_METRICS.sections.MENU_SALES_PATTERN.items.TIME_BASED_MENU_ORDER_COUNT,
+  );
+export const isIngredientConsumptionRankMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    MENU_METRICS.sections.INGREDIENT_CONSUMPTION_RANK.items
+      .INGREDIENT_CONSUMPTION_RANK,
+  );
+export const isPopularMenuCombinationMetricCardCode =
+  createMetricCardCodeBySectionItemGuard(
+    MENU_METRICS.sections.POPULAR_MENU_COMBINATION.items
+      .POPULAR_MENU_COMBINATION,
+  );
