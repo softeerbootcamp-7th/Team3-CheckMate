@@ -10,8 +10,8 @@ export type {
   PutDashboardCardListResponseDto,
 } from './dto';
 export type {
-  PatchDashboardNameQuery,
-  DeleteDashboardQuery,
-  GetDashboardCardListQuery,
-  PutDashboardCardListQuery,
-} from './query';
+  PatchDashboardNameParam,
+  DeleteDashboardParam,
+  GetDashboardCardListParam,
+  PutDashboardCardListParam,
+} from './param';

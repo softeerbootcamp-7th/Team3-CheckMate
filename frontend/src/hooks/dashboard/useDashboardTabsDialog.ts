@@ -15,8 +15,8 @@ import {
   postDashboard,
 } from '@/services/dashboard';
 import type {
-  DeleteDashboardQuery,
-  PatchDashboardNameQuery,
+  DeleteDashboardParam,
+  PatchDashboardNameParam,
   PatchDashboardNameRequestDto,
   PostDashboardRequestDto,
 } from '@/types/dashboard';
@@ -60,19 +60,19 @@ export const useDashboardTabsDialog = () => {
   }, [editingIndex]);
 
   const mutateDeletion = useMutation({
-    mutationFn: (query: DeleteDashboardQuery) => deleteDashboard(query),
+    mutationFn: (param: DeleteDashboardParam) => deleteDashboard(param),
   });
   const mutatePatch = useMutation({
     mutationFn: ({
-      query,
-      request,
+      param,
+      body,
     }: {
-      query: PatchDashboardNameQuery;
-      request: PatchDashboardNameRequestDto;
-    }) => patchDashboardName(query, request),
+      param: PatchDashboardNameParam;
+      body: PatchDashboardNameRequestDto;
+    }) => patchDashboardName(param, body),
   });
   const mutatePost = useMutation({
-    mutationFn: (request: PostDashboardRequestDto) => postDashboard(request),
+    mutationFn: (body: PostDashboardRequestDto) => postDashboard(body),
   });
 
   const handleChange = (currentIndex: number, newValue: string) => {
@@ -148,8 +148,8 @@ export const useDashboardTabsDialog = () => {
               tab !== tabs[index]?.name
             ) {
               return mutatePatch.mutateAsync({
-                query: { dashboardId: tabs[index].id },
-                request: { name: tab },
+                param: { dashboardId: tabs[index].id },
+                body: { name: tab },
               });
             }
           }
