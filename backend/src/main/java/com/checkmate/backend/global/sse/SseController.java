@@ -47,7 +47,8 @@ public class SseController {
 
         Long storeId = member.storeId();
 
-        SseEmitter emitter = new SseEmitter(0L);
+        // 타임아웃 5분
+        SseEmitter emitter = new SseEmitter(300_000L);
 
         sseEmitterManager.addEmitter(storeId, emitter);
 
