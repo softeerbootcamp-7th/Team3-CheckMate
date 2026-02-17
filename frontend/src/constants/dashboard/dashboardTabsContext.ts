@@ -3,12 +3,10 @@ import { createContext } from 'react';
 import type { DashboardTabsDialogMode } from './dashboardTabsDialogMode';
 
 interface DashboardTabsContextType {
-  currentTabIndex: number;
-  tabs: string[];
+  currentDashboardId: number;
   dialogOpen: boolean;
   dialogMode: DashboardTabsDialogMode | null;
-  setCurrentTabIndex: (index: number) => void;
-  setTabs: (tabs: string[]) => void;
+  setCurrentDashboardId: (id: number) => void;
   openDialog: (mode: DashboardTabsDialogMode) => void;
   closeDialog: () => void;
 }

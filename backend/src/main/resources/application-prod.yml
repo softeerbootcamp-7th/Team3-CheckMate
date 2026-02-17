@@ -65,3 +65,4 @@ gemini:
   api:
     key: ${GEMINI_API_KEY_SERVER}
   model-name: gemini-3-flash-preview
+  lite-model-name: gemini-2.5-flash-lite
