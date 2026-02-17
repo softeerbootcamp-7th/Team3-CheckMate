@@ -14,3 +14,4 @@ export {
   PaymentMethodContent,
 } from './dashboard-sales-income';
 export { PeakTimeContent, SalesByDayContent } from './dashboard-sales-pattern';
+export { SalesTrendContent } from './dashboard-sales-trend';
