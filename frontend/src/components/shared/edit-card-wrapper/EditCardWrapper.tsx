@@ -19,6 +19,7 @@ interface EditCardWrapperProps {
   innerClassName?: string; // 자식 컴포넌트 클래스명
   period: string; // 오늘, 이번주, 이번달 등 문구
   sizeX?: number; // 가로 크기
+  sizeY?: number; // 세로 크기
   onClickDeleteButton?: () => void; // 대시보드에서 삭제하는 버튼 클릭 헨들러
   onClickAddButton?: () => void; // 대시보드에 추가하는 버튼 클릭 핸들러
 }
@@ -31,6 +32,7 @@ export const EditCardWrapper = ({
   className,
   innerClassName,
   sizeX = 1,
+  sizeY = 1,
   period = '기간없음',
   onClickDeleteButton,
   onClickAddButton,
