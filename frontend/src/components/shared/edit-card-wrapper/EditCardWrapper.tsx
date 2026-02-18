@@ -49,10 +49,10 @@ export const EditCardWrapper = ({
         width:
           Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth) * sizeX +
           GRID_GAP * (sizeX - 1), // 최소 너비 220px, gap 20px
-        height: Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight), // 최소 높이 147px,
+        height: Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight), // 최소 높이 148px,
       }}
       className={cn(
-        'bg-special-card-bg rounded-400 border-grey-300 relative flex flex-col overflow-hidden border p-3',
+        'bg-special-card-bg rounded-400 border-grey-300 relative flex flex-col overflow-hidden border p-2.5',
         className,
       )}
     >
