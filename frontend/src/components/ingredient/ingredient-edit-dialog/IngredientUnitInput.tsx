@@ -43,7 +43,10 @@ export const IngredientUnitInput = ({
       }}
       render={({ field }) => {
         return (
-          <Select value={field.value} onValueChange={field.onChange}>
+          <Select
+            value={field.value?.toString() || ''}
+            onValueChange={field.onChange}
+          >
             <SelectTrigger
               className={cn(
                 formErrors.ingredients?.[index]?.unit
