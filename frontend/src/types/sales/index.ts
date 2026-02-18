@@ -4,7 +4,7 @@ export type {
   GetOrderCountResponseDto,
   GetAveragePriceResponseDto,
   GetIncomeStructureBySalesTypeResponseDto,
-  GetIncomeStructureByOrderMethodResponseDto,
+  GetIncomeStructureByOrderChannelResponseDto,
   GetIncomeStructureByPaymentMethodResponseDto,
   GetDetailPeakTimeResponseDto,
   GetDashboardPeakTimeResponseDto,

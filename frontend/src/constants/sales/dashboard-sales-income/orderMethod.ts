@@ -1,4 +1,4 @@
-import type { GetIncomeStructureByOrderMethodResponseDto } from '@/types/sales';
+import type { GetIncomeStructureByOrderChannelResponseDto } from '@/types/sales';
 
 export const ORDER_METHOD = {
   EXAMPLE_TOP_TYPE: '키오스크',
@@ -33,6 +33,6 @@ export const ORDER_METHOD = {
       share: 25,
       deltaShare: -1.8,
     },
-  ] as const satisfies GetIncomeStructureByOrderMethodResponseDto['items'],
+  ] as const satisfies GetIncomeStructureByOrderChannelResponseDto['items'],
   DOUGHNUT_CHART_TITLE: '주문수단별 매출 관련 도넛 차트',
 } as const;

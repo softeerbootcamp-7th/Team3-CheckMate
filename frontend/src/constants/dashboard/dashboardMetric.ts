@@ -46,7 +46,7 @@ const SALES_METRICS = {
           label: '판매유형별 매출',
           cardCodes: ['SLS_06_01', 'SLS_06_02', 'SLS_06_03'] as const,
         },
-        ORDER_METHOD: {
+        ORDER_CHANNEL: {
           label: '주문수단별 매출',
           cardCodes: ['SLS_07_01', 'SLS_07_02', 'SLS_07_03'] as const,
         },
@@ -259,9 +259,9 @@ export const isAveragePriceMetricCardCode =
 export const isSalesTypeMetricCardCode = createMetricCardCodeBySectionItemGuard(
   SALES_METRICS.sections.INCOME_STRUCTURE.items.SALES_TYPE,
 );
-export const isOrderMethodMetricCardCode =
+export const isOrderChannelMetricCardCode =
   createMetricCardCodeBySectionItemGuard(
-    SALES_METRICS.sections.INCOME_STRUCTURE.items.ORDER_METHOD,
+    SALES_METRICS.sections.INCOME_STRUCTURE.items.ORDER_CHANNEL,
   );
 export const isPaymentMethodMetricCardCode =
   createMetricCardCodeBySectionItemGuard(

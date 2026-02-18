@@ -6,8 +6,8 @@ import {
 } from '@/components/menu';
 import {
   AveragePriceContent,
+  OrderChannelContent,
   OrderCountContent,
-  OrderMethodContent,
   PaymentMethodContent,
   PeakTimeContent,
   RealSalesContent,
@@ -137,7 +137,7 @@ export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
     case 'SLS_07_02':
     case 'SLS_07_03':
       return (
-        <OrderMethodContent
+        <OrderChannelContent
           cardCode={cardCode}
           insight={{
             topType: ORDER_METHOD_EXAMPLE_TOP_TYPE,

@@ -10,7 +10,7 @@ export {
 export { DashboardSalesIncomeContent } from './dashboard-sales-income';
 export {
   SalesTypeContent,
-  OrderMethodContent,
+  OrderChannelContent,
   PaymentMethodContent,
 } from './dashboard-sales-income';
 export { PeakTimeContent, SalesByDayContent } from './dashboard-sales-pattern';

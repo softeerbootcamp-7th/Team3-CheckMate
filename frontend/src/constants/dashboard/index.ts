@@ -17,7 +17,7 @@ export {
   isOrderCountMetricCardCode,
   isAveragePriceMetricCardCode,
   isSalesTypeMetricCardCode,
-  isOrderMethodMetricCardCode,
+  isOrderChannelMetricCardCode,
   isPaymentMethodMetricCardCode,
   isDailySalesTrendMetricCardCode,
   isWeeklySalesTrendMetricCardCode,

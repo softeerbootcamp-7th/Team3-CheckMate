@@ -8,7 +8,7 @@ import {
 } from '../dashboard-menu';
 import {
   DashboardAveragePriceCard,
-  DashboardIncomeStructureOrderMethodCard,
+  DashboardIncomeStructureOrderChannelCard,
   DashboardIncomeStructurePaymentMethodCard,
   DashboardIncomeStructureSalesTypeCard,
   DashboardOrderCountCard,
@@ -39,7 +39,7 @@ export const DashboardCard = ({ cardCode }: { cardCode: MetricCardCode }) => {
     case 'SLS_07_01':
     case 'SLS_07_02':
     case 'SLS_07_03':
-      return <DashboardIncomeStructureOrderMethodCard cardCode={cardCode} />;
+      return <DashboardIncomeStructureOrderChannelCard cardCode={cardCode} />;
     case 'SLS_08_01':
     case 'SLS_08_02':
     case 'SLS_08_03':

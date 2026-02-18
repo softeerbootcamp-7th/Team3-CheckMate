@@ -4,25 +4,25 @@ import {
   type ExtractCardCodes,
 } from '@/constants/dashboard';
 import { ORDER_METHOD, SALES_SOURCE_COLORS } from '@/constants/sales';
-import type { GetIncomeStructureByOrderMethodResponseDto } from '@/types/sales';
+import type { GetIncomeStructureByOrderChannelResponseDto } from '@/types/sales';
 
 import { DashboardSalesIncomeContent } from './DashboardSalesIncomeContent';
 
 const { DOUGHNUT_CHART_TITLE } = ORDER_METHOD;
 
 type OrderMethodCardCodes = ExtractCardCodes<
-  typeof DASHBOARD_METRICS.SALES.sections.INCOME_STRUCTURE.items.ORDER_METHOD
+  typeof DASHBOARD_METRICS.SALES.sections.INCOME_STRUCTURE.items.ORDER_CHANNEL
 >;
 
-interface OrderMethodContentProps extends GetIncomeStructureByOrderMethodResponseDto {
+interface OrderChannelContentProps extends GetIncomeStructureByOrderChannelResponseDto {
   cardCode: OrderMethodCardCodes;
 }
 
-export const OrderMethodContent = ({
+export const OrderChannelContent = ({
   cardCode,
   insight,
   items,
-}: OrderMethodContentProps) => {
+}: OrderChannelContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
   const orderMethodData = items.map((item) => ({
