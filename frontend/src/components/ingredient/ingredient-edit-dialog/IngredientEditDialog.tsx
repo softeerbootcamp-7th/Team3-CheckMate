@@ -33,21 +33,22 @@ export const IngredientEditDialog = ({
     mode: 'onBlur',
   });
 
-  const { onSubmit } = useIngredientEditSubmit({
-    onOpenChange,
-  });
-
   const onClickCancel = () => {
     onOpenChange(false);
   };
+  // 폼 validation 통과했을 때 실행되는 함수
+  const { onSubmit } = useIngredientEditSubmit({
+    menuId,
+    onOpenChange,
+  });
+  // 폼 validation 실패 했을 때 불리는 함수
   const onError = (errors: FieldErrors<IngredientFormValues>) => {
     toast(
       '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
       {
         duration: TOAST_DEFAULT.DURATION, // 3.5초 동안 띄워져있음
-        className:
-          '!bg-grey-900 !text-grey-50 !border-none !max-w-auto !w-max body-small-semibold px-400',
-        position: 'bottom-center',
+        className: TOAST_DEFAULT.STYLE,
+        position: TOAST_DEFAULT.POSITION,
       },
     );
     return errors; // 그냥 임시 return. 사용하는 데는 없음
