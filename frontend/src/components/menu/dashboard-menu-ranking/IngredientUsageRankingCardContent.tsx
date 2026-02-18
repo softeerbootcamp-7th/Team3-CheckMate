@@ -18,20 +18,7 @@ interface GetDashboardIngredientRankItemsParams {
 const getDashboardIngredientRankItems = ({
   items,
 }: GetDashboardIngredientRankItemsParams): DashboardRankItem[] => {
-  // 사용량 기준으로 내림차순 정렬
-  // 단 kg , L 단위는 g, ml로 변환하여 비교해야 함
-  const sortedItems = [...items].sort((a, b) => {
-    const aQuantity =
-      a.baseUnit === 'kg' || a.baseUnit === 'L'
-        ? a.totalQuantity * 1000
-        : a.totalQuantity;
-    const bQuantity =
-      b.baseUnit === 'kg' || b.baseUnit === 'L'
-        ? b.totalQuantity * 1000
-        : b.totalQuantity;
-    return bQuantity - aQuantity;
-  });
-  return sortedItems
+  return items
     .map((item, index) => ({
       rank: index + 1,
       itemName: item.ingredientName,

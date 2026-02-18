@@ -14,11 +14,7 @@ interface GetDashboardMenuRankItemsParams {
 const getDashboardMenuRankItems = ({
   items,
 }: GetDashboardMenuRankItemsParams): DashboardRankItem[] => {
-  // 매출액 기준으로 내림차순 정렬
-  const sortedItems = [...items].sort(
-    (a, b) => b.totalSalesAmount - a.totalSalesAmount,
-  );
-  return sortedItems
+  return items
     .map((item, index) => ({
       rank: index + 1,
       itemName: item.menuName,
