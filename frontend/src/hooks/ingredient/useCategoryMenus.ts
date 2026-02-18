@@ -21,8 +21,10 @@ export const useCategoryMenus = ({ categoryMenus }: useCategoryMenusParams) => {
 
   // 카테고리 목록
   // useMemo으로 감싸서 categories 배열이 렌더링 때마다 재생성 되는 것 방지
-  const categories = Array.from(menusByCategory.keys());
-
+  const categories = useMemo(
+    () => Array.from(menusByCategory.keys()),
+    [menusByCategory],
+  );
   // 선택된 카테고리
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     categories[0] ?? null,
