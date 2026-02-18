@@ -11,7 +11,7 @@ export const IngredientMenuGrid = ({
   return (
     <div className="grid grid-cols-4 grid-rows-3 gap-3">
       {currentPageMenus.map((menuInfo) => (
-        <MenuInfoCard menuInfo={menuInfo} />
+        <MenuInfoCard key={menuInfo.menuId} menuInfo={menuInfo} />
       ))}
     </div>
   );
