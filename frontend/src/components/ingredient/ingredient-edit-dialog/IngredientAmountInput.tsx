@@ -33,7 +33,7 @@ export const IngredientAmountInput = ({
     // dom에 반영
     e.currentTarget.value = slicedString;
     //  RHF에게 변경 사항 알림
-    setValue(`ingredients.${index}.quantity`, parseInt(slicedString), {
+    setValue(`ingredients.${index}.quantity`, slicedString, {
       shouldDirty: true, // 변경된 값이 원래 값과 다르면 form이 dirty 상태가 되도록
     });
   };
