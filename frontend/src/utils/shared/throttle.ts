@@ -6,13 +6,13 @@
 export function throttle<T extends unknown[]>(
   fn: (...args: T) => void,
   throttleMs = 50,
-): (...args: T) => void {
+): ThrottledFunction<T> {
   let pendingAt = 0;
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
   let savedArgs: T | null = null;
   let savedThis: unknown = undefined;
 
-  return function throttled(this: unknown, ...args: T) {
+  const throttled = ((...args: T) => {
     const now = Date.now();
     const remain = throttleMs - (now - pendingAt);
 
@@ -44,5 +44,16 @@ export function throttle<T extends unknown[]>(
         }
       }, remain);
     }
+  }) as ThrottledFunction<T>;
+
+  throttled.cancel = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+    pendingAt = 0;
+    savedArgs = null;
   };
+
+  return throttled;
 }
