@@ -1,10 +1,9 @@
 import type { IngredientUnit } from '@/constants/ingredient';
 
 export interface Ingredient {
-  // 새로운 식자재 행 추가할 때는 값들이 null값임. 따라서 null도 허용해줘야 새로운 필드 추가할 때 placeholder 뜨게 할 수 있음
-  name: string | null;
-  quantity: number | null;
-  unit: IngredientUnit | null;
+  name: string;
+  quantity: string;
+  unit: IngredientUnit | ''; // 새로운 식자재 행 추가할 때 unit은 빈 문자열이어야 함 (아직 단위 선택 안 했을 때)
 }
 
 export interface IngredientFormValues {

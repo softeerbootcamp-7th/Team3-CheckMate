@@ -30,7 +30,8 @@ export const getMenuIngredients = async ({
   return {
     menuName: data.menuName,
     ingredients: data.ingredients.map((item) => ({
-      ...item,
+      name: item.name,
+      quantity: item.quantity.toString(),
       unit: SERVER_TO_UI_UNIT[item.unit],
     })),
   };
