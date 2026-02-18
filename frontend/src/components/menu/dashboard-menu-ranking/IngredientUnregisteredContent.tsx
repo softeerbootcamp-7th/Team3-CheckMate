@@ -13,7 +13,7 @@ export const IngredientUnregisteredContent = ({
     <div className={cn('flex w-75 flex-col items-center', className)}>
       <div className="flex flex-col items-center gap-1">
         <img
-          src={`${CDN_BASE_URL}/assets/images/empty_ingridient.svg`}
+          src={`${CDN_BASE_URL}/assets/images/empty_ingredient.svg`}
           alt="식재료 미등록 이미지"
           className="size-18"
         />
