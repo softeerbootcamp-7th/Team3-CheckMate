@@ -118,6 +118,11 @@ export const useDashboardTabsDialog = () => {
     if (hasDuplicate) {
       return;
     }
+    // 글자 수 확인
+    const isLengthExceed = filteredTabs.some((tab) => tab.length > 6);
+    if (isLengthExceed) {
+      return;
+    }
 
     // 삭제될 경우 현재 선택 대시보드가 삭제되면, 현재 대시보드 변경
     const currentDashboardIndex = tabs.findIndex(
