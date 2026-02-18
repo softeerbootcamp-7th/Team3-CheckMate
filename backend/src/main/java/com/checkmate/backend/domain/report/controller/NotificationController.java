@@ -154,7 +154,7 @@ public class NotificationController {
                                                         """
                                         {
                                           "success": true,
-                                          "message": "알림을 모두 삭제했습니다.
+                                          "message": "알림을 모두 삭제했습니다."
                                         }
                                         """)))
     })

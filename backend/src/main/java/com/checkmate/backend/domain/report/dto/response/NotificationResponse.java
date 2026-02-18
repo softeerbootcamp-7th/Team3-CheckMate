@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public record NotificationResponse(
         @Schema(description = "알림 ID", example = "1") Long notificationId,
         @Schema(description = "알림 본문", example = "2026년 2월 18일 하루 리포트 발행이 완료되었습니다.") String content,
-        @Schema(description = "미열람 여부 (true: 미열람)", example = "true") boolean isRead,
+        @Schema(description = "읽음 여부 (true: 읽음)", example = "true") boolean isRead,
         @Schema(description = "알림 발생 시간 (ISO 8601)", example = "2026-02-18T17:30:00")
                 LocalDateTime createdAt,
         @Schema(description = "상대 시간 표현", example = "3분 전") String relativeTime) {
