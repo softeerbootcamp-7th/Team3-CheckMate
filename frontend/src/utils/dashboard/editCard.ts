@@ -34,22 +34,27 @@ const getGridFromPlacedCards = (placedCards: DashboardCard[]) => {
 };
 
 export const isSameGrid = (
-  placedCards1: DashboardCard[],
-  placedCards2: DashboardCard[],
+  placedCardList1: DashboardCard[],
+  placedCardList2: DashboardCard[],
 ): boolean => {
-  if (placedCards1.length !== placedCards2.length) {
+  if (placedCardList1.length !== placedCardList2.length) {
     return false;
   }
 
-  const cardMap1 = new Map<string, DashboardCard>();
-  const cardMap2 = new Map<string, DashboardCard>();
+  // 카드 배치 비교를 위해 카드 코드를 키로 하는 맵 생성
+  const placedCardMap1 = new Map<string, DashboardCard>();
+  const placedCardMap2 = new Map<string, DashboardCard>();
 
-  placedCards1.forEach((card) => cardMap1.set(card.cardCode, card));
-  placedCards2.forEach((card) => cardMap2.set(card.cardCode, card));
+  placedCardList1.forEach((card) => placedCardMap1.set(card.cardCode, card));
+  placedCardList2.forEach((card) => placedCardMap2.set(card.cardCode, card));
 
-  for (const [cardCode, card1] of cardMap1.entries()) {
-    const card2 = cardMap2.get(cardCode);
-    if (!card2 || card1.rowNo !== card2.rowNo || card1.colNo !== card2.colNo) {
+  for (const [cardCode, placedCard1] of placedCardMap1.entries()) {
+    const matchingPlacedCard2 = placedCardMap2.get(cardCode);
+    if (
+      !matchingPlacedCard2 ||
+      placedCard1.rowNo !== matchingPlacedCard2.rowNo ||
+      placedCard1.colNo !== matchingPlacedCard2.colNo
+    ) {
       return false;
     }
   }
