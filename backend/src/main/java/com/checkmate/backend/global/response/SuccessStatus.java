@@ -72,6 +72,11 @@ public enum SuccessStatus {
     REPORT_GET_SUCCESS(HttpStatus.OK, "리포트 조회에 성공했습니다."),
     REPORT_CALENDAR_GET_SUCCESS(HttpStatus.OK, "캘린더 조회에 성공했습니다."),
 
+    NOTIFICATION_STATUS_GET_SUCCESS(HttpStatus.OK, "미열람 알림 상태 조회를 완료했습니다."),
+    NOTIFICATION_LIST_GET_SUCCESS(HttpStatus.OK, "알림 목록 조회를 완료했습니다."),
+    NOTIFICATION_READ_SUCCESS(HttpStatus.OK, "알림을 모두 읽음 처리했습니다."),
+    NOTIFICATION_DELETE_SUCCESS(HttpStatus.OK, "알림을 모두 삭제했습니다."),
+
     /** Chat */
     // 200
     CHAT_GET_SUCCESS(HttpStatus.OK, "AI 응답 생성에 성공했습니다."),
