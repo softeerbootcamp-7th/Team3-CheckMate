@@ -251,8 +251,6 @@ export const useDragAndDropCard = () => {
 
   const handleGridDragOverFn = useCallback(
     (clientX: number, clientY: number) => {
-      // console.log('handleGridDragOver-throttled');
-
       if (!gridRef.current || !dragState) {
         return;
       }
@@ -263,8 +261,6 @@ export const useDragAndDropCard = () => {
       if (ghost?.colNo === col && ghost?.rowNo === row) {
         return;
       }
-
-      // console.log('handleGridDragOver - new ghost');
 
       // 시뮬레이션을 위한 레이아웃 구성
       const ghostCard: DashboardCard = {
@@ -315,56 +311,46 @@ export const useDragAndDropCard = () => {
     e.preventDefault();
     const clientX = e.clientX;
     const clientY = e.clientY;
-    // console.log('handleGridDragOver');
 
     handleGridDragOverThrottled(clientX, clientY);
   };
 
   const handleGridDrop = (e: React.DragEvent) => {
-    // console.log('handleGridDrop');
     e.preventDefault();
 
     if (ghost?.isValid && tempLayout) {
-      // console.log('handleGridDrop - update grid');
       setPlacedCards(tempLayout);
     }
     handleDragEnd();
   };
 
   const handleGridDragLeave = (e: React.DragEvent) => {
-    // console.log('handleGridDragLeave');
     const relatedTarget =
       e.relatedTarget || window.document.elementFromPoint(e.clientX, e.clientY);
 
     if (!e.currentTarget.contains(relatedTarget as Node)) {
       // 영역 외부로 나갔을 때만 처리 (자식 요소로 이동할 때는 무시)
-      // console.log('handleGridDragLeave - really');
       setGhost(null);
     }
   };
 
   const handleListDragEnter = () => {
-    // console.log('handleListDragEnter');
     if (dragState?.sourceArea === DASHBOARD_EDIT_AREA.GRID) {
-      // console.log('handleListDragEnter - really');
       setIsOverList(true);
     }
   };
 
   const handleListDragLeave = (e: React.DragEvent) => {
-    // console.log('handleListDragLeave');
     const relatedTarget =
       e.relatedTarget || window.document.elementFromPoint(e.clientX, e.clientY);
 
     if (!e.currentTarget.contains(relatedTarget as Node)) {
       // 영역 외부로 나갔을 때만 처리 (자식 요소로 이동할 때는 무시)
-      // console.log('handleListDragLeave - really');
       setIsOverList(false);
     }
   };
 
   const handleListDrop = (e: React.DragEvent) => {
-    // console.log('handleListDrop', { dragState });
     e.preventDefault();
 
     // 카드 삭제
@@ -372,7 +358,6 @@ export const useDragAndDropCard = () => {
       setPlacedCards((prev) =>
         prev.filter((c) => c.cardCode !== dragState.draggingCard.cardCode),
       );
-      // console.log('handleListDrop - remove card');
     }
     handleDragEnd();
   };
@@ -382,7 +367,6 @@ export const useDragAndDropCard = () => {
     sourceArea: DashboardEditArea,
     draggingCard: DashboardCard,
   ) => {
-    // console.log('handleDragStart');
     e.dataTransfer.effectAllowed = 'move';
 
     const cardRect = e.currentTarget.getBoundingClientRect();
@@ -398,7 +382,6 @@ export const useDragAndDropCard = () => {
   };
 
   const handleDragEnd = () => {
-    // console.log('handleDragEnd');
     // 드래그 상태 초기화
     setDragState(null);
     setGhost(null);
