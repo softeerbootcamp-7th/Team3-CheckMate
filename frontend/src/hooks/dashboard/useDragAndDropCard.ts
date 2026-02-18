@@ -333,7 +333,10 @@ export const useDragAndDropCard = () => {
 
   const handleGridDragLeave = (e: React.DragEvent) => {
     // console.log('handleGridDragLeave');
-    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+    const relatedTarget =
+      e.relatedTarget || window.document.elementFromPoint(e.clientX, e.clientY);
+
+    if (!e.currentTarget.contains(relatedTarget as Node)) {
       // 영역 외부로 나갔을 때만 처리 (자식 요소로 이동할 때는 무시)
       // console.log('handleGridDragLeave - really');
       setGhost(null);
@@ -350,7 +353,10 @@ export const useDragAndDropCard = () => {
 
   const handleListDragLeave = (e: React.DragEvent) => {
     // console.log('handleListDragLeave');
-    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+    const relatedTarget =
+      e.relatedTarget || window.document.elementFromPoint(e.clientX, e.clientY);
+
+    if (!e.currentTarget.contains(relatedTarget as Node)) {
       // 영역 외부로 나갔을 때만 처리 (자식 요소로 이동할 때는 무시)
       // console.log('handleListDragLeave - really');
       setIsOverList(false);
