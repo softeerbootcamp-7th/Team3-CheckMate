@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 
-public record IngredientCreateRequestDTO(
+public record IngredientUpdateRequestDTO(
         @Schema(description = "식재료들")
                 @NotNull(message = "식재료는 적어도 하나 입력해야 합니다.")
                 @Size(min = 1, message = "식재료는 적어도 하나 입력해야 합니다.")

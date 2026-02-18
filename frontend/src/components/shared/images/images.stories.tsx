@@ -20,7 +20,7 @@ const images = [
   'congratulation.svg',
   'warning.svg',
   'empty_dashboard.png',
-  'empty_ingridient.svg',
+  'empty_ingredient.svg',
   'up.svg',
   'down.svg',
   'graph_down.svg',

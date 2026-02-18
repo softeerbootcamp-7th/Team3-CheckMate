@@ -1,5 +1,5 @@
 import { ORDER_COUNT } from '@/constants/menu';
-import type { GetDashboardTimeSlotMenuOrderCountResponseDto } from '@/types/menu/dto';
+import type { GetDashboardTimeSlotMenuOrderCountResponseDto } from '@/types/menu';
 
 import { TimeSlotMenuOrderCountContent } from './TimeSlotMenuOrderCountContent';
 
@@ -12,11 +12,13 @@ interface TimeSlotMenuOrderCountCardContentProps extends GetDashboardTimeSlotMen
 export const TimeSlotMenuOrderCountCardContent = ({
   timeSlot2H = EXAMPLE_TIME_SLOT_2H,
   menuName = EXAMPLE_MENU_NAME,
+  className,
 }: TimeSlotMenuOrderCountCardContentProps) => {
   return (
     <TimeSlotMenuOrderCountContent
       timeSlot2H={timeSlot2H}
       menuName={menuName}
+      className={className}
     />
   );
 };

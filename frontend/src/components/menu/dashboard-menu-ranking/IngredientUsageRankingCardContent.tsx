@@ -6,7 +6,7 @@ import type { DashboardRankItem } from '@/types/menu';
 import type {
   GetIngredientUsageRankingResponseDto,
   IngredientUsage,
-} from '@/types/menu/dto';
+} from '@/types/menu';
 
 import { DashboardRankingContent } from './DashboardRankingContent';
 import { IngredientUnregisteredContent } from './IngredientUnregisteredContent';
@@ -18,20 +18,7 @@ interface GetDashboardIngredientRankItemsParams {
 const getDashboardIngredientRankItems = ({
   items,
 }: GetDashboardIngredientRankItemsParams): DashboardRankItem[] => {
-  // 사용량 기준으로 내림차순 정렬
-  // 단 kg , L 단위는 g, ml로 변환하여 비교해야 함
-  const sortedItems = [...items].sort((a, b) => {
-    const aQuantity =
-      a.baseUnit === 'kg' || a.baseUnit === 'L'
-        ? a.totalQuantity * 1000
-        : a.totalQuantity;
-    const bQuantity =
-      b.baseUnit === 'kg' || b.baseUnit === 'L'
-        ? b.totalQuantity * 1000
-        : b.totalQuantity;
-    return bQuantity - aQuantity;
-  });
-  return sortedItems
+  return items
     .map((item, index) => ({
       rank: index + 1,
       itemName: item.ingredientName,
@@ -48,6 +35,7 @@ interface IngredientUsageRankingCardContentProps extends GetIngredientUsageRanki
 export const IngredientUsageRankingCardContent = ({
   hasIngredient,
   items,
+  className,
 }: IngredientUsageRankingCardContentProps) => {
   // dto -> 대시보드의 메뉴>식재료 소진량 랭킹 카드 UI 데이터 형태로 변환
   const ingredientRankItems = useMemo(
@@ -60,7 +48,10 @@ export const IngredientUsageRankingCardContent = ({
   }
   // tHeadLabels를 통해 테이블 각 열의 이름을 지정
   return (
-    <DashboardRankingContent tHeadLabels={['순위', '식재료명', '소진량']}>
+    <DashboardRankingContent
+      tHeadLabels={['순위', '식재료명', '소진량']}
+      className={className}
+    >
       <DashboardRankingContent.TableBody rankItems={ingredientRankItems} />
     </DashboardRankingContent>
   );

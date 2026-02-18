@@ -14,7 +14,7 @@ export const PopularMenuCombinationContent = ({
   return (
     <p
       className={cn(
-        'title-large-semibold text-grey-900 flex w-75 flex-col',
+        'title-large-semibold text-grey-900 flex h-34 w-75 flex-col justify-end',
         className,
       )}
     >

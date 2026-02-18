@@ -20,22 +20,22 @@ export const RankItem = ({
   const isHighlight = rank === DASHBOARD_RANKING.HIGHLIGHT_RANKING; // 1등만 하이라이트
 
   return (
-    <tr>
-      <td>
+    <tr className="group">
+      <td className="pb-2 group-last:pb-0">
         <RankBadge
           rank={rank}
-          size="smmd"
+          size="md"
           variant={isHighlight ? 'highlight' : 'default'}
           className="shrink-0"
         />
       </td>
-      <td>
+      <td className="pb-2 group-last:pb-0">
         <span className="body-medium-semibold block w-30 truncate">
           {itemName}
         </span>
       </td>
 
-      <td className="text-grey-600 flex justify-end gap-1">
+      <td className="text-grey-600 flex justify-end gap-1 pb-2 group-last:pb-0">
         <span className="truncate">{formatNumber(totalAmount)}</span>
         <span>{unit}</span>
       </td>

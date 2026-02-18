@@ -1,5 +1,5 @@
 import { POPULAR_MENU_COMBINATION } from '@/constants/menu';
-import type { GetDashboardPopularMenuCombinationResponseDto } from '@/types/menu/dto';
+import type { GetDashboardPopularMenuCombinationResponseDto } from '@/types/menu';
 
 import { PopularMenuCombinationContent } from './PopularMenuCombinationContent';
 
@@ -12,11 +12,13 @@ interface PopularMenuCombinationCardContentProps extends GetDashboardPopularMenu
 export const PopularMenuCombinationCardContent = ({
   firstMenuName = EXAMPLE_FIRST_MENU_NAME,
   secondMenuName = EXAMPLE_SECOND_MENU_NAME,
+  className,
 }: PopularMenuCombinationCardContentProps) => {
   return (
     <PopularMenuCombinationContent
       baseMenuName={firstMenuName}
       pairedMenu={secondMenuName}
+      className={className}
     />
   );
 };

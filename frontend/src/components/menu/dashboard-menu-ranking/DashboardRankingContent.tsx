@@ -18,12 +18,7 @@ export const DashboardRankingContent = ({
   tHeadLabels = ['순위', '메뉴명', '매출액'], // 테이블 각 열의 이름, sr-only 클래스로 화면에서는 보이지 않지만 스크린 리더로 읽을 수 있도록 함
 }: DashboardRankingContentProps) => {
   return (
-    <table
-      className={cn(
-        'w-75 table-fixed border-separate border-spacing-y-2',
-        className,
-      )}
-    >
+    <table className={cn('w-75 table-fixed border-collapse', className)}>
       <colgroup>
         <col className="w-10" />
         <col className="w-32" />
