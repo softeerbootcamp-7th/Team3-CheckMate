@@ -1,11 +1,9 @@
 package com.checkmate.backend.global.sse;
 
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -13,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class SseEmitterManager {
 
     // StoreId -> SseEmitter
-    private final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
+    @Getter private final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
 
     // StoreId -> subscribed topics
     private final Map<Long, Set<AnalysisCardCode>> clientTopics = new ConcurrentHashMap<>();
