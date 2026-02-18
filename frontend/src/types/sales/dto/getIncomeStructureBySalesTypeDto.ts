@@ -1,10 +1,9 @@
 import type { SALES_SOURCE } from '@/constants/sales';
-import type { ValueOf } from '@/utils/shared';
 
 import type { SalesIncomeStructureInsight } from '../dashboard-sales-income';
 
 interface SalesTypeItem {
-  salesType: ValueOf<typeof SALES_SOURCE.SALE_TYPE>;
+  salesType: keyof typeof SALES_SOURCE.SALE_TYPE;
   salesAmount: number;
   orderCount: number;
   share: number;
@@ -12,6 +11,8 @@ interface SalesTypeItem {
 }
 
 export interface GetIncomeStructureBySalesTypeResponseDto {
-  insight: SalesIncomeStructureInsight;
+  insight: SalesIncomeStructureInsight<
+    Extract<keyof typeof SALES_SOURCE, 'SALE_TYPE'>
+  >;
   items: SalesTypeItem[];
 }
