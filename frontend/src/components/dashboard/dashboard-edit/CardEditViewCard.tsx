@@ -12,6 +12,7 @@ import { EditCardContent } from './EditCardContent';
 interface CardEditViewCardProps {
   cardCode: MetricCardCode;
 }
+
 export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
   const { addCard, removeCard, isAdded } = useEditCard();
 
@@ -31,7 +32,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
     return null; // 카드 정보가 없는 경우 렌더링하지 않음
   }
 
-  const { period, sizeX } = card;
+  const { period, sizeX, sizeY } = card;
 
   return (
     <li style={{ gridColumn: `span ${sizeX}` }}>
@@ -40,6 +41,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
         period={period}
         className="min-w-full"
         sizeX={sizeX}
+        sizeY={sizeY}
         onClickAddButton={handleAddCard}
         onClickDeleteButton={handleDeleteCard}
       >

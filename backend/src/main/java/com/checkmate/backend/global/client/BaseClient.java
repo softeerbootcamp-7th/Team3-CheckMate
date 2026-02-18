@@ -1,5 +1,7 @@
 package com.checkmate.backend.global.client;
 
+import com.checkmate.backend.global.exception.InternalServerException;
+import com.checkmate.backend.global.response.ErrorStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Map;
@@ -48,6 +50,6 @@ public abstract class BaseClient {
 
     private void handleError(HttpRequest request, ClientHttpResponse response) throws IOException {
         log.error("API 호출 실패: {} {}", response.getStatusCode(), response.getStatusText());
-        throw new RuntimeException("External API Error: " + response.getStatusCode());
+        throw new InternalServerException(ErrorStatus.EXTERNAL_API_ERROR);
     }
 }

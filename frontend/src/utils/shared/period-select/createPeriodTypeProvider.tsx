@@ -32,15 +32,8 @@ export const createPeriodTypeProvider = <T extends PeriodPresetType>({
   periodPreset,
 }: createPeriodTypeProviderOptions<T>) => {
   const periodTypeContext = createContext<
-    PeriodTypeContextState<T> & PeriodTypeContextAction<T>
-  >({
-    periodType: undefined,
-    startDate: undefined,
-    endDate: undefined,
-    setPeriodType: () => {},
-    setStartDate: () => {},
-    setEndDate: () => {},
-  });
+    (PeriodTypeContextState<T> & PeriodTypeContextAction<T>) | undefined
+  >(undefined);
 
   const usePeriodTypeContext = () => {
     const context = useContext(periodTypeContext);
@@ -49,7 +42,7 @@ export const createPeriodTypeProvider = <T extends PeriodPresetType>({
       throw new Error('periodTypeContext not found');
     }
 
-    return context as PeriodTypeContextState<T> & PeriodTypeContextAction<T>;
+    return context;
   };
 
   const PeriodTypeProvider = ({ children }: PropsWithChildren) => {

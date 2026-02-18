@@ -47,9 +47,11 @@ public class PeakTimeProcessor implements AnalysisProcessor<SalesAnalysisContext
         List<PeakTimeAvgProjection> peakTimeAvgProjections =
                 salesAnalysisRepository.findPeakTimeAvg(
                         context.getStoreId(),
-                        context.getStartDate(),
-                        context.getEndDate(),
+                        context.getComparisonStart(),
+                        context.getComparisonEnd(),
                         dayOfWeekValue);
+
+        // 운영 주차를 갖고 와야 함
 
         // 피크 계산
         Integer todayPeak = findPeakHourToday(todayPeakTimeProjections);
@@ -62,24 +64,30 @@ public class PeakTimeProcessor implements AnalysisProcessor<SalesAnalysisContext
         // 현재 시점이 비교 피크 이전인지
         boolean beforeComparisonPeak = isBeforeBaselinePeak(anchor, comparisonPeak);
 
-        // 없는 슬롯은 0을 채운다
-        Map<Integer, PeakTimeItem> itemMap =
+        /*
+         * 현재 시점
+         * */
+
+        // 없는 슬롯은 null로 채운다
+        Map<Integer, PeakTimeItem> todayItemMap =
                 todayPeakTimeProjections.stream()
                         .map(PeakTimeItem::of)
                         .collect(Collectors.toMap(PeakTimeItem::timeSlot2H, Function.identity()));
 
-        List<PeakTimeItem> items = new ArrayList<>();
+        List<PeakTimeItem> todayItems = new ArrayList<>();
 
         for (int slot = 0; slot <= 22; slot += 2) {
-            items.add(itemMap.getOrDefault(slot, new PeakTimeItem(slot, 0L, 0L)));
+            todayItems.add(todayItemMap.getOrDefault(slot, new PeakTimeItem(slot, null, null)));
         }
 
         int currentTimeSlot = TimeUtil.get2HourSlot(anchor);
-        PeakTimeItem currentItem = itemMap.get(currentTimeSlot);
+        PeakTimeItem currentItem = todayItemMap.get(currentTimeSlot);
 
-        long orderCount = Optional.ofNullable(currentItem).map(PeakTimeItem::orderCount).orElse(0L);
+        double orderCount =
+                Optional.ofNullable(currentItem).map(PeakTimeItem::orderCount).orElse(0.0);
 
-        long netAmount = Optional.ofNullable(currentItem).map(PeakTimeItem::netAmount).orElse(0L);
+        double netAmount =
+                Optional.ofNullable(currentItem).map(PeakTimeItem::netAmount).orElse(0.0);
 
         DashboardPeakTimeResponse dashboard =
                 new DashboardPeakTimeResponse(
@@ -92,7 +100,36 @@ public class PeakTimeProcessor implements AnalysisProcessor<SalesAnalysisContext
                         direction,
                         beforeComparisonPeak);
 
-        DetailPeakTimeResponse detail = new DetailPeakTimeResponse(items);
+        /*
+         * 비교기간
+         * */
+
+        // 없는 슬롯은 null로 채운다
+        Map<Integer, PeakTimeItem> week4ItemMap =
+                peakTimeAvgProjections.stream()
+                        .map(
+                                p ->
+                                        new PeakTimeItem(
+                                                p.timeSlot2H(),
+                                                (double) p.orderCount() / p.operatingWeeks(),
+                                                (double) p.netAmount() / p.operatingWeeks()))
+                        .collect(Collectors.toMap(PeakTimeItem::timeSlot2H, Function.identity()));
+
+        List<PeakTimeItem> week4Items = new ArrayList<>();
+
+        for (int slot = 0; slot <= 22; slot += 2) {
+            week4Items.add(week4ItemMap.getOrDefault(slot, new PeakTimeItem(slot, null, null)));
+        }
+
+        DetailPeakTimeResponse detail =
+                new DetailPeakTimeResponse(
+                        todayItems,
+                        week4Items,
+                        todayPeak,
+                        comparisonPeak,
+                        diff,
+                        direction,
+                        beforeComparisonPeak);
 
         return new AnalysisResponse(context.getAnalysisCardCode(), dashboard, detail);
     }
@@ -120,21 +157,21 @@ public class PeakTimeProcessor implements AnalysisProcessor<SalesAnalysisContext
         return Math.abs(todayPeak - comparisonPeak);
     }
 
-    private ShiftDirection resolveDirection(Integer today, Integer baseline) {
+    private ShiftDirection resolveDirection(Integer today, Integer comparisonPeak) {
 
-        if (today == null || baseline == null) return ShiftDirection.UNKNOWN;
+        if (today == null || comparisonPeak == null) return ShiftDirection.UNKNOWN;
 
-        if (today.equals(baseline)) return ShiftDirection.SAME;
+        if (today.equals(comparisonPeak)) return ShiftDirection.SAME;
 
-        return today < baseline ? ShiftDirection.EARLY : ShiftDirection.LATE;
+        return today < comparisonPeak ? ShiftDirection.EARLY : ShiftDirection.LATE;
     }
 
-    private boolean isBeforeBaselinePeak(LocalDateTime anchor, Integer baselinePeak) {
+    private boolean isBeforeBaselinePeak(LocalDateTime anchor, Integer comparisonPeak) {
 
-        if (baselinePeak == null) return false;
+        if (comparisonPeak == null) return false;
 
         int currentHour = anchor.getHour();
 
-        return currentHour < baselinePeak;
+        return currentHour < comparisonPeak;
     }
 }

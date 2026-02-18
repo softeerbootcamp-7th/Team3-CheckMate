@@ -32,6 +32,9 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
     @Override
     public AnalysisResponse process(MenuAnalysisContext context) {
 
+        boolean hasIngredient =
+                ingredientRepository.existsIngredientsByStoreId(context.getStoreId());
+
         // 식재료 사용량 갖고 온다.
         List<IngredientUsageProjection> ingredientUsageProjections =
                 menuAnalysisRepository.findIngredientUsage(
@@ -63,7 +66,8 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
                             baseUnit));
         }
 
-        IngredientUsageResponse response = new IngredientUsageResponse(ingredientUsageItems);
+        IngredientUsageResponse response =
+                new IngredientUsageResponse(hasIngredient, ingredientUsageItems);
 
         return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }
