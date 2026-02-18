@@ -1,6 +1,6 @@
 import type { ServerIngredientUnit } from '@/constants/ingredient';
 
-interface MenuIngredientsDto {
+export interface MenuIngredientsDto {
   name: string;
   quantity: number;
   unit: ServerIngredientUnit;
