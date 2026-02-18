@@ -3,6 +3,7 @@ package com.checkmate.backend.domain.menu.controller;
 import static com.checkmate.backend.global.response.SuccessStatus.*;
 
 import com.checkmate.backend.domain.menu.dto.request.IngredientCreateRequestDTO;
+import com.checkmate.backend.domain.menu.dto.request.IngredientUpdateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.request.MenuCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuCategoryResponseDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuRecipeResponse;
@@ -293,14 +294,6 @@ public class MenuController {
                                 mediaType = "application/json",
                                 examples = {
                                     @ExampleObject(
-                                            name = "메뉴 미존재 예시 1",
-                                            value =
-                                                    "{\n"
-                                                            + "  \"success\": false,\n"
-                                                            + "  \"message\": \"메뉴를 찾을 수 없습니다.\",\n"
-                                                            + "  \"errorCode\": \"MENU_NOT_FOUND_EX\"\n"
-                                                            + "}"),
-                                    @ExampleObject(
                                             name = "메뉴 미존재 예시 2",
                                             value =
                                                     "{\n"
@@ -420,5 +413,91 @@ public class MenuController {
         MenuRecipeResponse response = menuService.autoCompleteIngredients(member.storeId(), menuId);
 
         return ApiResponse.success(MENU_RECIPE_AUTO_COMPLETE_SUCCESS, response);
+    }
+
+    /*
+     * update
+     * */
+
+    @Operation(summary = "식재료 수정 API (용범)", description = "입력: IngredientUpdateRequestDTO")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "식재료 수정 성공",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "성공 응답 예시",
+                                                value =
+                                                        "{\n"
+                                                                + "  \"success\": true,\n"
+                                                                + "  \"message\": \"식재료 수정에 성공했습니다.\"\n"
+                                                                + "}"))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "403",
+                description = "메뉴 접근 권한 없음",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "권한 없음 예시",
+                                                value =
+                                                        "{\n"
+                                                                + "  \"success\": false,\n"
+                                                                + "  \"message\": \"메뉴에 접근할 권한이 없습니다.\",\n"
+                                                                + "  \"errorCode\": \"MENU_ACCESS_DENIED\"\n"
+                                                                + "}"))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "리소스 없음",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples = {
+                                    @ExampleObject(
+                                            name = "메뉴 미존재 예시",
+                                            value =
+                                                    "{\n"
+                                                            + "  \"success\": false,\n"
+                                                            + "  \"message\": \"메뉴를 찾을 수 없습니다.\",\n"
+                                                            + "  \"errorCode\": \"MENU_NOT_FOUND_EXCEPTION\"\n"
+                                                            + "}"),
+                                    @ExampleObject(
+                                            name = "식재료 미존재 예시",
+                                            value =
+                                                    "{\n"
+                                                            + "  \"success\": false,\n"
+                                                            + "  \"message\": \"식자재를 찾을 수 없습니다.\",\n"
+                                                            + "  \"errorCode\": \"INGREDIENT_NOT_FUND_EXCEPTION\"\n"
+                                                            + "}")
+                                })),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "서버 오류 예시",
+                                                value =
+                                                        "{\n"
+                                                                + "  \"success\": false,\n"
+                                                                + "  \"message\": \"서버 내부 오류가 발생했습니다.\",\n"
+                                                                + "  \"errorCode\": \"INTERNAL_SERVER_ERROR\"\n"
+                                                                + "}")))
+    })
+    @PutMapping("/{menu-id}/ingredients")
+    public ResponseEntity<ApiResponse<Void>> updateMenuIngredients(
+            @LoginMember MemberSession member,
+            @PathVariable("menu-id") Long menuId,
+            @RequestBody IngredientUpdateRequestDTO ingredientUpdateRequestDTO) {
+
+        menuService.updateMenuIngredients(member.storeId(), menuId, ingredientUpdateRequestDTO);
+
+        return ApiResponse.success_only(INGREDIENT_UPDATE_SUCCESS);
     }
 }
