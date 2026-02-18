@@ -21,7 +21,7 @@ export const IngredientManagement = () => {
     handleClickPrev,
     handleClickNext,
     handleClickPage,
-  } = useMenusManagement({ menus: data?.menus ?? [] });
+  } = useMenusManagement({ categoryMenus: data ?? [] });
 
   return (
     <div className="flex flex-col gap-7.5">
