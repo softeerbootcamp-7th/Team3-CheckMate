@@ -1,1 +1,1 @@
-export { type GetCategoryMenusResponseDto } from './getCategoryMenusResponseDto';
+export { type GetCategoryMenusResponseDto } from './getCategoryMenusDto';
