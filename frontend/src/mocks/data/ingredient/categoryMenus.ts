@@ -1,4 +1,4 @@
-import type { CategoryMenu } from '@/types/ingredient/MenuInfo';
+import type { CategoryMenu } from '@/types/ingredient';
 
 export const CATEGORY_MENUS: CategoryMenu[] = [
   {

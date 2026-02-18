@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { ITEMS_PER_PAGE } from '@/constants/ingredient';
 import type { MenuInfo } from '@/types/ingredient';
-import type { CategoryMenu } from '@/types/ingredient/MenuInfo';
+import type { CategoryMenu } from '@/types/ingredient';
 
 import { usePagination } from '../shared/usePagination';
 

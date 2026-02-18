@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import type { MenuInfo } from '@/types/ingredient';
-import type { CategoryMenu } from '@/types/ingredient/MenuInfo';
+import type { CategoryMenu } from '@/types/ingredient';
 
 interface useCategoryMenusParams {
   categoryMenus: CategoryMenu[];
