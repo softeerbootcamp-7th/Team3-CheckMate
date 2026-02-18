@@ -3,9 +3,10 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/shared/shadcn-ui';
-import { LINE_CHART } from '@/constants/shared';
 import type { Coordinate, LineChartSeries } from '@/types/shared';
 import { filterCoordinate } from '@/utils/shared';
+
+import { Dot } from './Dot';
 
 interface DotsProps {
   series: LineChartSeries;
@@ -22,26 +23,18 @@ export const Dots = ({
   coordinate,
   color,
 }: DotsProps) => {
-  const { DOT_RADIUS } = LINE_CHART;
-
   const filteredCoordinate = filterCoordinate(coordinate);
   if (!activeTooltip) {
     return (
       <>
         {filteredCoordinate.map(({ x, y }, index) => (
-          <circle
+          <Dot
             key={index}
-            cx={x}
-            cy={y}
-            r={DOT_RADIUS}
-            fill={color}
-            stroke="none"
-            role="graphics-symbol"
-            tabIndex={0}
-            aria-label={`${series.data.mainX[index].amount} ${series.data.mainX[index].unit}`}
-            style={{
-              transition: 'cx 0.5s ease-in-out, cy 0.5s ease-in-out',
-            }}
+            x={x}
+            y={y}
+            color={color}
+            ariaLabel={`${series.data.mainX[index].amount} ${series.data.mainX[index].unit}`}
+            hasHoverEffect={false}
           />
         ))}
       </>
@@ -57,19 +50,12 @@ export const Dots = ({
         return (
           <Tooltip key={index}>
             <TooltipTrigger asChild>
-              <circle
-                cx={x}
-                cy={y}
-                r={DOT_RADIUS}
-                fill={color}
-                role="graphics-symbol"
-                stroke="none"
-                className="hover:brightness-75 hover:saturate-200"
-                tabIndex={0}
-                aria-label={tooltipContentText}
-                style={{
-                  transition: 'cx 0.5s ease-in-out, cy 0.5s ease-in-out',
-                }}
+              <Dot
+                x={x}
+                y={y}
+                color={color}
+                ariaLabel={tooltipContentText}
+                hasHoverEffect={true}
               />
             </TooltipTrigger>
             <TooltipContent

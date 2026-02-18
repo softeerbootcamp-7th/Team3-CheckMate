@@ -3,17 +3,13 @@ import { memo } from 'react';
 import { LINE_CHART } from '@/constants/shared';
 
 interface YGuideLineProps {
-  svgRect: DOMRect | null;
+  svgWidth: number;
   adjustedHeight: number;
   yGuideLineCount: number;
 }
 
 export const YGuideLine = memo(
-  ({ svgRect, adjustedHeight, yGuideLineCount }: YGuideLineProps) => {
-    if (svgRect === null) {
-      return null;
-    }
-
+  ({ svgWidth, adjustedHeight, yGuideLineCount }: YGuideLineProps) => {
     const { GUIDE_LINE_STROKE_WIDTH, GUIDE_LINE_DASH_ARRAY } = LINE_CHART;
 
     const intervalY = adjustedHeight / yGuideLineCount;
@@ -29,7 +25,7 @@ export const YGuideLine = memo(
     );
 
     const pathD = cordinateYGuideLine
-      .map(([x, y]) => `M ${x} ${y} h ${svgRect.width}`)
+      .map(([x, y]) => `M ${x} ${y} h ${svgWidth}`)
       .join(' ');
 
     return (

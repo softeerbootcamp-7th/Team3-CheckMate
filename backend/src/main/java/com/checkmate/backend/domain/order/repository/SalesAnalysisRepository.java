@@ -160,7 +160,7 @@ public interface SalesAnalysisRepository extends JpaRepository<Order, Long> {
 
     // 비교기간 계산 쿼리
     @Query(
-            "select new com.checkmate.backend.domain.analysis.dto.projection.sales.PeakTimeAvgProjection(o.timeSlot2H, count(*)) "
+            "select new com.checkmate.backend.domain.analysis.dto.projection.sales.PeakTimeAvgProjection(o.timeSlot2H, sum(o.netAmount), count(o), count(distinct (function('date_trunc','week',o.orderDate)))) "
                     + " from Order o"
                     + " where o.store.id=:storeId"
                     + " and o.orderDate >= :startDate and o.orderDate < :endDate"

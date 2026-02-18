@@ -33,6 +33,7 @@ public class ReportWorker {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
     private final PromptProvider promptProvider;
+    private final NotificationService notificationService;
 
     private static final String PENDING_KEY = "report:queue:pending";
     private static final String PROCESSING_KEY = "report:queue:processing";
@@ -127,6 +128,8 @@ public class ReportWorker {
                         .build();
 
         reportRepository.save(report);
+
+        notificationService.createNotification(store, report.getTitle());
     }
 
     private void handleFailure(Object rawTask, ReportTask task) {

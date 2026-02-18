@@ -18,3 +18,5 @@ export { PeriodTag, EditCardWrapper } from './edit-card-wrapper';
 export { ButtonGroup } from './button-group';
 export { PaginationBar } from './pagenation';
 export { FetchBoundary } from './fetch-boundary';
+export { LineChart } from './line-chart';
+export { BarLineChart } from './bar-line-chart';

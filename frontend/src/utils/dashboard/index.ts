@@ -1,3 +1,4 @@
+export { getMetricTrend } from './getMetricTrend';
 export {
   getAvailablePositionOnGrid,
   addCardOnGrid,
