@@ -24,7 +24,7 @@ export const RankItem = ({
       <td>
         <RankBadge
           rank={rank}
-          size="smmd"
+          size="md"
           variant={isHighlight ? 'highlight' : 'default'}
           className="shrink-0"
         />
