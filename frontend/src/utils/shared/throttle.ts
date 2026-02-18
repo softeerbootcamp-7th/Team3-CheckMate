@@ -3,6 +3,10 @@
  * @param throttleMs - 스로틀링 간격 (millisecond 단위), 기본값 50ms
  */
 
+type ThrottledFunction<T extends unknown[]> = ((...args: T) => void) & {
+  cancel: () => void;
+};
+
 export function throttle<T extends unknown[]>(
   fn: (...args: T) => void,
   throttleMs = 50,
@@ -10,15 +14,12 @@ export function throttle<T extends unknown[]>(
   let pendingAt = 0;
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
   let savedArgs: T | null = null;
-  let savedThis: unknown = undefined;
 
   const throttled = ((...args: T) => {
     const now = Date.now();
     const remain = throttleMs - (now - pendingAt);
 
-    // 이전 호출이 아직 유효한 경우, 마지막 인자와 this를 저장
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    savedThis = this;
+    // 이전 호출이 아직 유효한 경우
     savedArgs = args;
 
     // 실행
@@ -28,9 +29,8 @@ export function throttle<T extends unknown[]>(
         timeoutId = null;
       }
       pendingAt = now;
-      fn.apply(this, args);
+      fn(...args);
       savedArgs = null;
-      savedThis = undefined;
     }
     // 타이머 설정
     else if (!timeoutId) {
@@ -38,9 +38,8 @@ export function throttle<T extends unknown[]>(
         pendingAt = Date.now();
         timeoutId = null;
         if (savedArgs) {
-          fn.apply(savedThis, savedArgs);
+          fn(...savedArgs);
           savedArgs = null;
-          savedThis = undefined;
         }
       }, remain);
     }
