@@ -213,7 +213,7 @@ export const useDragAndDropCard = () => {
     // 카드의 중심이 가장 가까운 셀의 중심에 오도록
     let minDistance = Infinity;
     let closest = { row: 0, col: 0 };
-    // 각 그리드 셀마다 유클리드 거리 계산
+    // 각 그리드 셀마다 맨하탄 거리 계산
     for (let r = 1; r <= GRID_ROW_SIZE - cardSizeY + 1; r++) {
       for (let c = 1; c <= GRID_COL_SIZE - cardSizeX + 1; c++) {
         // 그리드 셀의 중심 좌표
@@ -221,10 +221,10 @@ export const useDragAndDropCard = () => {
         const centerX = leftInPixel + widthInPixel / 2;
         const centerY = topInPixel + heightInPixel / 2;
 
-        const dist = Math.sqrt(
-          Math.pow(draggingCenterX - centerX, 2) +
-            Math.pow(draggingCenterY - centerY, 2),
-        );
+        const dist =
+          Math.abs(draggingCenterX - centerX) +
+          Math.abs(draggingCenterY - centerY);
+
         if (dist < minDistance) {
           minDistance = dist;
           closest = { row: r, col: c };
