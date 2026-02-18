@@ -8,6 +8,11 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -55,3 +60,9 @@ server:
         secure: true
         http-only: true
         same-site: lax
+
+gemini:
+  api:
+    key: ${GEMINI_API_KEY_SERVER}
+  model-name: gemini-3-flash-preview
+  lite-model-name: gemini-2.5-flash-lite

@@ -22,6 +22,10 @@ public record MenuRecipeResponse(
             return new IngredientResponse(
                     ingredient.getName(), recipe.getQuantity(), Unit.fromValue(recipe.getUnit()));
         }
+
+        public static IngredientResponse from(String name, Integer quantity, Unit unit) {
+            return new IngredientResponse(name, quantity, unit);
+        }
     }
 
     public static MenuRecipeResponse of(Menu menu, List<IngredientResponse> ingredients) {

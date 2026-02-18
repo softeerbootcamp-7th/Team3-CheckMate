@@ -22,7 +22,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class OrderEventHandler {
     private final SseEmitterManager sseEmitterManager;
-    private final List<AnalysisProcessor<?>> processors;
+    private final List<AnalysisProcessor<? extends AnalysisContext>> processors;
     private final List<AnalysisContextFactory> contextFactories;
     private final SseEventSender sseEventSender;
 

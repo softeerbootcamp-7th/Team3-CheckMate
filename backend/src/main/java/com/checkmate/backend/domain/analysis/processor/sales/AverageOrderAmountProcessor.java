@@ -45,8 +45,10 @@ public class AverageOrderAmountProcessor implements AnalysisProcessor<SalesAnaly
 
         long difference = currentAverage - comparisonAverage;
 
+        boolean hasPreviousData = comparisonAverage != 0L;
+
         AverageOrderAmountResponse response =
-                new AverageOrderAmountResponse(currentAverage, difference);
+                new AverageOrderAmountResponse(currentAverage, difference, hasPreviousData);
 
         return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }

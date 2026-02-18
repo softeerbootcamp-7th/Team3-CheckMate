@@ -118,7 +118,8 @@ public class StoreService {
             int waitSeconds = 3 + ThreadLocalRandom.current().nextInt(5);
             TimeUnit.SECONDS.sleep(waitSeconds);
 
-            if (!ThreadLocalRandom.current().nextBoolean()) {
+            // Mock: 20% 확률로 POS 연결 실패
+            if (ThreadLocalRandom.current().nextInt(5) < 1) { // 0일 때만 실패 → 20%
                 emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_FAILURE));
                 return;
             }

@@ -33,6 +33,7 @@ public enum SuccessStatus {
     // 200
     MENU_GET_SUCCESS(HttpStatus.OK, "메뉴 조회에 성공했습니다."),
     INGREDIENT_GET_SUCCESS(HttpStatus.OK, "식재료 조회에 성공했습니다."),
+    MENU_RECIPE_AUTO_COMPLETE_SUCCESS(HttpStatus.OK, "메뉴 레시피 자동 완성에 성공했습니다."),
 
     // 201
     MENU_CREATE_SUCCESS(HttpStatus.CREATED, "메뉴 등록에 성공했습니다."),
@@ -59,7 +60,21 @@ public enum SuccessStatus {
     DASHBOARD_LAYOUT_GET_SUCCESS(HttpStatus.OK, "대시보드 레이아웃 조회에 성공했습니다."),
 
     // 201
-    DASHBOARD_CREATE_SUCCESS(HttpStatus.CREATED, "대시보드 등록에 성공했습니다.");
+    DASHBOARD_CREATE_SUCCESS(HttpStatus.CREATED, "대시보드 등록에 성공했습니다."),
+
+    /** Analysis */
+    // 200
+    ANALYSIS_CARD_GET_SUCCESS(HttpStatus.OK, "지표 카드 조회에 성공했습니다."),
+
+    /** Report */
+    // 200
+    REPORT_GET_SUCCESS(HttpStatus.OK, "리포트 조회에 성공했습니다."),
+    REPORT_CALENDAR_GET_SUCCESS(HttpStatus.OK, "캘린더 조회에 성공했습니다."),
+
+    /** Chat */
+    // 200
+    CHAT_GET_SUCCESS(HttpStatus.OK, "AI 응답 생성에 성공했습니다."),
+    ;
 
     private final HttpStatus httpStatus;
     private final String message;

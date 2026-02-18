@@ -41,6 +41,8 @@ public class OrderCountProcessor implements AnalysisProcessor<SalesAnalysisConte
         currentOrderCount = Optional.ofNullable(currentOrderCount).orElse(0L);
         comparisonOrderCount = Optional.ofNullable(comparisonOrderCount).orElse(0L);
 
+        boolean hasPreviousData = comparisonOrderCount != 0L;
+
         long differenceCount = currentOrderCount - comparisonOrderCount;
 
         double changeRate;
@@ -52,7 +54,8 @@ public class OrderCountProcessor implements AnalysisProcessor<SalesAnalysisConte
         }
 
         OrderCountResponse response =
-                new OrderCountResponse(currentOrderCount, differenceCount, changeRate);
+                new OrderCountResponse(
+                        currentOrderCount, differenceCount, changeRate, hasPreviousData);
 
         return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }

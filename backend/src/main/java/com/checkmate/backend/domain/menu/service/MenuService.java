@@ -18,9 +18,11 @@ import com.checkmate.backend.domain.menu.repository.MenuVersionRepository;
 import com.checkmate.backend.domain.menu.repository.RecipeRepository;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
-import com.checkmate.backend.global.exception.ConflictException;
-import com.checkmate.backend.global.exception.ForbiddenException;
-import com.checkmate.backend.global.exception.NotFoundException;
+import com.checkmate.backend.global.client.llm.LlmClient;
+import com.checkmate.backend.global.client.llm.PromptProvider;
+import com.checkmate.backend.global.exception.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,10 @@ public class MenuService {
     private final MenuVersionRepository menuVersionRepository;
     private final IngredientRepository ingredientRepository;
     private final RecipeRepository recipeRepository;
+
+    private final LlmClient llmClient;
+    private final PromptProvider promptProvider;
+    private final ObjectMapper objectMapper;
 
     /*
      * create
@@ -230,5 +236,40 @@ public class MenuService {
         MenuRecipeResponse response = MenuRecipeResponse.of(menu, ingredientResponses);
 
         return response;
+    }
+
+    public MenuRecipeResponse autoCompleteIngredients(Long storeId, Long menuId) {
+        Menu menu =
+                menuRepository
+                        .findMenuByMenuIdWithStore(menuId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[autoCompleteIngredients][menu not found][menuId={}]",
+                                            menuId);
+                                    return new NotFoundException(MENU_NOT_FOUND_EXCEPTION);
+                                });
+
+        if (!storeId.equals(menu.getStore().getId())) {
+            throw new ForbiddenException(MENU_ACCESS_DENIED);
+        }
+
+        String template = promptProvider.getPrompt(PromptProvider.PromptType.MENU_INGREDIENTS);
+        String aiAnswer = llmClient.generateIngredients(template, menu.getName());
+
+        try {
+            MenuRecipeResponse aiResponse =
+                    objectMapper.readValue(aiAnswer, MenuRecipeResponse.class);
+
+            List<MenuRecipeResponse.IngredientResponse> aiIngredients = aiResponse.ingredients();
+
+            return MenuRecipeResponse.of(menu, aiIngredients);
+        } catch (JsonProcessingException e) {
+            log.error(
+                    "[autoCompleteIngredients] AI 응답 파싱 실패. 메뉴: {}, 응답: {}",
+                    menu.getName(),
+                    aiAnswer);
+            throw new InternalServerException(AI_RESPONSE_PARSE_FAILED);
+        }
     }
 }

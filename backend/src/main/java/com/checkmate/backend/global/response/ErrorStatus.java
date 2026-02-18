@@ -89,7 +89,21 @@ public enum ErrorStatus {
     DASHBOARD_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 대시보드에 접근할 권한이 없습니다."),
 
     // 404
-    DASHBOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "대시보드를 찾을 수 없습니다.");
+    DASHBOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "대시보드를 찾을 수 없습니다."),
+
+    /** Analysis */
+    // 400
+    UNSUPPORTED_ANALYSIS_CARD(HttpStatus.BAD_REQUEST, "지원하지 않는 지표 카드 ID입니다."),
+
+    /** Report */
+    // 404
+    REPORT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 날짜의 리포트를 찾을 수 없습니다."),
+
+    /** Client */
+    // 500
+    AI_RESPONSE_PARSE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "AI 응답 데이터를 추출하는 데 실패했습니다."),
+    EXTERNAL_API_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "외부 서비스 호출 중 오류가 발생했습니다."),
+    ;
 
     private final HttpStatus httpStatus;
     private final String message;
