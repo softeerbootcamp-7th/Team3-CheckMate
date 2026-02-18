@@ -46,4 +46,7 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 
     @Query("select i from Ingredient i where i.id in :ingredientIds")
     List<Ingredient> findAllByIds(@Param("ingredientIds") List<Long> ingredientIds);
+
+    @Query("select count(i)>0 from Ingredient i" + " where i.store.id=:storeId")
+    boolean existsIngredientsByStoreId(@Param("storeId") Long storeId);
 }
