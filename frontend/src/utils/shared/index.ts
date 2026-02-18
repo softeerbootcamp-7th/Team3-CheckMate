@@ -38,6 +38,7 @@ export {
 } from './doughnut-chart';
 
 export { createPeriodTypeProvider } from './period-select';
+export { getNextHour } from './getNextHour';
 export { assertNever } from './assertNever';
 export { getCoordinate } from './getCoordinate';
 export {
