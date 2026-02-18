@@ -1,10 +1,10 @@
+import { Fragment } from 'react/jsx-runtime';
 import { type Control, Controller, type FieldErrors } from 'react-hook-form';
 
 import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '@/components/shared/shadcn-ui';
@@ -70,12 +70,13 @@ export const IngredientUnitInput = ({
               <SelectGroup>
                 {Object.values(INGREDIENT_UNIT).map((unit, index) => {
                   return (
-                    <>
+                    <Fragment key={unit}>
                       <IngredientUnitSelectItem unit={unit} />
+                      {/* Fragment 구조에서는 SelectSeparator가 정상 동작하지 않아 div로 구분선 처리 */}
                       {index !== Object.values(INGREDIENT_UNIT).length - 1 && (
-                        <SelectSeparator />
+                        <div className="bg-grey-300 h-px w-full" />
                       )}
-                    </>
+                    </Fragment>
                   );
                 })}
               </SelectGroup>
