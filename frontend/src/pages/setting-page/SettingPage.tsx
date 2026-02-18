@@ -1,12 +1,12 @@
 import { SettingMyStoreInfo, SettingOption } from '@/components/setting';
-import { DefaultCardFetchBoundary } from '@/components/shared/default-card-fetch-boundary/DefaultCardFetchBoundary';
+import { DefaultCardFetchBoundary } from '@/components/shared';
 
 export const SettingPage = () => {
   return (
     <div className="mt-20 flex flex-col gap-8 pb-29.5">
       <span className="title-large-semibold text-grey-900">환경설정</span>
       {/* 내 매장 정보 섹션 */}
-      <DefaultCardFetchBoundary cardWidth={1040} cardHeight={516}>
+      <DefaultCardFetchBoundary className="h-129 w-260">
         <SettingMyStoreInfo />
       </DefaultCardFetchBoundary>
 
