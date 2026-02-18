@@ -6,6 +6,7 @@ import {
   PeakTimeContent,
   RealSalesContent,
   SalesByDayContent,
+  SalesTrendContent,
   SalesTypeContent,
 } from '@/components/sales';
 import type { MetricCardCode } from '@/constants/dashboard';
@@ -17,6 +18,7 @@ import {
   PEAK_TIME,
   REAL_SALES,
   SALES_BY_DAY,
+  SALES_TREND,
   SALES_TYPE,
 } from '@/constants/sales';
 
@@ -63,6 +65,7 @@ const {
   EXAMPLE_TOP_DAY: SALES_BY_DAY_EXAMPLE_TOP_DAY,
   EXAMPLE_IS_SIGNIFICANT: SALES_BY_DAY_EXAMPLE_IS_SIGNIFICANT,
 } = SALES_BY_DAY;
+const { EXAMPLE_DATA: SALES_TREND_EXAMPLE_DATA } = SALES_TREND;
 
 export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
   switch (cardCode) {
@@ -139,6 +142,15 @@ export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
             deltaShare: PAYMENT_METHOD_EXAMPLE_DELTA_SHARE,
           }}
           items={PAYMENT_METHOD_EXAMPLE_PAYMENT_METHOD_DATA}
+        />
+      );
+    case 'SLS_09_04':
+    case 'SLS_10_07':
+    case 'SLS_11_07':
+      return (
+        <SalesTrendContent
+          cardCode={cardCode}
+          salesTrendData={SALES_TREND_EXAMPLE_DATA[cardCode]}
         />
       );
     case 'SLS_13_01':
