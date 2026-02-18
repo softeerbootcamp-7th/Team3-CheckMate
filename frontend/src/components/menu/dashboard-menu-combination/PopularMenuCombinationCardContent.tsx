@@ -12,11 +12,13 @@ interface PopularMenuCombinationCardContentProps extends GetDashboardPopularMenu
 export const PopularMenuCombinationCardContent = ({
   firstMenuName = EXAMPLE_FIRST_MENU_NAME,
   secondMenuName = EXAMPLE_SECOND_MENU_NAME,
+  className,
 }: PopularMenuCombinationCardContentProps) => {
   return (
     <PopularMenuCombinationContent
       baseMenuName={firstMenuName}
       pairedMenu={secondMenuName}
+      className={className}
     />
   );
 };

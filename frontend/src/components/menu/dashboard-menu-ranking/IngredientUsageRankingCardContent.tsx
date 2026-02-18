@@ -48,6 +48,7 @@ interface IngredientUsageRankingCardContentProps extends GetIngredientUsageRanki
 export const IngredientUsageRankingCardContent = ({
   hasIngredient,
   items,
+  className,
 }: IngredientUsageRankingCardContentProps) => {
   // dto -> 대시보드의 메뉴>식재료 소진량 랭킹 카드 UI 데이터 형태로 변환
   const ingredientRankItems = useMemo(
@@ -60,7 +61,10 @@ export const IngredientUsageRankingCardContent = ({
   }
   // tHeadLabels를 통해 테이블 각 열의 이름을 지정
   return (
-    <DashboardRankingContent tHeadLabels={['순위', '식재료명', '소진량']}>
+    <DashboardRankingContent
+      tHeadLabels={['순위', '식재료명', '소진량']}
+      className={className}
+    >
       <DashboardRankingContent.TableBody rankItems={ingredientRankItems} />
     </DashboardRankingContent>
   );

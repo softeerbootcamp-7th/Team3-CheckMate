@@ -38,6 +38,7 @@ interface MenuSalesRankingCardContentProps extends GetMenuSalesRankingResponseDt
 
 export const MenuSalesRankingCardContent = ({
   items,
+  className,
 }: MenuSalesRankingCardContentProps) => {
   // dto -> 대시보드의 메뉴>매출 랭킹 카드 UI 데이터 형태로 변환
   const menuRankItems = useMemo(
@@ -46,7 +47,10 @@ export const MenuSalesRankingCardContent = ({
   );
   // tHeadLabels를 통해 테이블 각 열의 이름을 지정
   return (
-    <DashboardRankingContent tHeadLabels={['순위', '메뉴명', '매출액']}>
+    <DashboardRankingContent
+      tHeadLabels={['순위', '메뉴명', '매출액']}
+      className={className}
+    >
       <DashboardRankingContent.TableBody rankItems={menuRankItems} />
     </DashboardRankingContent>
   );

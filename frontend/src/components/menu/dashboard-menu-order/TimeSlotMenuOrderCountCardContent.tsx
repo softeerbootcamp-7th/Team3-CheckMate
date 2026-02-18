@@ -12,11 +12,13 @@ interface TimeSlotMenuOrderCountCardContentProps extends GetDashboardTimeSlotMen
 export const TimeSlotMenuOrderCountCardContent = ({
   timeSlot2H = EXAMPLE_TIME_SLOT_2H,
   menuName = EXAMPLE_MENU_NAME,
+  className,
 }: TimeSlotMenuOrderCountCardContentProps) => {
   return (
     <TimeSlotMenuOrderCountContent
       timeSlot2H={timeSlot2H}
       menuName={menuName}
+      className={className}
     />
   );
 };
