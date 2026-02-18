@@ -3,7 +3,7 @@ export type { BusinessHour } from './businessHour';
 export type { DayOfWeek } from './dayOfWeek';
 export type {
   DoughnutChartItem,
-  DoughtnutChartItemWithPercentage,
+  DoughnutChartItemWithPercentage,
 } from './doughnutChartItem';
 export type { RouteHandle } from './routeHandle';
 export type { StoreInfo } from './storeInfo';
@@ -26,3 +26,4 @@ export type {
 } from './bar-chart';
 export type { ChartData, ChartSeries, ChartDatum } from './chart';
 export type { EventSourceMessage } from './eventSourceMessage';
+export type { BarLineChartData, BarLineChartSeries } from './bar-line-chart';

@@ -1,11 +1,12 @@
-import type { ChartSeries } from '@/types/shared';
+import type { ChartDatum } from '@/types/shared';
 
 // 바, 라인 그래프에서 사용되는 데이터별 좌표 점 계산 유틸
-interface GetCoordinateArgs<T extends ChartSeries> {
+interface GetCoordinateArgs {
   svgWidth: number;
   adjustedHeight: number;
-  series: T;
   maximumY: number;
+  xDataLength: number;
+  yData: ChartDatum[];
 }
 
 interface Coordinate {
@@ -13,13 +14,16 @@ interface Coordinate {
   y: number | null;
 }
 
-export const getCoordinate = <T extends ChartSeries>({
+export const getCoordinate = ({
   svgWidth,
   adjustedHeight,
-  series,
   maximumY,
-}: GetCoordinateArgs<T>): Coordinate[] => {
-  const xDataLength = series.data.mainX.length;
+  xDataLength,
+  yData,
+}: GetCoordinateArgs): Coordinate[] => {
+  if (xDataLength === 0 || yData.length === 0 || maximumY === 0) {
+    return [];
+  }
 
   const intervalX = svgWidth / xDataLength;
   const lastX = intervalX * (xDataLength - 1);
@@ -29,12 +33,10 @@ export const getCoordinate = <T extends ChartSeries>({
     return {
       x: index * intervalX + offsetX,
       y:
-        series.data.mainY[index]?.amount === null ||
-        series.data.mainY[index]?.amount === undefined
+        yData[index]?.amount === null || yData[index]?.amount === undefined
           ? null
           : adjustedHeight -
-            (Number(series.data.mainY[index].amount) / maximumY) *
-              adjustedHeight,
+            (Number(yData[index].amount) / maximumY) * adjustedHeight,
     };
   });
 };

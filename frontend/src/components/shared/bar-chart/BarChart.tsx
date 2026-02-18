@@ -1,13 +1,9 @@
-import {
-  XAxis,
-  XAxisLabel,
-  XGuideLine,
-  YGuideLine,
-} from '@/components/shared/line-chart';
 import { useBarChart } from '@/hooks/shared';
 import { useBarChartId } from '@/hooks/shared';
 import type { XAxisType } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared';
+
+import { XAxis, XAxisLabel, XGuideLine, YGuideLine } from '../chart';
 
 import { BarSeries } from './BarSeries';
 /**
