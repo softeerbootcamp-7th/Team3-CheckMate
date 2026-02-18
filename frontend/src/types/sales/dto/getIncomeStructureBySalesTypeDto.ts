@@ -1,10 +1,10 @@
-import type {
-  SalesIncomeStructureInsight,
-  SalesIncomeStructureTopType,
-} from '../dashboard-sales-income';
+import type { SALES_SOURCE } from '@/constants/sales';
+import type { ValueOf } from '@/utils/shared';
+
+import type { SalesIncomeStructureInsight } from '../dashboard-sales-income';
 
 interface SalesTypeItem {
-  salesType: Extract<SalesIncomeStructureTopType, '홀' | '포장' | '배달'>;
+  salesType: ValueOf<typeof SALES_SOURCE.SALE_TYPE>;
   salesAmount: number;
   orderCount: number;
   share: number;
