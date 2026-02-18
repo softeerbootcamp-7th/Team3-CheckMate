@@ -1,10 +1,10 @@
-import type { GetRegisteredMenusDto } from '@/types/ingredient';
+import type { GetCategoryMenusResponseDto } from '@/types/ingredient';
 
 import { authorizedApi } from '../shared';
 
 export const getRegisteredMenus = async () => {
   const { data } =
-    await authorizedApi.get<GetRegisteredMenusDto>('/api/ingredients');
+    await authorizedApi.get<GetCategoryMenusResponseDto>('/api/menus');
 
   return data;
 };
