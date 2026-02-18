@@ -1,57 +1,37 @@
-import { type FieldErrors, FormProvider } from 'react-hook-form';
+import { type FieldErrors, FormProvider, useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
 
+import { DefaultCardFetchBoundary } from '@/components/shared';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
 } from '@/components/shared/shadcn-ui';
 import { TOAST_DEFAULT } from '@/constants/shared';
-import {
-  useAiIngredientRecommend,
-  useIngredientEditSubmit,
-  useIngredientForm,
-} from '@/hooks/ingredient';
+import { useIngredientEditSubmit } from '@/hooks/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 
 import { IngredientEditDialogHeader } from './IngredientEditDialogHeader';
-import { IngredientEditInfoHeader } from './IngredientEditInfoHeader';
-import { IngredientGrid } from './IngredientGrid';
-
+import { IngredientEditDialogMain } from './IngredientEditDialogMain';
 interface IngredientEditDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   menuId: number;
+  menuName: string;
 }
 
 export const IngredientEditDialog = ({
   open,
   onOpenChange,
+  menuId,
+  menuName,
 }: IngredientEditDialogProps) => {
-  const mockMenuIngredients = {
-    id: '1',
-    menu: '딸기 스무디',
-    ingredients: [
-      { ingredientId: '1', name: '딸기', amount: '200', unit: 'g' },
-      { ingredientId: '2', name: '우유', amount: '120', unit: 'ml' },
-      { ingredientId: '3', name: '딸기시럽', amount: '10', unit: 'ml' },
-    ],
-  };
-  const {
-    formMethods,
-    fieldArrayMethods,
-    isIngredientRowEmpty,
-    handleAddIngredient,
-    handleRemoveIngredient,
-  } = useIngredientForm({
-    ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
+  // 우선 폼 생성
+  const formMethods = useForm<IngredientFormValues>({
+    defaultValues: { ingredients: [] }, // 초기값은 빈 배열로 설정
+    mode: 'onBlur',
   });
-
-  const { isAiRecommendPending, handleAiIngredientRecommend } =
-    useAiIngredientRecommend({
-      fieldArrayReplace: fieldArrayMethods.replace,
-    });
 
   const { onSubmit } = useIngredientEditSubmit({
     onOpenChange,
@@ -72,6 +52,10 @@ export const IngredientEditDialog = ({
     );
     return errors; // 그냥 임시 return. 사용하는 데는 없음
   };
+  // 열려있지 않으면 dialog 컴포넌트 렌더링 안되도록
+  if (!open) {
+    return null;
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -88,29 +72,13 @@ export const IngredientEditDialog = ({
             {/** 메뉴명과 취소, 저장 버튼 있는 행 */}
             <IngredientEditDialogHeader
               onClickCancel={onClickCancel}
-              menuName={mockMenuIngredients.menu}
+              menuName={menuName}
             />
-
             <div className="bg-grey-300 mt-5.5 h-0.5" />
-            <section className="mt-10 flex min-h-0 flex-1 flex-col gap-10">
-              {/** 식재료 목록 영역 위 식재료 입력 관련 정보 및 버튼 행(AI자동완성, 식재료추가 버튼 등) */}
-              <IngredientEditInfoHeader
-                isAiRecommendPending={isAiRecommendPending}
-                fields={fieldArrayMethods.fields}
-                onClickAddIngredient={handleAddIngredient}
-                onClickAiIngredientRecommend={() => {
-                  handleAiIngredientRecommend(mockMenuIngredients.menu);
-                }}
-              />
-
-              {/** 식재료 목록 나오는 그리드 영역 */}
-              <IngredientGrid
-                isPending={isAiRecommendPending}
-                fields={fieldArrayMethods.fields}
-                isIngredientRowEmpty={isIngredientRowEmpty}
-                onClickDeleteIngredient={handleRemoveIngredient}
-              />
-            </section>
+            {/** 식재료 입력 폼이 있는 메인 영역 */}
+            <DefaultCardFetchBoundary className="h-full w-full bg-transparent">
+              <IngredientEditDialogMain menuId={menuId} />
+            </DefaultCardFetchBoundary>
           </form>
         </DialogContent>
       </FormProvider>

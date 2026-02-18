@@ -36,6 +36,7 @@ export const MenuInfoCard = ({ menuInfo }: MenuCardProps) => {
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         menuId={menuId}
+        menuName={name}
       />
     </>
   );
