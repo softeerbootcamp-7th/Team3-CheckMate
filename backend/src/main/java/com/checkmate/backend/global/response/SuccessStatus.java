@@ -34,6 +34,7 @@ public enum SuccessStatus {
     MENU_GET_SUCCESS(HttpStatus.OK, "메뉴 조회에 성공했습니다."),
     INGREDIENT_GET_SUCCESS(HttpStatus.OK, "식재료 조회에 성공했습니다."),
     MENU_RECIPE_AUTO_COMPLETE_SUCCESS(HttpStatus.OK, "메뉴 레시피 자동 완성에 성공했습니다."),
+    INGREDIENT_UPDATE_SUCCESS(HttpStatus.OK, "식재료 수정에 성공했습니다."),
 
     // 201
     MENU_CREATE_SUCCESS(HttpStatus.CREATED, "메뉴 등록에 성공했습니다."),
