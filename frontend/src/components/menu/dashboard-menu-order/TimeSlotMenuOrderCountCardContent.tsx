@@ -1,5 +1,5 @@
 import { ORDER_COUNT } from '@/constants/menu';
-import type { GetDashboardTimeSlotMenuOrderCountResponseDto } from '@/types/menu/dto';
+import type { GetDashboardTimeSlotMenuOrderCountResponseDto } from '@/types/menu';
 
 import { TimeSlotMenuOrderCountContent } from './TimeSlotMenuOrderCountContent';
 

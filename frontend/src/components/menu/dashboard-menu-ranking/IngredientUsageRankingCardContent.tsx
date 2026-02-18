@@ -6,7 +6,7 @@ import type { DashboardRankItem } from '@/types/menu';
 import type {
   GetIngredientUsageRankingResponseDto,
   IngredientUsage,
-} from '@/types/menu/dto';
+} from '@/types/menu';
 
 import { DashboardRankingContent } from './DashboardRankingContent';
 import { IngredientUnregisteredContent } from './IngredientUnregisteredContent';

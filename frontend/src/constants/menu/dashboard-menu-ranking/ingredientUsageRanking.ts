@@ -1,4 +1,4 @@
-import type { GetIngredientUsageRankingResponseDto } from '@/types/menu/dto';
+import type { GetIngredientUsageRankingResponseDto } from '@/types/menu';
 
 // 편집 패널에서 보여질 데이터 -> 메뉴별 매출 랭킹 카드
 export const INGREDIENT_USAGE_RANKING = {

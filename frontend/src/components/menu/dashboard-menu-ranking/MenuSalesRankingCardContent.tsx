@@ -3,10 +3,7 @@ import { useMemo } from 'react';
 
 import { DASHBOARD_RANKING } from '@/constants/menu';
 import type { DashboardRankItem } from '@/types//menu';
-import type {
-  GetMenuSalesRankingResponseDto,
-  MenuSales,
-} from '@/types/menu/dto';
+import type { GetMenuSalesRankingResponseDto, MenuSales } from '@/types/menu';
 
 import { DashboardRankingContent } from './DashboardRankingContent';
 

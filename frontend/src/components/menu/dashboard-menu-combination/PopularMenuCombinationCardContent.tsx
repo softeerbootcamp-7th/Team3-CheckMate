@@ -1,5 +1,5 @@
 import { POPULAR_MENU_COMBINATION } from '@/constants/menu';
-import type { GetDashboardPopularMenuCombinationResponseDto } from '@/types/menu/dto';
+import type { GetDashboardPopularMenuCombinationResponseDto } from '@/types/menu';
 
 import { PopularMenuCombinationContent } from './PopularMenuCombinationContent';
 
