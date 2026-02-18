@@ -17,3 +17,4 @@ export { MainLayout } from './main-layout';
 export { PeriodTag, EditCardWrapper } from './edit-card-wrapper';
 export { ButtonGroup } from './button-group';
 export { PaginationBar } from './pagination';
+export { DefaultCardFetchBoundary } from './default-card-fetch-boundary';
