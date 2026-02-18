@@ -16,7 +16,7 @@ export const useIngredientEditSubmit = ({
 }: UseIngredientEditSubmitParams) => {
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending: isSubmitPending } = useMutation({
     mutationFn: postIngredientRegister,
     onSuccess: () => {
       // 식자재 등록 후 해당 메뉴의 식자재 캐시 무효화
@@ -41,7 +41,7 @@ export const useIngredientEditSubmit = ({
     },
   });
   const onSubmit = async (data: IngredientFormValues) => {
-    // 모든 필드가 채워진 데이터만 서버에 보낸다
+    // 모든 필드가 채워진 데이터만 서버에 보내야함
     const filteredIngredients = data.ingredients.filter((ingredient) =>
       Object.values(ingredient).every(
         (value) => String(value).trim().length > 0,
@@ -50,5 +50,5 @@ export const useIngredientEditSubmit = ({
     mutate({ menuId, menuIngredients: filteredIngredients });
   };
 
-  return { onSubmit, isPending };
+  return { onSubmit, isSubmitPending };
 };

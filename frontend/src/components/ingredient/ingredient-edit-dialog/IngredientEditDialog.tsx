@@ -37,7 +37,7 @@ export const IngredientEditDialog = ({
     onOpenChange(false);
   };
   // 폼 validation 통과했을 때 실행되는 함수
-  const { onSubmit } = useIngredientEditSubmit({
+  const { onSubmit, isSubmitPending } = useIngredientEditSubmit({
     menuId,
     onOpenChange,
   });
@@ -74,6 +74,7 @@ export const IngredientEditDialog = ({
             <IngredientEditDialogHeader
               onClickCancel={onClickCancel}
               menuName={menuName}
+              isSubmitPending={isSubmitPending}
             />
             <div className="bg-grey-300 mt-5.5 h-0.5" />
             {/** 식재료 입력 폼이 있는 메인 영역 */}
