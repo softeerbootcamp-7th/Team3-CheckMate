@@ -111,44 +111,10 @@ public class MenuService {
             throw new ForbiddenException(MENU_ACCESS_DENIED);
         }
 
-        /*
-         * 레시피 등록
-         *
-         * 식재료 없으면 insert 있으면 그거 사용해야 함.
-         * */
         List<IngredientCreateRequestDTO.Ingredient> ingredientDTOs =
                 Optional.ofNullable(ingredientCreateRequestDTO.ingredients()).orElse(List.of());
 
-        for (IngredientCreateRequestDTO.Ingredient dto : ingredientDTOs) {
-            Unit unit = dto.unit();
-            String baseUnit = unit.baseUnitValue();
-
-            ingredientRepository.insertIgnore(storeId, dto.name(), baseUnit);
-
-            Ingredient ingredient =
-                    ingredientRepository
-                            .findIngredientByStoreIdAndName(storeId, dto.name())
-                            .orElseThrow(
-                                    () -> {
-                                        log.warn(
-                                                "[addIngredientsToMenu][Ingredient is not found][storeId={}, name={}]",
-                                                storeId,
-                                                dto.name());
-                                        return new ForbiddenException(
-                                                INGREDIENT_NOT_FUND_EXCEPTION);
-                                    });
-
-            Integer quantity = dto.quantity();
-
-            recipeRepository.save(
-                    Recipe.builder()
-                            .quantity(quantity)
-                            .quantityNormalized(unit.normalize(quantity))
-                            .unit(unit.getValue())
-                            .menuVersion(menuVersion)
-                            .ingredient(ingredient)
-                            .build());
-        }
+        registerRecipes(storeId, menuVersion, ingredientDTOs);
     }
 
     private void registerRecipes(
