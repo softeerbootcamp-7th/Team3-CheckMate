@@ -105,19 +105,27 @@ export const getAvailablePositionOnGrid = (
 const isOverlapping = (
   row1: number,
   col1: number,
-  sizeX1: number,
-  sizeY1: number,
+  width1: number,
+  height1: number,
   row2: number,
   col2: number,
-  sizeX2: number,
-  sizeY2: number,
+  width2: number,
+  height2: number,
 ) => {
-  return (
-    row1 + sizeY1 > row2 &&
-    row2 + sizeY2 > row1 &&
-    col1 + sizeX1 > col2 &&
-    col2 + sizeX2 > col1
-  );
+  const xStart1 = col1; // 첫번째 카드의 시작 x좌표
+  const xEnd1 = col1 + width1 - 1; // 첫번째 카드의 끝 x좌표
+  const yStart1 = row1; // 첫번째 카드의 시작 y좌표
+  const yEnd1 = row1 + height1 - 1; // 첫번째 카드의 끝 y좌표
+
+  const xStart2 = col2;
+  const xEnd2 = col2 + width2 - 1;
+  const yStart2 = row2;
+  const yEnd2 = row2 + height2 - 1;
+
+  const isYOverlapping = yEnd1 >= yStart2 && yEnd2 >= yStart1;
+  const isXOverlapping = xEnd1 >= xStart2 && xEnd2 >= xStart1;
+
+  return isYOverlapping && isXOverlapping;
 };
 
 export const getConflictingCards = (
