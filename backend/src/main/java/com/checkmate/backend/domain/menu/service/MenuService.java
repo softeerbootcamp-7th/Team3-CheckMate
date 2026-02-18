@@ -2,6 +2,7 @@ package com.checkmate.backend.domain.menu.service;
 
 import static com.checkmate.backend.global.response.ErrorStatus.*;
 
+import com.checkmate.backend.domain.menu.dto.IngredientCommand;
 import com.checkmate.backend.domain.menu.dto.request.IngredientCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.request.MenuCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuCategoryResponseDTO;
@@ -143,6 +144,42 @@ public class MenuService {
                     Recipe.builder()
                             .quantity(quantity)
                             .quantityNormalized(unit.normalize(quantity))
+                            .unit(unit.getValue())
+                            .menuVersion(menuVersion)
+                            .ingredient(ingredient)
+                            .build());
+        }
+    }
+
+    private void registerRecipes(
+            Long storeId,
+            MenuVersion menuVersion,
+            List<? extends IngredientCommand> ingredientDTOs) {
+
+        for (IngredientCommand dto : ingredientDTOs) {
+
+            Unit unit = dto.unit();
+            String baseUnit = unit.baseUnitValue();
+
+            ingredientRepository.insertIgnore(storeId, dto.name(), baseUnit);
+
+            Ingredient ingredient =
+                    ingredientRepository
+                            .findIngredientByStoreIdAndName(storeId, dto.name())
+                            .orElseThrow(
+                                    () -> {
+                                        log.warn(
+                                                "[registerRecipes][ingredient not found][storeId={}, name={}]",
+                                                storeId,
+                                                dto.name());
+                                        return new ForbiddenException(
+                                                INGREDIENT_NOT_FUND_EXCEPTION);
+                                    });
+
+            recipeRepository.save(
+                    Recipe.builder()
+                            .quantity(dto.quantity())
+                            .quantityNormalized(unit.normalize(dto.quantity()))
                             .unit(unit.getValue())
                             .menuVersion(menuVersion)
                             .ingredient(ingredient)
