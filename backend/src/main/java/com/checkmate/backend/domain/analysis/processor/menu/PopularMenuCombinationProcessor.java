@@ -144,16 +144,22 @@ public class PopularMenuCombinationProcessor implements AnalysisProcessor<MenuAn
                             pairedMenus));
         }
 
-        DetailPopularMenuCombinationResponse.PopularMenuCombinationItem popularMenuCombinationItem =
-                items.get(0);
-
-        String firstMenuName = popularMenuCombinationItem.baseMenuName();
-        DetailPopularMenuCombinationResponse.PopularMenuCombinationItem.PairedMenuItem
-                pairedMenuItem = popularMenuCombinationItem.pairedMenus().get(0);
-        String secondMenuName = pairedMenuItem.menuName();
-
         DetailPopularMenuCombinationResponse response =
                 new DetailPopularMenuCombinationResponse(items);
+
+        String firstMenuName = null;
+        String secondMenuName = null;
+
+        if (!items.isEmpty()) {
+
+            DetailPopularMenuCombinationResponse.PopularMenuCombinationItem firstItem =
+                    items.get(0);
+
+            if (!firstItem.pairedMenus().isEmpty()) {
+                firstMenuName = firstItem.baseMenuName();
+                secondMenuName = firstItem.pairedMenus().get(0).menuName();
+            }
+        }
 
         DashboardPopularMenuCombinationResponse dashboardResponse =
                 new DashboardPopularMenuCombinationResponse(firstMenuName, secondMenuName);
