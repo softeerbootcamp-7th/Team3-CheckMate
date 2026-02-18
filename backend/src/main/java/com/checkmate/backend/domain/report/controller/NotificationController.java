@@ -60,13 +60,15 @@ public class NotificationController {
     @io.swagger.v3.oas.annotations.responses.ApiResponse(
             responseCode = "200",
             description = "알림 목록 조회 성공 (결과가 있을 때와 없을 때 예시)",
-            content = @Content(
-                    mediaType = "application/json",
-                    examples = {
-                            @ExampleObject(
-                                    name = "1. 알림 목록 조회 성공",
-                                    summary = "알림 데이터가 존재하는 경우",
-                                    value = """
+            content =
+                    @Content(
+                            mediaType = "application/json",
+                            examples = {
+                                @ExampleObject(
+                                        name = "1. 알림 목록 조회 성공",
+                                        summary = "알림 데이터가 존재하는 경우",
+                                        value =
+                                                """
                                     {
                                       "success": true,
                                       "message": "알림 목록 조회를 완료했습니다.",
@@ -88,19 +90,18 @@ public class NotificationController {
                                       ]
                                     }
                                     """),
-                            @ExampleObject(
-                                    name = "2. 알림 없음 (빈 상태)",
-                                    summary = "알림 데이터가 없는 경우",
-                                    value = """
+                                @ExampleObject(
+                                        name = "2. 알림 없음 (빈 상태)",
+                                        summary = "알림 데이터가 없는 경우",
+                                        value =
+                                                """
                                     {
                                       "success": true,
                                       "message": "알림 목록 조회를 완료했습니다.",
                                       "data": []
                                     }
                                     """)
-                    }
-            )
-    )
+                            }))
     @GetMapping
     public ResponseEntity<ApiResponse<List<NotificationResponse>>> getNotifications(
             @LoginMember MemberSession member) {
