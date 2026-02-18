@@ -6,8 +6,7 @@ import {
   DASHBOARD_METRIC_CARDS,
   type MetricCardCode,
 } from '@/constants/dashboard';
-import { useEditCard } from '@/hooks/dashboard';
-import { useDragAndDropCard } from '@/hooks/dashboard/useDragAndDropCard';
+import { useDragAndDropCard, useEditCard } from '@/hooks/dashboard';
 
 interface CardEditViewCardProps {
   cardCode: MetricCardCode;
