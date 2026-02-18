@@ -24,6 +24,7 @@ const images = [
   'up.svg',
   'down.svg',
   'graph_down.svg',
+  'graph_same.svg',
   'graph_up.svg',
   'line_graph.svg',
   'bar_graph.svg',

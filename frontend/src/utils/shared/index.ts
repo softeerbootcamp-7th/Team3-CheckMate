@@ -37,6 +37,7 @@ export {
 } from './doughnut-chart';
 
 export { createPeriodTypeProvider } from './period-select';
+export { assertNever } from './assertNever';
 export { getCoordinate } from './getCoordinate';
 export {
   getBarSegmentInfoList,

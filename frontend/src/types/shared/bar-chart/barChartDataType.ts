@@ -1,12 +1,6 @@
-import type { LineChartDatum } from '../line-chart';
+import type { ChartDatum } from '../chart';
 
-// LineChartDatum과 동일한 구조를 가짐
-// export interface LineChartDatum {
-//   amount: number | string | null;
-//   unit: string;
-// }
-
-export type BarChartDatum = LineChartDatum;
+export type BarChartDatum = ChartDatum;
 
 export interface BarChartData {
   mainX: BarChartDatum[]; // 시간 목록

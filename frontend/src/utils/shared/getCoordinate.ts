@@ -2,7 +2,7 @@ import type { ChartSeries } from '@/types/shared';
 
 // 바, 라인 그래프에서 사용되는 데이터별 좌표 점 계산 유틸
 interface GetCoordinateArgs<T extends ChartSeries> {
-  svgRect: DOMRect;
+  svgWidth: number;
   adjustedHeight: number;
   series: T;
   maximumY: number;
@@ -14,12 +14,11 @@ interface Coordinate {
 }
 
 export const getCoordinate = <T extends ChartSeries>({
-  svgRect,
+  svgWidth,
   adjustedHeight,
   series,
   maximumY,
 }: GetCoordinateArgs<T>): Coordinate[] => {
-  const { width: svgWidth } = svgRect;
   const xDataLength = series.data.mainX.length;
 
   const intervalX = svgWidth / xDataLength;
