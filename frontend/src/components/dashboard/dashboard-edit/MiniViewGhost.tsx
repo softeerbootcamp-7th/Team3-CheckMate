@@ -13,8 +13,8 @@ export const MiniViewGhost = () => {
   const draggingCardDef =
     DASHBOARD_METRIC_CARDS[dragState.draggingCard.cardCode];
 
-  const { rowPx, colPx } = getGridPosition(ghost.rowNo, ghost.colNo);
-  const { widthPx, heightPx } = getGridCardSize(
+  const { topInPixel, leftInPixel } = getGridPosition(ghost.rowNo, ghost.colNo);
+  const { widthInPixel, heightInPixel } = getGridCardSize(
     draggingCardDef.sizeX,
     draggingCardDef.sizeY,
   );
@@ -26,9 +26,9 @@ export const MiniViewGhost = () => {
         ghost.isValid ? 'bg-grey-200' : 'bg-others-negative opacity-40',
       )}
       style={{
-        translate: `${colPx}px ${rowPx}px`,
-        width: widthPx,
-        height: heightPx,
+        translate: `${leftInPixel}px ${topInPixel}px`,
+        width: widthInPixel,
+        height: heightInPixel,
       }}
     />
   );

@@ -42,16 +42,16 @@ export const useDragAndDropCard = () => {
   ) => {
     // 충돌한 요소의 중심
     const conflictCardDef = DASHBOARD_METRIC_CARDS[conflictCard.cardCode];
-    const { rowPx, colPx } = getGridPosition(
+    const { topInPixel, leftInPixel } = getGridPosition(
       conflictCard.rowNo,
       conflictCard.colNo,
     );
-    const { widthPx, heightPx } = getGridCardSize(
+    const { widthInPixel, heightInPixel } = getGridCardSize(
       conflictCardDef.sizeX,
       conflictCardDef.sizeY,
     );
-    const conflictCenterX = colPx + widthPx / 2;
-    const conflictCenterY = rowPx + heightPx / 2;
+    const conflictCenterX = leftInPixel + widthInPixel / 2;
+    const conflictCenterY = topInPixel + heightInPixel / 2;
 
     // 드래그 중인 카드의 중심과 충돌 카드의 중심을 비교하여 진입 방향 계산
     const dx = draggingCenterX - conflictCenterX;
@@ -200,7 +200,10 @@ export const useDragAndDropCard = () => {
       DASHBOARD_METRIC_CARDS[dragState.draggingCard.cardCode];
     const cardSizeX = draggingCardDef.sizeX;
     const cardSizeY = draggingCardDef.sizeY;
-    const { widthPx, heightPx } = getGridCardSize(cardSizeX, cardSizeY);
+    const { widthInPixel, heightInPixel } = getGridCardSize(
+      cardSizeX,
+      cardSizeY,
+    );
 
     // 드래그 중인 카드의 중심점 (픽셀단위)
     const cardRect = gridRef.current.getBoundingClientRect();
@@ -214,9 +217,9 @@ export const useDragAndDropCard = () => {
     for (let r = 1; r <= GRID_ROW_SIZE - cardSizeY + 1; r++) {
       for (let c = 1; c <= GRID_COL_SIZE - cardSizeX + 1; c++) {
         // 그리드 셀의 중심 좌표
-        const { rowPx, colPx } = getGridPosition(r, c);
-        const centerX = colPx + widthPx / 2;
-        const centerY = rowPx + heightPx / 2;
+        const { topInPixel, leftInPixel } = getGridPosition(r, c);
+        const centerX = leftInPixel + widthInPixel / 2;
+        const centerY = topInPixel + heightInPixel / 2;
 
         const dist = Math.sqrt(
           Math.pow(draggingCenterX - centerX, 2) +

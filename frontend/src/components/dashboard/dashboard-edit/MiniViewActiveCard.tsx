@@ -46,8 +46,8 @@ export const MiniViewActiveCard = ({
   }
   const { label, type, period, sizeX, sizeY } = card;
 
-  const { rowPx, colPx } = getGridPosition(rowNo, colNo);
-  const { widthPx, heightPx } = getGridCardSize(sizeX, sizeY);
+  const { topInPixel, leftInPixel } = getGridPosition(rowNo, colNo);
+  const { widthInPixel, heightInPixel } = getGridCardSize(sizeX, sizeY);
 
   return (
     <div
@@ -65,9 +65,9 @@ export const MiniViewActiveCard = ({
         isDragging ? 'opacity-0' : 'opacity-100',
       )}
       style={{
-        translate: `${colPx}px ${rowPx}px`,
-        width: widthPx,
-        height: heightPx,
+        translate: `${leftInPixel}px ${topInPixel}px`,
+        width: widthInPixel,
+        height: heightInPixel,
       }}
     >
       <div className="relative flex h-full flex-col items-center justify-center p-4">
