@@ -1,8 +1,3 @@
-/**
- * @param fn - 스로틀링 할 함수
- * @param throttleMs - 스로틀링 간격 (millisecond 단위), 기본값 50ms
- */
-
 type ThrottledFunction<T extends unknown[]> = ((...args: T) => void) & {
   cancel: () => void;
 };

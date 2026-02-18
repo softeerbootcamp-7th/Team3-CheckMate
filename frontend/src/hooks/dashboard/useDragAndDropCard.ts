@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 
 import {
   DASHBOARD_EDIT_AREA,
@@ -10,7 +10,8 @@ import {
 } from '@/constants/dashboard';
 import type { DashboardCard } from '@/types/dashboard';
 import { getConflictingCards } from '@/utils/dashboard';
-import { throttle } from '@/utils/shared';
+
+import { useThrottle } from '../shared/useThrottle';
 
 import { useEditCardContext } from './useEditCardContext';
 import { useGridCellSize } from './useGridCellSize';
@@ -250,7 +251,7 @@ export const useDragAndDropCard = () => {
 
   const handleGridDragOverFn = useCallback(
     (clientX: number, clientY: number) => {
-      // console.log('handleGridDragOver');
+      // console.log('handleGridDragOver-throttled');
 
       if (!gridRef.current || !dragState) {
         return;
@@ -308,32 +309,15 @@ export const useDragAndDropCard = () => {
       setTempLayout,
     ],
   );
-  // throttle 함수 참조 유지
-  const handleGridDragOverRef = useRef(handleGridDragOverFn);
-  useEffect(() => {
-    handleGridDragOverRef.current = handleGridDragOverFn;
-  }, [handleGridDragOverFn]);
-
-  const handleGridDragOverThrottled = useRef(
-    throttle(
-      (x: number, y: number) => handleGridDragOverRef.current(x, y),
-      100,
-    ),
-  );
-  // throttle 메모리 누수 방지
-  useEffect(() => {
-    const throttled = handleGridDragOverThrottled.current;
-    return () => {
-      throttled.cancel();
-    };
-  }, []);
+  const handleGridDragOverThrottled = useThrottle(handleGridDragOverFn, 100);
 
   const handleGridDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     const clientX = e.clientX;
     const clientY = e.clientY;
+    // console.log('handleGridDragOver');
 
-    handleGridDragOverThrottled.current(clientX, clientY);
+    handleGridDragOverThrottled(clientX, clientY);
   };
 
   const handleGridDrop = (e: React.DragEvent) => {
