@@ -16,6 +16,7 @@ interface EditCardWrapperProps {
   isAdded: boolean;
   children: ReactNode;
   className?: string; // 전체 wrapper 크기나 보더 등 스타일
+  innerClassName?: string; // 자식 컴포넌트 클래스명
   period: string; // 오늘, 이번주, 이번달 등 문구
   sizeX?: number; // 가로 크기
   sizeY?: number; // 세로 크기
@@ -29,6 +30,7 @@ export const EditCardWrapper = ({
   isAdded,
   children,
   className,
+  innerClassName,
   sizeX = 1,
   sizeY = 1,
   period = '기간없음',
@@ -47,14 +49,15 @@ export const EditCardWrapper = ({
     <div
       style={{
         width:
-          Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth) * sizeX +
-          GRID_GAP * (sizeX - 1), // 최소 너비 220px, gap 20px
+          Math.max(EDIT_CARD_WRAPPER.MIN_WIDTH, computedCardWidth) +
+          GRID_GAP * (sizeX - 1),
+        // 최소 너비 220px, gap 20px
         height:
-          Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight) * sizeY +
-          GRID_GAP * (sizeY - 1), // 최소 높이 147px, gap 20px
+          Math.max(EDIT_CARD_WRAPPER.MIN_HEIGHT, computedCardHeight) +
+          GRID_GAP * (sizeY - 1), // 최소 높이 147px,
       }}
       className={cn(
-        'bg-special-card-bg rounded-400 border-grey-300 relative flex flex-col overflow-hidden border p-3',
+        'bg-special-card-bg rounded-400 border-grey-300 relative flex flex-col overflow-hidden border p-2.5',
         className,
       )}
     >
@@ -68,18 +71,18 @@ export const EditCardWrapper = ({
       </div>
       <div
         style={{ marginTop: `${EDIT_CARD_WRAPPER.HEADER_MAIN_GAP}px` }}
-        className="flex min-w-0 flex-1 items-end justify-center"
+        className={cn(
+          'flex min-w-0 flex-1 items-end justify-center',
+          innerClassName,
+        )}
       >
         <div
           style={{
             transform: `scale(${EDIT_CARD_WRAPPER.CHANGE_SCALE})`,
-            transformOrigin:
-              computedCardHeight < EDIT_CARD_WRAPPER.MIN_HEIGHT
-                ? 'center'
-                : 'top',
+            transformOrigin: 'left top',
           }}
           ref={childRef}
-          className={cn(isAdded ? 'opacity-10' : 'opacity-100')}
+          className={cn('w-full', isAdded ? 'opacity-10' : 'opacity-100')}
         >
           {children}
         </div>

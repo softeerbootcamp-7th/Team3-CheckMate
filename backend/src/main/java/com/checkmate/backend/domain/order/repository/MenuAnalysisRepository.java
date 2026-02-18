@@ -1,6 +1,6 @@
 package com.checkmate.backend.domain.order.repository;
 
-import com.checkmate.backend.domain.analysis.dto.projection.*;
+import com.checkmate.backend.domain.analysis.dto.projection.menu.*;
 import com.checkmate.backend.domain.order.entity.Order;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +13,7 @@ public interface MenuAnalysisRepository extends JpaRepository<Order, Long> {
 
     /** MUN_01 (메뉴별 매출 랭킹) */
     @Query(
-            "select new com.checkmate.backend.domain.analysis.dto.projection.MenuSalesProjection(m.name, sum(oi.lineGrossAmount), count(*))"
+            "select new com.checkmate.backend.domain.analysis.dto.projection.menu.MenuSalesProjection(m.name, sum(oi.lineGrossAmount), count(*))"
                     + " from Order o"
                     + " join OrderItem oi on oi.order.id=o.id"
                     + " join oi.menuVersion mv"
@@ -28,7 +28,7 @@ public interface MenuAnalysisRepository extends JpaRepository<Order, Long> {
 
     /** MNU_02 (카테코리별 매출) */
     @Query(
-            "select new com.checkmate.backend.domain.analysis.dto.projection.CategorySalesProjection(m.category, sum(oi.lineGrossAmount))"
+            "select new com.checkmate.backend.domain.analysis.dto.projection.menu.CategorySalesProjection(m.category, sum(oi.lineGrossAmount))"
                     + " from Order o"
                     + " join OrderItem oi on oi.order.id=o.id"
                     + " join oi.menuVersion mv"
@@ -44,7 +44,7 @@ public interface MenuAnalysisRepository extends JpaRepository<Order, Long> {
 
     /** MNU_03 (시간대별 메뉴 주문건수) */
     @Query(
-            "select new com.checkmate.backend.domain.analysis.dto.projection.TimeSlotMenuOrderCountProjection(o.timeSlot2H, m.name, count(*))"
+            "select new com.checkmate.backend.domain.analysis.dto.projection.menu.TimeSlotMenuOrderCountProjection(o.timeSlot2H, m.name, count(*))"
                     + " from Order o"
                     + " join OrderItem oi on oi.order.id=o.id"
                     + " join oi.menuVersion mv"
@@ -61,7 +61,7 @@ public interface MenuAnalysisRepository extends JpaRepository<Order, Long> {
 
     /** MNU_04 (식자재 소진량) */
     @Query(
-            "select new com.checkmate.backend.domain.analysis.dto.projection.IngredientUsageProjection(ing.id, ing.name, sum(r.quantityNormalized * oi.quantity))"
+            "select new com.checkmate.backend.domain.analysis.dto.projection.menu.IngredientUsageProjection(ing.id, ing.name, sum(r.quantityNormalized * oi.quantity))"
                     + " from Order o"
                     + " join OrderItem oi on oi.order.id=o.id"
                     + " join oi.menuVersion mv"

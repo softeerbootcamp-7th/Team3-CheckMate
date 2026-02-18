@@ -1,6 +1,6 @@
 package com.checkmate.backend.domain.analysis.dto.response.menu;
 
-import com.checkmate.backend.domain.analysis.dto.projection.MenuSalesProjection;
+import com.checkmate.backend.domain.analysis.dto.projection.menu.MenuSalesProjection;
 import com.checkmate.backend.domain.analysis.dto.response.DashboardAnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.DetailAnalysisResponse;
 import java.util.List;

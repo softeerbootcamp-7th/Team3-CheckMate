@@ -22,4 +22,9 @@ public enum DayOfWeekType {
     public DayOfWeekType next() {
         return values()[(this.ordinal() + 1) % values().length];
     }
+
+    public static String toKorean(java.time.DayOfWeek dayOfWeek) {
+        String shortName = dayOfWeek.name().substring(0, 3);
+        return valueOf(shortName).getKorean();
+    }
 }

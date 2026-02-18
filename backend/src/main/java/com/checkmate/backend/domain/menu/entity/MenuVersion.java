@@ -29,4 +29,8 @@ public class MenuVersion extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "menu_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Menu menu;
+
+    public void deactivate() {
+        this.active = false;
+    }
 }

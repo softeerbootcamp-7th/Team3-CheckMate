@@ -2,6 +2,7 @@ package com.checkmate.backend.domain.store.validator;
 
 import com.checkmate.backend.domain.store.dto.request.StoreCreateRequestDTO;
 import com.checkmate.backend.domain.store.enums.DayOfWeekType;
+import com.checkmate.backend.global.util.TimeUtil;
 import com.checkmate.backend.global.validator.ValidatorUtils;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -66,8 +67,8 @@ public class WeeklyBusinessHoursValidator
                 return false;
             }
 
-            int openMinutes = toMinutes(open);
-            int closeMinutes = toMinutes(close);
+            int openMinutes = TimeUtil.toMinutes(open);
+            int closeMinutes = TimeUtil.toMinutes(close);
 
             // 3-2. 시작/마감 동일 불가
 
@@ -87,9 +88,9 @@ public class WeeklyBusinessHoursValidator
                 continue;
             }
 
-            int todayOpen = toMinutes(today.openTime());
-            int todayClose = toMinutes(today.closeTime());
-            int nextOpen = toMinutes(next.openTime());
+            int todayOpen = TimeUtil.toMinutes(today.openTime());
+            int todayClose = TimeUtil.toMinutes(today.closeTime());
+            int nextOpen = TimeUtil.toMinutes(next.openTime());
 
             // 자정 이후 마감한 경우만 검사
             if (todayOpen > todayClose) {
@@ -106,16 +107,5 @@ public class WeeklyBusinessHoursValidator
         }
 
         return true;
-    }
-
-    // ---------- util ----------
-
-    /** HH:mm → 분 단위 24:00 → 1440 */
-    private int toMinutes(String time) {
-        if ("24:00".equals(time)) {
-            return 24 * 60;
-        }
-        String[] t = time.split(":");
-        return Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
     }
 }
