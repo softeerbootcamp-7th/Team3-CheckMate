@@ -53,7 +53,6 @@ export const SalesByDayContent = ({
         barChartSeries={salesByDaySeries}
         hasXAxis
         hasBarGradient
-        showYGuideLine
         yGuideLineCount={4}
         hasBarLabel={false}
         activeDataIndex={activeDataIndex === -1 ? undefined : activeDataIndex}
