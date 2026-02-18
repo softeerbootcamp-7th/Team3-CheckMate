@@ -5,7 +5,7 @@ export const SALES_SOURCE = {
     // 홀, 배달, 포장
     DINE_IN: '홀',
     DELIVERY: '배달',
-    TAKEOUT: '포장',
+    TAKE_OUT: '포장',
   },
   ORDER_METHOD: {
     POS: 'POS',
@@ -25,7 +25,7 @@ export type SalesSourceType = DeepValueOf<typeof SALES_SOURCE>;
 export const SALES_SOURCE_COLORS = {
   [SALES_SOURCE.SALE_TYPE.DINE_IN]: 'var(--color-brand-500)',
   [SALES_SOURCE.SALE_TYPE.DELIVERY]: 'var(--color-grey-500)',
-  [SALES_SOURCE.SALE_TYPE.TAKEOUT]: 'var(--color-brand-50)',
+  [SALES_SOURCE.SALE_TYPE.TAKE_OUT]: 'var(--color-brand-50)',
   [SALES_SOURCE.ORDER_METHOD.POS]: 'var(--color-brand-500)',
   [SALES_SOURCE.ORDER_METHOD.KIOSK]: 'var(--color-grey-500)',
   [SALES_SOURCE.ORDER_METHOD.DELIVERY_APP]: 'var(--color-brand-200)',
