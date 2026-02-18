@@ -1,10 +1,10 @@
+import type { IngredientUnit } from '@/constants/ingredient';
+
 export interface Ingredient {
-  ingredientId: string;
-  name: string;
-  // input은 값들을 보통 string으로 다룸
-  // -> 그래야 새로운 필드 추가할 때 빈 문자열로 초기화 해 placeholder 뜨게 할 수 있음(숫자는 0으로 초기화 하거나(그러면 placeholder 안뜸) null 허용 해야함)
-  amount: string;
-  unit: string;
+  // 새로운 식자재 행 추가할 때는 값들이 null값임. 따라서 null도 허용해줘야 새로운 필드 추가할 때 placeholder 뜨게 할 수 있음
+  name: string | null;
+  quantity: number | null;
+  unit: IngredientUnit | null;
 }
 
 export interface IngredientFormValues {
@@ -16,4 +16,10 @@ export interface IngredientFormValues {
 // 따라서 useFieldArray에서 사용하는 필드의 타입은 Ingredient 자체가 아닌 Ingredient에서 id 속성까지 추가된 IngredientField
 export interface IngredientField extends Ingredient {
   id: string;
+}
+
+// 각 메뉴 별 등록된 식자재 정보
+export interface MenuIngredients {
+  menuName: string;
+  ingredients: Ingredient[];
 }

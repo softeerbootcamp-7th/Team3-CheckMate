@@ -1,9 +1,13 @@
-export type { GetCategoryMenusResponseDto } from './dto';
+export type {
+  GetCategoryMenusResponseDto,
+  GetMenuIngredientsResponseDto,
+} from './dto';
 export type { MenuInfo, CategoryMenu } from './MenuInfo';
-export {
-  type Ingredient,
-  type IngredientFormValues,
-  type IngredientField,
+export type {
+  Ingredient,
+  IngredientFormValues,
+  IngredientField,
+  MenuIngredients,
 } from './ingredient';
 export {
   type PostAiIngredientRecommendRequestDto,
