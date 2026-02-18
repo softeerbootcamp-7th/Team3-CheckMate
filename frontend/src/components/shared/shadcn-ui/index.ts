@@ -72,3 +72,4 @@ export {
 export { Checkbox } from './checkbox';
 export { Toaster } from './sonner';
 export { Input } from './input';
+export { Skeleton } from './skeleton';

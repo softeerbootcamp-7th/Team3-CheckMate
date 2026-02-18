@@ -40,12 +40,7 @@ export const useEditCard = () => {
 
         const position = getAvailablePositionOnGrid(prev, sizeX, sizeY);
         if (position.row === -1 && position.col === -1) {
-          toast('카드를 놓을 공간이 없어요.', {
-            duration: 3500,
-            className:
-              'bg-grey-900! text-grey-50! border-none! body-small-semibold! ',
-            position: 'bottom-center',
-          });
+          toast('카드를 놓을 공간이 없어요.');
           return prev;
         }
 
