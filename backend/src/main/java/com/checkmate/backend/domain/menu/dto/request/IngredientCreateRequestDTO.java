@@ -1,5 +1,6 @@
 package com.checkmate.backend.domain.menu.dto.request;
 
+import com.checkmate.backend.domain.menu.dto.IngredientCommand;
 import com.checkmate.backend.domain.menu.enums.Unit;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
@@ -23,5 +24,6 @@ public record IngredientCreateRequestDTO(
                     @NotNull(message = "용량을 입력하세요")
                     @Max(value = 99999, message = "최대 5글자입니다.")
                     Integer quantity,
-            @Schema(description = "단위") @NotNull(message = "단위를 입력하세요.") Unit unit) {}
+            @Schema(description = "단위") @NotNull(message = "단위를 입력하세요.") Unit unit)
+            implements IngredientCommand {}
 }
