@@ -18,7 +18,7 @@ import { IngredientGrid } from './IngredientGrid';
 interface IngredientEditDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  menuId: string;
+  menuId: number;
 }
 
 export const IngredientEditDialog = ({
