@@ -15,10 +15,10 @@ export const aiIngredientRecommendHandler = [
         success: true,
         data: {
           ingredients: [
-            { ingredientId: '1', name: '딸기', amount: '200', unit: 'g' },
-            { ingredientId: '2', name: '우유', amount: '120', unit: 'ml' },
-            { ingredientId: '4', name: '연유', amount: '5', unit: 'ml' },
-            { ingredientId: '5', name: '얼음', amount: '100', unit: 'g' },
+            { name: '딸기', quantity: '200', unit: 'g' },
+            { name: '우유', quantity: '120', unit: 'ml' },
+            { name: '연유', quantity: '5', unit: 'ml' },
+            { name: '얼음', quantity: '100', unit: 'g' },
           ],
         },
         message: '식재료 추천 성공',
