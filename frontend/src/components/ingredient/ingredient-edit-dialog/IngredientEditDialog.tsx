@@ -1,4 +1,4 @@
-import { type FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
 
@@ -35,17 +35,18 @@ export const IngredientEditDialog = ({
     mode: 'onBlur',
   });
 
+  // 취소 버튼 누르면 모달 창 닫기
   const onClickCancel = () => {
     onOpenChange(false);
   };
   // 폼 validation 통과했을 때 실행되는 함수
-  const { onSubmit, isSubmitPending } = useIngredientEditSubmit({
+  const { onSubmit, isSubmitting } = useIngredientEditSubmit({
     menuId,
     onOpenChange,
     hasIngredients,
   });
   // 폼 validation 실패 했을 때 불리는 함수
-  const onError = (errors: FieldErrors<IngredientFormValues>) => {
+  const onError = () => {
     toast(
       '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
       {
@@ -54,8 +55,8 @@ export const IngredientEditDialog = ({
         position: TOAST_DEFAULT.POSITION,
       },
     );
-    return errors; // 그냥 임시 return. 사용하는 데는 없음
   };
+
   // 열려있지 않으면 dialog 컴포넌트 렌더링 안되도록
   if (!open) {
     return null;
@@ -77,7 +78,7 @@ export const IngredientEditDialog = ({
             <IngredientEditDialogHeader
               onClickCancel={onClickCancel}
               menuName={menuName}
-              isSubmitPending={isSubmitPending}
+              isSubmitting={isSubmitting}
             />
             <div className="bg-grey-300 mt-5.5 h-0.5" />
             {/** 식재료 입력 폼이 있는 메인 영역 */}
