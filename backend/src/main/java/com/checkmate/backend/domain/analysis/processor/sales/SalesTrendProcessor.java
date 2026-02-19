@@ -258,7 +258,7 @@ public class SalesTrendProcessor implements AnalysisProcessor<SalesAnalysisConte
         return salesTrendBuckets.stream()
                 .filter(bucket -> bucket.bucket().equals(nowBucket))
                 .findFirst()
-                .map(i -> new DashboardSalesTrendResponse(i.label(), i.orderCount(), i.netAmount()))
+                .map(i -> new DashboardSalesTrendResponse(i.label(), i.netAmount(), i.orderCount()))
                 .orElse(new DashboardSalesTrendResponse("0", 0, 0));
     }
 }
