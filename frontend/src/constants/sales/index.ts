@@ -27,3 +27,4 @@ export {
   isSalesMetricCardCodes,
 } from './salesMetric';
 export { SALES_TREND_DETAIL } from './sales-trends/salesTrendDetail';
+export { SALES_PATTERN_DETAIL } from './sales-pattern';
