@@ -20,3 +20,4 @@ export { PaginationBar } from './pagenation';
 export { FetchBoundary } from './fetch-boundary';
 export { LineChart } from './line-chart';
 export { BarLineChart } from './bar-line-chart';
+export { NotificationPollingStarter } from './notification';

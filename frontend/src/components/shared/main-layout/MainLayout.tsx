@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Outlet, type UIMatch, useMatches } from 'react-router-dom';
 
-import { NotificationPollingStarter } from '@/components/shared/notification/NotificationPollingStarter';
+import { NotificationPollingStarter } from '@/components/shared';
 import type { RouteHandle } from '@/types/shared';
 import { cn } from '@/utils/shared';
 
