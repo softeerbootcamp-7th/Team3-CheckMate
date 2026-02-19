@@ -4,37 +4,30 @@ import { toast } from 'sonner';
 
 import type { MetricCardCode } from '@/constants/dashboard';
 import {
-  addCardOnGrid,
   getAvailablePositionOnGrid,
-  hasCardOnGrid,
-  removeCardFromGrid,
-} from '@/utils/dashboard';
-import {
-  cloneGrid,
-  countEmptyCellsOnGrid,
-  getCardListFromGrid,
+  isCardPlaced,
   isSameGrid,
-} from '@/utils/dashboard/editCard';
+} from '@/utils/dashboard';
 
 import { useEditCardContext } from './useEditCardContext';
 
 export const useEditCard = () => {
-  const { initGrid, grid, setGrid } = useEditCardContext();
+  const { initPlacedCards, placedCards, setPlacedCards } = useEditCardContext();
 
   const isDirty = useMemo(
-    (): boolean => !isSameGrid(grid, initGrid),
-    [grid, initGrid],
+    (): boolean => !isSameGrid(placedCards, initPlacedCards),
+    [placedCards, initPlacedCards],
   );
 
   const isAdded = useCallback(
-    (cardCode: MetricCardCode): boolean => hasCardOnGrid(grid, cardCode),
-    [grid],
+    (cardCode: MetricCardCode): boolean => isCardPlaced(placedCards, cardCode),
+    [placedCards],
   );
 
   const addCard = useCallback(
-    (code: MetricCardCode, sizeX: number, sizeY: number) => {
-      setGrid((prev) => {
-        if (hasCardOnGrid(prev, code)) {
+    (cardCode: MetricCardCode, sizeX: number, sizeY: number) => {
+      setPlacedCards((prev) => {
+        if (isCardPlaced(prev, cardCode)) {
           return prev;
         }
 
@@ -44,41 +37,33 @@ export const useEditCard = () => {
           return prev;
         }
 
-        const newGrid = cloneGrid(prev);
-        addCardOnGrid(newGrid, position, sizeX, sizeY, code);
-        return newGrid;
+        return [
+          ...prev,
+          { cardCode, rowNo: position.row, colNo: position.col },
+        ];
       });
     },
-    [setGrid],
+    [setPlacedCards],
   );
 
   const removeCard = useCallback(
-    (code: MetricCardCode) => {
-      setGrid((prev) => {
-        if (!hasCardOnGrid(prev, code)) {
+    (cardCode: MetricCardCode) => {
+      setPlacedCards((prev) => {
+        if (!isCardPlaced(prev, cardCode)) {
           return prev;
         }
 
-        const newGrid = cloneGrid(prev);
-        removeCardFromGrid(newGrid, code);
-
-        return newGrid;
+        return prev.filter((c) => c.cardCode !== cardCode);
       });
     },
-    [setGrid],
+    [setPlacedCards],
   );
 
-  const cards = useMemo(() => getCardListFromGrid(grid), [grid]);
-
-  const emptyCellCount = useMemo(() => countEmptyCellsOnGrid(grid), [grid]);
-
   return {
-    grid,
+    placedCards,
     isDirty,
     addCard,
     removeCard,
-    cards,
-    emptyCellCount,
     isAdded,
   };
 };

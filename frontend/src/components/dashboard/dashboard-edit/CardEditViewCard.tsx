@@ -2,10 +2,11 @@ import { useCallback, useMemo } from 'react';
 
 import { EditCardWrapper } from '@/components/shared';
 import {
+  DASHBOARD_EDIT_AREA,
   DASHBOARD_METRIC_CARDS,
   type MetricCardCode,
 } from '@/constants/dashboard';
-import { useEditCard } from '@/hooks/dashboard';
+import { useDragAndDropCard, useEditCard } from '@/hooks/dashboard';
 
 import { EditCardContent } from './EditCardContent';
 
@@ -15,6 +16,7 @@ interface CardEditViewCardProps {
 
 export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
   const { addCard, removeCard, isAdded } = useEditCard();
+  const { handleDragStart, handleDragEnd } = useDragAndDropCard();
 
   const card = useMemo(() => DASHBOARD_METRIC_CARDS[cardCode], [cardCode]);
 
@@ -35,7 +37,20 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
   const { period, sizeX, sizeY } = card;
 
   return (
-    <li style={{ gridColumn: `span ${sizeX}` }}>
+    <li
+      style={{ gridColumn: `span ${sizeX}` }}
+      draggable={!memoisedIsAdded}
+      onDragStart={(e) =>
+        handleDragStart(e, DASHBOARD_EDIT_AREA.LIST, {
+          cardCode,
+          colNo: -1,
+          rowNo: -1,
+        })
+      }
+      onDragEnd={handleDragEnd}
+      className="translate-x-0 cursor-grab active:cursor-grabbing"
+      onClick={handleAddCard}
+    >
       <EditCardWrapper
         isAdded={memoisedIsAdded}
         period={period}

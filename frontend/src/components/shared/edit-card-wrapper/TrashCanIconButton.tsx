@@ -12,7 +12,10 @@ export const TrashCanIconButton = ({
 }: TrashCanIconButtonProps) => {
   return (
     <Button
-      onClick={onClickDeleteButton}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClickDeleteButton?.();
+      }}
       className="rounded-unlimit hover:text-others-negative border-grey-200 bg-grey-100 text-grey-900 active:bg-grey-900 active:text-grey-50 flex size-6.5 items-center justify-center border"
     >
       <Trash2 className="size-4" />

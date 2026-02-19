@@ -50,3 +50,4 @@ export {
   getBarWidth,
   getLabelContentText,
 } from './bar-chart';
+export { throttle } from './throttle';
