@@ -20,7 +20,7 @@ export const CalendarRevenueCell = ({
       variant="ghost"
       size="icon"
       className={cn(
-        'body-small-semibold relative flex h-16 w-13 flex-col items-center justify-center gap-0.5 rounded-none',
+        'body-small-semibold! relative flex h-16 w-13 flex-col items-center justify-center gap-0.5 rounded-none',
         className,
       )}
       onClick={onClick}
