@@ -18,7 +18,11 @@ import {
   DashboardSalesTrendCard,
 } from '../dashboard-sales';
 
-export const DashboardCard = ({ cardCode }: { cardCode: MetricCardCode }) => {
+interface DashboardCardProps {
+  cardCode: MetricCardCode;
+}
+
+export const DashboardCard = ({ cardCode }: DashboardCardProps) => {
   switch (cardCode) {
     case 'SLS_01_01':
     case 'SLS_01_02':
