@@ -1,5 +1,6 @@
 import {
   DATE_RANGE_PICKER_TYPE,
+  type DateRangePickerType,
   PERIOD_PRESETS,
   type PeriodPresetType,
   type PeriodType,
@@ -17,6 +18,7 @@ interface PeriodSelectProps<T extends PeriodPresetType> {
   setStartDate: (date?: Date) => void;
   endDate?: Date;
   setEndDate: (date?: Date) => void;
+  dateRangePickerType?: DateRangePickerType;
   className?: string;
 }
 
@@ -28,6 +30,7 @@ export const PeriodSelect = <T extends PeriodPresetType>({
   setStartDate,
   endDate,
   setEndDate,
+  dateRangePickerType,
   className,
 }: PeriodSelectProps<T>) => {
   return (
@@ -52,7 +55,7 @@ export const PeriodSelect = <T extends PeriodPresetType>({
         setStartDate={setStartDate}
         endDate={endDate}
         setEndDate={setEndDate}
-        dateRangePickerType={DATE_RANGE_PICKER_TYPE.date}
+        dateRangePickerType={dateRangePickerType ?? DATE_RANGE_PICKER_TYPE.date}
         onSave={() => setPeriodType(undefined)}
       />
     </div>
