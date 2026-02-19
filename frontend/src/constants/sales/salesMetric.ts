@@ -99,7 +99,7 @@ export const SALES_METRIC = {
   },
   SALES_PATTERN: {
     PEAK_TIME: {
-      label: '피크타임',
+      label: '피크타임 (시간대별 주문건수)',
       cardCodes: {
         today: 'SLS_13_01',
       },
