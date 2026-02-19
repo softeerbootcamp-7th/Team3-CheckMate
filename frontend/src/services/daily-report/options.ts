@@ -1,6 +1,10 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { getExistsUnreadNotification, getNotificationList } from './get';
+import {
+  getExistsUnreadNotification,
+  getNextClosingTime,
+  getNotificationList,
+} from './get';
 import { notificationKeys } from './keys';
 
 export const notificationOptions = {
@@ -11,5 +15,10 @@ export const notificationOptions = {
   existsUnread: queryOptions({
     queryKey: notificationKeys.existsUnread(),
     queryFn: getExistsUnreadNotification,
+  }),
+  closingTime: queryOptions({
+    queryKey: notificationKeys.closingTime(),
+    queryFn: getNextClosingTime,
+    staleTime: 20 * 60 * 1000, // 20분
   }),
 };

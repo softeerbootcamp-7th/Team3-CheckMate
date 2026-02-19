@@ -5,4 +5,5 @@ export type {
   GetDailyReportContentResponseDto,
   GetExistsUnreadNotificationResponseDto,
   GetNotificationListResponseDto,
+  GetNextClosingTimeResponseDto,
 } from './dto';

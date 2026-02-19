@@ -1,5 +1,6 @@
 import type {
   GetExistsUnreadNotificationResponseDto,
+  GetNextClosingTimeResponseDto,
   GetNotificationListResponseDto,
 } from '@/types/daily-report';
 
@@ -22,5 +23,13 @@ export const getNotificationList = async () => {
       '/api/notifications',
     );
 
+  return data;
+};
+
+/** 알림 시간 조회 (알림 조회 polling을 시작할 시간) */
+export const getNextClosingTime = async () => {
+  const { data } = await authorizedApi.get<GetNextClosingTimeResponseDto>(
+    '/api/stores/closing-time',
+  );
   return data;
 };
