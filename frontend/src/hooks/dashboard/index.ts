@@ -4,3 +4,4 @@ export { useEditCard } from './useEditCard';
 export { useDashboardCardDetailQueryOption } from './useDashboardCardDetailQueryOption';
 export { useDashboardCardList } from './useDashboardCardList';
 export { useDashboardCardSubscription } from './useDashboardCardSubscription';
+export { useDashboardSseConnection } from './useDashboardSseConnection';
