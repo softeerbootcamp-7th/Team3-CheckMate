@@ -1,0 +1,1 @@
+const r=t=>t?new Intl.DateTimeFormat("ko-KR",{year:"numeric",month:"2-digit",day:"2-digit"}).format(t):null,i=t=>t?new Intl.DateTimeFormat("ko-KR",{year:"numeric",month:"2-digit"}).format(t):null,n=t=>t?new Intl.DateTimeFormat("ko-KR",{year:"2-digit",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:!1}).format(t):null;export{r as a,n as b,i as f};
