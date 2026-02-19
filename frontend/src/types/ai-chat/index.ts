@@ -1,1 +1,2 @@
-export type { ChatHistoryItem } from './chatHistory';
+export type { ChatMessage, ChatRole } from './chatHistory';
+export type { PostChatsRequestDto, PostChatsResponseDto } from './dto';

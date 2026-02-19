@@ -1,111 +1,235 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import type { ChatHistoryItem } from '@/types/ai-chat';
+import { toast } from 'sonner';
 
-// mock 데이터
-const mockedAnswer: ChatHistoryItem['answer'] = `오늘 제일 잘 팔린 메뉴는 👉 _아이스 아메리카노_입니다.
+import { postChat } from '@/services/ai-chat';
+import type { ChatMessage } from '@/types/ai-chat';
 
-총 42잔 판매로 전체 판매 1위
-점심 이후(12–15시)에 주문이 가장 몰렸어요
-테이크아웃 비중이 높았습니다 ☕️
-
-그다음으로 잘 팔린 메뉴
-바닐라 라떼 – 27잔
-크루아상 – 19개 (커피와 함께 세트 주문 많음)
-
-💡 운영 인사이트
-
-더운 날씨 영향으로 **아이스 음료 비중이 78%**로 높아요
-
-아메리카노 + 베이커리 조합이 잘 나가서
-→ 내일은 세트 노출을 조금 더 강조해도 좋아 보여요
-
-앞으로도 궁금한 점 있으면 언제든 물어봐 주세요! 😊`;
+import {
+  buildChatHistory,
+  CANCEL_MESSAGE,
+  getNextStreamProgress,
+  getUserFacingErrorMessage,
+  STREAM_INTERVAL_MS,
+} from './useChatStream.helpers';
 
 interface UseChatStreamReturn {
-  chatHistoryList: ChatHistoryItem[];
+  messages: ChatMessage[];
   isLoading: boolean;
-  isStreaming: boolean;
-  submitQuestion: (question: string) => void;
+  submitQuestion: (question: string) => Promise<void>;
   cancelChat: () => void;
   resetChat: () => void;
 }
 
-export const useChatStream = (): UseChatStreamReturn => {
-  const [chatHistoryList, setChatHistoryList] = useState<ChatHistoryItem[]>([]);
+const createMessage = (
+  role: ChatMessage['role'],
+  content: string,
+  status: ChatMessage['status'] = 'done',
+): ChatMessage => ({
+  id: crypto.randomUUID(),
+  role,
+  content,
+  createdAt: new Date().toISOString(),
+  status,
+});
 
+export const useChatStream = (): UseChatStreamReturn => {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isStreaming, setIsStreaming] = useState(false);
 
   const abortControllerRef = useRef<AbortController | null>(null);
+  const streamTimerRef = useRef<number | null>(null);
+  const activeAssistantMessageIdRef = useRef<string | null>(null);
+  const suppressAbortHandlingRef = useRef(false);
 
-  const submitQuestion = useCallback((question: string) => {
-    abortControllerRef.current = new AbortController();
+  const clearStreamTimer = useCallback(() => {
+    if (streamTimerRef.current !== null) {
+      window.clearInterval(streamTimerRef.current);
+      streamTimerRef.current = null;
+    }
+  }, []);
 
-    // 질문을 히스토리에 추가
-    setChatHistoryList((prev) => [...prev, { question, answer: '' }]);
+  useEffect(() => {
+    return () => {
+      clearStreamTimer();
+      abortControllerRef.current?.abort();
+    };
+  }, [clearStreamTimer]);
 
-    // 로딩 상태 시작
-    setIsLoading(true);
+  const submitQuestion = useCallback(
+    async (question: string) => {
+      const trimmedQuestion = question.trim();
+      if (!trimmedQuestion || isLoading) {
+        return;
+      }
 
-    // 2초 뒤 스트리밍 시작 (mock)
-    const MOCK_LOADING_DELAY = 2000;
-    const MOCK_STREAMING_SPEED = 30; // ms per character
-    setTimeout(() => {
-      // 로딩 완료, 스트리밍 시작
-      setIsLoading(false);
-      setIsStreaming(true);
+      abortControllerRef.current = new AbortController();
 
-      const lastAnswer = mockedAnswer;
-      let currentIndex = 0;
-      const intervalId = setInterval(() => {
-        // 요청 취소 또는 스트리밍 완료
-        if (
-          abortControllerRef.current?.signal.aborted ||
-          currentIndex >= lastAnswer.length
-        ) {
-          clearInterval(intervalId);
+      const userMessage = createMessage('user', trimmedQuestion);
+      const loadingMessage = createMessage('assistant', '', 'loading');
+      const loadingMessageId = loadingMessage.id;
+      activeAssistantMessageIdRef.current = loadingMessageId;
 
-          // 스트리밍 상태 초기화
+      const history = buildChatHistory(messages);
+
+      setMessages((prev) => [...prev, userMessage, loadingMessage]);
+      setIsLoading(true);
+
+      try {
+        const data = await postChat(
+          {
+            history,
+            question: trimmedQuestion,
+          },
+          {
+            signal: abortControllerRef.current.signal,
+          },
+        );
+
+        const answer = data.answer ?? '';
+        let cursor = 0;
+
+        const streamOneTick = () => {
+          const { nextCursor, partialAnswer, isDone } = getNextStreamProgress({
+            answer,
+            cursor,
+          });
+          cursor = nextCursor;
+
+          setMessages((prev) =>
+            prev.map((message) =>
+              message.id === loadingMessageId
+                ? {
+                    ...message,
+                    content: partialAnswer,
+                    status: isDone ? 'done' : 'streaming',
+                  }
+                : message,
+            ),
+          );
+
+          if (isDone) {
+            clearStreamTimer();
+            activeAssistantMessageIdRef.current = null;
+            abortControllerRef.current = null;
+            setIsLoading(false);
+          }
+        };
+
+        setMessages((prev) =>
+          prev.map((message) =>
+            message.id === loadingMessageId
+              ? {
+                  ...message,
+                  content: '',
+                  status: 'streaming',
+                }
+              : message,
+          ),
+        );
+
+        if (!answer) {
+          setMessages((prev) =>
+            prev.map((message) =>
+              message.id === loadingMessageId
+                ? {
+                    ...message,
+                    content: '',
+                    status: 'done',
+                  }
+                : message,
+            ),
+          );
+          activeAssistantMessageIdRef.current = null;
+          abortControllerRef.current = null;
           setIsLoading(false);
-          setIsStreaming(false);
-
           return;
         }
 
-        // 히스토리의 마지막 항목 answer를 직접 업데이트 (함수형 업데이트)
-        const newText = lastAnswer.slice(0, currentIndex + 1);
-        setChatHistoryList((prev) => [
-          ...prev.slice(0, -1),
-          {
-            question: prev[prev.length - 1].question,
-            answer: newText,
-          },
-        ]);
-        currentIndex++;
-      }, MOCK_STREAMING_SPEED);
-    }, MOCK_LOADING_DELAY);
-  }, []);
+        streamOneTick();
+        if (cursor < answer.length) {
+          streamTimerRef.current = window.setInterval(
+            streamOneTick,
+            STREAM_INTERVAL_MS,
+          );
+        }
+      } catch (error) {
+        clearStreamTimer();
+
+        const isAbortError =
+          error instanceof Error && error.name === 'AbortError';
+        if (isAbortError && suppressAbortHandlingRef.current) {
+          suppressAbortHandlingRef.current = false;
+          activeAssistantMessageIdRef.current = null;
+          abortControllerRef.current = null;
+          setIsLoading(false);
+          return;
+        }
+
+        const errorMessage = getUserFacingErrorMessage(error);
+
+        setMessages((prev) =>
+          prev.map((message) =>
+            message.id === loadingMessageId
+              ? {
+                  ...message,
+                  content: errorMessage,
+                  status: isAbortError ? 'done' : 'error',
+                }
+              : message,
+          ),
+        );
+        toast.error(errorMessage);
+
+        activeAssistantMessageIdRef.current = null;
+        abortControllerRef.current = null;
+        setIsLoading(false);
+      }
+    },
+    [clearStreamTimer, isLoading, messages],
+  );
 
   const cancelChat = useCallback(() => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
+    if (
+      streamTimerRef.current !== null &&
+      activeAssistantMessageIdRef.current
+    ) {
+      const activeMessageId = activeAssistantMessageIdRef.current;
+      clearStreamTimer();
+      setMessages((prev) =>
+        prev.map((message) =>
+          message.id === activeMessageId
+            ? {
+                ...message,
+                content: CANCEL_MESSAGE,
+                status: 'done',
+              }
+            : message,
+        ),
+      );
+      activeAssistantMessageIdRef.current = null;
+      abortControllerRef.current = null;
+      setIsLoading(false);
+      toast.error(CANCEL_MESSAGE);
+      return;
     }
-  }, []);
+
+    abortControllerRef.current?.abort();
+  }, [clearStreamTimer]);
 
   const resetChat = useCallback(() => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    setChatHistoryList([]);
+    suppressAbortHandlingRef.current = abortControllerRef.current !== null;
+    clearStreamTimer();
+    abortControllerRef.current?.abort();
+    activeAssistantMessageIdRef.current = null;
+    abortControllerRef.current = null;
+    setMessages([]);
     setIsLoading(false);
-    setIsStreaming(false);
-  }, []);
+  }, [clearStreamTimer]);
 
   return {
-    chatHistoryList,
+    messages,
     isLoading,
-    isStreaming,
     submitQuestion,
     cancelChat,
     resetChat,

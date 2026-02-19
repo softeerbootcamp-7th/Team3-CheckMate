@@ -1,18 +1,20 @@
 import type { RefObject } from 'react';
 
+import { cn } from '@/utils/shared/lib/utils';
+
 import { BotLoading } from './BotLoading';
 
 interface BotBubbleProps {
   message: string;
-  isLatest?: boolean;
   isLoading: boolean;
+  isError?: boolean;
   botBubbleRef?: RefObject<HTMLDivElement | null>;
 }
 
 export const BotBubble = ({
   message,
-  isLatest = false,
   isLoading = false,
+  isError = false,
   botBubbleRef,
 }: BotBubbleProps) => {
   return (
@@ -20,7 +22,11 @@ export const BotBubble = ({
       ref={botBubbleRef}
       className="body-small-medium text-grey-900 min-h-6 whitespace-pre-line"
     >
-      {isLatest && isLoading ? <BotLoading /> : message}
+      {isLoading ? (
+        <BotLoading />
+      ) : (
+        <p className={cn(isError && 'text-red-500')}>{message}</p>
+      )}
     </div>
   );
 };

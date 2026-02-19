@@ -17,19 +17,13 @@ import { ChatSheetTrigger } from './ChatSheetTrigger';
 export const ChatSheet = () => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [didStartChat, setDidStartChat] = useState<boolean>(false);
-  const {
-    chatHistoryList,
-    isLoading,
-    isStreaming,
-    submitQuestion,
-    cancelChat,
-    resetChat,
-  } = useChatStream();
+  const { messages, isLoading, submitQuestion, cancelChat, resetChat } =
+    useChatStream();
 
   const handleQuestionSubmit = useCallback(
     (question: string) => {
       setDidStartChat(true);
-      submitQuestion(question);
+      void submitQuestion(question);
     },
     [submitQuestion],
   );
@@ -88,11 +82,7 @@ export const ChatSheet = () => {
           {!didStartChat ? (
             <ChatStart onQuestionSelect={handleQuestionSelect} />
           ) : (
-            <ChatHistory
-              chatHistoryList={chatHistoryList}
-              isLoading={isLoading}
-              isStreaming={isStreaming}
-            />
+            <ChatHistory messages={messages} isLoading={isLoading} />
           )}
         </div>
 
@@ -100,7 +90,7 @@ export const ChatSheet = () => {
           <ChatQuestionInput
             onQuestionSubmit={handleQuestionSubmit}
             onQuestionCancel={handleChatCancel}
-            isLoading={isLoading || isStreaming}
+            isLoading={isLoading}
           />
         </SheetFooter>
       </SheetContent>

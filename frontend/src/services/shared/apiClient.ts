@@ -156,6 +156,18 @@ export const createApiClient = ({
       signal: controller.signal, // timeout
     };
 
+    const externalSignal = options.signal;
+    if (externalSignal?.aborted) {
+      controller.abort();
+    }
+
+    const handleExternalAbort = () => {
+      controller.abort();
+    };
+    externalSignal?.addEventListener('abort', handleExternalAbort, {
+      once: true,
+    });
+
     let request = new Request(_url, _options);
 
     /* request 인터셉터 호출 */
@@ -167,20 +179,23 @@ export const createApiClient = ({
     const clonedRequest = request.clone();
 
     /* fetch 호출 w/ timeout */
-    let response: Response;
     let timeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
-    const fetchPromise = fetch(request);
-    const timeoutPromise = new Promise<Response>((_, reject) => {
-      timeoutId = setTimeout(() => {
-        controller.abort();
-        reject(new ApiError('Request timeout', 504, 'TIMEOUT_ERROR'));
-      }, timeout);
-    });
+    let response: Response;
+    try {
+      const fetchPromise = fetch(request);
+      const timeoutPromise = new Promise<Response>((_, reject) => {
+        timeoutId = setTimeout(() => {
+          controller.abort();
+          reject(new ApiError('Request timeout', 504, 'TIMEOUT_ERROR'));
+        }, timeout);
+      });
 
-    response = await Promise.race([fetchPromise, timeoutPromise]);
-
-    if (timeoutId) {
-      clearTimeout(timeoutId);
+      response = await Promise.race([fetchPromise, timeoutPromise]);
+    } finally {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      externalSignal?.removeEventListener('abort', handleExternalAbort);
     }
 
     /* response HTTP 에러 시 인터셉터 호출 */

@@ -1,42 +1,41 @@
 import { memo, type RefObject } from 'react';
 
+import type { ChatMessage } from '@/types/ai-chat';
+
 import { BotBubble } from './BotBubble';
 import { UserBubble } from './UserBubble';
 
 interface ChatHistoryItemProps {
-  question: string;
-  answer: string;
-  isLatest?: boolean;
-  isLoading: boolean;
-  botBubbleRef?: RefObject<HTMLDivElement | null>;
+  message: ChatMessage;
   userBubbleRef?: RefObject<HTMLDivElement | null>;
+  botBubbleRef?: RefObject<HTMLDivElement | null>;
 }
 const ChatHistoryItemComponent = ({
-  question,
-  answer,
-  isLatest = false,
-  isLoading,
-  botBubbleRef,
+  message,
   userBubbleRef,
+  botBubbleRef,
 }: ChatHistoryItemProps) => {
+  if (message.role === 'user') {
+    return (
+      <UserBubble message={message.content} userBubbleRef={userBubbleRef} />
+    );
+  }
+
   return (
-    <>
-      <UserBubble message={question} userBubbleRef={userBubbleRef} />
-      <BotBubble
-        message={answer}
-        isLatest={isLatest}
-        isLoading={isLoading}
-        botBubbleRef={botBubbleRef}
-      />
-    </>
+    <BotBubble
+      message={message.content}
+      isLoading={message.status === 'loading'}
+      isError={message.status === 'error'}
+      botBubbleRef={botBubbleRef}
+    />
   );
 };
 
 export const ChatHistoryItem = memo(
   ChatHistoryItemComponent,
   (prev, next) =>
-    prev.question === next.question &&
-    prev.answer === next.answer &&
-    prev.isLatest === next.isLatest &&
-    prev.isLoading === next.isLoading,
+    prev.message.id === next.message.id &&
+    prev.message.role === next.message.role &&
+    prev.message.content === next.message.content &&
+    prev.message.status === next.message.status,
 );
