@@ -63,16 +63,20 @@ export const SalesTrendContent = ({
           <span>주문건수</span>
         </div>
       </div>
-      <BarLineChart
-        viewBoxWidth={trendChartWidthValue}
-        viewBoxHeight={trendChartHeightValue}
-        barLineChartSeries={salesTrendData}
-        hasXAxis
-        showYGuideLine
-        yGuideLineCount={5}
-        activeTooltip={false}
-        xAxisType="right-arrow"
-      />
+      <div
+        style={{ width: trendChartWidthValue, height: trendChartHeightValue }}
+      >
+        <BarLineChart
+          viewBoxWidth={trendChartWidthValue}
+          viewBoxHeight={trendChartHeightValue}
+          barLineChartSeries={salesTrendData}
+          hasXAxis
+          showYGuideLine
+          yGuideLineCount={5}
+          activeTooltip={false}
+          xAxisType="right-arrow"
+        />
+      </div>
     </article>
   );
 };
