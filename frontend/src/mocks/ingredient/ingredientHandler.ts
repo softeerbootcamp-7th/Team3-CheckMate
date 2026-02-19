@@ -2,18 +2,30 @@ import { HttpResponse } from 'msw';
 
 import { type ErrorResponse, type SuccessResponse } from '@/services/shared';
 import type { GetCategoryMenusResponseDto } from '@/types/ingredient';
-import type { GetMenuIngredientsResponseDto } from '@/types/ingredient/dto';
+import type {
+  GetMenuIngredientsResponseDto,
+  PostIngredientRegisterRequestDto,
+} from '@/types/ingredient/dto';
 
 import { CATEGORY_MENUS, INGREDIENTS_BY_MENU_ID } from '../data/ingredient';
 import { mswHttp } from '../shared';
 
 const getHandler = [
   mswHttp.get('/api/menus', () => {
+    const data = CATEGORY_MENUS.map((category) => ({
+      ...category,
+      menus: category.menus.map((menu) => ({
+        ...menu,
+        hasIngredients:
+          (INGREDIENTS_BY_MENU_ID[menu.menuId]?.ingredients.length ?? 0) > 0,
+      })),
+    }));
+
     return HttpResponse.json<SuccessResponse<GetCategoryMenusResponseDto>>(
       {
         success: true,
         message: 'Success',
-        data: CATEGORY_MENUS,
+        data,
       },
       {
         status: 200,
@@ -46,6 +58,46 @@ const getHandler = [
       },
     );
   }),
+
+  // 메뉴에 식자재 등록
+  mswHttp.post(
+    '/api/menus/:menuId/ingredients',
+    async ({ params, request }) => {
+      const menuId = Number(params.menuId);
+
+      let body: PostIngredientRegisterRequestDto;
+
+      try {
+        body = (await request.json()) as PostIngredientRegisterRequestDto;
+      } catch {
+        return HttpResponse.json<ErrorResponse>(
+          {
+            success: false,
+            message: '요청 body가 JSON 형식이 아닙니다.',
+            errorCode: '400',
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      // 저장(등록)
+      INGREDIENTS_BY_MENU_ID[menuId].ingredients = body.ingredients;
+
+      // 응답 형태는 너희 백엔드 스펙에 맞춰 조정하면 됨
+      return HttpResponse.json<SuccessResponse>(
+        {
+          success: true,
+          message: 'Success',
+          data: {},
+        },
+        {
+          status: 201,
+        },
+      );
+    },
+  ),
 ];
 
 export const ingredientHandler = [...getHandler];

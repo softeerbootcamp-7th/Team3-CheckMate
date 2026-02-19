@@ -13,10 +13,7 @@ export const INGREDIENTS_BY_MENU_ID: Record<
   },
   2: {
     menuName: '카페 라떼',
-    ingredients: [
-      { name: '원두', quantity: 18, unit: 'G' },
-      { name: '우유', quantity: 200, unit: 'ML' },
-    ],
+    ingredients: [],
   },
   3: {
     menuName: '바닐라 라떼',
@@ -41,11 +38,7 @@ export const INGREDIENTS_BY_MENU_ID: Record<
   },
   21: {
     menuName: '치즈 케이크',
-    ingredients: [
-      { name: '크림치즈', quantity: 120, unit: 'G' },
-      { name: '설탕', quantity: 20, unit: 'G' },
-      { name: '생크림', quantity: 60, unit: 'ML' },
-    ],
+    ingredients: [],
   },
   22: {
     menuName: '초코 브라우니',
@@ -73,10 +66,6 @@ export const INGREDIENTS_BY_MENU_ID: Record<
   },
   26: {
     menuName: '초코 머핀',
-    ingredients: [
-      { name: '밀가루', quantity: 100, unit: 'G' },
-      { name: '코코아 파우더', quantity: 15, unit: 'G' },
-      { name: '우유', quantity: 60, unit: 'ML' },
-    ],
+    ingredients: [],
   },
 };
