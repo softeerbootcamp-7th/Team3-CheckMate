@@ -1,25 +1,19 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
-
-import { useDashboardTabsContext } from '@/hooks/dashboard';
-import { dashboardOptions } from '@/services/dashboard';
+import {
+  useDashboardCardList,
+  useDashboardCardSubscription,
+} from '@/hooks/dashboard';
 
 import { DashboardEmptyContent } from './DashboardEmptyContent';
 import { DashboardMainContent } from './DashboardMainContent';
 
 export const DashboardMain = () => {
-  const { currentDashboardId } = useDashboardTabsContext();
+  const { cardList } = useDashboardCardList();
 
-  const { data: cardList } = useSuspenseQuery(
-    dashboardOptions.cardList(currentDashboardId),
-  );
+  useDashboardCardSubscription({ cardList });
 
-  return (
-    <>
-      {cardList?.length > 0 ? (
-        <DashboardMainContent cards={cardList} />
-      ) : (
-        <DashboardEmptyContent />
-      )}
-    </>
-  );
+  if (!cardList || cardList.length === 0) {
+    return <DashboardEmptyContent />;
+  }
+
+  return <DashboardMainContent cards={cardList} />;
 };
