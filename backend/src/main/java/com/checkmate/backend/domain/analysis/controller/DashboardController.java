@@ -384,7 +384,7 @@ public class DashboardController {
 
     @Operation(
             summary = "대시보드 지표 조회 API (용범)",
-            description = "대시보드 지표를 조회합니다.<br>" + "SSE 최초 연결 또는 재연결 시 사용할 있습니다.")
+            description = "대시보드 지표를 조회합니다.<br>" + "SSE 최초 연결 또는 재연결 시 사용할 수 있습니다.")
     @ApiResponses({
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "200",
