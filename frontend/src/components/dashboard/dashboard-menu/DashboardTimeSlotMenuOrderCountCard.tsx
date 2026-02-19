@@ -6,7 +6,7 @@ import {
   type ExtractCardCodes,
 } from '@/constants/dashboard';
 import { useDashboardCardDetailQueryOption } from '@/hooks/dashboard';
-import type { GetDashboardTimeSlotMenuOrderCountResponseDto } from '@/types/menu';
+import type { GetDetailTimeSlotMenuOrderCountResponseDto } from '@/types/menu';
 
 type DashboardTimeSlotMenuOrderCountCardCodes = ExtractCardCodes<
   typeof DASHBOARD_METRICS.MENU.sections.MENU_SALES_PATTERN.items.TIME_BASED_MENU_ORDER_COUNT
@@ -22,16 +22,17 @@ export const DashboardTimeSlotMenuOrderCountCard = ({
   const { createCardDetailQuery } = useDashboardCardDetailQueryOption();
 
   const queryOption =
-    createCardDetailQuery<GetDashboardTimeSlotMenuOrderCountResponseDto>(
-      cardCode,
-    );
+    createCardDetailQuery<GetDetailTimeSlotMenuOrderCountResponseDto>(cardCode);
 
   const { data } = useSuspenseQuery(queryOption);
 
+  const timeSlot2H = data.items[0]?.timeSlot2H;
+  const menuName = data.items[0]?.menus[0]?.menuName;
+
   return (
     <TimeSlotMenuOrderCountCardContent
-      timeSlot2H={data.timeSlot2H}
-      menuName={data.menuName}
+      timeSlot2H={timeSlot2H}
+      menuName={menuName}
     />
   );
 };
