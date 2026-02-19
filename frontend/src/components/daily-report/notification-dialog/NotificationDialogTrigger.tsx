@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { BellIcon } from '@/assets/icons';
-import { Badge } from '@/components/shared';
+import { Badge, FetchBoundary } from '@/components/shared';
 import {
   Button,
   Popover,
@@ -10,23 +10,31 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from '@/components/shared/shadcn-ui';
-import { NOTIFICATION_DATA } from '@/mocks/data/daily-report';
+import { deleteAllNotifications } from '@/services/daily-report';
+import { notificationOptions } from '@/services/daily-report/options';
 
-import { NotificationEmpty } from './NotificationEmpty';
-import { NotificationList } from './NotificationList';
+import { NotificationDialogContent } from './NotificationDialogContent';
 
 export const NotificationDialogTrigger = () => {
-  const [notifications, setNotifications] = useState(NOTIFICATION_DATA); // 더미 데이터
+  const queryClient = useQueryClient();
+  const { data: notifications } = useQuery(notificationOptions.list);
+
+  const mutateDeleteAll = useMutation({
+    mutationFn: () => deleteAllNotifications(),
+    onSettled: () => {
+      queryClient.invalidateQueries(notificationOptions.list);
+    },
+  });
 
   const handleDeleteAll = () => {
-    setNotifications([]);
+    mutateDeleteAll.mutate();
   };
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button className="bg-grey-0 rounded-unlimit size-15">
-          <Badge show={notifications.length > 0}>
+          <Badge show={notifications && notifications.length > 0}>
             <BellIcon className="size-6" />
           </Badge>
         </Button>
@@ -34,7 +42,7 @@ export const NotificationDialogTrigger = () => {
       <PopoverContent
         align="start"
         side="left"
-        className="bg-special-card-bg rounded-300 shadow-card-floating! w-70 translate-x-[-8px] border-none p-4 pt-4.5"
+        className="bg-special-card-bg rounded-300 shadow-card-floating! h-102.5 w-70 translate-x-[-8px] border-none p-4 pt-4.5"
       >
         <PopoverHeader className="flex justify-between">
           <PopoverTitle className="body-small-medium text-grey-900 w-fit">
@@ -47,11 +55,9 @@ export const NotificationDialogTrigger = () => {
             전체삭제
           </Button>
         </PopoverHeader>
-        {notifications.length > 0 ? (
-          <NotificationList notifications={notifications} />
-        ) : (
-          <NotificationEmpty />
-        )}
+        <FetchBoundary>
+          <NotificationDialogContent />
+        </FetchBoundary>
       </PopoverContent>
     </Popover>
   );
