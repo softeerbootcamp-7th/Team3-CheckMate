@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { DefaultCardWrapper } from '@/components/shared';
 import { getPeriodComparisonMessage } from '@/utils/sales';
 import { cn, formatNumber } from '@/utils/shared';
 
@@ -8,21 +9,16 @@ import { usePeriodTypeContext } from '../period-type-provider';
 interface SalesComparisonProps {
   title: string;
   unit: string;
-  lastValue?: number;
+  differenceAmount: number;
   currentValue: number;
 }
 export const SalesComparison = ({
   title,
   unit,
-  lastValue,
+  differenceAmount,
   currentValue,
 }: SalesComparisonProps) => {
   const { periodType } = usePeriodTypeContext();
-
-  const deltaValue = useMemo(
-    () => (lastValue ? currentValue - lastValue : 0),
-    [currentValue, lastValue],
-  );
 
   const comparisonMessage = useMemo(
     () =>
@@ -33,8 +29,7 @@ export const SalesComparison = ({
   );
 
   return (
-    <article className="card h-57">
-      <h3>{title}</h3>
+    <DefaultCardWrapper title={title} className="h-57">
       <div className="mt-12 mb-5 flex items-center gap-1">
         <strong className="headline-medium-semibold">
           {formatNumber(currentValue)}
@@ -48,14 +43,14 @@ export const SalesComparison = ({
       <p
         className={cn(
           'body-large-semibold text-brand-main mt-1',
-          deltaValue < 0 && 'text-others-negative',
-          deltaValue === 0 && 'text-grey-500',
+          differenceAmount < 0 && 'text-others-negative',
+          differenceAmount === 0 && 'text-grey-500',
         )}
       >
-        {deltaValue >= 0 && '+'}
-        {formatNumber(deltaValue)}
+        {differenceAmount >= 0 && '+'}
+        {formatNumber(differenceAmount ?? 0)}
         {unit}
       </p>
-    </article>
+    </DefaultCardWrapper>
   );
 };
