@@ -2,6 +2,7 @@ export type {
   GetCategoryMenusResponseDto,
   GetMenuIngredientsResponseDto,
   PostIngredientRegisterRequestDto,
+  PutIngredientRegisterRequestDto,
 } from './dto';
 export type { MenuInfo, CategoryMenu } from './MenuInfo';
 export type {
