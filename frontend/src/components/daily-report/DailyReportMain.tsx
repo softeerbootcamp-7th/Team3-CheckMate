@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
 import { RevenueCalendar } from '../shared';
+import { FetchBoundary } from '../shared/fetch-boundary';
 
+import { DailyReportEmpty } from './daily-report-content/DailyReportEmpty';
 import { DailyReportContent } from './daily-report-content';
 
 export const DailyReportMain = () => {
@@ -17,7 +19,13 @@ export const DailyReportMain = () => {
           setSelectedDate={setSelectedDate}
         />
       </div>
-      <DailyReportContent selectedDate={selectedDate} />
+      <div className="bg-grey-100 rounded-400 h-176.5 w-162">
+        <FetchBoundary
+          ErrorFallback={(props) => <DailyReportEmpty {...props} />}
+        >
+          <DailyReportContent selectedDate={selectedDate} />
+        </FetchBoundary>
+      </div>
     </div>
   );
 };
