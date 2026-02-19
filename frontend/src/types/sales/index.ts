@@ -18,3 +18,4 @@ export type {
   SalesByDaySummary,
   SalesByDayItem,
 } from './dashboard-sales-pattern';
+export type { SalesTrendItem } from './dashboard-sales-trend';
