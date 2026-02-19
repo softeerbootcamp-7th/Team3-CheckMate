@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   useMutation,
@@ -112,21 +112,14 @@ export const useDashboardTabsDialog = () => {
   const handleSave = async () => {
     const trimmedTabs = newTabs.map((tab) => tab?.trim()); // trim 처리
 
-    // 중복 확인
-    const filteredTabs = trimmedTabs.filter((tab) => tab) as string[]; // undefined 및 빈 문자열 제거
-    const hasDuplicate = new Set(filteredTabs).size !== filteredTabs.length;
-    if (hasDuplicate) {
-      return;
-    }
-    // 글자 수 확인
-    const isLengthExceed = filteredTabs.some((tab) => tab.length > 6);
-    if (isLengthExceed) {
+    if (!validateTabs()) {
+      toast('입력하신 내용을 저장할 수 없어요.');
       return;
     }
 
     // 삭제될 경우 현재 선택 대시보드가 삭제되면, 현재 대시보드 변경
     const currentDashboardIndex = tabs.findIndex(
-      (t) => t.id === currentDashboardId,
+      (tab) => tab.id === currentDashboardId,
     );
     if (isDeleted[currentDashboardIndex]) {
       setCurrentDashboardId(tabs[0].id);
@@ -187,8 +180,46 @@ export const useDashboardTabsDialog = () => {
 
   const handleCancel = () => {
     setNewTabs(tabs.map((tab) => tab.name));
-    toast('변경 사항이 저장되지 않았어요.');
     closeDialog();
+  };
+
+  /** 원본과 비교하여 변경이 있는지 여부 */
+  const isDirty = useMemo(() => {
+    const trimmedTabs = newTabs.map((tab) => tab?.trim());
+    const filteredTabs = trimmedTabs.filter((tab) => tab) as string[];
+    const originalTabs = tabs.map((tab) => tab.name);
+
+    // 개수가 다르면 변경임
+    if (filteredTabs.length !== originalTabs.length) {
+      return true;
+    }
+
+    // 각 탭 이름 비교
+    return filteredTabs.some((tab, index) => tab !== originalTabs[index]);
+  }, [newTabs, tabs]);
+
+  const validateTabs = () => {
+    const trimmedTabsMap = new Map<string, number>();
+
+    for (let i = 0; i < newTabs.length; i++) {
+      const tab = newTabs[i];
+      if (tab === undefined) {
+        continue;
+      }
+
+      const trimmed = tab.trim();
+      if (!trimmed) {
+        continue;
+      }
+
+      if (trimmed.length > 6 || trimmedTabsMap.has(trimmed)) {
+        return false;
+      }
+
+      trimmedTabsMap.set(trimmed, i);
+    }
+
+    return true;
   };
 
   return {
@@ -202,6 +233,8 @@ export const useDashboardTabsDialog = () => {
     handleAddClick,
     handleSave,
     handleCancel,
+    isDirty,
+    validateTabs,
   } as const;
 };
 
