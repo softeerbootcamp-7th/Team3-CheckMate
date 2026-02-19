@@ -125,7 +125,7 @@ public class StoreController {
             @Valid @RequestBody StoreCreateRequestDTO storeCreateRequestDTO) {
         storeService.create(member.memberId(), storeCreateRequestDTO);
 
-        return ApiResponse.success_only(STORE_CREATE_SUCCESS);
+        return ApiResponse.success(STORE_CREATE_SUCCESS);
     }
 
     @Operation(
@@ -263,7 +263,7 @@ public class StoreController {
     public ResponseEntity<ApiResponse<Void>> connectPOS(@LoginMember MemberSession member) {
         storeService.connectPOS(member.storeId());
 
-        return ApiResponse.success_only(POS_CONNECT_START);
+        return ApiResponse.success(POS_CONNECT_START);
     }
 
     /*

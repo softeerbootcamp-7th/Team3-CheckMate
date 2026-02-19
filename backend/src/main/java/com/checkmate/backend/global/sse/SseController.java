@@ -96,7 +96,7 @@ public class SseController {
 
         sseEmitterManager.subscribe(storeId, subscriptionTopicsRequest);
 
-        return ApiResponse.success_only(SSE_SUBSCRIBE_SUCCESS);
+        return ApiResponse.success(SSE_SUBSCRIBE_SUCCESS);
     }
 
     @Operation(
@@ -122,7 +122,7 @@ public class SseController {
 
         sseEmitterManager.unsubscribe(storeId, subscriptionTopicsRequest);
 
-        return ApiResponse.success_only(SSE_UNSUBSCRIBE_SUCCESS);
+        return ApiResponse.success(SSE_UNSUBSCRIBE_SUCCESS);
     }
 
     @Operation(summary = "SSE 연결 종료 API")
@@ -141,7 +141,7 @@ public class SseController {
 
         sseEmitterManager.removeClient(storeId);
 
-        return ApiResponse.success_only(SSE_DISCONNECT_SUCCESS);
+        return ApiResponse.success(SSE_DISCONNECT_SUCCESS);
     }
 
     @Operation(summary = "SSE 연결 조회 API (용범)")

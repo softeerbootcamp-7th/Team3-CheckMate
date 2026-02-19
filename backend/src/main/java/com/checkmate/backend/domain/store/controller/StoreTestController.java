@@ -57,7 +57,7 @@ public class StoreTestController {
 
         storeRepository.delete(store);
 
-        return ApiResponse.success_only(STORE_DELETE_SUCCESS);
+        return ApiResponse.success(STORE_DELETE_SUCCESS);
     }
 
     @Operation(summary = "포스 삭제 끊기 API (용범)")
@@ -73,6 +73,6 @@ public class StoreTestController {
     public ResponseEntity<ApiResponse<Void>> deletePos(@LoginMember MemberSession member) {
         posRepository.deletePosByStoreId(member.storeId());
 
-        return ApiResponse.success_only(POS_DELETE_SUCCESS);
+        return ApiResponse.success(POS_DELETE_SUCCESS);
     }
 }
