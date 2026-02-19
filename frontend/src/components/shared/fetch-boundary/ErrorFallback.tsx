@@ -11,7 +11,7 @@ export const ErrorFallback = ({ resetErrorBoundary }: FallbackProps) => {
     reset(); // tanstack Query의 에러 상태를 초기화
   };
   return (
-    <div className="flex h-full w-full flex-col items-center gap-3">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-3">
       <pre className="body-medium-medium text-center">오류가 발생했습니다!</pre>
 
       <Button

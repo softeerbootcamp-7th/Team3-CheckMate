@@ -3,12 +3,15 @@ import {
   DashboardTabsDialog,
   DashboardTabsProvider,
 } from '@/components/dashboard';
+import { FetchBoundary } from '@/components/shared';
 
 export const DashboardPage = () => {
   return (
     <DashboardTabsProvider>
-      <DashboardLayout />
-      <DashboardTabsDialog />
+      <FetchBoundary>
+        <DashboardLayout />
+        <DashboardTabsDialog />
+      </FetchBoundary>
     </DashboardTabsProvider>
   );
 };
