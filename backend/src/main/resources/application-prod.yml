@@ -66,3 +66,25 @@ gemini:
     key: ${GEMINI_API_KEY_SERVER}
   model-name: gemini-3-flash-preview
   lite-model-name: gemini-2.5-flash-lite
+
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+        # Actuator에서 HTTP로 외부에 공개할 엔드포인트 목록
+        # health      : 서버 및 의존성(DB, Redis 등) 상태 확인
+        # metrics     : JVM, CPU, HTTP 요청 등 애플리케이션 메트릭 조회
+        # prometheus  : Prometheus가 수집할 수 있는 메트릭 포맷 제공
+  metrics:
+    tags:
+      application: checkmate-be
+  endpoint:
+    health:
+      show-details: always
+      # health 엔드포인트에서 상세 정보 노출 여부 설정
+      # never           : 상태(UP/DOWN)만 반환 (기본값)
+      # when-authorized : 인증된 사용자에게만 상세 정보 공개 <- 보통 운영에서
+      # always          : 누구에게나 상세 상태 정보 공개

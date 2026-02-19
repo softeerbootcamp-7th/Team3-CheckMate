@@ -2,7 +2,9 @@ package com.checkmate.backend.domain.menu.service;
 
 import static com.checkmate.backend.global.response.ErrorStatus.*;
 
+import com.checkmate.backend.domain.menu.dto.IngredientCommand;
 import com.checkmate.backend.domain.menu.dto.request.IngredientCreateRequestDTO;
+import com.checkmate.backend.domain.menu.dto.request.IngredientUpdateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.request.MenuCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuCategoryResponseDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuRecipeResponse;
@@ -110,15 +112,63 @@ public class MenuService {
             throw new ForbiddenException(MENU_ACCESS_DENIED);
         }
 
-        /*
-         * 레시피 등록
-         *
-         * 식재료 없으면 insert 있으면 그거 사용해야 함.
-         * */
         List<IngredientCreateRequestDTO.Ingredient> ingredientDTOs =
                 Optional.ofNullable(ingredientCreateRequestDTO.ingredients()).orElse(List.of());
 
-        for (IngredientCreateRequestDTO.Ingredient dto : ingredientDTOs) {
+        registerRecipes(storeId, menuVersion, ingredientDTOs);
+    }
+
+    @Transactional
+    public void updateMenuIngredients(
+            Long storeId, Long menuId, IngredientUpdateRequestDTO ingredientUpdateRequestDTO) {
+        MenuVersion menuVersion =
+                menuVersionRepository
+                        .findMenuVersionByMenuIdWithMenuAndStore(menuId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[updateMenuIngredients][menu is not found][menuId= {}]",
+                                            menuId);
+                                    return new NotFoundException(MENU_NOT_FOUND_EXCEPTION);
+                                });
+
+        // 소유자 검증
+        Long menuStoreId = menuVersion.getMenu().getStore().getId();
+
+        if (!storeId.equals(menuStoreId)) {
+            log.warn(
+                    "[updateMenuIngredients][menu access denied][currentStoreId={}, menuStoreId={}]",
+                    storeId,
+                    menuStoreId);
+            throw new ForbiddenException(MENU_ACCESS_DENIED);
+        }
+
+        // 기존 메뉴 버전 비활성화
+        menuVersion.deactivate();
+
+        // 새로운 메뉴 버전 생성
+        MenuVersion newVersion =
+                MenuVersion.builder()
+                        .price(menuVersion.getPrice())
+                        .active(true)
+                        .menu(menuVersion.getMenu())
+                        .build();
+
+        menuVersionRepository.save(newVersion);
+
+        List<IngredientUpdateRequestDTO.Ingredient> ingredientDTOs =
+                Optional.ofNullable(ingredientUpdateRequestDTO.ingredients()).orElse(List.of());
+
+        registerRecipes(storeId, newVersion, ingredientDTOs);
+    }
+
+    private void registerRecipes(
+            Long storeId,
+            MenuVersion menuVersion,
+            List<? extends IngredientCommand> ingredientDTOs) {
+
+        for (IngredientCommand dto : ingredientDTOs) {
+
             Unit unit = dto.unit();
             String baseUnit = unit.baseUnitValue();
 
@@ -130,19 +180,17 @@ public class MenuService {
                             .orElseThrow(
                                     () -> {
                                         log.warn(
-                                                "[addIngredientsToMenu][Ingredient is not found][storeId={}, name={}]",
+                                                "[registerRecipes][ingredient not found][storeId={}, name={}]",
                                                 storeId,
                                                 dto.name());
                                         return new ForbiddenException(
                                                 INGREDIENT_NOT_FUND_EXCEPTION);
                                     });
 
-            Integer quantity = dto.quantity();
-
             recipeRepository.save(
                     Recipe.builder()
-                            .quantity(quantity)
-                            .quantityNormalized(unit.normalize(quantity))
+                            .quantity(dto.quantity())
+                            .quantityNormalized(unit.normalize(dto.quantity()))
                             .unit(unit.getValue())
                             .menuVersion(menuVersion)
                             .ingredient(ingredient)

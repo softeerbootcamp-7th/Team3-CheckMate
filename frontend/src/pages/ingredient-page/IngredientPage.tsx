@@ -1,5 +1,5 @@
 import { IngredientManagement } from '@/components/ingredient';
-import { FetchBoundary } from '@/components/shared/fetch-boundary';
+import { FetchBoundary } from '@/components/shared';
 
 export const IngredientPage = () => {
   return (

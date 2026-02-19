@@ -23,7 +23,7 @@ public record ApiResponse<T>(
         return ResponseEntity.status(status.getHttpStatus()).body(apiResponse);
     }
 
-    public static ResponseEntity<ApiResponse<Void>> success_only(SuccessStatus status) {
+    public static ResponseEntity<ApiResponse<Void>> success(SuccessStatus status) {
         ApiResponse<Void> apiResponse =
                 ApiResponse.<Void>builder().success(true).message(status.getMessage()).build();
 
@@ -62,5 +62,9 @@ public record ApiResponse<T>(
                 .message(status.getMessage())
                 .data(data)
                 .build();
+    }
+
+    public static ApiResponse<Void> createSuccess(SuccessStatus status) {
+        return ApiResponse.<Void>builder().success(true).message(status.getMessage()).build();
     }
 }

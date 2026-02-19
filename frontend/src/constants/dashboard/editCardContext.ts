@@ -1,11 +1,31 @@
-import { createContext, type Dispatch, type SetStateAction } from 'react';
+import {
+  createContext,
+  type Dispatch,
+  type RefObject,
+  type SetStateAction,
+} from 'react';
 
-import type { MetricCardCode } from './dashboardMetricCards';
+import type { DashboardCard, DragState, GhostState } from '@/types/dashboard';
 
 interface EditCardContextType {
-  initGrid: (MetricCardCode | null)[][];
-  grid: (MetricCardCode | null)[][];
-  setGrid: Dispatch<SetStateAction<(MetricCardCode | null)[][]>>;
+  initPlacedCards: DashboardCard[];
+
+  placedCards: DashboardCard[];
+  setPlacedCards: Dispatch<SetStateAction<DashboardCard[]>>;
+
+  gridRef: RefObject<HTMLDivElement | null>;
+
+  dragState: DragState | null;
+  setDragState: Dispatch<SetStateAction<DragState | null>>;
+
+  ghost: GhostState | null;
+  setGhost: Dispatch<SetStateAction<GhostState | null>>;
+
+  tempLayout: DashboardCard[] | null;
+  setTempLayout: Dispatch<SetStateAction<DashboardCard[] | null>>;
+
+  isOverList: boolean;
+  setIsOverList: Dispatch<SetStateAction<boolean>>;
 }
 
 export const EditCardContext = createContext<EditCardContextType | undefined>(
