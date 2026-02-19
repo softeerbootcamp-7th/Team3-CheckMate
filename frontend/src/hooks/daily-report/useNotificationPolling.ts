@@ -43,11 +43,6 @@ export const useNotificationPolling = () => {
       const existsUnread = await queryClient.fetchQuery(
         notificationOptions.existsUnread,
       );
-
-      if (!mountedRef.current) {
-        return;
-      }
-
       if (existsUnread) {
         // 미열람 알림이 있다면 알림 목록을 불러오고, 타임 정보를 갱신
         await queryClient.fetchQuery(notificationOptions.list);
