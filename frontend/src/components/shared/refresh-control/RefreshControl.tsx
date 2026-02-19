@@ -22,7 +22,7 @@ export const RefreshControl = ({
           : '업데이트 시간 정보가 없습니다'}
       </span>
       <Button
-        className="rounded-unlimit bg-grey-300 border-grey-300 hover:border-grey-900 flex h-fit! items-center justify-center border p-0.5!"
+        className="rounded-unlimit bg-grey-300 hover:border-grey-900 flex h-fit! items-center justify-center border border-transparent p-0.5!"
         onClick={onRefresh}
         disabled={isLoading} // 새로고침 중일 때 버튼 비활성화
         aria-label="데이터 새로고침 버튼"
