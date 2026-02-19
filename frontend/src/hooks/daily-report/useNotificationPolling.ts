@@ -31,8 +31,8 @@ export const useNotificationPolling = () => {
 
     // 현재 시간이 리포트 발행 시간 범위 내에 있는지 interval마다 체크
     const now = new Date();
-    const closingTimeData = queryClient.getQueryData(
-      notificationOptions.closingTime.queryKey,
+    const closingTimeData = await queryClient.fetchQuery(
+      notificationOptions.closingTime,
     );
 
     if (closingTimeData) {
