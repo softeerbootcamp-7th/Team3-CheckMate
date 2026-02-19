@@ -37,3 +37,43 @@ export const formatRelativeTime = (date: Date | null | undefined): string => {
     day: 'numeric',
   }).format(date);
 };
+
+export const getRelativeDatetimeWithOneHourAfter = (
+  date: Date | null | undefined,
+): string => {
+  if (!date) {
+    return '';
+  }
+  // 상대날짜 (e.g. 오늘, 어제, 내일, ...) + 일반 시간
+  const now = new Date();
+  const diffInDays = Math.floor(
+    (date.getTime() - now.getTime()) / ONE_DAY_IN_MS,
+  );
+
+  const oneHourAfter = new Date(date.getTime() + ONE_HOUR_IN_MS);
+
+  if (diffInDays >= -1 && diffInDays <= 1) {
+    // 오늘, 어제, 내일
+    const relativeDay = rtfKo.format(diffInDays, 'day');
+    const timeString = new Intl.DateTimeFormat('ko-KR', {
+      hour: 'numeric',
+    }).format(date);
+    const timeStringPlusOneHour = new Intl.DateTimeFormat('ko-KR', {
+      hour: 'numeric',
+    }).format(oneHourAfter);
+
+    return `${relativeDay} ${timeString}에서 ${timeStringPlusOneHour} 사이`;
+  } else {
+    // 2일 이상 차이나는 경우 일반 날짜
+    const dateString = new Intl.DateTimeFormat('ko-KR', {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+    }).format(date);
+    const timeStringPlusOneHour = new Intl.DateTimeFormat('ko-KR', {
+      hour: 'numeric',
+    }).format(oneHourAfter);
+
+    return `${dateString}에서 ${timeStringPlusOneHour} 사이`;
+  }
+};
