@@ -1,4 +1,7 @@
-import { DAILY_REPORT_CONTENT_DATA } from '@/mocks/data/daily-report';
+import { useSuspenseQuery } from '@tanstack/react-query';
+
+import { dailyReportOptions } from '@/services/daily-report/options';
+import { formatDateISO } from '@/utils/shared';
 
 import { DailyReportEvaluation } from './DailyReportEvaluation';
 import { DailyReportInsight } from './DailyReportInsight';
@@ -12,12 +15,15 @@ interface DailyReportContentProps {
 export const DailyReportContent = ({
   selectedDate,
 }: DailyReportContentProps) => {
-  const content = DAILY_REPORT_CONTENT_DATA; // mock data 사용
+  const now = new Date();
+  const { data: content } = useSuspenseQuery(
+    dailyReportOptions.content(formatDateISO(selectedDate ?? now)),
+  );
 
   const { title, status_label, kpi, insights, strategies } = content;
 
   return (
-    <div className="bg-special-card-bg rounded-400 h-176.5 w-162 overflow-y-auto p-6">
+    <div className="bg-special-card-bg overflow-y-auto p-6">
       <div className="flex items-center justify-between">
         <DailyReportTitle selectedDate={selectedDate} title={title} />
         <DailyReportEvaluation status_label={status_label} />

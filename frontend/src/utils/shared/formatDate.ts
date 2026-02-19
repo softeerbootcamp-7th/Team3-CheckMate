@@ -41,3 +41,7 @@ export const formatDateLocalized = (date?: Date) => {
     day: 'numeric',
   });
 };
+
+export const formatDateISO = (date: Date) => {
+  return date.toISOString().slice(0, 10);
+};
