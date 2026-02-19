@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Outlet, type UIMatch, useMatches } from 'react-router-dom';
 
+import { NotificationPollingStarter } from '@/components/shared/notification/NotificationPollingStarter';
 import type { RouteHandle } from '@/types/shared';
 import { cn } from '@/utils/shared';
 
@@ -17,6 +18,9 @@ export const MainLayout = () => {
   const mainRef = useRef<HTMLDivElement>(null);
   return (
     <div className="flex h-screen w-full">
+      {/* 알림 API 폴링 */}
+      <NotificationPollingStarter />
+
       {!hideSidebar && <Sidebar />}
       <main
         ref={mainRef}
