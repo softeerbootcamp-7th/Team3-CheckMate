@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -130,7 +131,8 @@ public class ReportWorker {
 
         reportRepository.save(report);
 
-        notificationService.createNotification(store, report.getTitleFullText());
+        String formattedDate = report.getTargetDate().format(DateTimeFormatter.ofPattern("M월 d일"));
+        notificationService.createNotification(store, formattedDate);
     }
 
     private Report.KpiItem toKpiItem(JsonNode node) {
