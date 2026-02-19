@@ -10,8 +10,10 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from '@/components/shared/shadcn-ui';
-import { deleteAllNotifications } from '@/services/daily-report';
-import { notificationOptions } from '@/services/daily-report/options';
+import {
+  deleteAllNotifications,
+  notificationOptions,
+} from '@/services/daily-report';
 
 import { NotificationDialogContent } from './NotificationDialogContent';
 

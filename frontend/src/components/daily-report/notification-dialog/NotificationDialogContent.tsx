@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { notificationOptions } from '@/services/daily-report/options';
+import { notificationOptions } from '@/services/daily-report';
 
 import { NotificationEmpty } from './NotificationEmpty';
 import { NotificationList } from './NotificationList';

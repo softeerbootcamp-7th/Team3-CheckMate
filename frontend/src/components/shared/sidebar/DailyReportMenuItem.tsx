@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { notificationOptions } from '@/services/daily-report/options';
+import { notificationOptions } from '@/services/daily-report';
 
 import { Badge } from '../badge';
 

@@ -2,8 +2,10 @@ import { useEffect } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { patchReadNotification } from '@/services/daily-report';
-import { notificationOptions } from '@/services/daily-report/options';
+import {
+  notificationOptions,
+  patchReadNotification,
+} from '@/services/daily-report';
 import type { Notification } from '@/types/daily-report';
 
 import { NotificationItem } from './NotificationItem';
