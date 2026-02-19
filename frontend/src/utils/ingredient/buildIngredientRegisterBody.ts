@@ -1,5 +1,5 @@
 import type { Ingredient } from '@/types/ingredient';
-import type { IngredientRegisterRequestDto } from '@/types/ingredient/dto/ingredientRegisterDto';
+import type { IngredientRegisterRequestDto } from '@/types/ingredient/';
 
 import { convertUiUnitToServerUnit } from './convertUnit';
 
