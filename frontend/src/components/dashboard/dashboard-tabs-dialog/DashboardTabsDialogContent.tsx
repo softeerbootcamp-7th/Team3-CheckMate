@@ -19,6 +19,8 @@ export const DashboardTabsDialogContent = () => {
     handleAddClick,
     handleSave,
     handleCancel,
+    isDirty,
+    validateTabs,
   } = useDashboardTabsDialog();
 
   return (
@@ -65,7 +67,11 @@ export const DashboardTabsDialogContent = () => {
       </div>
       <ButtonGroup>
         <ButtonGroup.Negative message="취소" onClick={handleCancel} />
-        <ButtonGroup.Positive message="저장" onClick={handleSave} />
+        <ButtonGroup.Positive
+          message="저장"
+          onClick={handleSave}
+          disabled={!isDirty || !validateTabs()}
+        />
       </ButtonGroup>
     </>
   );
