@@ -22,13 +22,18 @@ export const useMenusManagement = ({
     itemsPerPage: ITEMS_PER_PAGE,
   });
 
+  // setCurrentPage를 꺼내서 useEffect의 의존성 배열에 넣어줘야 함
+  // pagination 객체 자체는 매 렌더링마다 새로운 객체이기 때문에 pagination을 의존성 배열에 넣으면 무한 루프에 빠짐
+  // setter 함수는 매번 같은 참조
+  const { setCurrentPage } = pagination;
+
   // 카테고리 변경 시 화면에 보여지는 페이지를 1페이지로 리셋
   useEffect(() => {
     const resetCurrentPageNumber = () => {
-      pagination.setCurrentPage(1);
+      setCurrentPage(1);
     };
     resetCurrentPageNumber();
-  }, [selectedCategory]);
+  }, [selectedCategory, setCurrentPage]);
 
   // selectedCategory는 맨 처음 마운트 될 땐 null 값으로 설정됨
   // -> 서버에서 데이터 가져오면 그걸 기반으로 첫 번째 카테고리를 선택된 카테고리로 설정해줘야함
@@ -41,7 +46,7 @@ export const useMenusManagement = ({
     if (!selectedCategory && categories.length > 0) {
       setFirstCategory();
     }
-  }, [categories]);
+  }, [categories, selectedCategory, setSelectedCategory]);
   return {
     filteredMenus,
     selectedCategory,
