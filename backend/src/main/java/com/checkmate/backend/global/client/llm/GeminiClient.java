@@ -6,7 +6,6 @@ import com.checkmate.backend.global.exception.InternalServerException;
 import com.checkmate.backend.global.response.ErrorStatus;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -131,52 +130,66 @@ public class GeminiClient extends BaseClient implements LlmClient {
 
     @Override
     public void askWithHistoryStream(
-            String systemInstruction, List<Message> history, String currentQuestion, SseEmitter emitter) {
+            String systemInstruction,
+            List<Message> history,
+            String currentQuestion,
+            SseEmitter emitter) {
 
-        String uri = String.format("/v1beta/models/%s:streamGenerateContent?alt=sse", liteModelName);
-        Map<String, Object> requestBody = createRequestBody(systemInstruction, history, currentQuestion);
+        String uri =
+                String.format("/v1beta/models/%s:streamGenerateContent?alt=sse", liteModelName);
+        Map<String, Object> requestBody =
+                createRequestBody(systemInstruction, history, currentQuestion);
 
-        restClient.post()
+        restClient
+                .post()
                 .uri(uri)
                 .header("x-goog-api-key", apiKey)
                 .body(requestBody)
-                .exchange((request, response) -> {
-                    // 1. HTTP 상태 코드 확인 (200 OK가 아닌 경우)
-                    if (response.getStatusCode().isError()) {
-                        String errorLog = String.format("Gemini API Error: %s", response.getStatusCode());
-                        log.error(errorLog);
-                        emitter.send(SseEmitter.event().name("error").data("API 호출에 실패했습니다."));
-                        emitter.complete();
-                        return null;
-                    }
-
-                    try (BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(response.getBody(), StandardCharsets.UTF_8))) {
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            if (line.startsWith("data: ")) {
-                                String jsonData = line.substring(6);
-                                JsonNode node = objectMapper.readTree(jsonData);
-
-                                // 2. 응답 데이터 검증 (Safety Filter 등에 의해 차단되었는지 확인)
-                                if (isBlocked(node)) {
-                                    emitter.send(SseEmitter.event().data("[부적절한 요청으로 인해 답변이 차단되었습니다.]"));
-                                    break;
-                                }
-
-                                String text = extractText(node);
-                                if (text != null && !text.isEmpty()) {
-                                    emitter.send(SseEmitter.event().data(text));
-                                }
+                .exchange(
+                        (request, response) -> {
+                            // 1. HTTP 상태 코드 확인 (200 OK가 아닌 경우)
+                            if (response.getStatusCode().isError()) {
+                                String errorLog =
+                                        String.format(
+                                                "Gemini API Error: %s", response.getStatusCode());
+                                log.error(errorLog);
+                                emitter.send(
+                                        SseEmitter.event().name("error").data("API 호출에 실패했습니다."));
+                                emitter.complete();
+                                return null;
                             }
-                        }
-                        emitter.complete();
-                    } catch (Exception e) {
-                        log.error("Streaming error: ", e);
-                        emitter.completeWithError(e);
-                    }
-                    return null;
-                });
+
+                            try (BufferedReader reader =
+                                    new BufferedReader(
+                                            new InputStreamReader(
+                                                    response.getBody(), StandardCharsets.UTF_8))) {
+                                String line;
+                                while ((line = reader.readLine()) != null) {
+                                    if (line.startsWith("data: ")) {
+                                        String jsonData = line.substring(6);
+                                        JsonNode node = objectMapper.readTree(jsonData);
+
+                                        // 2. 응답 데이터 검증 (Safety Filter 등에 의해 차단되었는지 확인)
+                                        if (isBlocked(node)) {
+                                            emitter.send(
+                                                    SseEmitter.event()
+                                                            .data("[부적절한 요청으로 인해 답변이 차단되었습니다.]"));
+                                            break;
+                                        }
+
+                                        String text = extractText(node);
+                                        if (text != null && !text.isEmpty()) {
+                                            emitter.send(SseEmitter.event().data(text));
+                                        }
+                                    }
+                                }
+                                emitter.complete();
+                            } catch (Exception e) {
+                                log.error("Streaming error: ", e);
+                                emitter.completeWithError(e);
+                            }
+                            return null;
+                        });
     }
 
     // 안전 필터링 체크 로직 추가
@@ -196,30 +209,30 @@ public class GeminiClient extends BaseClient implements LlmClient {
 
         // 1. 대화 히스토리 추가
         for (Message msg : history) {
-            contents.add(Map.of(
-                    "role", msg.role().equals("assistant") ? "model" : "user",
-                    "parts", List.of(Map.of("text", msg.content()))
-            ));
+            contents.add(
+                    Map.of(
+                            "role",
+                            msg.role().equals("assistant") ? "model" : "user",
+                            "parts",
+                            List.of(Map.of("text", msg.content()))));
         }
 
         // 2. 현재 질문 추가
-        contents.add(Map.of(
-                "role", "user",
-                "parts", List.of(Map.of("text", currentQuestion))
-        ));
+        contents.add(Map.of("role", "user", "parts", List.of(Map.of("text", currentQuestion))));
 
         // 3. 전체 구조 생성
         return Map.of(
-                "system_instruction", Map.of(
-                        "parts", List.of(Map.of("text", systemInstruction))
-                ),
+                "system_instruction", Map.of("parts", List.of(Map.of("text", systemInstruction))),
                 "contents", contents,
-                "generationConfig", Map.of(
-                        "temperature", 0.7,
-                        "topK", 40,
-                        "topP", 0.95,
-                        "maxOutputTokens", 1024
-                )
-        );
+                "generationConfig",
+                        Map.of(
+                                "temperature",
+                                0.7,
+                                "topK",
+                                40,
+                                "topP",
+                                0.95,
+                                "maxOutputTokens",
+                                1024));
     }
 }

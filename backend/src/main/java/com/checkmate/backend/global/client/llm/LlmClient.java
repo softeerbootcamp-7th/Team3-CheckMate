@@ -1,9 +1,8 @@
 package com.checkmate.backend.global.client.llm;
 
 import com.checkmate.backend.domain.chat.dto.Message;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
 import java.util.List;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 public interface LlmClient {
     /**
@@ -35,5 +34,8 @@ public interface LlmClient {
      * @param emitter SSE 응답 스트림을 위한 Emitter
      */
     void askWithHistoryStream(
-            String systemInstruction, List<Message> history, String currentQuestion, SseEmitter emitter);
+            String systemInstruction,
+            List<Message> history,
+            String currentQuestion,
+            SseEmitter emitter);
 }
