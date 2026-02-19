@@ -15,6 +15,7 @@ export const getExistsUnreadNotification = async () => {
   return data;
 };
 
+/** 알림 목록 조회 */
 export const getNotificationList = async () => {
   const { data } =
     await authorizedApi.get<GetNotificationListResponseDto>(
