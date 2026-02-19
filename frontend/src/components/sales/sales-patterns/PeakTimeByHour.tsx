@@ -55,7 +55,7 @@ export const PeakTimeByHour = () => {
       <div>
         <LineChart
           viewBoxWidth={1020}
-          viewBoxHeight={166}
+          viewBoxHeight={150}
           hasXAxis
           hasGradient
           yGuideLineCount={4}
