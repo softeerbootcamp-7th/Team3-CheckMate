@@ -4,6 +4,7 @@ import {
   type PeriodPresetType,
   type PeriodType,
 } from '@/constants/shared';
+import { cn } from '@/utils/shared';
 
 import { DateRangeLabel } from '../date-range-label';
 import { DateRangePicker } from '../date-range-picker';
@@ -16,6 +17,7 @@ interface PeriodSelectProps<T extends PeriodPresetType> {
   setStartDate: (date?: Date) => void;
   endDate?: Date;
   setEndDate: (date?: Date) => void;
+  className?: string;
 }
 
 export const PeriodSelect = <T extends PeriodPresetType>({
@@ -26,9 +28,10 @@ export const PeriodSelect = <T extends PeriodPresetType>({
   setStartDate,
   endDate,
   setEndDate,
+  className,
 }: PeriodSelectProps<T>) => {
   return (
-    <div className="flex items-center gap-2.5">
+    <div className={cn('flex items-center gap-2.5', className)}>
       {(Object.values(PERIOD_PRESETS[periodPreset]) as PeriodType<T>[]).map(
         (period) => (
           <DateRangeLabel
