@@ -33,9 +33,9 @@ export const WeeklyRevenueTrend = () => {
     SALES_TREND_DETAIL;
   return (
     <DefaultCardWrapper
-      title="주별 매출 추이"
+      title={weeklyRevenueTrendLabel}
       className="flex h-57 w-full flex-col justify-start gap-5"
-      aria-label="주별 매출 추이"
+      aria-label={weeklyRevenueTrendLabel}
     >
       <SalesTrendCaption className="absolute top-5.5 left-30" />
       <PeriodSelect
