@@ -1,4 +1,3 @@
-import { SalesTrendCaption } from '@/components/sales';
 import { BarLineChart } from '@/components/shared';
 import {
   DASHBOARD_METRIC_CARDS,
@@ -9,6 +8,8 @@ import { SALES_TREND } from '@/constants/sales';
 import { PERIOD_PRESETS } from '@/constants/shared';
 import type { BarLineChartSeries } from '@/types/shared';
 import { cn } from '@/utils/shared';
+
+import { SalesTrendCaption } from '../sales-trends';
 
 type SalesTrendCardCode = ExtractCardCodesFromSection<
   typeof DASHBOARD_METRICS.SALES.sections.SALES_TREND
