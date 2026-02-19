@@ -4,3 +4,4 @@ export type {
   GetDailyReportContentResponseDto,
 } from './getDailyReportContentDto';
 export type { GetExistsUnreadNotificationResponseDto } from './getExistsUnreadNotificationDto';
+export type { GetNotificationListResponseDto } from './getNotificationList';

@@ -4,4 +4,5 @@ export type {
   Insight,
   GetDailyReportContentResponseDto,
   GetExistsUnreadNotificationResponseDto,
+  GetNotificationListResponseDto,
 } from './dto';
