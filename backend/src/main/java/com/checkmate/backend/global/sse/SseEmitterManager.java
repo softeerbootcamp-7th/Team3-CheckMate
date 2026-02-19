@@ -18,23 +18,25 @@ public class SseEmitterManager {
     // StoreId -> subscribed topics
     private final Map<Long, Set<AnalysisCardCode>> clientTopics = new ConcurrentHashMap<>();
 
-    /**
-     * 새로운 SSE Emitter 등록
-     * 기존 Emitter가 있으면 종료 후 제거
-     */
+    /** 새로운 SSE Emitter 등록 기존 Emitter가 있으면 종료 후 제거 */
     public void addEmitter(Long storeId, SseEmitter emitter) {
-        emitters.compute(storeId, (key, existingEmitter) -> {
-            if (existingEmitter != null) {
-                try {
-                    existingEmitter.complete(); // 기존 연결 종료
-                    log.info("[SSE] Existing emitter completed for storeId={}", storeId);
-                } catch (Exception e) {
-                    log.warn("[SSE] Failed to complete existing emitter for storeId={}", storeId, e);
-                }
-                clientTopics.remove(storeId);
-            }
-            return emitter; // 새로운 Emitter 등록
-        });
+        emitters.compute(
+                storeId,
+                (key, existingEmitter) -> {
+                    if (existingEmitter != null) {
+                        try {
+                            existingEmitter.complete(); // 기존 연결 종료
+                            log.info("[SSE] Existing emitter completed for storeId={}", storeId);
+                        } catch (Exception e) {
+                            log.warn(
+                                    "[SSE] Failed to complete existing emitter for storeId={}",
+                                    storeId,
+                                    e);
+                        }
+                        clientTopics.remove(storeId);
+                    }
+                    return emitter; // 새로운 Emitter 등록
+                });
     }
 
     public SseEmitter getEmitter(Long storeId) {
