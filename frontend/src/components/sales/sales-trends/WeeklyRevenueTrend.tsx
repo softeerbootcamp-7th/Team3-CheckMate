@@ -4,7 +4,7 @@ import {
   PeriodSelect,
 } from '@/components/shared';
 import { SALES_TREND_DETAIL } from '@/constants/sales';
-import { PERIOD_PRESET_KEYS } from '@/constants/shared';
+import { DATE_RANGE_PICKER_TYPE, PERIOD_PRESET_KEYS } from '@/constants/shared';
 import { useWeeklyRevenueTrend } from '@/hooks/sales';
 
 import { useWeeklyRevenueTrendPeriodType } from './period-type-provider';
@@ -46,6 +46,7 @@ export const WeeklyRevenueTrend = () => {
         setStartDate={setStartDate}
         endDate={endDate}
         setEndDate={setEndDate}
+        dateRangePickerType={DATE_RANGE_PICKER_TYPE.week}
         className="absolute top-5 right-2"
       />
       <div className="pt-2">
