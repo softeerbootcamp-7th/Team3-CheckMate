@@ -4,10 +4,17 @@ import {
   isOrderChannelMetricCardCode,
   isPaymentMethodMetricCardCode,
   isSalesTypeMetricCardCode,
+  isWeekdaySalesPatternMetricCardCode,
 } from '@/constants/dashboard';
-import { ORDER_CHANNEL, PAYMENT_METHOD, SALES_TYPE } from '@/constants/sales';
+import {
+  ORDER_CHANNEL,
+  PAYMENT_METHOD,
+  SALES_BY_DAY,
+  SALES_TYPE,
+} from '@/constants/sales';
 import type { SuccessResponse } from '@/services/shared';
 import type {
+  GetDetailSalesByDayResponseDto,
   GetIncomeStructureByOrderChannelResponseDto,
   GetIncomeStructureByPaymentMethodResponseDto,
   GetIncomeStructureBySalesTypeResponseDto,
@@ -73,6 +80,20 @@ const getHandler = [
           items: PAYMENT_METHOD.EXAMPLE_PAYMENT_METHOD_DATA,
         },
       });
+    }
+
+    if (isWeekdaySalesPatternMetricCardCode(cardCode)) {
+      return HttpResponse.json<SuccessResponse<GetDetailSalesByDayResponseDto>>(
+        {
+          success: true,
+          message: 'Success',
+          data: {
+            topDay: '금',
+            isSignificant: false,
+            items: SALES_BY_DAY.EXAMPLE_DATA,
+          },
+        },
+      );
     }
     return passthrough();
   }),
