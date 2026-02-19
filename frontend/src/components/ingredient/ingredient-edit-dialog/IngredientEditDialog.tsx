@@ -19,6 +19,7 @@ interface IngredientEditDialogProps {
   onOpenChange: (open: boolean) => void;
   menuId: number;
   menuName: string;
+  hasIngredients: boolean; // 메뉴에 등록된 식자재 유무. -> false면 폼 제출 시 post, true면 put 요청 보내야 함
 }
 
 export const IngredientEditDialog = ({
@@ -26,6 +27,7 @@ export const IngredientEditDialog = ({
   onOpenChange,
   menuId,
   menuName,
+  hasIngredients,
 }: IngredientEditDialogProps) => {
   // 우선 폼 생성
   const formMethods = useForm<IngredientFormValues>({
@@ -40,6 +42,7 @@ export const IngredientEditDialog = ({
   const { onSubmit, isSubmitPending } = useIngredientEditSubmit({
     menuId,
     onOpenChange,
+    hasIngredients,
   });
   // 폼 validation 실패 했을 때 불리는 함수
   const onError = (errors: FieldErrors<IngredientFormValues>) => {

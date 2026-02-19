@@ -2,22 +2,28 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { TOAST_DEFAULT } from '@/constants/shared';
-import { ingredientKeys, postIngredientRegister } from '@/services/ingredient';
+import {
+  ingredientKeys,
+  postIngredientRegister,
+  putIngredientRegister,
+} from '@/services/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 
 interface UseIngredientEditSubmitParams {
   menuId: number;
   onOpenChange: (open: boolean) => void;
+  hasIngredients: boolean; // 메뉴에 등록된 식자재 유무. -> false면 폼 제출 시 post, true면 put 요청 보내야 함
 }
 
 export const useIngredientEditSubmit = ({
   menuId,
   onOpenChange,
+  hasIngredients,
 }: UseIngredientEditSubmitParams) => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending: isSubmitPending } = useMutation({
-    mutationFn: postIngredientRegister,
+    mutationFn: hasIngredients ? putIngredientRegister : postIngredientRegister,
     onSuccess: () => {
       // 식자재 등록 후 해당 메뉴의 식자재 캐시 무효화
       queryClient.invalidateQueries({
