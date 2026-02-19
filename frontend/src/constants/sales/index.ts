@@ -21,3 +21,8 @@ export {
 } from './dashboard-sales-income';
 export { PEAK_TIME, SALES_BY_DAY } from './dashboard-sales-pattern';
 export { SALES_TREND } from './dashboard-sales-trend';
+export {
+  SALES_METRIC,
+  type SalesMetricCardCodes,
+  isSalesMetricCardCodes,
+} from './salesMetric';
