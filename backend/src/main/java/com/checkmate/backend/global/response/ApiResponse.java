@@ -63,4 +63,11 @@ public record ApiResponse<T>(
                 .data(data)
                 .build();
     }
+
+    public static ApiResponse<Void> createSuccess(SuccessStatus status) {
+        return ApiResponse.<Void>builder()
+                .success(true)
+                .message(status.getMessage())
+                .build();
+    }
 }
