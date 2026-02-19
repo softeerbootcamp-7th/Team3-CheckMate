@@ -29,7 +29,7 @@ export const SalesByDayContent = ({
         unit: CHART_X_UNIT,
       })),
       mainY: salesByDayItems.map((item) => ({
-        amount: item.avgNetAmount,
+        amount: item.avgNetAmount ?? 0,
         unit: CHART_Y_UNIT,
       })),
     },
@@ -55,6 +55,7 @@ export const SalesByDayContent = ({
         hasBarGradient
         yGuideLineCount={4}
         hasBarLabel={false}
+        barColorChangeOnHover={false}
         activeDataIndex={activeDataIndex === -1 ? undefined : activeDataIndex}
         xAxisType="default"
       />
