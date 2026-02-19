@@ -7,7 +7,8 @@ import lombok.Getter;
 public enum OrderChannel {
     POS("POS", "POS"),
     KIOSK("KIOSK", "키오스크"),
-    DELIVERY_APP("DELIVERY_APP", "배달앱");
+    DELIVERY_APP("DELIVERY_APP", "배달앱"),
+    ETC("ETC", "기타");
 
     private final String value; // DB 저장 값
     private final String description; // UI/표시용

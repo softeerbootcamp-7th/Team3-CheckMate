@@ -5,12 +5,14 @@ import com.checkmate.backend.domain.analysis.dto.projection.sales.TodayPeakTimeP
 /** SLS_13_01 (피크타임) */
 public record PeakTimeItem(
         int timeSlot2H, // 2시간 슬롯
-        long orderCount, // 주문 건수
-        long netAmount // 실매출
+        Double orderCount, // 주문 건수
+        Double netAmount // 실매출
         ) {
 
     public static PeakTimeItem of(TodayPeakTimeProjection projection) {
         return new PeakTimeItem(
-                projection.timeSlot2H(), projection.orderCount(), projection.netAmount());
+                projection.timeSlot2H(),
+                (double) projection.orderCount(),
+                (double) projection.netAmount());
     }
 }

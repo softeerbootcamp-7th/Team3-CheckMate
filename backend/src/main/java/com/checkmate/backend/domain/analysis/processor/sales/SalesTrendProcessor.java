@@ -92,19 +92,19 @@ public class SalesTrendProcessor implements AnalysisProcessor<SalesAnalysisConte
 
             SalesTrendProjection projection = salesTrendByDate.get(bucket);
 
-            long orderCount =
-                    Optional.ofNullable(projection)
-                            .map(SalesTrendProjection::getOrderCount)
-                            .orElse(0L);
-
             long netAmount =
                     Optional.ofNullable(projection)
                             .map(SalesTrendProjection::getNetAmount)
                             .orElse(0L);
 
+            long orderCount =
+                    Optional.ofNullable(projection)
+                            .map(SalesTrendProjection::getOrderCount)
+                            .orElse(0L);
+
             salesTrendBuckets.add(
                     new SalesTrendBucket(
-                            bucket, buildLabel(anchorDate, bucket, unit), orderCount, netAmount));
+                            bucket, buildLabel(anchorDate, bucket, unit), netAmount, orderCount));
         }
 
         /*
@@ -258,7 +258,7 @@ public class SalesTrendProcessor implements AnalysisProcessor<SalesAnalysisConte
         return salesTrendBuckets.stream()
                 .filter(bucket -> bucket.bucket().equals(nowBucket))
                 .findFirst()
-                .map(i -> new DashboardSalesTrendResponse(i.label(), i.orderCount(), i.netAmount()))
+                .map(i -> new DashboardSalesTrendResponse(i.label(), i.netAmount(), i.orderCount()))
                 .orElse(new DashboardSalesTrendResponse("0", 0, 0));
     }
 }

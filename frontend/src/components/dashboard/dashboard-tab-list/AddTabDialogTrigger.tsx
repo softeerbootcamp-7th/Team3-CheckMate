@@ -1,5 +1,7 @@
 import { useCallback, useState } from 'react';
 
+import { useSuspenseQuery } from '@tanstack/react-query';
+
 import { PlusIcon } from '@/assets/icons';
 import {
   Button,
@@ -9,6 +11,7 @@ import {
 } from '@/components/shared/shadcn-ui';
 import { DASHBOARD_TABS_DIALOG_MODE } from '@/constants/dashboard';
 import { useDashboardTabsContext } from '@/hooks/dashboard';
+import { dashboardOptions } from '@/services/dashboard/options';
 
 const TOOLTIP_DISMISSED_KEY = 'dashboard_add_tooltip_dismissed_v1';
 const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
@@ -16,7 +19,9 @@ const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
 const firstActiveDatetime = new Date(); // mocked
 
 export const AddTabDialogTrigger = () => {
-  const { tabs, openDialog } = useDashboardTabsContext();
+  const { data: tabs } = useSuspenseQuery(dashboardOptions.list);
+
+  const { openDialog } = useDashboardTabsContext();
 
   // 탭이 추가되지 않음 && 첫 진입 후 12시간 이내 && 버튼을 클릭한 적 없음
   const [showTooltip, setShowTooltip] = useState(

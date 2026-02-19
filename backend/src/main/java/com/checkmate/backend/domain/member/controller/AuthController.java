@@ -295,6 +295,25 @@ public class AuthController {
         return ApiResponse.success(SuccessStatus.MEMBER_STATUS_SUCCESS, response);
     }
 
+    @PostMapping("/logout")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<Void>> logout(@LoginMember MemberSession member) {
+        memberService.logout(member.memberId());
+
+        ResponseCookie cookie =
+                ResponseCookie.from("refresh_token", "")
+                        .httpOnly(true)
+                        .secure(true)
+                        .path("/")
+                        .maxAge(0)
+                        .sameSite("None")
+                        .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(ApiResponse.createSuccess(SuccessStatus.LOGOUT_SUCCESS));
+    }
+
     private void validateState(String state, HttpSession session) {
         String savedState = (String) session.getAttribute("oauth_state");
         if (savedState == null || !savedState.equals(state)) {
