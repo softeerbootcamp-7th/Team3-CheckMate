@@ -6,7 +6,7 @@ import {
   type ExtractCardCodes,
 } from '@/constants/dashboard';
 import { useDashboardCardDetailQueryOption } from '@/hooks/dashboard';
-import type { GetDashboardPopularMenuCombinationResponseDto } from '@/types/menu';
+import type { GetPopularMenuCombinationResponseDto } from '@/types/menu';
 
 type DashboardPopularMenuCombinationCardCodes = ExtractCardCodes<
   typeof DASHBOARD_METRICS.MENU.sections.POPULAR_MENU_COMBINATION.items.POPULAR_MENU_COMBINATION
@@ -22,16 +22,17 @@ export const DashboardPopularMenuCombinationCard = ({
   const { createCardDetailQuery } = useDashboardCardDetailQueryOption();
 
   const queryOption =
-    createCardDetailQuery<GetDashboardPopularMenuCombinationResponseDto>(
-      cardCode,
-    );
+    createCardDetailQuery<GetPopularMenuCombinationResponseDto>(cardCode);
 
   const { data } = useSuspenseQuery(queryOption);
 
+  const firstMenuName = data.items[0]?.baseMenuName;
+  const secondMenuName = data.items[0]?.pairedMenus?.[0]?.menuName;
+
   return (
     <PopularMenuCombinationCardContent
-      firstMenuName={data.firstMenuName}
-      secondMenuName={data.secondMenuName}
+      firstMenuName={firstMenuName}
+      secondMenuName={secondMenuName}
     />
   );
 };
