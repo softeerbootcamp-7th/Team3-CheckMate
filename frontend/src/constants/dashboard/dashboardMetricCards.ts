@@ -288,7 +288,7 @@ export const DASHBOARD_METRIC_CARDS = {
   },
   WTH_05_07: {
     code: 'WTH_05_07',
-    label: '강수 유뮤 판매채널별 주문건수 비율',
+    label: '강수 유무 판매채널별 주문건수 비율',
     period: PERIOD_PRESETS.recentMonths6_12.recent12Months,
     type: CHART_TYPE.RAIN,
     sizeX: 1,

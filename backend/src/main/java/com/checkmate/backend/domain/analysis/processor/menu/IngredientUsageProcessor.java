@@ -1,7 +1,7 @@
 package com.checkmate.backend.domain.analysis.processor.menu;
 
 import com.checkmate.backend.domain.analysis.context.MenuAnalysisContext;
-import com.checkmate.backend.domain.analysis.dto.projection.IngredientUsageProjection;
+import com.checkmate.backend.domain.analysis.dto.projection.menu.IngredientUsageProjection;
 import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
 import com.checkmate.backend.domain.analysis.dto.response.menu.IngredientUsageResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
@@ -31,6 +31,9 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
 
     @Override
     public AnalysisResponse process(MenuAnalysisContext context) {
+
+        boolean hasIngredient =
+                ingredientRepository.existsIngredientsByStoreId(context.getStoreId());
 
         // 식재료 사용량 갖고 온다.
         List<IngredientUsageProjection> ingredientUsageProjections =
@@ -63,7 +66,8 @@ public class IngredientUsageProcessor implements AnalysisProcessor<MenuAnalysisC
                             baseUnit));
         }
 
-        IngredientUsageResponse response = new IngredientUsageResponse(ingredientUsageItems);
+        IngredientUsageResponse response =
+                new IngredientUsageResponse(hasIngredient, ingredientUsageItems);
 
         return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }

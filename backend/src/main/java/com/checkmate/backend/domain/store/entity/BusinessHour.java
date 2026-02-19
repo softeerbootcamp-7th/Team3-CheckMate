@@ -27,6 +27,8 @@ public class BusinessHour extends BaseTimeEntity {
     private String openTime;
     private String closeTime;
 
+    private boolean closesNextDay;
+
     private boolean closed;
     private boolean open24Hours;
 

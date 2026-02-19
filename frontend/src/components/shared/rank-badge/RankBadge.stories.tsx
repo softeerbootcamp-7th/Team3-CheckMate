@@ -12,7 +12,7 @@ const meta = {
   argTypes: {
     rank: { control: 'number' },
     variant: { control: 'select', options: ['default', 'highlight'] },
-    size: { control: 'select', options: ['sm', 'md'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
 } satisfies Meta<typeof RankBadge>;
 

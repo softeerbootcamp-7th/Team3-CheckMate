@@ -1,0 +1,1 @@
+export { PopularMenuCombinationCardContent } from './PopularMenuCombinationCardContent';

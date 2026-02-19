@@ -57,7 +57,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(storeCheckInterceptor)
                 .addPathPatterns("/api/analysis/**")
-                .addPathPatterns("/api/sse/**");
+                .addPathPatterns("/api/sse/**")
+                .addPathPatterns("/api/reports/**");
     }
 
     @Bean
@@ -67,6 +68,7 @@ public class WebConfig implements WebMvcConfigurer {
         registration.setFilter(jwtAuthFilter);
         registration.addUrlPatterns("/api/*");
         registration.addUrlPatterns("/auth/status");
+        registration.addUrlPatterns("/auth/logout");
         registration.setOrder(1);
         return registration;
     }

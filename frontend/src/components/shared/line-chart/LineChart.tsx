@@ -1,13 +1,11 @@
 import { useLineChart, useLineChartId } from '@/hooks/shared';
 import type { LineChartSeries, XAxisType } from '@/types/shared';
 
+import { XAxis, XAxisLabel, XGuideLine, YGuideLine } from '../chart';
+
 import { GradientBackground } from './GradientBackground';
 import { LineChartGradient } from './LineChartGradient';
-import { Series } from './Series';
-import { XAxis } from './XAxis';
-import { XAxisLabel } from './XAxisLabel';
-import { XGuideLine } from './XGuideLine';
-import { YGuideLine } from './YGuideLine';
+import { LineSeries } from './LineSeries';
 
 /**
  * @description 꺾은선 차트 컴포넌트 (자세한 사용법은 스토리북 문서 참고)
@@ -90,7 +88,7 @@ export const LineChart = ({
   const { lineGradientId, backgroundGradientId, titleId, descId } =
     useLineChartId();
   const {
-    svgRect,
+    svgWidth,
     adjustedHeight,
     xLabelList,
     xCoordinate,
@@ -100,6 +98,8 @@ export const LineChart = ({
     svgRef,
     xAxisRef,
   } = useLineChart({
+    viewBoxWidth,
+    viewBoxHeight,
     primarySeries,
     secondarySeries,
     hasXAxis,
@@ -132,17 +132,13 @@ export const LineChart = ({
       )}
       {showYGuideLine && (
         <YGuideLine
-          svgRect={svgRect}
+          svgWidth={svgWidth}
           adjustedHeight={adjustedHeight}
           yGuideLineCount={yGuideLineCount}
         />
       )}
       {showXGuideLine && (
-        <XGuideLine
-          xCoordinate={xCoordinate}
-          svgRect={svgRect}
-          adjustedHeight={adjustedHeight}
-        />
+        <XGuideLine xCoordinate={xCoordinate} adjustedHeight={adjustedHeight} />
       )}
       {hasXAxis && (
         <>
@@ -159,7 +155,7 @@ export const LineChart = ({
           />
         </>
       )}
-      <Series
+      <LineSeries
         coordinate={primaryCoordinate}
         color={primarySeries.color}
         hasGradient={hasGradient}
@@ -170,7 +166,7 @@ export const LineChart = ({
       />
 
       {secondarySeries && (
-        <Series
+        <LineSeries
           coordinate={secondaryCoordinate}
           color={secondarySeries.color}
           series={secondarySeries}

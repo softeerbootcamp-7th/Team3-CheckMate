@@ -1,9 +1,10 @@
 package com.checkmate.backend.domain.analysis.processor.menu;
 
 import com.checkmate.backend.domain.analysis.context.MenuAnalysisContext;
-import com.checkmate.backend.domain.analysis.dto.projection.TimeSlotMenuOrderCountProjection;
+import com.checkmate.backend.domain.analysis.dto.projection.menu.TimeSlotMenuOrderCountProjection;
 import com.checkmate.backend.domain.analysis.dto.response.AnalysisResponse;
-import com.checkmate.backend.domain.analysis.dto.response.menu.TimeSlotMenuOrderCountResponse;
+import com.checkmate.backend.domain.analysis.dto.response.menu.DashboardTimeSlotMenuOrderCountResponse;
+import com.checkmate.backend.domain.analysis.dto.response.menu.DetailTimeSlotMenuOrderCountResponse;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
@@ -41,7 +42,7 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
             groupedByTimeSlot.computeIfAbsent(m.timeSlot2H(), (k) -> new ArrayList<>()).add(m);
         }
 
-        List<TimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem> timeSlotGroups =
+        List<DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem> timeSlotGroups =
                 new ArrayList<>();
 
         for (Map.Entry<Integer, List<TimeSlotMenuOrderCountProjection>> entry :
@@ -58,13 +59,15 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
             menus.sort(
                     Comparator.comparing(TimeSlotMenuOrderCountProjection::orderCount).reversed());
 
-            List<TimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem.TimeSlotMenuOrderCountItem>
+            List<
+                            DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
+                                    .TimeSlotMenuOrderCountItem>
                     menuItems = new ArrayList<>();
 
             if (menus.size() <= 3) {
                 for (TimeSlotMenuOrderCountProjection menu : menus) {
                     menuItems.add(
-                            new TimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
+                            new DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
                                     .TimeSlotMenuOrderCountItem(
                                     menu.menuName(), menu.orderCount()));
                 }
@@ -74,7 +77,7 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
                     TimeSlotMenuOrderCountProjection menu = menus.get(i);
 
                     menuItems.add(
-                            new TimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
+                            new DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
                                     .TimeSlotMenuOrderCountItem(
                                     menu.menuName(), menu.orderCount()));
                 }
@@ -86,23 +89,78 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
                                 .sum();
 
                 menuItems.add(
-                        new TimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
+                        new DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
                                 .TimeSlotMenuOrderCountItem("기타", etcCount));
             }
 
             // 슬롯별 Response 객체 생성
             timeSlotGroups.add(
-                    new TimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem(
+                    new DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem(
                             timeSlot, totalCount, menuItems));
         }
 
-        TimeSlotMenuOrderCountResponse response =
-                new TimeSlotMenuOrderCountResponse(timeSlotGroups);
+        DetailTimeSlotMenuOrderCountResponse response =
+                new DetailTimeSlotMenuOrderCountResponse(timeSlotGroups);
 
-        return new AnalysisResponse(
-                context.getAnalysisCardCode(),
-                response, // dashboard용
-                response // detail용 (필요 없으면 null 넣어도 됨)
-                );
+        /*
+         * 가장 많이 팔린 메뉴
+         * 그 메뉴가 가장 많이 팔린 시간대
+         * */
+        DashboardTimeSlotMenuOrderCountResponse dashboardResponse = null;
+
+        // 메뉴별 총 주문 수 계산
+        Map<String, Long> menuTotalCounts = new HashMap<>();
+
+        for (DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem group : response.items()) {
+            for (DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
+                            .TimeSlotMenuOrderCountItem
+                    menuItem : group.menus()) {
+
+                menuTotalCounts.merge(menuItem.menuName(), menuItem.orderCount(), Long::sum);
+            }
+        }
+        // 총 주문 기준 TOP 메뉴 선택
+        String topMenu = null;
+        long maxTotalCount = -1;
+
+        for (Map.Entry<String, Long> entry : menuTotalCounts.entrySet()) {
+            if (entry.getValue() > maxTotalCount) {
+                maxTotalCount = entry.getValue();
+                topMenu = entry.getKey();
+            }
+        }
+
+        // TOP 메뉴가 가장 많이 팔린 시간대 찾기
+        if (topMenu != null) {
+            DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem topSlotGroup = null;
+            long maxOrderCount = -1;
+
+            for (DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem group :
+                    response.items()) {
+                long menuOrderCount = 0;
+
+                for (DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
+                                .TimeSlotMenuOrderCountItem
+                        menu : group.menus()) {
+
+                    if (menu.menuName().equals(topMenu)) {
+                        menuOrderCount += menu.orderCount();
+                    }
+                }
+
+                if (menuOrderCount > maxOrderCount) {
+                    maxOrderCount = menuOrderCount;
+                    topSlotGroup = group;
+                }
+            }
+
+            if (topSlotGroup != null) {
+                dashboardResponse =
+                        new DashboardTimeSlotMenuOrderCountResponse(
+                                topSlotGroup.timeSlot2H(), topMenu);
+            }
+        }
+
+        return new AnalysisResponse(context.getAnalysisCardCode(), dashboardResponse, response);
     }
 }

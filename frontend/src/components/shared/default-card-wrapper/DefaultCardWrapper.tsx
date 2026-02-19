@@ -12,8 +12,6 @@ interface DefaultCardWrapperProps extends ComponentProps<'article'> {
   hasChevronRightIcon?: boolean;
   onClickChevronRightIcon?: () => void;
   className?: string;
-  width?: number;
-  height?: number;
 }
 
 export const DefaultCardWrapper = ({

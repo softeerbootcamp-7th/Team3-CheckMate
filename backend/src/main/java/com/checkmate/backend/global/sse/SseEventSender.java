@@ -17,13 +17,17 @@ public class SseEventSender {
     }
 
     public void send(Long storeId, AnalysisCardCode topic, Object data) {
+        log.info("[send][storeId= {}, data= {}]", storeId, data);
 
         if (!sseEmitterManager.isSubscribed(storeId, topic)) {
+            log.warn("[send][구독 안 함][storeId= {}]", storeId);
             return; // 구독 안 했으면 안 보냄
         }
 
         SseEmitter emitter = sseEmitterManager.getEmitter(storeId);
-        if (emitter == null) return;
+        if (emitter == null) {
+            log.warn("[send][emitter not found][storeId= {}]", storeId);
+        }
 
         try {
             emitter.send(SseEmitter.event().name(topic.name()).data(data));

@@ -70,7 +70,7 @@ jobs:
           echo "${{ secrets.SSL_PRIVATE_KEY }}" > nginx/certs/private.key
 
           # 인증서 폴더를 포함하여 압축
-          zip -r deploy.zip docker-compose.yml nginx/default.conf nginx/certs/
+          zip -r deploy.zip docker-compose.yml nginx/default.conf nginx/certs/ prometheus/
           aws s3 cp deploy.zip s3://${{ secrets.S3_BUCKET_NAME }}/deploy.zip --sse AES256
 
       # 5. SSM으로 EC2에 명령
@@ -92,11 +92,15 @@ jobs:
            "echo \"DB_URL=${{ secrets.DB_URL }}\" >> .env",
            "echo \"DB_USERNAME=${{ secrets.DB_USERNAME }}\" >> .env",
            "echo \"DB_PASSWORD=${{ secrets.DB_PASSWORD }}\" >> .env",
+           "echo \"DB_HOST=${{ secrets.DB_HOST }}\" >> .env",
            "echo \"GOOGLE_ID=${{ secrets.GOOGLE_ID }}\" >> .env",
            "echo \"GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }}\" >> .env",
            "echo \"JWT_SECRET=${{ secrets.JWT_SECRET }}\" >> .env",
            "echo \"JWT_BUSINESS_SECRET=${{ secrets.JWT_BUSINESS_SECRET }}\" >> .env",
            "echo \"ENC_KEY=${{ secrets.ENC_KEY }}\" >> .env",
+           "echo \"REDIS_HOST=${{ secrets.REDIS_HOST }}\" >> .env",
+           "echo \"REDIS_PORT=${{ secrets.REDIS_PORT }}\" >> .env",
+           "echo \"GEMINI_API_KEY_SERVER=${{ secrets.GEMINI_API_KEY_SERVER }}\" >> .env",
            "docker-compose pull",
            "docker-compose up -d",
            "docker image prune -f",

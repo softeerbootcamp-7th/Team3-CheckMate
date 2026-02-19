@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 @RestControllerAdvice
 @Slf4j
@@ -35,6 +36,14 @@ public class ControllerExceptionAdvice {
                         .orElse(errorStatus.getMessage());
 
         return ApiResponse.fail(errorStatus, message);
+    }
+
+    @ExceptionHandler(AsyncRequestTimeoutException.class)
+    public void handleAsyncTimeout(AsyncRequestTimeoutException ex) {
+        log.debug(
+                "[SSE][AsyncTimeout] type={} message={}",
+                ex.getClass().getSimpleName(),
+                ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
