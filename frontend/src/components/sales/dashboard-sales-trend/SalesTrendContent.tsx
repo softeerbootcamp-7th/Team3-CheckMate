@@ -1,3 +1,4 @@
+import { SalesTrendCaption } from '@/components/sales';
 import { BarLineChart } from '@/components/shared';
 import {
   DASHBOARD_METRIC_CARDS,
@@ -55,16 +56,7 @@ export const SalesTrendContent = ({
     >
       <div className="flex items-center gap-3">
         <h3 className="body-medium-semibold text-grey-700">{label}</h3>
-        <div className="caption-large-medium text-grey-600 flex items-center gap-2">
-          <div className="flex items-center gap-1">
-            <div className="h-4.5 w-2 rounded-t-[1px] bg-[linear-gradient(180deg,rgba(33,33,33,0.40)_0%,rgba(33,33,33,0.10)_100%)]" />
-            <span>실매출</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="bg-grey-400 size-1.25 rounded-full" />
-            <span>주문건수</span>
-          </div>
-        </div>
+        <SalesTrendCaption />
       </div>
       <BarLineChart
         viewBoxWidth={trendChartWidthValue}

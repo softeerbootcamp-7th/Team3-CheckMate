@@ -1,7 +1,7 @@
 export { SalesOverview } from './sales-overview';
 export { SalesPatterns } from './sales-patterns';
 export { SalesSource, SalesSourceChartLegend } from './sales-source';
-export { SalesTrends } from './sales-trends';
+export { SalesTrends, SalesTrendCaption } from './sales-trends';
 export {
   AveragePriceContent,
   OrderCountContent,
