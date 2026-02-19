@@ -24,7 +24,7 @@ export const useMenusManagement = ({ menus }: UseMenusManagementParams) => {
       pagination.setCurrentPage(1);
     };
     resetCurrentPageNumber();
-  }, [categoryMenus.selectedCategory]);
+  }, [categoryMenus.selectedCategory, pagination]);
 
   // selectedCategory는 맨 처음 마운트 될 땐 null 값으로 설정됨
   // -> 서버에서 데이터 가져오면 그걸 기반으로 첫 번째 카테고리를 선택된 카테고리로 설정해줘야함
@@ -40,7 +40,7 @@ export const useMenusManagement = ({ menus }: UseMenusManagementParams) => {
     ) {
       setFirstCategory();
     }
-  }, [categoryMenus.categories]);
+  }, [categoryMenus, categoryMenus.categories]);
 
   return {
     ...categoryMenus,

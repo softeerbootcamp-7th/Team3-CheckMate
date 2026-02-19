@@ -1,0 +1,1 @@
+export { getSalesIncomeStructureComparisonMessage } from './getSalesIncomeStructureComparisonMessage';
