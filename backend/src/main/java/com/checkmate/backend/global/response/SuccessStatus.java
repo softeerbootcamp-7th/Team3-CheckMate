@@ -47,6 +47,8 @@ public enum SuccessStatus {
     SSE_UNSUBSCRIBE_ALL_SUCCESS(HttpStatus.OK, "모든 SSE 구독을 해제했습니다."),
     SSE_CONNECT_SUCCESS(HttpStatus.OK, "SSE 연결에 성공했습니다."),
     SSE_DISCONNECT_SUCCESS(HttpStatus.OK, "SSE 연결을 종료했습니다."),
+    SSE_EMITTER_LIST_SUCCESS(HttpStatus.OK, "Emitter 조회 성공했습니다"),
+    SSE_SUBSCRIBE_LIST_SUCCESS(HttpStatus.OK, "구독 목록 조회 성공했습니다"),
 
     /** Order */
     // 201
