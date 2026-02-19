@@ -186,7 +186,7 @@ public class DashboardController {
         dashboardService.updateDashboardName(
                 member.storeId(), dashboardId, dashboardNameRequest.name());
 
-        return ApiResponse.success_only(SuccessStatus.DASHBOARD_UPDATE_SUCCESS);
+        return ApiResponse.success(SuccessStatus.DASHBOARD_UPDATE_SUCCESS);
     }
 
     @Operation(summary = "대시보드 삭제 API (한울)", description = "대시보드 탭을 삭제합니다. (홈 대시보드 삭제 불가)")
@@ -245,7 +245,7 @@ public class DashboardController {
 
         dashboardService.deleteDashboard(member.storeId(), dashboardId);
 
-        return ApiResponse.success_only(SuccessStatus.DASHBOARD_DELETE_SUCCESS);
+        return ApiResponse.success(SuccessStatus.DASHBOARD_DELETE_SUCCESS);
     }
 
     @Operation(

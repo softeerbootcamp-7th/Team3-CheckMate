@@ -11,6 +11,7 @@ public enum SuccessStatus {
     GOOGLE_LOGIN_SUCCESS(HttpStatus.OK, "구글 로그인에 성공했습니다."),
     BUSINESS_VERIFICATION_SUCCESS(HttpStatus.OK, "사업자 인증 성공했습니다."),
     MEMBER_STATUS_SUCCESS(HttpStatus.OK, "사용자 상태 조회에 성공했습니다."),
+    LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃에 성공했습니다."),
 
     // 201
     MEMBER_SIGNUP_SUCCESS(HttpStatus.CREATED, "회원 가입에 성공했습니다"),

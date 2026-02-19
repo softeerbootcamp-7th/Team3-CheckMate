@@ -88,7 +88,7 @@ public class MenuController {
 
         menuService.registerMenus(member.storeId(), menuCreateRequestDTO);
 
-        return ApiResponse.success_only(MENU_CREATE_SUCCESS);
+        return ApiResponse.success(MENU_CREATE_SUCCESS);
     }
 
     @Operation(summary = "식재료 등록 API (용범)", description = "입력: IngredientCreateRequestDTO")
@@ -185,7 +185,7 @@ public class MenuController {
 
         menuService.addIngredientsToMenu(member.storeId(), menuId, ingredientCreateRequestDTO);
 
-        return ApiResponse.success_only(INGREDIENT_CREATE_SUCCESS);
+        return ApiResponse.success(INGREDIENT_CREATE_SUCCESS);
     }
 
     /*
@@ -498,6 +498,6 @@ public class MenuController {
 
         menuService.updateMenuIngredients(member.storeId(), menuId, ingredientUpdateRequestDTO);
 
-        return ApiResponse.success_only(INGREDIENT_UPDATE_SUCCESS);
+        return ApiResponse.success(INGREDIENT_UPDATE_SUCCESS);
     }
 }
