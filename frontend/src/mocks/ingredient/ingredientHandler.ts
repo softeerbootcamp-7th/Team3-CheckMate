@@ -5,6 +5,7 @@ import type { GetCategoryMenusResponseDto } from '@/types/ingredient';
 import type {
   GetMenuIngredientsResponseDto,
   PostIngredientRegisterRequestDto,
+  PutIngredientRegisterRequestDto,
 } from '@/types/ingredient/dto';
 
 import { CATEGORY_MENUS, INGREDIENTS_BY_MENU_ID } from '../data/ingredient';
@@ -58,7 +59,9 @@ const getHandler = [
       },
     );
   }),
+];
 
+const postHandler = [
   // 메뉴에 식자재 등록
   mswHttp.post(
     '/api/menus/:menuId/ingredients',
@@ -81,6 +84,14 @@ const getHandler = [
           },
         );
       }
+      // menuId가 없으면 404
+      const current = INGREDIENTS_BY_MENU_ID[menuId];
+      if (!current) {
+        return HttpResponse.json<ErrorResponse>(
+          { success: false, message: 'Not Found', errorCode: '404' },
+          { status: 404 },
+        );
+      }
 
       // 저장(등록)
       INGREDIENTS_BY_MENU_ID[menuId].ingredients = body.ingredients;
@@ -100,4 +111,60 @@ const getHandler = [
   ),
 ];
 
-export const ingredientHandler = [...getHandler];
+const putHandler = [
+  // 메뉴에 등록된 식자재 변경(put)
+  mswHttp.put('/api/menus/:menuId/ingredients', async ({ params, request }) => {
+    const menuId = Number(params.menuId);
+
+    if (Number.isNaN(menuId)) {
+      return HttpResponse.json<ErrorResponse>(
+        { success: false, message: 'Invalid menuId', errorCode: '400' },
+        { status: 400 },
+      );
+    }
+
+    // menuId가 없으면 404
+    const current = INGREDIENTS_BY_MENU_ID[menuId];
+    if (!current) {
+      return HttpResponse.json<ErrorResponse>(
+        { success: false, message: 'Not Found', errorCode: '404' },
+        { status: 404 },
+      );
+    }
+
+    let body: PutIngredientRegisterRequestDto;
+
+    try {
+      body = (await request.json()) as PutIngredientRegisterRequestDto;
+    } catch {
+      return HttpResponse.json<ErrorResponse>(
+        {
+          success: false,
+          message: '요청 body가 JSON 형식이 아닙니다.',
+          errorCode: '400',
+        },
+        { status: 400 },
+      );
+    }
+
+    if (!body?.ingredients || !Array.isArray(body.ingredients)) {
+      return HttpResponse.json<ErrorResponse>(
+        { success: false, message: 'Invalid ingredients', errorCode: '400' },
+        { status: 400 },
+      );
+    }
+
+    // 업데이트
+    INGREDIENTS_BY_MENU_ID[menuId] = {
+      ...current,
+      ingredients: body.ingredients,
+    };
+
+    return HttpResponse.json<SuccessResponse>(
+      { success: true, message: 'Success', data: {} },
+      { status: 200 },
+    );
+  }),
+];
+
+export const ingredientHandler = [...getHandler, ...postHandler, ...putHandler];
