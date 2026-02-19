@@ -149,7 +149,9 @@ export const sseClient = (
     const dispose = () => {
       document.removeEventListener('visibilitychange', onVisibilitychange);
       window.clearTimeout(retryTimer);
-      currentRequestAbortController.abort();
+      if (!currentRequestAbortController.signal.aborted) {
+        currentRequestAbortController.abort();
+      }
     };
 
     customSignal?.addEventListener('abort', () => {
@@ -170,7 +172,8 @@ export const sseClient = (
      * SSE 연결 생성
      */
     async function create() {
-      currentRequestAbortController = new AbortController();
+      const currentController = new AbortController();
+      currentRequestAbortController = currentController;
       try {
         const apiPath = `${API_BASE_URL}${url}`;
 
