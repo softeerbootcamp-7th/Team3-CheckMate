@@ -44,6 +44,7 @@ public class SseController {
     })
     @GetMapping(value = "/connection", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter connect(@LoginMember MemberSession member) {
+        log.info("[connect][storeId= {}]", member.storeId());
 
         Long storeId = member.storeId();
 
