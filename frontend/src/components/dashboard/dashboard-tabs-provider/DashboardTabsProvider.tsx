@@ -1,6 +1,6 @@
 import { type PropsWithChildren, useState } from 'react';
 
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
   DashboardTabsContext,
@@ -9,11 +9,12 @@ import {
 import { dashboardOptions } from '@/services/dashboard';
 
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
-  const { data: tabs } = useSuspenseQuery(dashboardOptions.list);
+  const queryClient = useQueryClient();
 
-  const [currentDashboardId, setCurrentDashboardId] = useState<number>(
-    () => tabs.find((tab) => tab.isDefault)?.id ?? 1,
-  );
+  const [currentDashboardId, setCurrentDashboardId] = useState<number>(() => {
+    const tabs = queryClient.getQueryData(dashboardOptions.list.queryKey) ?? [];
+    return tabs.find((tab) => tab.isDefault)?.id ?? 1;
+  });
   const [dialogState, setDialogState] = useState<{
     open: boolean;
     mode: DashboardTabsDialogMode | null;
