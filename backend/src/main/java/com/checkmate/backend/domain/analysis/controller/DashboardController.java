@@ -3,7 +3,10 @@ package com.checkmate.backend.domain.analysis.controller;
 import com.checkmate.backend.domain.analysis.dto.request.DashboardNameRequest;
 import com.checkmate.backend.domain.analysis.dto.request.LayoutUpdateRequest;
 import com.checkmate.backend.domain.analysis.dto.response.CardLayoutResponse;
+import com.checkmate.backend.domain.analysis.dto.response.DashboardAnalysisDataResponse;
 import com.checkmate.backend.domain.analysis.dto.response.DashboardResponse;
+import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
+import com.checkmate.backend.domain.analysis.service.DashboardAnalysisService;
 import com.checkmate.backend.domain.analysis.service.DashboardLayoutService;
 import com.checkmate.backend.domain.analysis.service.DashboardService;
 import com.checkmate.backend.global.auth.LoginMember;
@@ -31,6 +34,7 @@ public class DashboardController {
 
     private final DashboardService dashboardService;
     private final DashboardLayoutService dashboardLayoutService;
+    private final DashboardAnalysisService dashboardAnalysisService;
 
     @Operation(summary = "대시보드 목록 조회 API (한울)", description = "매장의 모든 대시보드 탭을 조회합니다.")
     @ApiResponses({
@@ -376,5 +380,76 @@ public class DashboardController {
                 dashboardLayoutService.getLayout(member.storeId(), dashboardId);
 
         return ApiResponse.success(SuccessStatus.DASHBOARD_LAYOUT_GET_SUCCESS, response);
+    }
+
+    @Operation(
+            summary = "대시보드 지표 조회 API (용범)",
+            description = "대시보드 지표를 조회합니다.<br>" + "SSE 최초 연결 또는 재연결 시 사용할 있습니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "지표 카드 조회에 성공했습니다.",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "성공 응답 예시",
+                                                value =
+                                                        "{\n"
+                                                                + "  \"success\": true,\n"
+                                                                + "  \"message\": \"지표 카드 조회에 성공했습니다.\",\n"
+                                                                + "  \"data\": [\n"
+                                                                + "    {\n"
+                                                                + "      \"analysisCardCode\": \"WTH_01_01\",\n"
+                                                                + "      \"dashboardAnalysisResponse\": {}\n"
+                                                                + "    },\n"
+                                                                + "    {\n"
+                                                                + "      \"analysisCardCode\": \"WTH_02_01\",\n"
+                                                                + "      \"dashboardAnalysisResponse\": {}\n"
+                                                                + "    }\n"
+                                                                + "  ]\n"
+                                                                + "}"))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "400",
+                description = "지원하지 않는 지표 카드 ID입니다.",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "지원하지 않는 지표 카드 ID입니다.",
+                                                value =
+                                                        "{\n"
+                                                                + "  \"success\": false,\n"
+                                                                + "  \"message\": \"지원하지 않는 지표 카드 ID입니다.\",\n"
+                                                                + "  \"errorCode\": \"UNSUPPORTED_ANALYSIS_CARD\"\n"
+                                                                + "}"))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "서버 오류 예시",
+                                                value =
+                                                        "{\n"
+                                                                + "  \"success\": false,\n"
+                                                                + "  \"message\": \"서버 내부 오류가 발생했습니다.\",\n"
+                                                                + "  \"errorCode\": \"INTERNAL_SERVER_ERROR\"\n"
+                                                                + "}")))
+    })
+    @GetMapping("/data")
+    public ResponseEntity<ApiResponse<DashboardAnalysisDataResponse>> getDashboardAnalysisData(
+            @LoginMember MemberSession member,
+            @RequestParam List<AnalysisCardCode> analysisCardCodes) {
+
+        DashboardAnalysisDataResponse response =
+                dashboardAnalysisService.getDashboardAnalysisData(
+                        member.storeId(), analysisCardCodes);
+
+        return ApiResponse.success(SuccessStatus.ANALYSIS_CARD_GET_SUCCESS, response);
     }
 }
