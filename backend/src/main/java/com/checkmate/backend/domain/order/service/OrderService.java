@@ -18,6 +18,7 @@ import com.checkmate.backend.global.exception.NotFoundException;
 import com.checkmate.backend.global.util.TimeUtil;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,9 @@ public class OrderService {
                                     return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
                                 });
 
-        LocalDate orderDate = receiptRequestDTO.orderedAt().toLocalDate();
+        LocalDateTime orderedAt =
+                Optional.ofNullable(receiptRequestDTO.orderedAt()).orElse(LocalDateTime.now());
+        LocalDate orderDate = orderedAt.toLocalDate();
         // 1. 주문
         Order order =
                 Order.builder()
@@ -60,9 +63,9 @@ public class OrderService {
                         .orderChannel(receiptRequestDTO.orderChannel().getValue())
                         .orderStatus(OrderStatus.COMPLETE.getValue())
                         .paymentMethod(receiptRequestDTO.paymentMethod().getValue())
-                        .orderedAt(receiptRequestDTO.orderedAt())
+                        .orderedAt(orderedAt)
                         .orderDate(orderDate)
-                        .timeSlot2H(TimeUtil.get2HourSlot(receiptRequestDTO.orderedAt()))
+                        .timeSlot2H(TimeUtil.get2HourSlot(orderedAt))
                         .orderDayOfWeek(TimeUtil.getDayOfWeekValue(orderDate))
                         .store(store)
                         .build();
@@ -71,26 +74,29 @@ public class OrderService {
 
         // 2. orderItem
 
-        List<ReceiptItemRequestDTO> receiptItemRequestDTOS =
-                Optional.ofNullable(receiptRequestDTO.menus()).orElse(List.of());
+        List<ReceiptItemRequestDTO> receiptItemRequestDTOS = receiptRequestDTO.menus();
 
-        List<Long> menuVersionIds =
-                receiptItemRequestDTOS.stream().map(ReceiptItemRequestDTO::menuVersionId).toList();
+        List<Long> menuIds =
+                receiptItemRequestDTOS.stream().map(ReceiptItemRequestDTO::menuId).toList();
 
         List<MenuVersion> menuVersions =
-                menuVersionRepository.findMenuVersionsByMenuVersionIds(menuVersionIds);
+                menuVersionRepository.findActiveMenuVersionsByStoreIdAndMenuIds(storeId, menuIds);
 
-        // key: menuVersionId, value: Mev
-        Map<Long, MenuVersion> menuVersionById = new HashMap<>();
+        // key: menuId value: menuVersion
+        Map<Long, MenuVersion> menuVersionByMenuId = new HashMap<>();
 
         for (MenuVersion menuVersion : menuVersions) {
-            menuVersionById.put(menuVersion.getId(), menuVersion);
+            menuVersionByMenuId.put(menuVersion.getMenu().getId(), menuVersion);
         }
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (ReceiptItemRequestDTO receiptItemRequestDTO : receiptItemRequestDTOS) {
-            Long menuVersionId = receiptItemRequestDTO.menuVersionId();
-            MenuVersion menuVersion = menuVersionById.get(menuVersionId);
+            Long menuId = receiptItemRequestDTO.menuId();
+            MenuVersion menuVersion = menuVersionByMenuId.get(menuId);
+
+            if (menuVersion == null) {
+                continue;
+            }
 
             OrderItem orderItem =
                     OrderItem.builder()
@@ -108,7 +114,6 @@ public class OrderService {
         orderItemRepository.saveAll(orderItems);
 
         // 이벤트 발행
-        applicationEventPublisher.publishEvent(
-                new OrderCreatedEvent(storeId, receiptRequestDTO.orderedAt()));
+        applicationEventPublisher.publishEvent(new OrderCreatedEvent(storeId, orderedAt));
     }
 }

@@ -4,7 +4,7 @@ import type { Coordinate } from '@/types/shared';
 import { Dots } from './Dots';
 import { Line } from './Line';
 
-interface SeriesProps {
+interface LineSeriesProps {
   coordinate: Coordinate[];
   color: string;
   hasGradient?: boolean;
@@ -14,7 +14,7 @@ interface SeriesProps {
   tooltipContent: (...args: string[]) => string;
 }
 
-export const Series = ({
+export const LineSeries = ({
   coordinate,
   color,
   hasGradient = false,
@@ -22,7 +22,7 @@ export const Series = ({
   series,
   activeTooltip,
   tooltipContent,
-}: SeriesProps) => {
+}: LineSeriesProps) => {
   return (
     <>
       <Line

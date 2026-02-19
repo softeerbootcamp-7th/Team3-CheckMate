@@ -5,23 +5,34 @@ import { XIcon } from 'lucide-react';
 import { PeriodTag } from '@/components/shared';
 import { Button } from '@/components/shared/shadcn-ui';
 import {
+  DASHBOARD_EDIT_AREA,
   DASHBOARD_METRIC_CARDS,
   type MetricCardCode,
 } from '@/constants/dashboard';
-import { CDN_BASE_URL } from '@/constants/shared/cdnBaseUrl';
-import { useEditCard } from '@/hooks/dashboard';
+import { CDN_BASE_URL } from '@/constants/shared';
+import {
+  useDragAndDropCard,
+  useEditCard,
+  useGridCellSize,
+} from '@/hooks/dashboard';
+import { cn } from '@/utils/shared';
 
 interface MiniViewActiveCardProps {
   cardCode: MetricCardCode;
-  posX: number;
-  posY: number;
+  colNo: number;
+  rowNo: number;
+  isDragging: boolean;
 }
 export const MiniViewActiveCard = ({
   cardCode,
-  posX,
-  posY,
+  colNo,
+  rowNo,
+  isDragging,
 }: MiniViewActiveCardProps) => {
   const { removeCard } = useEditCard();
+  const { handleDragStart, handleDragEnd } = useDragAndDropCard();
+  const { getGridPosition, getGridCardSize } = useGridCellSize();
+
   const card = DASHBOARD_METRIC_CARDS[cardCode];
 
   const handleRemove = useCallback(
@@ -35,21 +46,39 @@ export const MiniViewActiveCard = ({
   }
   const { label, type, period, sizeX, sizeY } = card;
 
+  const { topInPixel, leftInPixel } = getGridPosition(rowNo, colNo);
+  const { widthInPixel, heightInPixel } = getGridCardSize(sizeX, sizeY);
+
   return (
     <div
-      className="rounded-400 bg-grey-0 relative border-none"
+      draggable
+      onDragStart={(e) =>
+        handleDragStart(e, DASHBOARD_EDIT_AREA.GRID, {
+          cardCode,
+          colNo,
+          rowNo,
+        })
+      }
+      onDragEnd={handleDragEnd}
+      className={cn(
+        'rounded-300 bg-grey-0 absolute top-0 left-0 cursor-grab border-none transition-all duration-200 select-none active:cursor-grabbing',
+        isDragging ? 'opacity-0' : 'opacity-100',
+      )}
       style={{
-        gridColumn: `${posX} / span ${sizeX}`,
-        gridRow: `${posY} / span ${sizeY}`,
+        translate: `${leftInPixel}px ${topInPixel}px`,
+        width: widthInPixel,
+        height: heightInPixel,
       }}
     >
-      <div className="flex h-full flex-col items-center justify-center">
+      <div className="relative flex h-full flex-col items-center justify-center p-4">
         <img
           src={`${CDN_BASE_URL}/assets/images/${type}.svg`}
           alt={`${label} 미니 뷰`}
-          className="size-15"
+          draggable={false}
         />
-        <p className="body-small-medium text-grey-900 mt-200 mb-100">{label}</p>
+        <p className="body-small-medium text-grey-900 mt-200 mb-100 text-center break-keep">
+          {label}
+        </p>
         <PeriodTag isAdded period={period} />
       </div>
       {/* 상단 삭제 버튼 */}

@@ -1,0 +1,1 @@
+export { getSalesCurrentComparisonMessage } from './getSalesCurrentComparisonMessage';

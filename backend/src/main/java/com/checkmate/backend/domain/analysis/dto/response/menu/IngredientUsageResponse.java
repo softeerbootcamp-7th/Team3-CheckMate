@@ -5,7 +5,9 @@ import com.checkmate.backend.domain.analysis.dto.response.DetailAnalysisResponse
 import java.util.List;
 
 /** MNU_04 (식자재 소진량) */
-public record IngredientUsageResponse(List<IngredientUsageItem> items)
+public record IngredientUsageResponse(
+        boolean hasIngredient, // 매장 식재료 등록 여부
+        List<IngredientUsageItem> items)
         implements DashboardAnalysisResponse, DetailAnalysisResponse {
 
     public record IngredientUsageItem(

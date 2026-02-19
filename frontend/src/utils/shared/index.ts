@@ -27,7 +27,8 @@ export {
 } from './calendar';
 export { formatPriceWithComma } from './formatPriceWithComma';
 export { formatNumber, formatNumberInTenThousands } from './formatNumber';
-export { getXCoordinate, filterCoordinate } from './line-chart';
+export { filterCoordinate } from './line-chart';
+export { getXCoordinate, calculateMaximumY } from './chart';
 
 export {
   computeChartDataWithPercentage,
@@ -38,10 +39,16 @@ export {
 } from './doughnut-chart';
 
 export { createPeriodTypeProvider } from './period-select';
+export { getNextHour } from './getNextHour';
+export { assertNever } from './assertNever';
 export { getCoordinate } from './getCoordinate';
 export {
   getBarSegmentInfoList,
   checkIsStackBarChart,
   getTooltipContent,
   getStackTotalAmount,
+  getBarHeight,
+  getBarWidth,
+  getLabelContentText,
 } from './bar-chart';
+export { throttle } from './throttle';

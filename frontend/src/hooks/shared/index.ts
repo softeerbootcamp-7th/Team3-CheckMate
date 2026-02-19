@@ -26,5 +26,8 @@ export {
   useBarInitAnimation,
   usePathDAnimation,
 } from './bar-chart';
-export { useSectionRefresh } from './useSectionRefresh';
-export { usePeriodChangeRefreshTrigger } from './usePeriodChangeRefreshTrigger';
+export {
+  useBarLineChartId,
+  useDrawBarLine,
+  useBarLineChart,
+} from './bar-line-chart';
