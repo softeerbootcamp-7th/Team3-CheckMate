@@ -3,11 +3,11 @@ import { useMemo, useState } from 'react';
 import type { MenuInfo } from '@/types/ingredient';
 import type { CategoryMenu } from '@/types/ingredient';
 
-interface useCategoryMenusParams {
+interface UseCategoryMenusParams {
   categoryMenus: CategoryMenu[];
 }
 
-export const useCategoryMenus = ({ categoryMenus }: useCategoryMenusParams) => {
+export const useCategoryMenus = ({ categoryMenus }: UseCategoryMenusParams) => {
   // 카테고리 별로 메뉴 관리할 수 있는 맵 객체
   const menusByCategory = useMemo(() => {
     const MenuMapByCategory = new Map<string, MenuInfo[]>();
