@@ -1,9 +1,9 @@
-import { SERVER_TO_UI_UNIT } from '@/constants/ingredient';
 import type {
   GetCategoryMenusResponseDto,
   MenuIngredients,
 } from '@/types/ingredient';
 import type { GetMenuIngredientsResponseDto } from '@/types/ingredient/dto';
+import { convertServerUnitToUiUnit } from '@/utils/ingredient';
 
 import { authorizedApi } from '../shared';
 
@@ -32,7 +32,7 @@ export const getMenuIngredients = async ({
     ingredients: data.ingredients.map((item) => ({
       name: item.name,
       quantity: item.quantity.toString(),
-      unit: SERVER_TO_UI_UNIT[item.unit],
+      unit: convertServerUnitToUiUnit(item.unit),
     })),
   };
 };
