@@ -26,3 +26,4 @@ export {
   type SalesMetricCardCodes,
   isSalesMetricCardCodes,
 } from './salesMetric';
+export { SALES_TREND_DETAIL } from './sales-trends/salesTrendDetail';
