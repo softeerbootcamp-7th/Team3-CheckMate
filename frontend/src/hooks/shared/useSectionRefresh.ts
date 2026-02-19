@@ -22,9 +22,10 @@ export const useSectionRefresh = ({
   );
 
   // 마지막 새로고침 시간을 현재 시간으로 업데이트하는 함수
-  const updateLastUpdatedDateToNow = useCallback(() => {
-    setLastUpdatedDate(new Date());
-  }, []);
+  const updateLastUpdatedDateToNow = useCallback(
+    () => setLastUpdatedDate(new Date()),
+    [],
+  );
 
   // 섹션 내 카드들 중 데이터 불러오고 있는(새로고침버튼 or 기간변경으로) 개수. 0 이상이면 현재 fetching 중인 카드 있다는 뜻
   const fetchingCardsCount = useIsFetching({ queryKey: prefixKey });
@@ -32,14 +33,13 @@ export const useSectionRefresh = ({
 
   // 새로고침 버튼 눌렀을 때 작동할 함수
   const refresh = useCallback(async () => {
-    // 새로고침 요청 시각(=헤더 표시)을 새로고침 버튼 누른 현재로 업데이트
-    setLastUpdatedDate(new Date());
-
-    // prefixKey로 시작하는 모든 쿼리(=섹션 내 하위 카드들) refetch시킴
-    await queryClient.refetchQueries({
-      queryKey: prefixKey,
-      type: 'active', // 현재 화면에 선택된 기간에 해당하는 쿼리만 refetch 되도록
-    });
+    // 새로고침 요청 시간 저장
+    const requestedAt = new Date();
+    await queryClient.refetchQueries(
+      { queryKey: prefixKey, type: 'active' },
+      { throwOnError: true }, // 오류 발생 시 예외 던지기
+    );
+    setLastUpdatedDate(requestedAt); // 성공 시애먼 새로고침 요청 시각으로 업데이트
   }, [queryClient, prefixKey]);
 
   return {

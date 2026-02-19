@@ -27,3 +27,4 @@ export {
   usePathDAnimation,
 } from './bar-chart';
 export { useSectionRefresh } from './useSectionRefresh';
+export { usePeriodChangeRefreshTrigger } from './usePeriodChangeRefreshTrigger';
