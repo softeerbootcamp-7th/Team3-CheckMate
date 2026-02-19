@@ -11,7 +11,7 @@ export const getHandler = [
         success: true,
         message: '알림 시간 조회 성공',
         data: {
-          nextClosingTime: '2026-02-19T09:00:00Z',
+          nextClosingTime: '2026-02-19T09:00:00',
         },
       },
       { status: 200 },
