@@ -23,17 +23,6 @@ const meta = {
       control: 'text',
       defaultValue: '섹션에 대한 설명이 들어가는 자리입니다.',
     },
-    lastUpdatedDate: {
-      control: 'date',
-      defaultValue: new Date(),
-    },
-    onRefresh: {
-      action: '새로고침 버튼이 클릭되었습니다!',
-    },
-    isLoading: {
-      control: 'boolean',
-      defaultValue: false,
-    },
   },
 } satisfies Meta<typeof SectionHeader>;
 
@@ -45,9 +34,7 @@ export const Default: Story = {
   args: {
     title: '섹션 제목',
     description: '섹션에 대한 설명이 들어가는 자리입니다.',
-    lastUpdatedDate: new Date(),
-    onRefresh: () => alert('새로고침 버튼이 클릭되었습니다!'),
-    isLoading: false,
+    prefixKey: ['sales', 'overview'],
   },
 };
 
@@ -55,9 +42,7 @@ export const WithPeriodSelect: Story = {
   args: {
     title: '섹션 제목',
     description: '섹션에 대한 설명이 들어가는 자리입니다.',
-    lastUpdatedDate: new Date(),
-    onRefresh: () => alert('새로고침 버튼이 클릭되었습니다!'),
-    isLoading: false,
+    prefixKey: ['sales', 'overview'],
     rightSlot: (
       <PeriodSelect
         periodPreset={PERIOD_PRESET_KEYS.dayWeekMonth}
