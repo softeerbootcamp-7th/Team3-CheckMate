@@ -38,6 +38,7 @@ public class TestOrderService {
          * */
         List<MenuVersion> menuVersions = new ArrayList<>();
 
+        // case 1: menuItems 없음.
         if (menuIds.isEmpty()) {
 
             List<MenuVersion> activeMenuVersionsByStoreId =
@@ -97,16 +98,28 @@ public class TestOrderService {
                                 menuItem.menuId(), unitPrice, quantity, lineAmount));
             }
 
+            SalesType randomSalesType =
+                    SalesType.values()[
+                            ThreadLocalRandom.current().nextInt(SalesType.values().length)];
+
+            OrderChannel randomOrderChannel =
+                    OrderChannel.values()[
+                            ThreadLocalRandom.current().nextInt(OrderChannel.values().length)];
+
+            PaymentMethod paymentMethod =
+                    PaymentMethod.values()[
+                            ThreadLocalRandom.current().nextInt(PaymentMethod.values().length)];
+
             ReceiptRequestDTO dto =
                     new ReceiptRequestDTO(
                             grossAmount,
                             0,
                             grossAmount,
-                            SalesType.DINE_IN,
-                            OrderChannel.POS,
+                            randomSalesType,
+                            randomOrderChannel,
                             orderedAt,
                             items,
-                            PaymentMethod.CARD);
+                            paymentMethod);
 
             orderService.receivePosOrder(storeId, dto);
         }
