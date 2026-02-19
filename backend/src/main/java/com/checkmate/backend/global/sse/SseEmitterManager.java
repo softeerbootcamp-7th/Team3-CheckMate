@@ -49,8 +49,21 @@ public class SseEmitterManager {
     }
 
     public void removeClient(Long storeId) {
+        SseEmitter sseEmitter = emitters.remove(storeId);
+
+        // emitter가 존재하면 종료
+        if (sseEmitter != null) {
+            try {
+                sseEmitter.complete();
+            } catch (Exception e) {
+                // 종료 중 예외 로그
+                log.warn(
+                        "[removeClient][Failed to complete SseEmitter for storeId={}]", storeId, e);
+            }
+        }
+
+        // clientTopics에서도 제거
         clientTopics.remove(storeId);
-        emitters.remove(storeId);
     }
 
     public void subscribe(Long storeId, SubscriptionTopicsRequest SubscriptionTopicsRequest) {
