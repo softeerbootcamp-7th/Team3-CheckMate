@@ -15,7 +15,7 @@ export const SALES_SOURCE = {
   PAYMENT_METHOD: {
     CARD: '카드',
     CASH: '현금',
-    MOBILE: '간편결제',
+    EASY_PAY: '간편결제',
     ETC: '기타',
   },
 } as const;
@@ -31,7 +31,7 @@ export const SALES_SOURCE_COLORS = {
   [SALES_SOURCE.ORDER_METHOD.DELIVERY_APP]: 'var(--color-brand-200)',
   [SALES_SOURCE.PAYMENT_METHOD.CARD]: 'var(--color-brand-500)',
   [SALES_SOURCE.PAYMENT_METHOD.CASH]: 'var(--color-grey-500)',
-  [SALES_SOURCE.PAYMENT_METHOD.MOBILE]: 'var(--color-brand-200)',
+  [SALES_SOURCE.PAYMENT_METHOD.EASY_PAY]: 'var(--color-brand-200)',
   [SALES_SOURCE.PAYMENT_METHOD.ETC]: 'var(--color-brand-50)',
 };
 
