@@ -10,4 +10,9 @@ export const salesOptions = {
       queryKey: salesKeys.dailyRevenueTrend(query),
       queryFn: () => getAnalysisDetail<T>(query),
     }),
+  weeklyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.weeklyRevenueTrend(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
 };
