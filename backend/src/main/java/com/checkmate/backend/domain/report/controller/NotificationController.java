@@ -75,17 +75,15 @@ public class NotificationController {
                                       "data": [
                                         {
                                           "notificationId": 12,
-                                          "content": "2026년 2월 18일 하루 리포트 발행이 완료되었습니다.",
+                                          "content": "2월 18일 하루 리포트가 발행되었습니다.",
                                           "isRead": false,
-                                          "createdAt": "2026-02-18T17:30:00",
-                                          "relativeTime": "3분 전"
+                                          "createdAt": "2026-02-18T17:30:00"
                                         },
                                         {
                                           "notificationId": 11,
-                                          "content": "2026년 2월 17일 하루 리포트 발행이 완료되었습니다.",
+                                          "content": "2월 17일 하루 리포트가 발행되었습니다.",
                                           "isRead": true,
                                           "createdAt": "2026-02-17T17:30:00",
-                                          "relativeTime": "1일 전"
                                         }
                                       ]
                                     }

@@ -43,29 +43,57 @@ public class ReportController {
                                 mediaType = "application/json",
                                 examples =
                                         @ExampleObject(
+                                                name = "리포트 상세 조회 예시",
                                                 value =
                                                         """
-                                                        {
-                                                          "success": true,
-                                                          "message": "리포트 조회에 성공했습니다.",
-                                                          "data": {
-                                                            "targetDate": "2026-02-14",
-                                                            "title": "2026.02.14 오늘은 매출이 좋은 날이에요.",
-                                                            "statusLabel": "최상",
-                                                            "kpi": {
-                                                              "netSales": "1,240,000원 (동요일 대비 12.5%↑)",
-                                                              "orders": "42건 (동요일 대비 5.0%↑)",
-                                                              "aov": "29,523원 (동요일 대비 7.1%↑)"
-                                                            },
-                                                            "insights": [
-                                                              "실매출이 동요일 대비 12.5% 상승했어요. (의미: 객단가 상승이 주요 원인일 가능성이 있어요. / 영향: 수익성이 개선되는 흐름이에요.)"
-                                                            ],
-                                                            "strategies": [
-                                                              "첫째, 고단가 메뉴의 판매 비중을 유지하기 위해 추천 메뉴 구성을 점검해보세요."
-                                                            ]
-                                                          }
-                                                        }
-                                                        """))),
+                                            {
+                                              "success": true,
+                                              "message": "리포트 조회에 성공했습니다.",
+                                              "data": {
+                                                "targetDate": "2026-02-14",
+                                                "title": {
+                                                  "fullText": "오늘은 매출이 좋은 날이에요.",
+                                                  "highlight": "매출이 좋은"
+                                                },
+                                                "statusLabel": "최상",
+                                                "kpi": {
+                                                  "netSales": {
+                                                    "label": "실매출",
+                                                    "value": "1,240,000원",
+                                                    "diffVal": "+12.5%",
+                                                    "diffDesc": "동요일 대비",
+                                                    "trendDir": "up"
+                                                  },
+                                                  "orders": {
+                                                    "label": "주문건수",
+                                                    "value": "42건",
+                                                    "diffVal": "+5.0%",
+                                                    "diffDesc": "동요일 대비",
+                                                    "trendDir": "up"
+                                                  },
+                                                  "aov": {
+                                                    "label": "객단가",
+                                                    "value": "29,523원",
+                                                    "diffVal": "+7.1%",
+                                                    "diffDesc": "동요일 대비",
+                                                    "trendDir": "up"
+                                                  }
+                                                },
+                                                "insights": [
+                                                  {
+                                                    "idx": 1,
+                                                    "observe": "실매출이 동요일 대비 12.5% 상승했어요.",
+                                                    "meaning": "이는 객단가 상승이 주요 원인일 가능성이 있어요.",
+                                                    "impact": "그래서 수익성이 개선되는 흐름임을 시사해요."
+                                                  }
+                                                ],
+                                                "strategies": [
+                                                  "첫째, 고단가 메뉴의 판매 비중을 유지하기 위해 추천 메뉴 구성을 점검해보세요.",
+                                                  "둘째, 피크 타임 인력 배치를 최적화하여 회전율을 높여보세요."
+                                                ]
+                                              }
+                                            }
+                                            """))),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(
                 responseCode = "404",
                 description = "리포트 없음",
