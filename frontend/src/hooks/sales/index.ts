@@ -1,2 +1,5 @@
-export { useDailyRevenueTrend } from './sales-trends';
-export { useWeeklyRevenueTrend } from './sales-trends';
+export {
+  useDailyRevenueTrend,
+  useWeeklyRevenueTrend,
+  useMonthlyRevenueTrend,
+} from './sales-trends';

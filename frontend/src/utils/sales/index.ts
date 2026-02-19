@@ -9,4 +9,5 @@ export { getSalesIncomeStructureComparisonMessage } from './dashboard-sales-inco
 export {
   getDailyRevenueTrendCardCode,
   getWeeklyRevenueTrendCardCode,
+  getMonthlyRevenueTrendCardCode,
 } from './sales-trends';
