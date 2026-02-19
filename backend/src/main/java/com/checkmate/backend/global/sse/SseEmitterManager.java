@@ -18,8 +18,7 @@ public class SseEmitterManager {
     // StoreId -> subscribed topics
     private final Map<Long, Set<AnalysisCardCode>> clientTopics = new ConcurrentHashMap<>();
 
-    /** 새로운 SSE Emitter 등록 기존 Emitter가 있으면 종료 후 제거 */
-    public void addEmitter(Long storeId, SseEmitter emitter) {
+    public void addEmitter(Long storeId, SseEmitter newEmitter) {
         emitters.compute(
                 storeId,
                 (key, existingEmitter) -> {
@@ -33,10 +32,16 @@ public class SseEmitterManager {
                                     storeId,
                                     e);
                         }
-                        clientTopics.remove(storeId);
+                        clientTopics.remove(storeId); // 기존 topic만 정리
                     }
-                    return emitter; // 새로운 Emitter 등록
+                    return newEmitter; // 새 Emitter 등록
                 });
+
+        // Emitter 이벤트에서는 Map 제거 X
+        newEmitter.onCompletion(() -> log.info("[SSE][disconnect][storeId={}]", storeId));
+        newEmitter.onTimeout(() -> log.info("[SSE][timeout][storeId={}]", storeId));
+        newEmitter.onError(
+                e -> log.warn("[SSE][error][storeId={} reason={}]", storeId, e.getMessage()));
     }
 
     public SseEmitter getEmitter(Long storeId) {
@@ -44,8 +49,21 @@ public class SseEmitterManager {
     }
 
     public void removeClient(Long storeId) {
+        SseEmitter sseEmitter = emitters.remove(storeId);
+
+        // emitter가 존재하면 종료
+        if (sseEmitter != null) {
+            try {
+                sseEmitter.complete();
+            } catch (Exception e) {
+                // 종료 중 예외 로그
+                log.warn(
+                        "[removeClient][Failed to complete SseEmitter for storeId={}]", storeId, e);
+            }
+        }
+
+        // clientTopics에서도 제거
         clientTopics.remove(storeId);
-        emitters.remove(storeId);
     }
 
     public void subscribe(Long storeId, SubscriptionTopicsRequest SubscriptionTopicsRequest) {
