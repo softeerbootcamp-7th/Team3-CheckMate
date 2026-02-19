@@ -19,7 +19,7 @@ export const DailyReportMain = () => {
           setSelectedDate={setSelectedDate}
         />
       </div>
-      <div className="bg-grey-100 rounded-400 h-176.5 w-162">
+      <div className="bg-special-card-bg rounded-400 h-176.5 w-162">
         <FetchBoundary
           ErrorFallback={(props) => <DailyReportEmpty {...props} />}
         >
