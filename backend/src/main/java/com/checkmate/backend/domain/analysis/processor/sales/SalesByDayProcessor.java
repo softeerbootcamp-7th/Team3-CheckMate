@@ -95,7 +95,7 @@ public class SalesByDayProcessor implements AnalysisProcessor<SalesAnalysisConte
                         topDay,
                         isSignificant);
 
-        // keh: 요일 value: salesByDayProjections
+        // keㅛ: 요일 value: salesByDayProjections
         Map<Integer, SalesByDayProjection> projectionMap =
                 salesByDayProjections.stream()
                         .collect(
