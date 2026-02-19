@@ -12,4 +12,3 @@ export interface IngredientRegisterRequestDto {
 }
 
 export type PostIngredientRegisterRequestDto = IngredientRegisterRequestDto;
-export type PutIngredientRegisterRequestDto = IngredientRegisterRequestDto;
