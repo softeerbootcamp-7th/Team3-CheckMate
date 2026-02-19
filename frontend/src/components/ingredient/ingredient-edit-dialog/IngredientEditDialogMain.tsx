@@ -30,7 +30,7 @@ export const IngredientEditDialogMain = ({
     control,
     getValues,
   });
-  const { isAiRecommendPending, handleAiIngredientRecommend } =
+  const { isAiRecommendPending, requestAiIngredientRecommend } =
     useAiIngredientRecommend({
       fieldArrayReplace: fieldArrayMethods.replace,
     });
@@ -51,7 +51,7 @@ export const IngredientEditDialogMain = ({
         fields={fieldArrayMethods.fields}
         onClickAddIngredient={handleAddIngredient}
         onClickAiIngredientRecommend={() => {
-          handleAiIngredientRecommend(menuIngredients?.menuName || '');
+          requestAiIngredientRecommend(menuId);
         }}
       />
 
