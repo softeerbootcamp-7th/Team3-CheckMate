@@ -9,11 +9,11 @@ import { authorizedApi } from '../shared';
 /**
  * 대시보드 탭 추가
  */
-export const postDashboard = async (request: PostDashboardRequestDto) => {
+export const postDashboard = async (body: PostDashboardRequestDto) => {
   const { data } = await authorizedApi.post<PostDashboardResponseDto>(
     '/api/analysis/dashboards',
     {
-      body: JSON.stringify(request),
+      body: JSON.stringify(body),
     },
   );
   return data;

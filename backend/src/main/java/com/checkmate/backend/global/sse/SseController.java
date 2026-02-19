@@ -2,6 +2,7 @@ package com.checkmate.backend.global.sse;
 
 import static com.checkmate.backend.global.response.SuccessStatus.*;
 
+import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.global.auth.LoginMember;
 import com.checkmate.backend.global.auth.MemberSession;
 import com.checkmate.backend.global.response.ApiResponse;
@@ -11,6 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -44,6 +48,7 @@ public class SseController {
     })
     @GetMapping(value = "/connection", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter connect(@LoginMember MemberSession member) {
+        log.info("[connect][storeId= {}]", member.storeId());
 
         Long storeId = member.storeId();
 
@@ -51,22 +56,6 @@ public class SseController {
         SseEmitter emitter = new SseEmitter(300_000L);
 
         sseEmitterManager.addEmitter(storeId, emitter);
-
-        emitter.onCompletion(
-                () -> {
-                    log.info("[SSE][disconnect][storeId={}]", storeId);
-                    sseEmitterManager.removeClient(storeId);
-                });
-        emitter.onTimeout(
-                () -> {
-                    log.info("[SSE][timeout][storeId={}]", storeId);
-                    sseEmitterManager.removeClient(storeId);
-                });
-        emitter.onError(
-                e -> {
-                    log.warn("[SSE][error][storeId={} reason={}]", storeId, e.getMessage());
-                    sseEmitterManager.removeClient(storeId);
-                });
 
         /*
          * 초기 더미 이벤트 전송
@@ -107,7 +96,7 @@ public class SseController {
 
         sseEmitterManager.subscribe(storeId, subscriptionTopicsRequest);
 
-        return ApiResponse.success_only(SSE_SUBSCRIBE_SUCCESS);
+        return ApiResponse.success(SSE_SUBSCRIBE_SUCCESS);
     }
 
     @Operation(
@@ -133,7 +122,7 @@ public class SseController {
 
         sseEmitterManager.unsubscribe(storeId, subscriptionTopicsRequest);
 
-        return ApiResponse.success_only(SSE_UNSUBSCRIBE_SUCCESS);
+        return ApiResponse.success(SSE_UNSUBSCRIBE_SUCCESS);
     }
 
     @Operation(summary = "SSE 연결 종료 API")
@@ -152,6 +141,32 @@ public class SseController {
 
         sseEmitterManager.removeClient(storeId);
 
-        return ApiResponse.success_only(SSE_DISCONNECT_SUCCESS);
+        return ApiResponse.success(SSE_DISCONNECT_SUCCESS);
+    }
+
+    @Operation(summary = "SSE 연결 조회 API (용범)")
+    @GetMapping(value = "/emitters")
+    public ResponseEntity<ApiResponse<Map<Long, String>>> getEmitters(
+            @LoginMember MemberSession member) {
+
+        Map<Long, String> emitterIds = new HashMap<>();
+
+        sseEmitterManager
+                .getEmitters()
+                .forEach(
+                        (storeId, emitter) ->
+                                emitterIds.put(
+                                        storeId, "Emitter@" + System.identityHashCode(emitter)));
+
+        return ApiResponse.success(SSE_EMITTER_LIST_SUCCESS, emitterIds);
+    }
+
+    @Operation(summary = "SSE 구독 목록 조회 API (용범)")
+    @GetMapping(value = "/subscriptions")
+    public ResponseEntity<ApiResponse<Set<AnalysisCardCode>>> get(
+            @LoginMember MemberSession member, @RequestParam Long storeId) {
+        Set<AnalysisCardCode> topics = sseEmitterManager.getSubscribedTopics(storeId);
+
+        return ApiResponse.success(SSE_SUBSCRIBE_LIST_SUCCESS, topics);
     }
 }

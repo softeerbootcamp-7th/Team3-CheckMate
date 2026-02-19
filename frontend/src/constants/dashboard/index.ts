@@ -34,5 +34,10 @@ export {
   isMetricCardCode,
   type MetricCardCode,
 } from './dashboardMetricCards';
+export {
+  DIRECTIONS,
+  DASHBOARD_EDIT_AREA,
+  type DashboardEditArea,
+} from './dashboardEditArea';
 export { METRIC_TREND, type MetricTrend } from './metricTrend';
 export { GRID_ROW_SIZE, GRID_COL_SIZE } from './dashboardGridSize';

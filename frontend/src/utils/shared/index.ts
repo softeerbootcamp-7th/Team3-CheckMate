@@ -4,6 +4,7 @@ export {
   formatDateYYYYMMDD,
   formatDateYYYYMM,
   formatDateLocalized,
+  formatDateYYMMDDHHMM,
 } from './formatDate';
 export { formatRelativeTime } from './formatTime';
 export type { DeepValueOf } from './deepValueOf';
@@ -51,3 +52,4 @@ export {
   getBarWidth,
   getLabelContentText,
 } from './bar-chart';
+export { throttle } from './throttle';

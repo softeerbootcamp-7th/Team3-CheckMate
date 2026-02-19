@@ -1,4 +1,4 @@
-export type { DashboardCard } from './dashboardCard';
+export type { DashboardCard, DragState, GhostState } from './dashboardCard';
 export type { Dashboard } from './dashboard';
 export type {
   GetDashboardListResponseDto,
@@ -12,8 +12,8 @@ export type {
   DeleteDashboardSseSubscriptionRequestDto,
 } from './dto';
 export type {
-  PatchDashboardNameQuery,
-  DeleteDashboardQuery,
-  GetDashboardCardListQuery,
-  PutDashboardCardListQuery,
-} from './query';
+  PatchDashboardNameParam,
+  DeleteDashboardParam,
+  GetDashboardCardListParam,
+  PutDashboardCardListParam,
+} from './param';

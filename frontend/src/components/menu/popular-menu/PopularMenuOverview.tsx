@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
-import { PeriodSelect, SectionTitle } from '@/components/shared';
+import { PeriodSelect, SectionHeader } from '@/components/shared';
 import {
   PERIOD_PRESET_KEYS,
   PERIOD_PRESETS,
   type PeriodType,
 } from '@/constants/shared';
+import { usePeriodChangeRefreshTrigger } from '@/hooks/shared';
+import { menuKeys } from '@/services/menu';
 
 import { CategorySalesCard } from './CategorySalesCard';
 import { MenuSalesRankCard } from './MenuSalesRankCard';
@@ -20,23 +22,31 @@ export const PopularMenuOverview = () => {
   );
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const { triggerUpdateRefreshDate, handlePeriodChange } =
+    usePeriodChangeRefreshTrigger<typeof periodType>({
+      setPeriodType,
+    });
+
   return (
     <section className="flex flex-col gap-4" aria-label="인기 메뉴 분석">
-      <div className="flex items-center justify-between">
-        <SectionTitle
-          title="인기 메뉴"
-          description="잘 팔리는 메뉴와 카테고리별 매출 구성을 한눈에 확인해요."
-        />
-        <PeriodSelect
-          periodPreset={PERIOD_PRESET_KEYS.today7_30}
-          periodType={periodType}
-          setPeriodType={setPeriodType}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        />
-      </div>
+      <SectionHeader
+        title="인기 메뉴"
+        description="잘 팔리는 메뉴와 카테고리별 매출 구성을 한눈에 확인해요."
+        prefixKey={menuKeys.popularMenu()}
+        triggerUpdateRefreshDate={triggerUpdateRefreshDate}
+        rightSlot={
+          <PeriodSelect
+            periodPreset={PERIOD_PRESET_KEYS.today7_30}
+            periodType={periodType}
+            startDate={startDate}
+            endDate={endDate}
+            setPeriodType={handlePeriodChange}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
+        }
+      />
+
       <div className="flex gap-5">
         <MenuSalesRankCard />
         <CategorySalesCard />
