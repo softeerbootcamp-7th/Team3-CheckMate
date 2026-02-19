@@ -39,7 +39,7 @@ export const DashboardMainContent = ({ cards }: DashboardMainContentProps) => {
         return (
           <FetchBoundary key={`dashboard-card-${item.cardCode}`}>
             <DefaultCardWrapper
-              className="rounded-400 bg-special-card-bg p-5"
+              className="rounded-400 bg-special-card-bg size-full p-5"
               style={{
                 gridColumn: `${item.colNo} / span ${card.sizeX}`,
                 gridRow: `${item.rowNo} / span ${card.sizeY}`,
