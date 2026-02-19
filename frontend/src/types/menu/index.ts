@@ -12,4 +12,5 @@ export type {
   PopularMenuCombination,
   GetDashboardTimeSlotMenuOrderCountResponseDto,
   GetDashboardPopularMenuCombinationResponseDto,
+  GetDetailTimeSlotMenuOrderCountResponseDto,
 } from './dto';
