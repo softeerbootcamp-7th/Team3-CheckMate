@@ -227,15 +227,26 @@ public class MemberService {
 
     @Transactional
     public void logout(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotFoundException(ErrorStatus.MEMBER_NOT_FOUND_EXCEPTION));
+        Member member =
+                memberRepository
+                        .findById(memberId)
+                        .orElseThrow(
+                                () ->
+                                        new NotFoundException(
+                                                ErrorStatus.MEMBER_NOT_FOUND_EXCEPTION));
 
-        memberAuthRepository.findByMember(member).ifPresentOrElse(
-                memberAuth -> {
-                    memberAuth.updateRefreshToken(null);
-                    log.info("Member {} logged out successfully. Refresh token invalidated.", memberId);
-                },
-                () -> log.warn("Member {} has no MemberAuth record. Already logged out.", memberId)
-        );
+        memberAuthRepository
+                .findByMember(member)
+                .ifPresentOrElse(
+                        memberAuth -> {
+                            memberAuth.updateRefreshToken(null);
+                            log.info(
+                                    "Member {} logged out successfully. Refresh token invalidated.",
+                                    memberId);
+                        },
+                        () ->
+                                log.warn(
+                                        "Member {} has no MemberAuth record. Already logged out.",
+                                        memberId));
     }
 }

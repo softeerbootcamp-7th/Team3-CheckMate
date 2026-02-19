@@ -135,7 +135,7 @@ public class NotificationController {
     public ResponseEntity<ApiResponse<Void>> markAsRead(@LoginMember MemberSession member) {
         notificationService.markAsRead(member.storeId());
 
-        return ApiResponse.success_only(SuccessStatus.NOTIFICATION_READ_SUCCESS);
+        return ApiResponse.success(SuccessStatus.NOTIFICATION_READ_SUCCESS);
     }
 
     @Operation(
@@ -163,6 +163,6 @@ public class NotificationController {
             @LoginMember MemberSession member) {
         notificationService.deleteAllNotifications(member.storeId());
 
-        return ApiResponse.success_only(SuccessStatus.NOTIFICATION_DELETE_SUCCESS);
+        return ApiResponse.success(SuccessStatus.NOTIFICATION_DELETE_SUCCESS);
     }
 }

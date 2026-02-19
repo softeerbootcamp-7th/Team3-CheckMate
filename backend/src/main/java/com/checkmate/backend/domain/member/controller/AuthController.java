@@ -300,13 +300,14 @@ public class AuthController {
     public ResponseEntity<ApiResponse<Void>> logout(@LoginMember MemberSession member) {
         memberService.logout(member.memberId());
 
-        ResponseCookie cookie = ResponseCookie.from("refresh_token", "")
-                .httpOnly(true)
-                .secure(true)
-                .path("/")
-                .maxAge(0)
-                .sameSite("None")
-                .build();
+        ResponseCookie cookie =
+                ResponseCookie.from("refresh_token", "")
+                        .httpOnly(true)
+                        .secure(true)
+                        .path("/")
+                        .maxAge(0)
+                        .sameSite("None")
+                        .build();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
