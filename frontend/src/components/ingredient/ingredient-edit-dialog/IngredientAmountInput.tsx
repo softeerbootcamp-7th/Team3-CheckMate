@@ -5,6 +5,7 @@ import type {
 } from 'react-hook-form';
 
 import { Input } from '@/components/shared/shadcn-ui';
+import { INGREDIENT_INPUT_MAX_LENGTH } from '@/constants/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 import { checkValidation } from '@/utils/ingredient';
 import { cn } from '@/utils/shared';
@@ -27,8 +28,10 @@ export const IngredientAmountInput = ({
   // 용량 입력값 변경 핸들러
   const handleAmountInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 입력제한(5글자)있음 -> 너무 길면 입력 아예 안되도록
-    const lengthLimit = 5;
-    const slicedString = e.currentTarget.value.slice(0, lengthLimit);
+    const slicedString = e.currentTarget.value.slice(
+      0,
+      INGREDIENT_INPUT_MAX_LENGTH.QUANTITY,
+    );
 
     // dom에 반영
     e.currentTarget.value = slicedString;
@@ -42,6 +45,7 @@ export const IngredientAmountInput = ({
       autoComplete="off"
       type="number"
       {...register(`ingredients.${index}.quantity`, {
+        maxLength: INGREDIENT_INPUT_MAX_LENGTH.QUANTITY,
         validate: (currentFieldValue) => {
           return checkValidation({
             isIngredientRowEmpty,
