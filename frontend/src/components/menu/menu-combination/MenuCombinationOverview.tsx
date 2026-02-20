@@ -20,7 +20,7 @@ export const MenuCombinationOverview = () => {
     setEndDate,
   } = useMenuCombinationPeriodType();
 
-  // 기간 변경과 섹션헤더의 새로고침 시간 업데이트를 연결시켜주는 휵
+  // 기간 변경과 섹션헤더의 새로고침 시간 업데이트를 연결시켜주는 훅
   const { triggerUpdateRefreshDate, handlePeriodChange } =
     usePeriodChangeRefreshTrigger<typeof periodType>({
       setPeriodType,
