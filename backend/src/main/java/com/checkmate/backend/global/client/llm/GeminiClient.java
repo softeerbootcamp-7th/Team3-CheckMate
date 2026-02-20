@@ -7,6 +7,7 @@ import com.checkmate.backend.global.response.ErrorStatus;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -147,29 +148,26 @@ public class GeminiClient extends BaseClient implements LlmClient {
                 .body(requestBody)
                 .exchange(
                         (request, response) -> {
-                            // 1. HTTP 상태 코드 확인 (200 OK가 아닌 경우)
+                            // 1. 초기 응답 에러 확인 (4xx, 5xx)
                             if (response.getStatusCode().isError()) {
-                                String errorLog =
-                                        String.format(
-                                                "Gemini API Error: %s", response.getStatusCode());
-                                log.error(errorLog);
-                                emitter.send(
-                                        SseEmitter.event().name("error").data("API 호출에 실패했습니다."));
-                                emitter.complete();
+                                log.error("Gemini API 초기 호출 에러: {}", response.getStatusCode());
+                                sendErrorEvent(emitter, ErrorStatus.EXTERNAL_API_ERROR);
                                 return null;
                             }
 
+                            // 2. 스트리밍 데이터 읽기
                             try (BufferedReader reader =
                                     new BufferedReader(
                                             new InputStreamReader(
                                                     response.getBody(), StandardCharsets.UTF_8))) {
+
                                 String line;
                                 while ((line = reader.readLine()) != null) {
                                     if (line.startsWith("data: ")) {
                                         String jsonData = line.substring(6);
                                         JsonNode node = objectMapper.readTree(jsonData);
 
-                                        // 2. 응답 데이터 검증 (Safety Filter 등에 의해 차단되었는지 확인)
+                                        // 안전 필터링 체크
                                         if (isBlocked(node)) {
                                             emitter.send(
                                                     SseEmitter.event()
@@ -177,15 +175,29 @@ public class GeminiClient extends BaseClient implements LlmClient {
                                             break;
                                         }
 
-                                        String text = extractText(node);
-                                        if (text != null && !text.isEmpty()) {
-                                            emitter.send(SseEmitter.event().data(text));
+                                        // 텍스트 추출 및 전송 (extractText 내부 에러도 스트림 에러로 처리)
+                                        try {
+                                            String text = extractText(node);
+                                            if (text != null && !text.isEmpty()) {
+                                                emitter.send(SseEmitter.event().data(text));
+                                            }
+                                        } catch (Exception e) {
+                                            log.warn("청크 데이터 파싱 실패: {}", e.getMessage());
+                                            sendErrorEvent(
+                                                    emitter, ErrorStatus.AI_RESPONSE_PARSE_FAILED);
+                                            return null;
                                         }
                                     }
                                 }
-                                emitter.complete();
+                                emitter.complete(); // 정상 종료
+
+                            } catch (IOException e) {
+                                // 스트리밍 도중 연결이 끊긴 경우
+                                log.error("스트리밍 연결 유실: ", e);
+                                sendErrorEvent(emitter, ErrorStatus.STREAMING_CONNECTION_FAILED);
                             } catch (Exception e) {
-                                log.error("Streaming error: ", e);
+                                // 그 외 알 수 없는 에러
+                                log.error("스트리밍 중 알 수 없는 에러 발생: ", e);
                                 emitter.completeWithError(e);
                             }
                             return null;
@@ -194,12 +206,16 @@ public class GeminiClient extends BaseClient implements LlmClient {
 
     // 안전 필터링 체크 로직 추가
     private boolean isBlocked(JsonNode node) {
-        JsonNode candidate = node.path("candidates").get(0);
-        if (candidate != null) {
-            String finishReason = candidate.path("finishReason").asText();
-            return "SAFETY".equals(finishReason) || "RECITATION".equals(finishReason);
+        JsonNode candidatesNode = node.path("candidates");
+        if (candidatesNode.isMissingNode()
+                || !candidatesNode.isArray()
+                || candidatesNode.isEmpty()) {
+            return false;
         }
-        return false;
+
+        JsonNode candidate = candidatesNode.get(0);
+        String finishReason = candidate.path("finishReason").asText();
+        return "SAFETY".equals(finishReason) || "RECITATION".equals(finishReason);
     }
 
     private Map<String, Object> createRequestBody(
@@ -234,5 +250,14 @@ public class GeminiClient extends BaseClient implements LlmClient {
                                 0.95,
                                 "maxOutputTokens",
                                 1024));
+    }
+
+    private void sendErrorEvent(SseEmitter emitter, ErrorStatus status) {
+        try {
+            emitter.send(SseEmitter.event().name("error").data(status.getMessage()));
+            emitter.complete();
+        } catch (Exception e) {
+            log.error("SSE 에러 전송 실패", e);
+        }
     }
 }
