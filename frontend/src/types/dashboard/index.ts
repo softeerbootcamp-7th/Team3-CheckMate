@@ -1,5 +1,5 @@
-export type { Dashboard } from './dashboard';
 export type { DashboardCard, DragState, GhostState } from './dashboardCard';
+export type { Dashboard } from './dashboard';
 export type {
   GetDashboardListResponseDto,
   PostDashboardRequestDto,
@@ -10,8 +10,8 @@ export type {
   PutDashboardCardListResponseDto,
 } from './dto';
 export type {
-  PatchDashboardNameQuery,
-  DeleteDashboardQuery,
-  GetDashboardCardListQuery,
-  PutDashboardCardListQuery,
-} from './query';
+  PatchDashboardNameParam,
+  DeleteDashboardParam,
+  GetDashboardCardListParam,
+  PutDashboardCardListParam,
+} from './param';

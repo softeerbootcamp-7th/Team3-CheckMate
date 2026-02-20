@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { GRID_COL_SIZE, GRID_ROW_SIZE } from '@/constants/dashboard';
 
 export const useGridCellSize = () => {
@@ -10,20 +12,24 @@ export const useGridCellSize = () => {
   const cellRowSize =
     (GRID_HEIGHT_SIZE - GRID_GAP_SIZE * (GRID_ROW_SIZE - 1)) / GRID_ROW_SIZE;
 
-  const getGridPosition = (rowNo: number, colNo: number) => {
-    // `rowNo`/`colNo` are 1-based indices. 첫 번째 셀의 좌표는 0 이므로
-    // 위치 계산은 (index - 1) * (cellSize + gap) 로 해야 합니다.
-    const colPx = (colNo - 1) * (cellColSize + GRID_GAP_SIZE);
-    const rowPx = (rowNo - 1) * (cellRowSize + GRID_GAP_SIZE);
+  const getGridPosition = useCallback(
+    (rowNo: number, colNo: number) => {
+      const leftInPixel = (colNo - 1) * (cellColSize + GRID_GAP_SIZE);
+      const topInPixel = (rowNo - 1) * (cellRowSize + GRID_GAP_SIZE);
 
-    return { rowPx, colPx };
-  };
+      return { topInPixel, leftInPixel };
+    },
+    [cellColSize, cellRowSize],
+  );
 
-  const getGridCardSize = (sizeX: number, sizeY: number) => {
-    const widthPx = sizeX * cellColSize + (sizeX - 1) * GRID_GAP_SIZE;
-    const heightPx = sizeY * cellRowSize + (sizeY - 1) * GRID_GAP_SIZE;
-    return { widthPx, heightPx };
-  };
+  const getGridCardSize = useCallback(
+    (sizeX: number, sizeY: number) => {
+      const widthInPixel = sizeX * cellColSize + (sizeX - 1) * GRID_GAP_SIZE;
+      const heightInPixel = sizeY * cellRowSize + (sizeY - 1) * GRID_GAP_SIZE;
+      return { widthInPixel, heightInPixel };
+    },
+    [cellColSize, cellRowSize],
+  );
 
   return {
     getGridPosition,

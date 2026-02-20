@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class ReportWorker {
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
     private final PromptProvider promptProvider;
+    private final NotificationService notificationService;
 
     private static final String PENDING_KEY = "report:queue:pending";
     private static final String PROCESSING_KEY = "report:queue:processing";
@@ -78,9 +80,9 @@ public class ReportWorker {
 
     private void saveReportResult(ReportTask task, ReportData data, String llmResponse)
             throws JsonProcessingException {
-        // LLM 응답 파싱
         JsonNode root = objectMapper.readTree(llmResponse);
         JsonNode kpi = root.path("kpi");
+        JsonNode titleNode = root.path("title");
 
         Store store =
                 storeRepository
@@ -88,45 +90,58 @@ public class ReportWorker {
                         .orElseThrow(() -> new RuntimeException("Store not found"));
 
         // 1. Strategies 처리 (LLM: ["전략1", "전략2"] -> Entity: List<String>)
-        // 구조가 같으므로 바로 변환 가능
         List<String> strategies =
-                objectMapper.convertValue(
-                        root.path("strategies"), new TypeReference<List<String>>() {});
+                objectMapper.convertValue(root.path("strategies"), new TypeReference<>() {});
 
-        // 2. Insights 처리 (LLM: [{observe:..., meaning:...}] -> Entity: List<String>)
-        // 구조가 다르므로(객체 vs 문자열), 객체의 필드를 조합해 하나의 문자열로 만듭니다.
-        List<String> insights = new ArrayList<>();
+        // 2. Insights 처리 (LLM: [{idx, observe, meaning, impact}] -> Entity: List<InsightItem>)
+        List<Report.InsightItem> insights = new ArrayList<>();
         JsonNode insightsNode = root.path("insights");
         if (insightsNode.isArray()) {
             for (JsonNode node : insightsNode) {
-                // 예: "매출 감소 (의미: 주문 수 부족, 영향: 목표 미달 예상)" 형태로 포맷팅
-                String formattedInsight =
-                        String.format(
-                                "%s (의미: %s / 영향: %s)",
+                insights.add(
+                        new Report.InsightItem(
+                                node.path("idx").asInt(),
                                 node.path("observe").asText(),
                                 node.path("meaning").asText(),
-                                node.path("impact").asText());
-                insights.add(formattedInsight);
+                                node.path("impact").asText()));
             }
         }
+
+        // 3. KPI 항목 파싱 (LLM: {label, value, diffVal, diffDesc, trendDir} -> Entity: KpiItem)
+        Report.KpiItem netSalesKpi = toKpiItem(kpi.path("netSales"));
+        Report.KpiItem ordersKpi = toKpiItem(kpi.path("orders"));
+        Report.KpiItem aovKpi = toKpiItem(kpi.path("aov"));
 
         Report report =
                 Report.builder()
                         .store(store)
                         .targetDate(task.targetDate())
-                        .title(root.path("title").asText())
+                        .titleFullText(titleNode.path("fullText").asText())
+                        .titleHighlight(titleNode.path("highlight").asText())
                         .statusLabel(root.path("statusLabel").asText())
                         .netSales(data.kpiToday().netSales())
-                        .netSalesSummary(kpi.path("netSales").asText())
+                        .netSalesKpi(netSalesKpi)
                         .orderCount(data.kpiToday().orders())
-                        .ordersSummary(kpi.path("orders").asText())
+                        .ordersKpi(ordersKpi)
                         .aov(data.kpiToday().aov())
-                        .aovSummary(kpi.path("aov").asText())
-                        .insights(insights) // 변환된 리스트 주입
-                        .strategies(strategies) // 리스트 주입
+                        .aovKpi(aovKpi)
+                        .insights(insights)
+                        .strategies(strategies)
                         .build();
 
         reportRepository.save(report);
+
+        String formattedDate = report.getTargetDate().format(DateTimeFormatter.ofPattern("M월 d일"));
+        notificationService.createNotification(store, formattedDate);
+    }
+
+    private Report.KpiItem toKpiItem(JsonNode node) {
+        return new Report.KpiItem(
+                node.path("label").asText(),
+                node.path("value").asText(),
+                node.path("diffVal").asText(),
+                node.path("diffDesc").asText(),
+                node.path("trendDir").asText());
     }
 
     private void handleFailure(Object rawTask, ReportTask task) {

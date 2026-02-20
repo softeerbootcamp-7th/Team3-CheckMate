@@ -1,25 +1,24 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import type {
-  BarChartDatum,
-  BarChartSeries,
-  StackBarDatum,
-} from '@/types/shared';
+import type { BarChartDatum, StackBarDatum } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared/bar-chart';
 import { getCoordinate, getXCoordinate } from '@/utils/shared';
 import { checkIsStackBarChart } from '@/utils/shared/bar-chart';
 
 interface UseBarChartProps {
+  viewBoxWidth: number;
+  viewBoxHeight: number;
   barChartSeries: AllBarChartSeries;
   hasXAxis?: boolean;
 }
 
 export const useBarChart = ({
+  viewBoxWidth,
+  viewBoxHeight,
   barChartSeries,
   hasXAxis = false,
 }: UseBarChartProps) => {
-  const [svgRect, setSvgRect] = useState<DOMRect | null>(null);
-  const [adjustedHeight, setAdjustedHeight] = useState<number>(0);
+  const [adjustedHeight, setAdjustedHeight] = useState<number>(viewBoxHeight);
 
   const svgRef = useRef<SVGSVGElement>(null);
   const xAxisRef = useRef<SVGPathElement>(null);
@@ -31,14 +30,14 @@ export const useBarChart = ({
   }, [barChartSeries.data.mainX]);
 
   const xCoordinate = useMemo(() => {
-    if (svgRect === null) {
+    if (barChartSeries.data.mainX.length === 0) {
       return [];
     }
     return getXCoordinate({
-      svgRect,
+      svgWidth: viewBoxWidth,
       xDataLength: barChartSeries.data.mainX.length,
     });
-  }, [svgRect, barChartSeries.data.mainX.length]);
+  }, [viewBoxWidth, barChartSeries.data.mainX.length]);
 
   //
   const maximumY = useMemo(() => {
@@ -61,7 +60,7 @@ export const useBarChart = ({
     return adjustedMaximumAmount;
   }, [barChartSeries.data.mainY, isStackBarChart]);
   const primaryCoordinate = useMemo(() => {
-    if (svgRect === null) {
+    if (barChartSeries.data.mainX.length === 0) {
       return [];
     }
     // 만약 stackBarChart면 스택별로 데이터를 하나의 바로 합친 후 좌표를 계산해야 함
@@ -85,30 +84,28 @@ export const useBarChart = ({
       : barChartSeries;
 
     return getCoordinate({
-      svgRect,
+      svgWidth: viewBoxWidth,
       adjustedHeight,
-      series: barSeriesForCoordinate as BarChartSeries,
+      xDataLength: barSeriesForCoordinate.data.mainX.length,
+      yData: barSeriesForCoordinate.data.mainY as BarChartDatum[],
       maximumY,
     });
-  }, [svgRect, adjustedHeight, barChartSeries, maximumY, isStackBarChart]);
+  }, [viewBoxWidth, adjustedHeight, barChartSeries, maximumY, isStackBarChart]);
 
   useLayoutEffect(() => {
-    if (!svgRef.current) {
-      return;
-    }
-    setSvgRect(svgRef.current.getBoundingClientRect());
-    setAdjustedHeight(svgRef.current.getBoundingClientRect().height);
-    if (hasXAxis && xAxisRef.current) {
-      setAdjustedHeight(
-        xAxisRef.current.getBoundingClientRect().y -
-          svgRef.current.getBoundingClientRect().y +
-          xAxisRef.current.getBoundingClientRect().height / 2,
-      );
-    }
-  }, [svgRef, xAxisRef, hasXAxis]);
+    const updateAdjustedHeight = () => {
+      if (!hasXAxis || !xAxisRef.current) {
+        setAdjustedHeight(viewBoxHeight);
+        return;
+      }
+      const xAxisBBox = xAxisRef.current.getBBox();
+      setAdjustedHeight(xAxisBBox.y + xAxisBBox.height / 2);
+    };
+    updateAdjustedHeight();
+  }, [hasXAxis, viewBoxHeight]);
 
   return {
-    svgRect,
+    svgWidth: viewBoxWidth,
     adjustedHeight,
     xLabelList,
     xCoordinate,

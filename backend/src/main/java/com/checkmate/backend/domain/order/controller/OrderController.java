@@ -45,6 +45,6 @@ public class OrderController {
 
         orderService.receivePosOrder(member.storeId(), receiptRequestDTO);
 
-        return ApiResponse.success_only(ORDER_RECEIVE_SUCCESS);
+        return ApiResponse.success(ORDER_RECEIVE_SUCCESS);
     }
 }

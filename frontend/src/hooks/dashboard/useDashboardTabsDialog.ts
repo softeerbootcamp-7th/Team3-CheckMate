@@ -5,6 +5,7 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 import { DASHBOARD_TABS_DIALOG_MODE } from '@/constants/dashboard';
 import {
@@ -14,8 +15,8 @@ import {
   postDashboard,
 } from '@/services/dashboard';
 import type {
-  DeleteDashboardQuery,
-  PatchDashboardNameQuery,
+  DeleteDashboardParam,
+  PatchDashboardNameParam,
   PatchDashboardNameRequestDto,
   PostDashboardRequestDto,
 } from '@/types/dashboard';
@@ -59,19 +60,19 @@ export const useDashboardTabsDialog = () => {
   }, [editingIndex]);
 
   const mutateDeletion = useMutation({
-    mutationFn: (query: DeleteDashboardQuery) => deleteDashboard(query),
+    mutationFn: (param: DeleteDashboardParam) => deleteDashboard(param),
   });
   const mutatePatch = useMutation({
     mutationFn: ({
-      query,
-      request,
+      param,
+      body,
     }: {
-      query: PatchDashboardNameQuery;
-      request: PatchDashboardNameRequestDto;
-    }) => patchDashboardName(query, request),
+      param: PatchDashboardNameParam;
+      body: PatchDashboardNameRequestDto;
+    }) => patchDashboardName(param, body),
   });
   const mutatePost = useMutation({
-    mutationFn: (request: PostDashboardRequestDto) => postDashboard(request),
+    mutationFn: (body: PostDashboardRequestDto) => postDashboard(body),
   });
 
   const handleChange = (currentIndex: number, newValue: string) => {
@@ -147,8 +148,8 @@ export const useDashboardTabsDialog = () => {
               tab !== tabs[index]?.name
             ) {
               return mutatePatch.mutateAsync({
-                query: { dashboardId: tabs[index].id },
-                request: { name: tab },
+                param: { dashboardId: tabs[index].id },
+                body: { name: tab },
               });
             }
           }
@@ -170,7 +171,7 @@ export const useDashboardTabsDialog = () => {
     } catch (e) {
       const message = (e as Error).message || '알 수 없는 오류가 발생했습니다.';
       // TODO 에러 처리 개선 필요
-      alert(message);
+      toast(message);
     }
 
     // 모든 mutation이 완료된 후 한 번만 invalidate

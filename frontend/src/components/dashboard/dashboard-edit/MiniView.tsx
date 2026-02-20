@@ -16,7 +16,7 @@ export const MiniView = () => {
     useDragAndDropCard();
 
   return (
-    <section className="flex min-w-120 grow flex-col p-6.25 pt-20">
+    <section className="flex min-w-120 grow flex-col overflow-y-auto p-6.25 pt-20">
       <header className="mb-20 pl-5">
         <h1 className="title-large-bold text-grey-900">{title}</h1>
       </header>

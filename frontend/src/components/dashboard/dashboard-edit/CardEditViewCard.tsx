@@ -6,12 +6,14 @@ import {
   DASHBOARD_METRIC_CARDS,
   type MetricCardCode,
 } from '@/constants/dashboard';
-import { useEditCard } from '@/hooks/dashboard';
-import { useDragAndDropCard } from '@/hooks/dashboard/useDragAndDropCard';
+import { useDragAndDropCard, useEditCard } from '@/hooks/dashboard';
+
+import { EditCardContent } from './EditCardContent';
 
 interface CardEditViewCardProps {
   cardCode: MetricCardCode;
 }
+
 export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
   const { addCard, removeCard, isAdded } = useEditCard();
   const { handleDragStart, handleDragEnd } = useDragAndDropCard();
@@ -32,7 +34,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
     return null; // 카드 정보가 없는 경우 렌더링하지 않음
   }
 
-  const { code, label, type, period, sizeX, sizeY } = card;
+  const { period, sizeX, sizeY } = card;
 
   return (
     <li
@@ -58,13 +60,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
         onClickAddButton={handleAddCard}
         onClickDeleteButton={handleDeleteCard}
       >
-        {label}
-        <br />
-        {code}
-        <br />
-        {type}
-        <br />
-        {sizeX} x {sizeY}
+        <EditCardContent cardCode={cardCode} />
       </EditCardWrapper>
     </li>
   );

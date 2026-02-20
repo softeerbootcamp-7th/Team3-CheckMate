@@ -46,8 +46,8 @@ export const MiniViewActiveCard = ({
   }
   const { label, type, period, sizeX, sizeY } = card;
 
-  const { rowPx, colPx } = getGridPosition(rowNo, colNo);
-  const { widthPx, heightPx } = getGridCardSize(sizeX, sizeY);
+  const { topInPixel, leftInPixel } = getGridPosition(rowNo, colNo);
+  const { widthInPixel, heightInPixel } = getGridCardSize(sizeX, sizeY);
 
   return (
     <div
@@ -61,14 +61,13 @@ export const MiniViewActiveCard = ({
       }
       onDragEnd={handleDragEnd}
       className={cn(
-        'rounded-300 bg-grey-0 absolute cursor-grab border-none transition-all duration-200 select-none active:cursor-grabbing',
+        'rounded-300 bg-grey-0 absolute top-0 left-0 cursor-grab border-none transition-all duration-200 select-none active:cursor-grabbing',
         isDragging ? 'opacity-0' : 'opacity-100',
       )}
       style={{
-        left: colPx,
-        top: rowPx,
-        width: widthPx,
-        height: heightPx,
+        translate: `${leftInPixel}px ${topInPixel}px`,
+        width: widthInPixel,
+        height: heightInPixel,
       }}
     >
       <div className="relative flex h-full flex-col items-center justify-center p-4">

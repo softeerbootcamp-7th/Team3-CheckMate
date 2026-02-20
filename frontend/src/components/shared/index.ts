@@ -19,3 +19,6 @@ export { ButtonGroup } from './button-group';
 export { PaginationBar } from './pagenation';
 export { FetchBoundary } from './fetch-boundary';
 export { ErrorFallback } from './error-fallback';
+export { SectionHeader } from './section-header';
+export { LineChart } from './line-chart';
+export { BarLineChart } from './bar-line-chart';

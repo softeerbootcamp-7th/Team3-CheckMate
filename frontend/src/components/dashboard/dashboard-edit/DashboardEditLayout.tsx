@@ -16,7 +16,6 @@ export const DashboardEditLayout = () => {
         >
           <EditCardProvider>
             <MiniView />
-
             <CardEditView />
           </EditCardProvider>
         </ErrorBoundary>

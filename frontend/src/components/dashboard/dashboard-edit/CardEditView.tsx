@@ -71,9 +71,12 @@ export const CardEditView = () => {
       </header>
       <CardEditViewTabs />
       {isOverList && (
-        <div className="bg-others-negative text-grey-0 absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center opacity-50">
-          DROP TO DELETE
-        </div>
+        <>
+          <div className="bg-grey-500 text-grey-0 absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center opacity-50"></div>
+          <p className="headline-medium-bold text-grey-0 absolute top-1/2 right-0 bottom-0 left-0 text-center">
+            삭제하려면 여기에 놓으세요
+          </p>
+        </>
       )}
     </section>
   );

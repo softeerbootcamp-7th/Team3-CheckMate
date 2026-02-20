@@ -1,5 +1,5 @@
 import type {
-  GetDashboardCardListQuery,
+  GetDashboardCardListParam,
   GetDashboardCardListResponseDto,
   GetDashboardListResponseDto,
 } from '@/types/dashboard';
@@ -20,9 +20,9 @@ export const getDashboardList = async () => {
  * 특정 대시보드 레이아웃 조회
  */
 export const getDashboardCardList = async (
-  query: GetDashboardCardListQuery,
+  param: GetDashboardCardListParam,
 ) => {
-  const { dashboardId } = query;
+  const { dashboardId } = param;
 
   const { data } = await authorizedApi.get<GetDashboardCardListResponseDto>(
     `/api/analysis/dashboards/${dashboardId}/layout`,

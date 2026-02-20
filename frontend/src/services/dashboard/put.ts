@@ -1,5 +1,5 @@
 import type {
-  PutDashboardCardListQuery,
+  PutDashboardCardListParam,
   PutDashboardCardListRequestDto,
   PutDashboardCardListResponseDto,
 } from '@/types/dashboard';
@@ -7,15 +7,15 @@ import type {
 import { authorizedApi } from '../shared';
 
 export const putDashboardCardList = async (
-  query: PutDashboardCardListQuery,
-  request: PutDashboardCardListRequestDto,
+  param: PutDashboardCardListParam,
+  body: PutDashboardCardListRequestDto,
 ) => {
-  const { dashboardId } = query;
+  const { dashboardId } = param;
 
   const { data } = await authorizedApi.put<PutDashboardCardListResponseDto>(
     `/api/analysis/dashboards/${dashboardId}/layout`,
     {
-      body: JSON.stringify(request),
+      body: JSON.stringify(body),
     },
   );
 

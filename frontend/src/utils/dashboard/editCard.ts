@@ -34,22 +34,27 @@ const getGridFromPlacedCards = (placedCards: DashboardCard[]) => {
 };
 
 export const isSameGrid = (
-  placedCards1: DashboardCard[],
-  placedCards2: DashboardCard[],
+  placedCardList1: DashboardCard[],
+  placedCardList2: DashboardCard[],
 ): boolean => {
-  if (placedCards1.length !== placedCards2.length) {
+  if (placedCardList1.length !== placedCardList2.length) {
     return false;
   }
 
-  const cardMap1 = new Map<string, DashboardCard>();
-  const cardMap2 = new Map<string, DashboardCard>();
+  // 카드 배치 비교를 위해 카드 코드를 키로 하는 맵 생성
+  const placedCardMap1 = new Map<string, DashboardCard>();
+  const placedCardMap2 = new Map<string, DashboardCard>();
 
-  placedCards1.forEach((card) => cardMap1.set(card.cardCode, card));
-  placedCards2.forEach((card) => cardMap2.set(card.cardCode, card));
+  placedCardList1.forEach((card) => placedCardMap1.set(card.cardCode, card));
+  placedCardList2.forEach((card) => placedCardMap2.set(card.cardCode, card));
 
-  for (const [cardCode, card1] of cardMap1.entries()) {
-    const card2 = cardMap2.get(cardCode);
-    if (!card2 || card1.rowNo !== card2.rowNo || card1.colNo !== card2.colNo) {
+  for (const [cardCode, placedCard1] of placedCardMap1.entries()) {
+    const matchingPlacedCard2 = placedCardMap2.get(cardCode);
+    if (
+      !matchingPlacedCard2 ||
+      placedCard1.rowNo !== matchingPlacedCard2.rowNo ||
+      placedCard1.colNo !== matchingPlacedCard2.colNo
+    ) {
       return false;
     }
   }
@@ -105,19 +110,27 @@ export const getAvailablePositionOnGrid = (
 const isOverlapping = (
   row1: number,
   col1: number,
-  sizeX1: number,
-  sizeY1: number,
+  width1: number,
+  height1: number,
   row2: number,
   col2: number,
-  sizeX2: number,
-  sizeY2: number,
+  width2: number,
+  height2: number,
 ) => {
-  return (
-    row1 + sizeY1 > row2 &&
-    row2 + sizeY2 > row1 &&
-    col1 + sizeX1 > col2 &&
-    col2 + sizeX2 > col1
-  );
+  const xStart1 = col1; // 첫번째 카드의 시작 x좌표
+  const xEnd1 = col1 + width1 - 1; // 첫번째 카드의 끝 x좌표
+  const yStart1 = row1; // 첫번째 카드의 시작 y좌표
+  const yEnd1 = row1 + height1 - 1; // 첫번째 카드의 끝 y좌표
+
+  const xStart2 = col2;
+  const xEnd2 = col2 + width2 - 1;
+  const yStart2 = row2;
+  const yEnd2 = row2 + height2 - 1;
+
+  const isYOverlapping = yEnd1 >= yStart2 && yEnd2 >= yStart1;
+  const isXOverlapping = xEnd1 >= xStart2 && xEnd2 >= xStart1;
+
+  return isYOverlapping && isXOverlapping;
 };
 
 export const getConflictingCards = (
