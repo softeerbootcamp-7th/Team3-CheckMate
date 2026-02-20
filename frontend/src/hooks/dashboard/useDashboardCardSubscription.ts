@@ -28,14 +28,16 @@ export const useDashboardCardSubscription = ({
       return;
     }
 
+    const topics = cardList.map((card) => card.cardCode);
+
     subscribeDashboardCardList({
-      topics: cardList.map((card) => card.cardCode),
+      topics,
     });
 
     return () => {
       if (cardList && cardList.length > 0) {
         unsubscribeDashboardCardList({
-          topics: cardList.map((card) => card.cardCode),
+          topics,
         });
       }
     };
