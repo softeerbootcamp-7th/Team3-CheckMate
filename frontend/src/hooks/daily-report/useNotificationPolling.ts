@@ -29,20 +29,28 @@ export const useNotificationPolling = () => {
       return;
     }
 
-    // 현재 시간이 리포트 발행 시간 범위 내에 있는지 interval마다 체크
-    const now = new Date();
-    const closingTimeData = await queryClient.fetchQuery(
-      notificationOptions.closingTime,
-    );
+    try {
+      // 현재 시간이 리포트 발행 시간 범위 내에 있는지 interval마다 체크
+      const now = new Date();
+      const closingTimeData = await queryClient.fetchQuery(
+        notificationOptions.closingTime,
+      );
 
-    if (closingTimeData) {
-      const startTime = new Date(closingTimeData.nextClosingTime);
-      const endTime = new Date(startTime.getTime() + ONE_HOUR_IN_MS);
+      if (closingTimeData) {
+        const startTime = new Date(closingTimeData.nextClosingTime);
+        const endTime = new Date(startTime.getTime() + ONE_HOUR_IN_MS);
 
-      setIsWithinReportTime(startTime <= now && now <= endTime);
+        setIsWithinReportTime(startTime <= now && now <= endTime);
+      }
+    } catch (e) {
+      console.error('failed to fetch closing time', e);
+      setIsWithinReportTime(false);
+    } finally {
+      // 요청 실패 여부와 상관없이 타이머는 계속 설정
+      if (mountedRef.current) {
+        timeoutId.current = setTimeout(repeatCheckTime, TIME_CHECK_INTERVAL);
+      }
     }
-
-    timeoutId.current = setTimeout(repeatCheckTime, TIME_CHECK_INTERVAL);
   };
 
   useEffect(() => {
