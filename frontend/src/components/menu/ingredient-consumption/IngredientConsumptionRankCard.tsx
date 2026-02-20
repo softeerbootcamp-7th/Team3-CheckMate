@@ -1,9 +1,6 @@
 import { DefaultCardWrapper } from '@/components/shared';
 import { INGREDIENT_CONSUMPTION_RANK } from '@/constants/menu';
-import { ROUTE_PATHS } from '@/constants/shared';
 import { ingredientConsumptionRankItems } from '@/mocks/data/menu';
-
-import { LoadMoreDataButton } from '../shared';
 
 import { IngredientConsumptionRankList } from './IngredientConsumptionRankList';
 
@@ -31,9 +28,10 @@ export const IngredientConsumptionRankCard = () => {
           ingredientConsumptionRank={ingredientConsumptionRank6to10}
         />
       </div>
-      <LoadMoreDataButton
+      {/* 더보기 버튼 제거 */}
+      {/* <LoadMoreDataButton
         path={`./${ROUTE_PATHS.ANALYSIS.INGREDIENT_CONSUMPTION_RANK}`}
-      />
+      /> */}
     </DefaultCardWrapper>
   );
 };
