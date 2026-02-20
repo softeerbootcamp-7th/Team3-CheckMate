@@ -23,7 +23,7 @@ export const useNotificationPolling = () => {
       timeoutId.current = null;
     }
   };
-  const repeatCheckTime = async () => {
+  const repeatCheckTime = useCallback(async () => {
     clearTimer();
     if (!mountedRef.current) {
       return;
@@ -54,7 +54,7 @@ export const useNotificationPolling = () => {
         timeoutId.current = setTimeout(repeatCheckTime, TIME_CHECK_INTERVAL);
       }
     }
-  };
+  }, [queryClient]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -66,8 +66,7 @@ export const useNotificationPolling = () => {
       clearTimer();
     };
     // 마운트/언마운트 시 한 번만 실행
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [repeatCheckTime]);
 
   const { data: existsUnread } = useQuery({
     ...notificationOptions.existsUnread,
