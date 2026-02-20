@@ -15,13 +15,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Tag(name = "Chat", description = "AI Mate 챗봇 관련 API 입니다.")
 @RestController
@@ -94,14 +92,5 @@ public class ChatController {
         ChatResponse response = chatService.getChatResponse(request);
 
         return ApiResponse.success(SuccessStatus.CHAT_GET_SUCCESS, response);
-    }
-
-    @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter getChatResponseStream(
-            @LoginMember MemberSession member, @Valid @RequestBody ChatRequest request) {
-
-        log.info("Streaming request via RestClient from store: {}", member.storeId());
-
-        return chatService.getChatResponseStream(request);
     }
 }
