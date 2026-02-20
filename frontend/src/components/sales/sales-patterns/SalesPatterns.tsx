@@ -2,7 +2,9 @@ import { SectionHeader } from '@/components/shared';
 import { salesKeys } from '@/services/sales';
 
 import { PeakTimeByHour } from './PeakTimeByHour';
+import { PeakTimeByHourPeriodTypeProvider } from './period-type-provider';
 import { RevenueByWeekday } from './RevenueByWeekday';
+import { SalesPatternsFetchBoundary } from './SalesPatternsFetchBoundary';
 
 export const SalesPatterns = () => {
   return (
@@ -14,7 +16,11 @@ export const SalesPatterns = () => {
       />
 
       <section className="mt-4 grid grid-rows-2 gap-4">
-        <PeakTimeByHour />
+        <SalesPatternsFetchBoundary>
+          <PeakTimeByHourPeriodTypeProvider>
+            <PeakTimeByHour />
+          </PeakTimeByHourPeriodTypeProvider>
+        </SalesPatternsFetchBoundary>
         <RevenueByWeekday />
       </section>
     </section>
