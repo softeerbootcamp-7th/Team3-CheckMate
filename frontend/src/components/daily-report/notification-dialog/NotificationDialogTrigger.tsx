@@ -19,7 +19,7 @@ import { NotificationDialogContent } from './NotificationDialogContent';
 
 export const NotificationDialogTrigger = () => {
   const queryClient = useQueryClient();
-  const { data: notifications } = useQuery(notificationOptions.list);
+  const { data: existsUnread } = useQuery(notificationOptions.existsUnread);
 
   const mutateDeleteAll = useMutation({
     mutationFn: () => deleteAllNotifications(),
@@ -36,7 +36,7 @@ export const NotificationDialogTrigger = () => {
     <Popover>
       <PopoverTrigger asChild>
         <Button className="bg-grey-0 rounded-unlimit size-15">
-          <Badge show={notifications && notifications.length > 0}>
+          <Badge show={existsUnread}>
             <BellIcon className="size-6" />
           </Badge>
         </Button>
