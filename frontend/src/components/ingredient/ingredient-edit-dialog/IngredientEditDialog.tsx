@@ -45,6 +45,7 @@ export const IngredientEditDialog = ({
   const onError = () => {
     toast(
       '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
+      { className: 'max-w-auto! w-max!' }, // 글자수가 많아 토스트 내에서 줄바꿈됨. 너비 늘려줌
     );
   };
 
