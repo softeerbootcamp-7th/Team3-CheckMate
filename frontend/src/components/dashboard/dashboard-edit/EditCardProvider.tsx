@@ -11,15 +11,16 @@ export const EditCardProvider = ({ children }: PropsWithChildren) => {
 
   const searchParams = new URLSearchParams(window.location.search);
   const dashboardName = searchParams.get('tab') ?? undefined;
-  const dashboardId = tabs.find((tab) => tab.name === dashboardName)?.id;
-  if (dashboardId === undefined) {
+  const currentDashboard = tabs.find((tab) => tab.name === dashboardName);
+
+  if (!currentDashboard) {
     throw new Error('존재하지 않는 대시보드입니다.');
-  } else if (tabs.find((tab) => tab.id === dashboardId)?.isDefault) {
+  } else if (currentDashboard.isDefault) {
     throw new Error('기본 대시보드는 편집할 수 없습니다.');
   }
 
   const { data: cardList } = useSuspenseQuery(
-    dashboardOptions.cardList(dashboardId),
+    dashboardOptions.cardList(currentDashboard.id),
   );
 
   const initPlacedCards: DashboardCard[] = cardList;
@@ -39,7 +40,7 @@ export const EditCardProvider = ({ children }: PropsWithChildren) => {
   return (
     <EditCardContext.Provider
       value={{
-        dashboardId,
+        dashboardId: currentDashboard.id,
         initPlacedCards,
         placedCards,
         setPlacedCards,
