@@ -12,6 +12,7 @@ import type {
 import { mswHttp } from '../shared';
 
 const getHandler = [
+  // 매장에 등록된 메뉴들 조회
   mswHttp.get('/api/menus', () => {
     const data = CATEGORY_MENUS.map((category) => ({
       ...category,
