@@ -1,26 +1,24 @@
-import { useState } from 'react';
-
-import { PeriodSelect, SectionHeader } from '@/components/shared';
 import {
-  PERIOD_PRESET_KEYS,
-  PERIOD_PRESETS,
-  type PeriodType,
-} from '@/constants/shared';
+  DefaultCardFetchBoundary,
+  PeriodSelect,
+  SectionHeader,
+} from '@/components/shared';
+import { PERIOD_PRESET_KEYS } from '@/constants/shared';
 import { usePeriodChangeRefreshTrigger } from '@/hooks/shared';
 import { menuKeys } from '@/services/menu';
 
 import { MenuCombinationRankCard } from './MenuCombinationRankCard';
-
-type MenuCombinationPeriodPresetType =
-  | PeriodType<typeof PERIOD_PRESET_KEYS.recent7_14>
-  | undefined;
+import { useMenuCombinationPeriodType } from './period-type-provider';
 
 export const MenuCombinationOverview = () => {
-  const [periodType, setPeriodType] = useState<MenuCombinationPeriodPresetType>(
-    PERIOD_PRESETS.recent7_14.recent7Days,
-  );
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const {
+    periodType,
+    setPeriodType,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+  } = useMenuCombinationPeriodType();
 
   // 기간 변경과 섹션헤더의 새로고침 시간 업데이트를 연결시켜주는 휵
   const { triggerUpdateRefreshDate, handlePeriodChange } =
@@ -47,8 +45,9 @@ export const MenuCombinationOverview = () => {
           />
         }
       />
-
-      <MenuCombinationRankCard />
+      <DefaultCardFetchBoundary className="h-[25rem] w-full">
+        <MenuCombinationRankCard />
+      </DefaultCardFetchBoundary>
     </section>
   );
 };
