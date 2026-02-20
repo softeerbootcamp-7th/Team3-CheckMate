@@ -80,7 +80,7 @@ export const PeakTimeContent = ({
         className,
       )}
     >
-      <div className="absolute top-7 left-26.25 flex items-center gap-1.5">
+      <div className="flex items-center gap-1.5">
         <PeakTimeChartCaption label="실시간" color="primary" />
         <PeakTimeChartCaption
           label={`${weekday}요일 평균(4주)`}
@@ -101,7 +101,7 @@ export const PeakTimeContent = ({
           xAxisType="default"
         />
       </div>
-      <p className="title-medium-semibold">
+      <p className="body-large-semibold">
         {peakTimeBriefingMessage.map(
           ({ text, isHighlight, highlightColor }, index) => {
             return (
