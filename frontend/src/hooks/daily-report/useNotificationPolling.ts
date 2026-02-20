@@ -36,6 +36,9 @@ export const useNotificationPolling = () => {
         notificationOptions.closingTime,
       );
 
+      if (!mountedRef.current) {
+        return;
+      }
       if (closingTimeData) {
         const startTime = new Date(closingTimeData.nextClosingTime);
         const endTime = new Date(startTime.getTime() + ONE_HOUR_IN_MS);
