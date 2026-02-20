@@ -39,7 +39,7 @@ export const MenuSalesRankTable = () => {
         {displayedRankItems.map(
           ({ menuName, totalSalesAmount, orderCount }, index) => (
             <MenuSalesRankItem
-              key={menuName}
+              key={`${menuName}-${index}`}
               rank={index + 1}
               menuName={menuName}
               totalSalesAmount={totalSalesAmount}
