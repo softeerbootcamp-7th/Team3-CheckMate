@@ -1,11 +1,12 @@
 import {
   IngredientConsumptionOverview,
+  IngredientConsumptionPeriodTypeProvider,
   MenuCombinationOverview,
+  MenuCombinationPeriodTypeProvider,
   MenuSalesPatternOverview,
   PopularMenuOverview,
+  PopularMenuPeriodTypeProvider,
 } from '@/components/menu';
-import { IngredientConsumptionPeriodTypeProvider } from '@/components/menu/ingredient-consumption';
-import { PopularMenuPeriodTypeProvider } from '@/components/menu/popular-menu';
 import { useMainScrollTop } from '@/hooks/shared';
 
 export const MenuPage = () => {
@@ -20,7 +21,9 @@ export const MenuPage = () => {
       <IngredientConsumptionPeriodTypeProvider>
         <IngredientConsumptionOverview />
       </IngredientConsumptionPeriodTypeProvider>
-      <MenuCombinationOverview />
+      <MenuCombinationPeriodTypeProvider>
+        <MenuCombinationOverview />
+      </MenuCombinationPeriodTypeProvider>
       <div className="h-32.5 w-full" />
     </div>
   );
