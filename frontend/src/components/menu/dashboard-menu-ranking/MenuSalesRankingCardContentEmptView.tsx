@@ -24,14 +24,7 @@ interface MenuSalesRankingCardContentEmptyViewProps {
 const getEmptyViewMessage = (
   period: PeriodType<typeof PERIOD_PRESET_KEYS.today7_30>,
 ) => {
-  let dateMessage = '';
-  if (period === PERIOD_PRESETS.today7_30.today) {
-    dateMessage = '오늘';
-  } else if (period === PERIOD_PRESETS.today7_30.recent7Days) {
-    dateMessage = '최근 7일';
-  } else if (period === PERIOD_PRESETS.today7_30.recent30Days) {
-    dateMessage = '최근 30일';
-  }
+  const dateMessage = period;
 
   if (period === PERIOD_PRESETS.today7_30.today) {
     return {
