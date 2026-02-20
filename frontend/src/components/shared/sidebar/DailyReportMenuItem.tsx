@@ -8,7 +8,10 @@ interface DailyReportMenuItemProps {
   menuIcon: React.ReactNode;
 }
 export const DailyReportMenuItem = ({ menuIcon }: DailyReportMenuItemProps) => {
-  const { data: existsUnread } = useQuery(notificationOptions.existsUnread);
+  const { data: existsUnread } = useQuery({
+    ...notificationOptions.existsUnread,
+    enabled: false, // 캐시 구독만, fetch하지 않음
+  });
 
   return (
     <Badge show={existsUnread} position="top-left">
