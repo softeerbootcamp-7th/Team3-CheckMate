@@ -28,6 +28,34 @@ export const DefaultCardWrapper = ({
   /** 기타 article 태그 속성들 */
   ...props
 }: DefaultCardWrapperProps) => {
+  const titleComponent = ({
+    title,
+    hasChevronRightIcon,
+    onClickChevronRightIcon,
+  }: {
+    title?: string;
+    hasChevronRightIcon?: boolean;
+    onClickChevronRightIcon?: () => void;
+  }) => {
+    if (hasChevronRightIcon && onClickChevronRightIcon) {
+      return (
+        <Button
+          onClick={onClickChevronRightIcon}
+          className="text-grey-700 relative flex items-center p-0!"
+        >
+          <h3 className="body-medium-semibold">{title}</h3>
+          <ChevronRight className="size-4" />
+        </Button>
+      );
+    }
+
+    if (title) {
+      return <h3 className="body-medium-semibold">{title}</h3>;
+    }
+
+    return null;
+  };
+
   return (
     <article
       className={cn(
@@ -38,12 +66,11 @@ export const DefaultCardWrapper = ({
     >
       {(title || hasChevronRightIcon) && (
         <div className="text-grey-700 relative flex items-center">
-          {title && <h3 className="body-medium-semibold">{title}</h3>}
-          {hasChevronRightIcon && (
-            <Button className="p-0!" onClick={onClickChevronRightIcon}>
-              <ChevronRight className="size-4" />
-            </Button>
-          )}
+          {titleComponent({
+            title,
+            hasChevronRightIcon,
+            onClickChevronRightIcon,
+          })}
         </div>
       )}
       {children}
