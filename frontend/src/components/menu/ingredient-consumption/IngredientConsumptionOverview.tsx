@@ -1,34 +1,27 @@
-import { useState } from 'react';
-
 import { PeriodSelect, SectionHeader } from '@/components/shared';
-import {
-  PERIOD_PRESET_KEYS,
-  PERIOD_PRESETS,
-  type PeriodType,
-} from '@/constants/shared';
+import { PERIOD_PRESET_KEYS } from '@/constants/shared';
 import { usePeriodChangeRefreshTrigger } from '@/hooks/shared';
 import { menuKeys } from '@/services/menu';
 
 import { IngredientConsumptionRankCard } from './IngredientConsumptionRankCard';
-
-type IngredientConsumptionPeriodPresetType =
-  | PeriodType<typeof PERIOD_PRESET_KEYS.todayOnly>
-  | undefined;
+import { useIngredientConsumptionPeriodType } from './period-type-provider';
 
 export const IngredientConsumptionOverview = () => {
-  const [periodType, setPeriodType] =
-    useState<IngredientConsumptionPeriodPresetType>(
-      PERIOD_PRESETS.todayOnly.today,
-    );
-
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const {
+    periodType,
+    setPeriodType,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+  } = useIngredientConsumptionPeriodType();
 
   // 기간 변경과 섹션헤더의 새로고침 시간 업데이트를 연결시켜주는 휵
   const { triggerUpdateRefreshDate, handlePeriodChange } =
     usePeriodChangeRefreshTrigger<typeof periodType>({
       setPeriodType,
     });
+
   return (
     <section aria-label="식재료 소진량" className="flex flex-col gap-5">
       <SectionHeader
