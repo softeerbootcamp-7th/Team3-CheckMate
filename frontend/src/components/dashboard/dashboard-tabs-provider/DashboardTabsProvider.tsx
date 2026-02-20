@@ -28,9 +28,9 @@ export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
       localStorage.setItem(storageKey, String(id));
     } catch (e) {
       if (e instanceof Error) {
-        throw new Error(e.message);
+        console.error(e.message);
       } else {
-        throw new Error('선택한 대시보드 정보를 저장할 수 없어요.');
+        console.error('선택한 대시보드 정보를 저장할 수 없어요.', e);
       }
     }
   };
