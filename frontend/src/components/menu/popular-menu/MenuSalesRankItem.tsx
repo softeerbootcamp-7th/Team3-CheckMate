@@ -1,13 +1,13 @@
 import { RankBadge } from '@/components/shared';
 import { MENU_SALES_RANK } from '@/constants/menu';
-import type { MenuSalesRank } from '@/types/menu';
+import type { MenuSales } from '@/types/menu';
 import { formatNumber } from '@/utils/shared';
 
 interface MenuSalesRankItemProps {
-  rank: MenuSalesRank['rank'];
-  menuName: MenuSalesRank['menuName'];
-  totalSalesAmount: MenuSalesRank['totalSalesAmount'];
-  totalOrderCount: MenuSalesRank['totalOrderCount'];
+  rank: number;
+  menuName: MenuSales['menuName'];
+  totalSalesAmount: MenuSales['totalSalesAmount'];
+  totalOrderCount: MenuSales['orderCount'];
 }
 
 export const MenuSalesRankItem = ({
