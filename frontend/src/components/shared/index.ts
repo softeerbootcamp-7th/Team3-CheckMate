@@ -16,7 +16,7 @@ export { DoughnutChart } from './doughnut-chart';
 export { MainLayout } from './main-layout';
 export { PeriodTag, EditCardWrapper } from './edit-card-wrapper';
 export { ButtonGroup } from './button-group';
-export { PaginationBar } from './pagenation';
+export { PaginationBar } from './pagination';
 export { FetchBoundary } from './fetch-boundary';
 export { ErrorFallback } from './error-fallback';
 export { SectionHeader } from './section-header';
