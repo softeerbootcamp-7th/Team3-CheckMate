@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { INGREDIENT_CONSUMPTION_RANK, MENU_METRIC } from '@/constants/menu';
-import type { PERIOD_PRESET_KEYS, PeriodType } from '@/constants/shared';
+import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { menuOptions } from '@/services/menu';
 import type { GetIngredientUsageRankingResponseDto } from '@/types/menu';
 import { formatDateISO } from '@/utils/shared';
