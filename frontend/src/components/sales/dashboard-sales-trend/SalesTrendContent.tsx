@@ -30,7 +30,7 @@ export const SalesTrendContent = ({
   trendChartHeight,
   className,
 }: SalesTrendContentProps) => {
-  const { period, label } = DASHBOARD_METRIC_CARDS[cardCode];
+  const { period } = DASHBOARD_METRIC_CARDS[cardCode];
   const {
     DEFAULT_TREND_CHART_WIDTH,
     DEFAULT_TREND_CHART_WIDTH_FOR_RECENT_30_DAYS,
@@ -55,10 +55,7 @@ export const SalesTrendContent = ({
         className,
       )}
     >
-      <div className="flex items-center gap-3">
-        <h3 className="body-medium-semibold text-grey-700">{label}</h3>
-        <SalesTrendCaption />
-      </div>
+      <SalesTrendCaption />
       <BarLineChart
         viewBoxWidth={trendChartWidthValue}
         viewBoxHeight={trendChartHeightValue}
