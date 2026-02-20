@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 import { BellIcon } from '@/assets/icons';
 import { Badge, FetchBoundary } from '@/components/shared';
@@ -23,8 +24,13 @@ export const NotificationDialogTrigger = () => {
 
   const mutateDeleteAll = useMutation({
     mutationFn: () => deleteAllNotifications(),
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries(notificationOptions.list);
+    },
+    onError: (error) => {
+      toast.error(
+        error.message || '알림이 삭제되지 않았어요. 다시 시도해주세요.',
+      );
     },
   });
 
