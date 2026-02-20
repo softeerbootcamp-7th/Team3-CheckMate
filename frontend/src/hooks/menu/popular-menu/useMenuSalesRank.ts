@@ -29,7 +29,8 @@ export const useMenuSalesRank = ({
     }),
   );
 
-  const displayedRankItems = data.items.slice(
+  // data가 undefined일 경우 빈 배열을 반환하도록 방어
+  const displayedRankItems = (data?.items ?? []).slice(
     0,
     MENU_SALES_RANK.MAX_DISPLAYED_RANK_ITEMS,
   );
