@@ -8,7 +8,7 @@ import { CardEditViewTabContentGroup } from './CardEditViewTabContentGroup';
 export const CardEditViewTabs = memo(() => {
   const dashboardMetrics = useMemo(() => Object.values(DASHBOARD_METRICS), []);
   return (
-    <Tabs defaultValue={dashboardMetrics[0].tab} className="h-full">
+    <Tabs defaultValue={dashboardMetrics[0].tab} className="overflow-hidden">
       <TabsList className="mx-0 mt-10 gap-1000" variant="line">
         {dashboardMetrics.map(({ tab }) => (
           <TabsTrigger

@@ -12,7 +12,7 @@ export const IngredientConsumptionEmptyView = () => {
     >
       <div className="flex flex-col items-center gap-2">
         <img
-          src={`${CDN_BASE_URL}/assets/images/empty_ingridient.svg`}
+          src={`${CDN_BASE_URL}/assets/images/empty_ingredient.svg`}
           alt="식재료 미등록 이미지"
           className="size-20"
         />

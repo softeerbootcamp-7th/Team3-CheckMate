@@ -26,6 +26,7 @@ interface BarProps {
   isActive?: boolean; //포커스거나 강조해야 하는 상태인지
   bgColor?: string;
   barColorChangeOnHover?: boolean; // 바에 호버 시 색상 변화 줄지 말지
+  className?: string;
 }
 
 export const Bar = ({
@@ -42,6 +43,7 @@ export const Bar = ({
   bgColor = BAR_CHART.DEFAULT_BAR_COLOR,
   isActive = false,
   barColorChangeOnHover = true,
+  className,
 }: BarProps) => {
   const pathRef = useRef<SVGPathElement>(null);
   const barRef = useRef<SVGGElement>(null); // g 태그 조작(막대 위치 이동시 애니메이션)을 위한 ref
@@ -83,6 +85,7 @@ export const Bar = ({
         style={{
           transformOrigin: `${barMiddleX}px ${barTopY + height}px`,
         }}
+        className={className}
       >
         {activeTooltip ? (
           <Tooltip>

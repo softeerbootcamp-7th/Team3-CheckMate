@@ -25,21 +25,37 @@ public class MenuAnalysisContextFactory implements AnalysisContextFactory {
         return switch (analysisCardCode) {
 
                 /*
-                 * MNU_01 (메뉴별 매출 랭킹)
+                 * MNU_01_01 (오늘 메뉴별 매출 랭킹)
+                 * MNU_02_01 (오늘 카테고리별 매출 랭킹)
+                 * MNU_03_01 (오늘 시간대별 메뉴 주문건수)
+                 * MNU_04_01 (오늘 식재료 소진량)
                  * */
 
-            case MNU_01_01 -> // 오늘 메뉴별 매출 랭킹
+            case MNU_01_01, MNU_02_01, MNU_03_01, MNU_04_01 ->
                     new MenuAnalysisContext(
                             event.storeId(), analysisCardCode, today, today.plusDays(1));
 
-            case MNU_01_04 -> // 최근 7일 매출 랭킹
+                /*
+                 * MNU_01_04 (최근 7일 메뉴별 매출 랭킹)
+                 * MNU_02_02 (최근 7일 카테고리별 매출 랭킹)
+                 * MNU_03_02 (최근 7일 시간대별 메뉴 주문건수)
+                 * MNU_05_04 (최근 인기 메뉴 조합)
+                 * */
+
+            case MNU_01_04, MNU_02_02, MNU_03_02, MNU_05_04 ->
                     new MenuAnalysisContext(
                             event.storeId(),
                             analysisCardCode,
                             today.minusDays(7),
                             today.plusDays(1));
 
-            case MNU_01_05 -> // 최근 30일 매출 랭킹
+                /*
+                 * MNU_01_05 (최근 30일 메뉴별 매출 랭킹)
+                 * MNU_02_03 (최근 30일 카테고리별 매출 랭킹)
+                 * MNU_03_03 (최근 30일 시간대별 메뉴 주문건수)
+                 * */
+
+            case MNU_01_05, MNU_02_03, MNU_03_03 ->
                     new MenuAnalysisContext(
                             event.storeId(),
                             analysisCardCode,
@@ -47,33 +63,23 @@ public class MenuAnalysisContextFactory implements AnalysisContextFactory {
                             today.plusDays(1));
 
                 /*
-                 * MNU_03 (시간대별 메뉴 주문건수)
+                 * MNU_05_05 (최근 14일 인기 메뉴 조합)
                  * */
 
-            case MNU_03_01 -> // 오늘 시간대별 주문
-                    new MenuAnalysisContext(
-                            event.storeId(), analysisCardCode, today, today.plusDays(1));
-
-                /*
-                 * MNU_04 (식자재 소진량)
-                 * */
-
-            case MNU_04_01 -> // 오늘 식재료 소진량
-                    new MenuAnalysisContext(
-                            event.storeId(), analysisCardCode, today, today.plusDays(1));
-
-                /*
-                 * MNU_05 (인기 메뉴 조합)
-                 * */
-
-            case MNU_05_04 -> // 최근 7일 인기 조합
+            case MNU_05_05 -> // 최근 14일 인기 조합
                     new MenuAnalysisContext(
                             event.storeId(),
                             analysisCardCode,
-                            today.minusDays(7),
+                            today.minusDays(14),
                             today.plusDays(1));
 
             default -> null;
         };
+    }
+
+    @Override
+    public AnalysisContext create(
+            AnalysisCardCode analysisCardCode, Long storeId, LocalDate start, LocalDate end) {
+        return new MenuAnalysisContext(storeId, analysisCardCode, start, end);
     }
 }

@@ -43,10 +43,9 @@ export const Default: Story = {
 
 export const WithTitleIcon: Story = {
   args: {
-    width: 340,
-    height: 228,
     title: '오늘 날씨 예보',
     hasChevronRightIcon: true,
     children: <SampleChild />,
+    className: 'w-85 h-57',
   },
 };

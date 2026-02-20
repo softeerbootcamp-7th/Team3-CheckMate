@@ -2,7 +2,9 @@ package com.checkmate.backend.domain.menu.service;
 
 import static com.checkmate.backend.global.response.ErrorStatus.*;
 
+import com.checkmate.backend.domain.menu.dto.IngredientCommand;
 import com.checkmate.backend.domain.menu.dto.request.IngredientCreateRequestDTO;
+import com.checkmate.backend.domain.menu.dto.request.IngredientUpdateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.request.MenuCreateRequestDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuCategoryResponseDTO;
 import com.checkmate.backend.domain.menu.dto.response.MenuRecipeResponse;
@@ -18,9 +20,11 @@ import com.checkmate.backend.domain.menu.repository.MenuVersionRepository;
 import com.checkmate.backend.domain.menu.repository.RecipeRepository;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
-import com.checkmate.backend.global.exception.ConflictException;
-import com.checkmate.backend.global.exception.ForbiddenException;
-import com.checkmate.backend.global.exception.NotFoundException;
+import com.checkmate.backend.global.client.llm.LlmClient;
+import com.checkmate.backend.global.client.llm.PromptProvider;
+import com.checkmate.backend.global.exception.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +40,10 @@ public class MenuService {
     private final MenuVersionRepository menuVersionRepository;
     private final IngredientRepository ingredientRepository;
     private final RecipeRepository recipeRepository;
+
+    private final LlmClient llmClient;
+    private final PromptProvider promptProvider;
+    private final ObjectMapper objectMapper;
 
     /*
      * create
@@ -104,15 +112,63 @@ public class MenuService {
             throw new ForbiddenException(MENU_ACCESS_DENIED);
         }
 
-        /*
-         * 레시피 등록
-         *
-         * 식재료 없으면 insert 있으면 그거 사용해야 함.
-         * */
         List<IngredientCreateRequestDTO.Ingredient> ingredientDTOs =
                 Optional.ofNullable(ingredientCreateRequestDTO.ingredients()).orElse(List.of());
 
-        for (IngredientCreateRequestDTO.Ingredient dto : ingredientDTOs) {
+        registerRecipes(storeId, menuVersion, ingredientDTOs);
+    }
+
+    @Transactional
+    public void updateMenuIngredients(
+            Long storeId, Long menuId, IngredientUpdateRequestDTO ingredientUpdateRequestDTO) {
+        MenuVersion menuVersion =
+                menuVersionRepository
+                        .findMenuVersionByMenuIdWithMenuAndStore(menuId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[updateMenuIngredients][menu is not found][menuId= {}]",
+                                            menuId);
+                                    return new NotFoundException(MENU_NOT_FOUND_EXCEPTION);
+                                });
+
+        // 소유자 검증
+        Long menuStoreId = menuVersion.getMenu().getStore().getId();
+
+        if (!storeId.equals(menuStoreId)) {
+            log.warn(
+                    "[updateMenuIngredients][menu access denied][currentStoreId={}, menuStoreId={}]",
+                    storeId,
+                    menuStoreId);
+            throw new ForbiddenException(MENU_ACCESS_DENIED);
+        }
+
+        // 기존 메뉴 버전 비활성화
+        menuVersion.deactivate();
+
+        // 새로운 메뉴 버전 생성
+        MenuVersion newVersion =
+                MenuVersion.builder()
+                        .price(menuVersion.getPrice())
+                        .active(true)
+                        .menu(menuVersion.getMenu())
+                        .build();
+
+        menuVersionRepository.save(newVersion);
+
+        List<IngredientUpdateRequestDTO.Ingredient> ingredientDTOs =
+                Optional.ofNullable(ingredientUpdateRequestDTO.ingredients()).orElse(List.of());
+
+        registerRecipes(storeId, newVersion, ingredientDTOs);
+    }
+
+    private void registerRecipes(
+            Long storeId,
+            MenuVersion menuVersion,
+            List<? extends IngredientCommand> ingredientDTOs) {
+
+        for (IngredientCommand dto : ingredientDTOs) {
+
             Unit unit = dto.unit();
             String baseUnit = unit.baseUnitValue();
 
@@ -124,19 +180,17 @@ public class MenuService {
                             .orElseThrow(
                                     () -> {
                                         log.warn(
-                                                "[addIngredientsToMenu][Ingredient is not found][storeId={}, name={}]",
+                                                "[registerRecipes][ingredient not found][storeId={}, name={}]",
                                                 storeId,
                                                 dto.name());
                                         return new ForbiddenException(
                                                 INGREDIENT_NOT_FUND_EXCEPTION);
                                     });
 
-            Integer quantity = dto.quantity();
-
             recipeRepository.save(
                     Recipe.builder()
-                            .quantity(quantity)
-                            .quantityNormalized(unit.normalize(quantity))
+                            .quantity(dto.quantity())
+                            .quantityNormalized(unit.normalize(dto.quantity()))
                             .unit(unit.getValue())
                             .menuVersion(menuVersion)
                             .ingredient(ingredient)
@@ -164,8 +218,8 @@ public class MenuService {
                         recipeRepository.findMenuVersionIdsWithRecipe(
                                 menuVersions.stream().map(MenuVersion::getId).toList()));
 
-        // 4. category 기준으로 MenuVersion 묶기
-        Map<String, List<MenuVersion>> categoryMap = new HashMap<>();
+        // 4. category 기준으로 MenuVersion 묶기 (카테고리 정렬)
+        Map<String, List<MenuVersion>> categoryMap = new TreeMap<>();
         for (MenuVersion menuVersion : menuVersions) {
             String category = menuVersion.getMenu().getCategory();
             categoryMap.computeIfAbsent(category, k -> new ArrayList<>()).add(menuVersion);
@@ -230,5 +284,40 @@ public class MenuService {
         MenuRecipeResponse response = MenuRecipeResponse.of(menu, ingredientResponses);
 
         return response;
+    }
+
+    public MenuRecipeResponse autoCompleteIngredients(Long storeId, Long menuId) {
+        Menu menu =
+                menuRepository
+                        .findMenuByMenuIdWithStore(menuId)
+                        .orElseThrow(
+                                () -> {
+                                    log.warn(
+                                            "[autoCompleteIngredients][menu not found][menuId={}]",
+                                            menuId);
+                                    return new NotFoundException(MENU_NOT_FOUND_EXCEPTION);
+                                });
+
+        if (!storeId.equals(menu.getStore().getId())) {
+            throw new ForbiddenException(MENU_ACCESS_DENIED);
+        }
+
+        String template = promptProvider.getPrompt(PromptProvider.PromptType.MENU_INGREDIENTS);
+        String aiAnswer = llmClient.generateIngredients(template, menu.getName());
+
+        try {
+            MenuRecipeResponse aiResponse =
+                    objectMapper.readValue(aiAnswer, MenuRecipeResponse.class);
+
+            List<MenuRecipeResponse.IngredientResponse> aiIngredients = aiResponse.ingredients();
+
+            return MenuRecipeResponse.of(menu, aiIngredients);
+        } catch (JsonProcessingException e) {
+            log.error(
+                    "[autoCompleteIngredients] AI 응답 파싱 실패. 메뉴: {}, 응답: {}",
+                    menu.getName(),
+                    aiAnswer);
+            throw new InternalServerException(AI_RESPONSE_PARSE_FAILED);
+        }
     }
 }

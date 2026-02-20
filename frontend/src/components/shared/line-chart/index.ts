@@ -1,5 +1,5 @@
 export { LineChart } from './LineChart';
-export { XAxis } from './XAxis';
-export { XAxisLabel } from './XAxisLabel';
-export { XGuideLine } from './XGuideLine';
-export { YGuideLine } from './YGuideLine';
+export { LineChartGradient } from './LineChartGradient';
+export { LineSeries } from './LineSeries';
+export { Line } from './Line';
+export { Dot } from './Dot';

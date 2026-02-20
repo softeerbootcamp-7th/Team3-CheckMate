@@ -4,7 +4,7 @@ import { MiniView } from './MiniView';
 
 export const DashboardEditLayout = () => {
   return (
-    <div className="flex size-full overflow-y-hidden">
+    <div className="flex size-full">
       <EditCardProvider>
         <MiniView />
         <CardEditView />

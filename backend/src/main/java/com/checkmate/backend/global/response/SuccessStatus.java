@@ -11,6 +11,7 @@ public enum SuccessStatus {
     GOOGLE_LOGIN_SUCCESS(HttpStatus.OK, "구글 로그인에 성공했습니다."),
     BUSINESS_VERIFICATION_SUCCESS(HttpStatus.OK, "사업자 인증 성공했습니다."),
     MEMBER_STATUS_SUCCESS(HttpStatus.OK, "사용자 상태 조회에 성공했습니다."),
+    LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃에 성공했습니다."),
 
     // 201
     MEMBER_SIGNUP_SUCCESS(HttpStatus.CREATED, "회원 가입에 성공했습니다"),
@@ -33,6 +34,8 @@ public enum SuccessStatus {
     // 200
     MENU_GET_SUCCESS(HttpStatus.OK, "메뉴 조회에 성공했습니다."),
     INGREDIENT_GET_SUCCESS(HttpStatus.OK, "식재료 조회에 성공했습니다."),
+    MENU_RECIPE_AUTO_COMPLETE_SUCCESS(HttpStatus.OK, "메뉴 레시피 자동 완성에 성공했습니다."),
+    INGREDIENT_UPDATE_SUCCESS(HttpStatus.OK, "식재료 수정에 성공했습니다."),
 
     // 201
     MENU_CREATE_SUCCESS(HttpStatus.CREATED, "메뉴 등록에 성공했습니다."),
@@ -45,6 +48,8 @@ public enum SuccessStatus {
     SSE_UNSUBSCRIBE_ALL_SUCCESS(HttpStatus.OK, "모든 SSE 구독을 해제했습니다."),
     SSE_CONNECT_SUCCESS(HttpStatus.OK, "SSE 연결에 성공했습니다."),
     SSE_DISCONNECT_SUCCESS(HttpStatus.OK, "SSE 연결을 종료했습니다."),
+    SSE_EMITTER_LIST_SUCCESS(HttpStatus.OK, "Emitter 조회 성공했습니다"),
+    SSE_SUBSCRIBE_LIST_SUCCESS(HttpStatus.OK, "구독 목록 조회 성공했습니다"),
 
     /** Order */
     // 201
@@ -59,7 +64,26 @@ public enum SuccessStatus {
     DASHBOARD_LAYOUT_GET_SUCCESS(HttpStatus.OK, "대시보드 레이아웃 조회에 성공했습니다."),
 
     // 201
-    DASHBOARD_CREATE_SUCCESS(HttpStatus.CREATED, "대시보드 등록에 성공했습니다.");
+    DASHBOARD_CREATE_SUCCESS(HttpStatus.CREATED, "대시보드 등록에 성공했습니다."),
+
+    /** Analysis */
+    // 200
+    ANALYSIS_CARD_GET_SUCCESS(HttpStatus.OK, "지표 카드 조회에 성공했습니다."),
+
+    /** Report */
+    // 200
+    REPORT_GET_SUCCESS(HttpStatus.OK, "리포트 조회에 성공했습니다."),
+    REPORT_CALENDAR_GET_SUCCESS(HttpStatus.OK, "캘린더 조회에 성공했습니다."),
+
+    NOTIFICATION_STATUS_GET_SUCCESS(HttpStatus.OK, "미열람 알림 상태 조회를 완료했습니다."),
+    NOTIFICATION_LIST_GET_SUCCESS(HttpStatus.OK, "알림 목록 조회를 완료했습니다."),
+    NOTIFICATION_READ_SUCCESS(HttpStatus.OK, "알림을 모두 읽음 처리했습니다."),
+    NOTIFICATION_DELETE_SUCCESS(HttpStatus.OK, "알림을 모두 삭제했습니다."),
+
+    /** Chat */
+    // 200
+    CHAT_GET_SUCCESS(HttpStatus.OK, "AI 응답 생성에 성공했습니다."),
+    ;
 
     private final HttpStatus httpStatus;
     private final String message;

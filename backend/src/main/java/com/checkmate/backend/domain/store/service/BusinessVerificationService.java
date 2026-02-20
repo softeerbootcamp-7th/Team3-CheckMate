@@ -28,8 +28,8 @@ public class BusinessVerificationService {
         String businessRegistrationNumber = businessVerifyRequestDTO.businessRegistrationNumber();
 
         // TODO: Mock 로직 제거
-        // Mock: 50% 확률로 실패
-        if (ThreadLocalRandom.current().nextBoolean()) {
+        // Mock: 20% 확률로 실패
+        if (ThreadLocalRandom.current().nextInt(5) < 1) { // 0일 때만 실패 → 20%
             throw new BadRequestException(BUSINESS_NUMBER_INVALID_EXCEPTION);
         }
 

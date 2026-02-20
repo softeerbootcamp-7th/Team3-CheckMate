@@ -3,7 +3,7 @@ import type { UseFieldArrayReplace } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { postAiIngredientRecommend } from '@/services/ ingredient';
+import { postAiIngredientRecommend } from '@/services/ingredient';
 import type {
   IngredientFormValues,
   PostAiIngredientRecommendResponseDto,

@@ -10,7 +10,8 @@ export const rankBadgeVariants = cva(
       },
       size: {
         sm: 'size-6 body-small-bold',
-        md: 'size-8 body-medium-bold',
+        md: 'size-7 body-small-bold',
+        lg: 'size-8 body-medium-bold',
       },
     },
     defaultVariants: {

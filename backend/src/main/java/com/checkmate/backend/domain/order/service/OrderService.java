@@ -15,7 +15,9 @@ import com.checkmate.backend.domain.order.repository.OrderRepository;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
 import com.checkmate.backend.global.exception.NotFoundException;
+import com.checkmate.backend.global.util.TimeUtil;
 import jakarta.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,7 @@ public class OrderService {
 
     @Transactional
     public void receivePosOrder(Long storeId, ReceiptRequestDTO receiptRequestDTO) {
+        // TODO 메뉴 소유자 검증
         Store store =
                 storeRepository
                         .findById(storeId)
@@ -46,6 +49,10 @@ public class OrderService {
                                             storeId);
                                     return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
                                 });
+
+        LocalDateTime orderedAt =
+                Optional.ofNullable(receiptRequestDTO.orderedAt()).orElse(LocalDateTime.now());
+        LocalDate orderDate = orderedAt.toLocalDate();
         // 1. 주문
         Order order =
                 Order.builder()
@@ -56,9 +63,10 @@ public class OrderService {
                         .orderChannel(receiptRequestDTO.orderChannel().getValue())
                         .orderStatus(OrderStatus.COMPLETE.getValue())
                         .paymentMethod(receiptRequestDTO.paymentMethod().getValue())
-                        .orderedAt(receiptRequestDTO.orderedAt())
-                        .orderDate(receiptRequestDTO.orderedAt().toLocalDate())
-                        .timeSlot2H(calculate2HourSlot(receiptRequestDTO.orderedAt()))
+                        .orderedAt(orderedAt)
+                        .orderDate(orderDate)
+                        .timeSlot2H(TimeUtil.get2HourSlot(orderedAt))
+                        .orderDayOfWeek(TimeUtil.getDayOfWeekValue(orderDate))
                         .store(store)
                         .build();
 
@@ -66,26 +74,29 @@ public class OrderService {
 
         // 2. orderItem
 
-        List<ReceiptItemRequestDTO> receiptItemRequestDTOS =
-                Optional.ofNullable(receiptRequestDTO.menus()).orElse(List.of());
+        List<ReceiptItemRequestDTO> receiptItemRequestDTOS = receiptRequestDTO.menus();
 
-        List<Long> menuVersionIds =
-                receiptItemRequestDTOS.stream().map(ReceiptItemRequestDTO::menuVersionId).toList();
+        List<Long> menuIds =
+                receiptItemRequestDTOS.stream().map(ReceiptItemRequestDTO::menuId).toList();
 
         List<MenuVersion> menuVersions =
-                menuVersionRepository.findMenuVersionsByMenuVersionIds(menuVersionIds);
+                menuVersionRepository.findActiveMenuVersionsByStoreIdAndMenuIds(storeId, menuIds);
 
-        // key: menuVersionId, value: Mev
-        Map<Long, MenuVersion> menuVersionById = new HashMap<>();
+        // key: menuId value: menuVersion
+        Map<Long, MenuVersion> menuVersionByMenuId = new HashMap<>();
 
         for (MenuVersion menuVersion : menuVersions) {
-            menuVersionById.put(menuVersion.getId(), menuVersion);
+            menuVersionByMenuId.put(menuVersion.getMenu().getId(), menuVersion);
         }
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (ReceiptItemRequestDTO receiptItemRequestDTO : receiptItemRequestDTOS) {
-            Long menuVersionId = receiptItemRequestDTO.menuVersionId();
-            MenuVersion menuVersion = menuVersionById.get(menuVersionId);
+            Long menuId = receiptItemRequestDTO.menuId();
+            MenuVersion menuVersion = menuVersionByMenuId.get(menuId);
+
+            if (menuVersion == null) {
+                continue;
+            }
 
             OrderItem orderItem =
                     OrderItem.builder()
@@ -103,14 +114,6 @@ public class OrderService {
         orderItemRepository.saveAll(orderItems);
 
         // 이벤트 발행
-        applicationEventPublisher.publishEvent(new OrderCreatedEvent(storeId, order.getId()));
-    }
-
-    private int calculate2HourSlot(LocalDateTime orderedAt) {
-        int hour = orderedAt.getHour();
-
-        if (hour == 23) return 24;
-        if (hour % 2 != 0) return hour + 1;
-        return hour;
+        applicationEventPublisher.publishEvent(new OrderCreatedEvent(storeId, orderedAt));
     }
 }

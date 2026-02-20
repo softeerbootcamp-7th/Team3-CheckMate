@@ -41,6 +41,8 @@ public class NetAmountProcessor implements AnalysisProcessor<SalesAnalysisContex
         currentNetAmount = Optional.ofNullable(currentNetAmount).orElse(0L);
         comparisonNetAmount = Optional.ofNullable(comparisonNetAmount).orElse(0L);
 
+        boolean hasPreviousData = comparisonNetAmount != 0L;
+
         long differenceAmount = currentNetAmount - comparisonNetAmount;
 
         double changeRate;
@@ -52,7 +54,8 @@ public class NetAmountProcessor implements AnalysisProcessor<SalesAnalysisContex
         }
 
         NetAmountResponse response =
-                new NetAmountResponse(currentNetAmount, differenceAmount, changeRate);
+                new NetAmountResponse(
+                        currentNetAmount, differenceAmount, changeRate, hasPreviousData);
 
         return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }

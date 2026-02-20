@@ -5,6 +5,7 @@ import static com.checkmate.backend.global.response.SuccessStatus.*;
 import com.checkmate.backend.domain.store.dto.request.BusinessVerifyRequestDTO;
 import com.checkmate.backend.domain.store.dto.request.StoreCreateRequestDTO;
 import com.checkmate.backend.domain.store.dto.response.BusinessVerifyResponseDTO;
+import com.checkmate.backend.domain.store.dto.response.StoreClosingTimeResponse;
 import com.checkmate.backend.domain.store.dto.response.StoreResponse;
 import com.checkmate.backend.domain.store.service.BusinessVerificationService;
 import com.checkmate.backend.domain.store.service.StoreService;
@@ -125,7 +126,7 @@ public class StoreController {
             @Valid @RequestBody StoreCreateRequestDTO storeCreateRequestDTO) {
         storeService.create(member.memberId(), storeCreateRequestDTO);
 
-        return ApiResponse.success_only(STORE_CREATE_SUCCESS);
+        return ApiResponse.success(STORE_CREATE_SUCCESS);
     }
 
     @Operation(
@@ -263,7 +264,7 @@ public class StoreController {
     public ResponseEntity<ApiResponse<Void>> connectPOS(@LoginMember MemberSession member) {
         storeService.connectPOS(member.storeId());
 
-        return ApiResponse.success_only(POS_CONNECT_START);
+        return ApiResponse.success(POS_CONNECT_START);
     }
 
     /*
@@ -328,6 +329,72 @@ public class StoreController {
     @GetMapping
     public ResponseEntity<ApiResponse<StoreResponse>> getStore(@LoginMember MemberSession member) {
         StoreResponse response = storeService.getStore(member.storeId());
+
+        return ApiResponse.success(STORE_INFO_FETCH_SUCCESS, response);
+    }
+
+    @Operation(
+            summary = "매장 다음 마감 시간 조회 API (한울)",
+            description = "현재 시각을 기준으로 가장 가까운 다음 마감(영업 종료) 시간을 조회합니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "200",
+                description = "마감 시간 조회 성공",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "성공 응답 예시",
+                                                value =
+                                                        """
+                                            {
+                                              "success": true,
+                                              "message": "매장 정보 조회에 성공했습니다.",
+                                              "data": {
+                                                "nextClosingTime": "2026-02-19T21:00:00"
+                                              }
+                                            }
+                                            """))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "404",
+                description = "매장 또는 영업 정보 없음",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "매장 미존재 예시",
+                                                value =
+                                                        """
+                                            {
+                                              "success": false,
+                                              "message": "매장을 찾을 수 없습니다.",
+                                              "errorCode": "STORE_NOT_FOUND_EXCEPTION"
+                                            }
+                                            """))),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                responseCode = "500",
+                description = "서버 내부 오류",
+                content =
+                        @Content(
+                                mediaType = "application/json",
+                                examples =
+                                        @ExampleObject(
+                                                name = "서버 오류 예시",
+                                                value =
+                                                        """
+                                            {
+                                              "success": false,
+                                              "message": "서버 내부 오류가 발생했습니다.",
+                                              "errorCode": "INTERNAL_SERVER_ERROR"
+                                            }
+                                            """)))
+    })
+    @GetMapping("/closing-time")
+    public ResponseEntity<ApiResponse<StoreClosingTimeResponse>> getNextClosingTime(
+            @LoginMember MemberSession member) {
+        StoreClosingTimeResponse response = storeService.getNextClosingTime(member.storeId());
 
         return ApiResponse.success(STORE_INFO_FETCH_SUCCESS, response);
     }

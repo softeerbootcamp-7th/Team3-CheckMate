@@ -1,13 +1,19 @@
 import { type PropsWithChildren, useState } from 'react';
 
+import { useSuspenseQuery } from '@tanstack/react-query';
+
 import {
   DashboardTabsContext,
   type DashboardTabsDialogMode,
 } from '@/constants/dashboard';
+import { dashboardOptions } from '@/services/dashboard';
 
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
-  const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
-  const [tabs, setTabs] = useState<string[]>(['홈 대시보드']);
+  const { data: tabs } = useSuspenseQuery(dashboardOptions.list);
+
+  const [currentDashboardId, setCurrentDashboardId] = useState<number>(
+    () => tabs.find((tab) => tab.isDefault)?.id ?? 1,
+  );
   const [dialogState, setDialogState] = useState<{
     open: boolean;
     mode: DashboardTabsDialogMode | null;
@@ -27,12 +33,10 @@ export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
   return (
     <DashboardTabsContext.Provider
       value={{
-        currentTabIndex,
-        tabs,
+        currentDashboardId,
         dialogOpen: dialogState.open,
         dialogMode: dialogState.mode,
-        setCurrentTabIndex,
-        setTabs,
+        setCurrentDashboardId,
         openDialog,
         closeDialog,
       }}
