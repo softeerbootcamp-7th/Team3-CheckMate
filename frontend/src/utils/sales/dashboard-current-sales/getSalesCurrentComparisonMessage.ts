@@ -21,7 +21,7 @@ export const getSalesCurrentComparisonMessage = ({
   comparisonAmount,
   unit,
 }: GetSalesCurrentComparisonMessageArgs): MessageToken[] => {
-  const weekday = DAY_OF_WEEK_LIST[new Date().getDay()];
+  const weekday = DAY_OF_WEEK_LIST[(new Date().getDay() + 6) % 7];
 
   const PERIOD_TEXT = {
     [PERIOD_PRESETS.dayWeekMonth.today]: `지난주 ${weekday}요일`,

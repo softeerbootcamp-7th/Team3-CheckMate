@@ -1,6 +1,7 @@
 import type {
   PostDashboardRequestDto,
   PostDashboardResponseDto,
+  PostDashboardSseSubscriptionRequestDto,
 } from '@/types/dashboard';
 
 import { authorizedApi } from '../shared';
@@ -16,4 +17,12 @@ export const postDashboard = async (body: PostDashboardRequestDto) => {
     },
   );
   return data;
+};
+
+export const postDashboardSseSubscription = async (
+  body: PostDashboardSseSubscriptionRequestDto,
+) => {
+  await authorizedApi.post('/api/sse/subscriptions', {
+    body: JSON.stringify(body),
+  });
 };

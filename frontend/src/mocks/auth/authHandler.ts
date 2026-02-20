@@ -11,6 +11,7 @@ import { mswHttp } from '../shared';
 
 const getHandler = [
   mswHttp.get('/auth/status', ({ request }) => {
+    return passthrough();
     // access token 갱신 테스트를 위해 첫 요청은 401 응답
     if (request.headers.get('Authorization') === null) {
       return HttpResponse.json<ErrorResponse>(

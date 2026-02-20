@@ -3,7 +3,11 @@ import {
   DASHBOARD_METRICS,
   type ExtractCardCodes,
 } from '@/constants/dashboard';
-import { PAYMENT_METHOD, SALES_SOURCE_COLORS } from '@/constants/sales';
+import {
+  PAYMENT_METHOD,
+  SALES_SOURCE,
+  SALES_SOURCE_COLORS,
+} from '@/constants/sales';
 import type { GetIncomeStructureByPaymentMethodResponseDto } from '@/types/sales';
 
 import { DashboardSalesIncomeContent } from './DashboardSalesIncomeContent';
@@ -26,7 +30,7 @@ export const PaymentMethodContent = ({
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
   const paymentMethodData = items.map((item) => ({
-    salesSourceType: item.payMethod,
+    salesSourceType: SALES_SOURCE.PAYMENT_METHOD[item.payMethod],
     revenue: item.salesAmount,
     count: item.orderCount,
     changeRate: item.deltaShare,
@@ -38,11 +42,13 @@ export const PaymentMethodContent = ({
     color: SALES_SOURCE_COLORS[data.salesSourceType],
   }));
 
+  const topTypeLabel = SALES_SOURCE.PAYMENT_METHOD[insight.topType];
+
   return (
     <DashboardSalesIncomeContent>
       <DashboardSalesIncomeContent.ComparisonMessage
         periodType={periodType}
-        topType={insight.topType}
+        topTypeLabel={topTypeLabel}
         topShare={insight.topShare}
         deltaShare={insight.deltaShare}
       />

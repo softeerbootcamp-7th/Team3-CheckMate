@@ -3,7 +3,11 @@ import {
   DASHBOARD_METRICS,
   type ExtractCardCodes,
 } from '@/constants/dashboard';
-import { SALES_SOURCE_COLORS, SALES_TYPE } from '@/constants/sales';
+import {
+  SALES_SOURCE,
+  SALES_SOURCE_COLORS,
+  SALES_TYPE,
+} from '@/constants/sales';
 import type { GetIncomeStructureBySalesTypeResponseDto } from '@/types/sales';
 
 import { DashboardSalesIncomeContent } from './DashboardSalesIncomeContent';
@@ -26,7 +30,7 @@ export const SalesTypeContent = ({
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
   const salesTypeData = items.map((item) => ({
-    salesSourceType: item.salesType,
+    salesSourceType: SALES_SOURCE.SALE_TYPE[item.salesType],
     revenue: item.salesAmount,
     count: item.orderCount,
     changeRate: item.deltaShare,
@@ -38,11 +42,13 @@ export const SalesTypeContent = ({
     color: SALES_SOURCE_COLORS[data.salesSourceType],
   }));
 
+  const topTypeLabel = SALES_SOURCE.SALE_TYPE[insight.topType];
+
   return (
     <DashboardSalesIncomeContent>
       <DashboardSalesIncomeContent.ComparisonMessage
         periodType={periodType}
-        topType={insight.topType}
+        topTypeLabel={topTypeLabel}
         topShare={insight.topShare}
         deltaShare={insight.deltaShare}
       />

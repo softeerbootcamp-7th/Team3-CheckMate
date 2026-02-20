@@ -1,27 +1,53 @@
 import { useNavigate } from 'react-router-dom';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { ButtonGroup } from '@/components/shared';
 import { useDragAndDropCard, useEditCard } from '@/hooks/dashboard';
 import { useEditCardContext } from '@/hooks/dashboard/useEditCardContext';
+import { dashboardOptions, putDashboardCardList } from '@/services/dashboard';
+import type {
+  PutDashboardCardListParam,
+  PutDashboardCardListRequestDto,
+} from '@/types/dashboard';
 
 import { CardEditViewTabs } from './CardEditViewTabs';
 
 export const CardEditView = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { isDirty } = useEditCard();
 
-  const { isOverList } = useEditCardContext();
+  const { isOverList, placedCards, dashboardId } = useEditCardContext();
 
   const { handleListDragEnter, handleListDragLeave, handleListDrop } =
     useDragAndDropCard();
 
+  const mutateCardList = useMutation({
+    mutationFn: ({
+      param,
+      body,
+    }: {
+      param: PutDashboardCardListParam;
+      body: PutDashboardCardListRequestDto;
+    }) => putDashboardCardList(param, body),
+  });
+
   const handleCancel = () => {
     navigate(-1);
   };
+
   const handleSave = () => {
-    // TODO 저장 로직 구현
-    navigate(-1);
+    mutateCardList.mutate(
+      { param: { dashboardId }, body: placedCards },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(dashboardOptions.cardList(dashboardId));
+          navigate(-1);
+        },
+      },
+    );
   };
 
   return (

@@ -15,7 +15,7 @@ export const PAYMENT_METHOD_DATA: SalesSource[] = [
     changeRate: 6.7,
   },
   {
-    salesSourceType: SALES_SOURCE.PAYMENT_METHOD.MOBILE,
+    salesSourceType: SALES_SOURCE.PAYMENT_METHOD.EASY_PAY,
     revenue: 7531000,
     count: 75,
     changeRate: -5.2,

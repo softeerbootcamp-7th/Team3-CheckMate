@@ -20,7 +20,7 @@ export const PeakTimeContent = ({
   peakTimeData,
   className,
 }: PeakTimeContentProps) => {
-  const weekday = DAY_OF_WEEK_LIST[new Date().getDay()];
+  const weekday = DAY_OF_WEEK_LIST[(new Date().getDay() + 6) % 7];
 
   const {
     todayItems,
@@ -37,14 +37,39 @@ export const PeakTimeContent = ({
   });
 
   const primarySeries = useMemo(() => {
+    const lastItemIndexNotNull = [...todayItems]
+      .reverse()
+      .findIndex((item) => item.orderCount !== null);
+    const lastItemIndex =
+      lastItemIndexNotNull === -1
+        ? -1
+        : todayItems.length - lastItemIndexNotNull - 1;
+
     return {
-      ...createPeakTimeSeries(todayItems, 'var(--color-brand-main)'),
+      ...createPeakTimeSeries(
+        todayItems.map((item, index) => {
+          if (index < lastItemIndex) {
+            return {
+              ...item,
+              orderCount: item.orderCount ?? 0,
+            };
+          }
+          return item;
+        }),
+        'var(--color-brand-main)',
+      ),
     };
   }, [todayItems]);
 
   const secondarySeries = useMemo(() => {
     return {
-      ...createPeakTimeSeries(week4Items, 'var(--color-grey-400)'),
+      ...createPeakTimeSeries(
+        week4Items.map((item) => ({
+          ...item,
+          orderCount: item.orderCount ?? 0,
+        })),
+        'var(--color-grey-400)',
+      ),
     };
   }, [week4Items]);
 
@@ -62,9 +87,9 @@ export const PeakTimeContent = ({
           color="default"
         />
       </div>
-      <div className="h-22.5 w-75">
+      <div className="h-22.5 w-75 pt-2">
         <LineChart
-          viewBoxWidth={300}
+          viewBoxWidth={260}
           viewBoxHeight={90}
           hasXAxis={false}
           hasGradient
@@ -76,7 +101,7 @@ export const PeakTimeContent = ({
           xAxisType="default"
         />
       </div>
-      <p className="title-large-semibold">
+      <p className="body-large-semibold">
         {peakTimeBriefingMessage.map(
           ({ text, isHighlight, highlightColor }, index) => {
             return (

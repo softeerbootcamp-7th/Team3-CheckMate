@@ -24,6 +24,7 @@ const postHandler = [
     );
   }),
   mswHttp.post<null, PostStoreRegisterRequestDto>('/api/stores', () => {
+    return passthrough();
     mockDb.hasStore = true;
     return HttpResponse.json(
       {

@@ -14,6 +14,14 @@ export const getSalesPatternByDayMessage = ({
   topDay,
   isSignificant,
 }: GetSalesPatternByDayMessageArgs): MessageToken[] => {
+  if (!topDay) {
+    return [
+      createMessageToken('데이터가 더 쌓이면 '),
+      createMessageToken('가장 매출이 높은 요일', true, 'primary'),
+      createMessageToken('을 알려드릴게요.'),
+    ];
+  }
+
   if (isSignificant) {
     return [
       createMessageToken(`${topDay}요일`, true, 'primary'),

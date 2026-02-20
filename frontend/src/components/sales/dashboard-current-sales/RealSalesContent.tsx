@@ -4,7 +4,7 @@ import {
   type ExtractCardCodes,
 } from '@/constants/dashboard';
 import { REAL_SALES, SALES_UNIT } from '@/constants/sales';
-import type { GetRealTimeSalesResponseDto } from '@/types/sales';
+import type { GetRealSalesResponseDto } from '@/types/sales';
 import { getMetricTrend } from '@/utils/dashboard';
 import { getSalesCurrentComparisonMessage } from '@/utils/sales';
 
@@ -24,7 +24,7 @@ type RealSalesCardCodes = ExtractCardCodes<
 >;
 
 interface RealSalesContentProps extends Omit<
-  GetRealTimeSalesResponseDto,
+  GetRealSalesResponseDto,
   'differenceAmount'
 > {
   cardCode: RealSalesCardCodes;
