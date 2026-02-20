@@ -79,14 +79,14 @@ export const useNotificationPolling = () => {
     if (!mountedRef.current) {
       return;
     }
-    // 미열람 알림이 있다면 알림 목록을 미리 가져오고 closingTime을 갱신
+    // 미열람 알림이 있다면 closingTime을 갱신
     try {
-      await queryClient.fetchQuery(notificationOptions.list);
       await queryClient.invalidateQueries(notificationOptions.closingTime);
-
-      setIsWithinReportTime(false); // closingTime을 새로 갱신했으니 리포트 발행 시간 체크를 다시 시작하도록 상태 초기화
     } catch (err) {
-      console.error('failed to fetch notifications or invalidate time', err);
+      console.error('failed to invalidate time', err);
+      // invalidate에서 fetch가 실패해도 repeatCheckTime에서 리패치
+    } finally {
+      setIsWithinReportTime(false); // 폴링 멈춤
     }
   }, [queryClient]);
 
