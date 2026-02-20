@@ -1,5 +1,8 @@
 import { PaginationBar } from '@/components/shared';
-import { useMenusManagement, useRegisteredMenus } from '@/hooks/ingredient';
+import {
+  useMenusManagement,
+  useRegisteredMenusQuery,
+} from '@/hooks/ingredient';
 
 import { IngredientManagementHeader } from './IngredientManagementHeader';
 import { IngredientMenuCategories } from './IngredientMenuCategories';
@@ -7,7 +10,7 @@ import { IngredientMenuGrid } from './IngredientMenuGrid';
 
 export const IngredientManagement = () => {
   // 서버에 등록되어 있는 메뉴들 불러오기
-  const { data } = useRegisteredMenus();
+  const { data } = useRegisteredMenusQuery();
 
   const {
     categories,

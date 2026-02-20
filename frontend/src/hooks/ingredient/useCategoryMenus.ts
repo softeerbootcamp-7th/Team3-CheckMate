@@ -10,13 +10,13 @@ interface UseCategoryMenusParams {
 export const useCategoryMenus = ({ categoryMenus }: UseCategoryMenusParams) => {
   // 카테고리 별로 메뉴 관리할 수 있는 맵 객체
   const menusByCategory = useMemo(() => {
-    const MenuMapByCategory = new Map<string, MenuInfo[]>();
+    const menuMapByCategory = new Map<string, MenuInfo[]>();
 
     categoryMenus.forEach((category) => {
-      MenuMapByCategory.set(category.category, category.menus); // 카테고리명 -> 키, 메뉴들 -> 키에 대응되는 값으로 초기화
+      menuMapByCategory.set(category.category, category.menus); // 카테고리명 -> 키, 메뉴들 -> 키에 대응되는 값으로 초기화
     });
 
-    return MenuMapByCategory;
+    return menuMapByCategory;
   }, [categoryMenus]);
 
   // 카테고리 목록
