@@ -148,7 +148,7 @@ const getHandler = [
         });
       }
 
-      if (cardCode === 'MNU_05_04') {
+      if (cardCode === 'MNU_05_04' || cardCode === 'MNU_05_05') {
         return HttpResponse.json<
           SuccessResponse<GetPopularMenuCombinationResponseDto>
         >({
