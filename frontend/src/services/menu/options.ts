@@ -11,4 +11,9 @@ export const menuOptions = {
       queryKey: menuKeys.menuSalesRank(query),
       queryFn: () => getAnalysisDetail<T>(query),
     }),
+  ingredientConsumptionRank: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: menuKeys.ingredientConsumptionRank(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
 };
