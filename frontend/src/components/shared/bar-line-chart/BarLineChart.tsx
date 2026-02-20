@@ -159,8 +159,10 @@ export const BarLineChart = ({
             lineY={lineCoordinate[index].y ?? 0}
             color={barLineChartSeries.color}
             tooltipContentText={tooltipContent(
-              `${barLineChartSeries.data.mainY[index].amount?.toString() ?? ''}${barLineChartSeries.data.mainY[index].unit?.toString() ?? ''}`,
-              `${barLineChartSeries.data.subY[index].amount?.toString() ?? ''}${barLineChartSeries.data.subY[index].unit?.toString() ?? ''}`,
+              barLineChartSeries.data.mainY[index].amount?.toString() ?? '',
+              barLineChartSeries.data.mainY[index].unit?.toString() ?? '',
+              barLineChartSeries.data.subY[index].amount?.toString() ?? '',
+              barLineChartSeries.data.subY[index].unit?.toString() ?? '',
             )}
             hasXAxis={hasXAxis}
             viewBoxHeight={viewBoxHeight}

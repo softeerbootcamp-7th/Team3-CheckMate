@@ -5,6 +5,7 @@ export {
   formatDateYYYYMM,
   formatDateLocalized,
   formatDateYYMMDDHHMM,
+  formatDateISO,
 } from './formatDate';
 export { formatRelativeTime } from './formatTime';
 export type { DeepValueOf } from './deepValueOf';
@@ -28,7 +29,7 @@ export {
 export { formatPriceWithComma } from './formatPriceWithComma';
 export { formatNumber, formatNumberInTenThousands } from './formatNumber';
 export { filterCoordinate } from './line-chart';
-export { getXCoordinate, calculateMaximumY } from './chart';
+export { getXCoordinate, calculateMaximumY, createChartData } from './chart';
 
 export {
   computeChartDataWithPercentage,
