@@ -1,4 +1,8 @@
-import { PeriodSelect, SectionHeader } from '@/components/shared';
+import {
+  DefaultCardFetchBoundary,
+  PeriodSelect,
+  SectionHeader,
+} from '@/components/shared';
 import { PERIOD_PRESET_KEYS } from '@/constants/shared';
 import { usePeriodChangeRefreshTrigger } from '@/hooks/shared';
 import { menuKeys } from '@/services/menu';
@@ -41,7 +45,9 @@ export const IngredientConsumptionOverview = () => {
           />
         }
       />
-      <IngredientConsumptionRankCard />
+      <DefaultCardFetchBoundary className="h-95.5 w-full">
+        <IngredientConsumptionRankCard />
+      </DefaultCardFetchBoundary>
     </section>
   );
 };
