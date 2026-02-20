@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { TOAST_DEFAULT } from '@/constants/shared';
 import {
   ingredientKeys,
   postIngredientRegister,
@@ -41,11 +40,7 @@ export const useIngredientEditSubmit = ({
   // 식자재 등록/수정 실패 시 실행할 함수
   const handleSubmitError = () => {
     // 서버와 통신 실패했다면 토스트 띄우기
-    toast('식재료 등록에 실패했어요. 다시 시도해 주세요', {
-      duration: TOAST_DEFAULT.DURATION, // 3.5초 동안 띄워져있음
-      position: TOAST_DEFAULT.POSITION,
-      className: TOAST_DEFAULT.STYLE,
-    });
+    toast('식재료 등록에 실패했어요. 다시 시도해 주세요');
   };
 
   const { mutate, isPending: isSubmitting } = useMutation({

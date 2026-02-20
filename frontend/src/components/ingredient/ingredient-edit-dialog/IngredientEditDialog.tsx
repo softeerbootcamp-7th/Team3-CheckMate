@@ -4,7 +4,6 @@ import { toast } from 'sonner';
 
 import { DefaultCardFetchBoundary } from '@/components/shared';
 import { Dialog, DialogContent } from '@/components/shared/shadcn-ui';
-import { TOAST_DEFAULT } from '@/constants/shared';
 import { useIngredientEditSubmit } from '@/hooks/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 
@@ -34,6 +33,7 @@ export const IngredientEditDialog = ({
   // 취소 버튼 누르면 모달 창 닫기
   const onClickCancel = () => {
     onOpenChange(false);
+    formMethods.reset(); // 폼 초기화
   };
   // 폼 validation 통과했을 때 실행되는 함수
   const { onSubmit, isSubmitting } = useIngredientEditSubmit({
@@ -45,11 +45,6 @@ export const IngredientEditDialog = ({
   const onError = () => {
     toast(
       '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
-      {
-        duration: TOAST_DEFAULT.DURATION, // 3.5초 동안 띄워져있음
-        className: TOAST_DEFAULT.STYLE,
-        position: TOAST_DEFAULT.POSITION,
-      },
     );
   };
 
