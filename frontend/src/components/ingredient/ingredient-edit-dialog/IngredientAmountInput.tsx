@@ -26,21 +26,19 @@ export const IngredientAmountInput = ({
 }: IngredientAmountInputProps) => {
   // 용량 입력값 변경 핸들러
   const handleAmountInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 입력제한(5글자)있음 -> 너무 길면 입력 아예 안되도록
-    const lengthLimit = 5;
-    const slicedString = e.currentTarget.value.slice(0, lengthLimit);
+    const adjustedString = e.currentTarget.value.replace(/[^0-9]/g, '');
 
     // dom에 반영
-    e.currentTarget.value = slicedString;
+    e.currentTarget.value = adjustedString;
     //  RHF에게 변경 사항 알림
-    setValue(`ingredients.${index}.quantity`, slicedString, {
+    setValue(`ingredients.${index}.quantity`, adjustedString, {
       shouldDirty: true, // 변경된 값이 원래 값과 다르면 form이 dirty 상태가 되도록
     });
   };
   return (
     <Input
       autoComplete="off"
-      type="number"
+      maxLength={5}
       {...register(`ingredients.${index}.quantity`, {
         validate: (currentFieldValue) => {
           return checkValidation({
