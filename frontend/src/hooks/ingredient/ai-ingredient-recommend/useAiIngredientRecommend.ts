@@ -28,9 +28,7 @@ export const useAiIngredientRecommend = ({
       fieldArrayReplace(data.ingredients);
     },
     onError: () => {
-      toast('식재료 자동완성에 실패했어요. 다시 시도해 주세요.', {
-        position: 'bottom-center',
-      });
+      toast('식재료 자동완성에 실패했어요. 다시 시도해 주세요.');
     },
   });
   const handleAiIngredientRecommend = (menu: string) => {

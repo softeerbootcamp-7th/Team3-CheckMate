@@ -7,3 +7,4 @@ export {
   BAR_LINE_MONTHLY_MOCK,
   BAR_LINE_REALTIME_MOCK,
 } from './storybook';
+export { CATEGORY_MENUS, INGREDIENTS_BY_MENU_ID } from './ingredient';

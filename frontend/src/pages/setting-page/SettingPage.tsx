@@ -1,5 +1,5 @@
 import { SettingMyStoreInfo, SettingOption } from '@/components/setting';
-import { DefaultCardFetchBoundary } from '@/components/shared/default-card-fetch-boundary/DefaultCardFetchBoundary';
+import { DefaultCardFetchBoundary } from '@/components/shared';
 
 export const SettingPage = () => {
   return (

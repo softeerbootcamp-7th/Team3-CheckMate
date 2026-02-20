@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { ButtonGroup } from '@/components/shared';
-import { useDragAndDropCard, useEditCard } from '@/hooks/dashboard';
-import { useEditCardContext } from '@/hooks/dashboard/useEditCardContext';
+import {
+  useDragAndDropCard,
+  useEditCard,
+  useEditCardContext,
+} from '@/hooks/dashboard';
 import { dashboardOptions, putDashboardCardList } from '@/services/dashboard';
 import type {
   PutDashboardCardListParam,

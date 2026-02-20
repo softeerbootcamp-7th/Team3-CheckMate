@@ -11,11 +11,13 @@ import type { IngredientFormValues } from '@/types/ingredient';
 interface IngredientEditDialogHeaderProps {
   onClickCancel: () => void;
   menuName: string;
+  isSubmitting: boolean;
 }
 
 export const IngredientEditDialogHeader = ({
   onClickCancel,
   menuName,
+  isSubmitting,
 }: IngredientEditDialogHeaderProps) => {
   const {
     formState: { isDirty },
@@ -35,7 +37,10 @@ export const IngredientEditDialogHeader = ({
           onClick={onClickCancel}
           message="취소"
         />
-        <ButtonGroup.Positive disabled={!isDirty} message="저장" />
+        <ButtonGroup.Positive
+          disabled={!isDirty || isSubmitting} // 폼이 수정되지 않았거나 제출이 진행 중일 때는 저장 버튼 비활성화
+          message="저장"
+        />
       </ButtonGroup>
     </DialogHeader>
   );

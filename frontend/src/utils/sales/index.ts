@@ -9,3 +9,8 @@ export {
   getSalesIncomeStructureComparisonMessage,
   getSalesIncomeStructureInsight,
 } from './dashboard-sales-income';
+export {
+  getDailyRevenueTrendCardCode,
+  getWeeklyRevenueTrendCardCode,
+  getMonthlyRevenueTrendCardCode,
+} from './sales-trends';
