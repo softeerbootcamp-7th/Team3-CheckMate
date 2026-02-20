@@ -45,9 +45,9 @@ export const getRelativeDatetimeWithOneHourAfter = (
     return '';
   }
   // 상대날짜 (e.g. 오늘, 어제, 내일, ...) + 일반 시간
-  const now = new Date();
+  const nowWithoutTime = new Date().setHours(0, 0, 0, 0);
   const diffInDays = Math.floor(
-    (date.getTime() - now.getTime()) / ONE_DAY_IN_MS,
+    (date.getTime() - nowWithoutTime) / ONE_DAY_IN_MS,
   );
 
   const oneHourAfter = new Date(date.getTime() + ONE_HOUR_IN_MS);
