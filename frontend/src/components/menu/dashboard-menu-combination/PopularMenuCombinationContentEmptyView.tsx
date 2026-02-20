@@ -10,7 +10,7 @@ export const PopularMenuCombinationContentEmptyView = () => {
         아직 추천해 드릴{'\n'}
         <span className="text-brand-main">인기 조합</span>이 없어요.
       </p>
-      <span className="caption-large-medium text-grey-700 text-center whitespace-pre">
+      <span className="body-small-medium text-grey-700 text-center whitespace-pre">
         조금만 기다려 주시면{'\n'}맛있는 조합을 찾아올게요!
       </span>
     </div>

@@ -7,11 +7,10 @@ export const TimeSlotMenuOrderCountContentEmptyView = () => {
         <Clock className="text-brand-main size-full" />
       </div>
       <p className="body-large-bold text-grey-900 text-center whitespace-pre">
-        오늘
-        <span className="text-brand-main">주문 데이터</span>가{'\n'}
+        오늘 <span className="text-brand-main">주문 데이터</span>가{'\n'}
         아직 없어요
       </p>
-      <span className="caption-large-medium text-grey-700 text-center whitespace-pre">
+      <span className="body-small-medium text-grey-700 text-center whitespace-pre">
         첫 주문이 들어오면{'\n'}
         시간대별 분석을 시작할게요!
       </span>
