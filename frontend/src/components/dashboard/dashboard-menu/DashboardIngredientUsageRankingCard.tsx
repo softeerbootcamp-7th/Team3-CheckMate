@@ -1,6 +1,9 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { IngredientUsageRankingCardContent } from '@/components/menu';
+import {
+  IngredientUsageRankingCardContent,
+  IngredientUsageRankingCardContentEmptyView,
+} from '@/components/menu';
 import {
   DASHBOARD_METRICS,
   type ExtractCardCodes,
@@ -24,6 +27,10 @@ export const DashboardIngredientUsageRankingCard = ({
     createCardDetailQuery<GetIngredientUsageRankingResponseDto>(cardCode);
 
   const { data } = useSuspenseQuery(queryOption);
+
+  if (data.hasIngredient && data.items.length === 0) {
+    return <IngredientUsageRankingCardContentEmptyView />;
+  }
 
   return (
     <IngredientUsageRankingCardContent
