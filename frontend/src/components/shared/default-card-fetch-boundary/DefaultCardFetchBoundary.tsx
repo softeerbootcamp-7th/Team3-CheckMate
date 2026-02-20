@@ -1,17 +1,17 @@
-import { type CSSProperties, Suspense } from 'react';
+import { type CSSProperties, type ReactNode, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { DefaultCardFetchErrorFallback } from './DefaultCardFetchErrorFallback';
 import { DefaultCardFetchLoadingFallback } from './DefaultCardFetchLoadingFallback';
 
 // 기본 카드(흰 배경, 모서리 라운드)용 에러 바운더리 컴포넌트
-type FetchBoundaryProps = {
-  children: React.ReactNode;
+interface DefaultCardFetchBoundaryProps {
+  children: ReactNode;
   errorFallbackClassName?: string;
   errorFallbackStyle?: CSSProperties;
   loadingFallbackClassName?: string;
   loadingFallbackStyle?: CSSProperties;
-};
+}
 
 export const DefaultCardFetchBoundary = ({
   children,
@@ -19,7 +19,7 @@ export const DefaultCardFetchBoundary = ({
   errorFallbackStyle,
   loadingFallbackClassName,
   loadingFallbackStyle,
-}: FetchBoundaryProps) => {
+}: DefaultCardFetchBoundaryProps) => {
   return (
     <ErrorBoundary
       fallbackRender={(props) => (
