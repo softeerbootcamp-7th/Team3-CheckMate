@@ -32,10 +32,17 @@ export const NotificationDialogTrigger = () => {
     mutateDeleteAll.mutate();
   };
 
+  const handlePrefetchNotificationList = () => {
+    queryClient.prefetchQuery(notificationOptions.list);
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="bg-grey-0 rounded-unlimit size-15">
+        <Button
+          className="bg-grey-0 rounded-unlimit size-15"
+          onMouseEnter={handlePrefetchNotificationList}
+        >
           <Badge show={existsUnread}>
             <BellIcon className="size-6" />
           </Badge>
