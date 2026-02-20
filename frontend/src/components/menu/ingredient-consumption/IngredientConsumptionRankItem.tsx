@@ -1,16 +1,17 @@
 import { RankBadge } from '@/components/shared';
-import type { IngredientConsumptionRank } from '@/types/menu';
+import type { IngredientUsage } from '@/types/menu';
 import { formatNumber } from '@/utils/shared';
 
-interface IngredientConsumptionRankItemProps extends IngredientConsumptionRank {
+interface IngredientConsumptionRankItemProps extends IngredientUsage {
+  rank: number;
   isHighlight: boolean;
 }
 
 export const IngredientConsumptionRankItem = ({
   rank,
   ingredientName,
-  usageAmount,
-  unit,
+  totalQuantity,
+  baseUnit,
   isHighlight,
 }: IngredientConsumptionRankItemProps) => {
   return (
@@ -26,9 +27,9 @@ export const IngredientConsumptionRankItem = ({
       </span>
       <div className="flex shrink-0 grow items-center justify-end gap-1">
         <span className="text-grey-900 body-medium-semibold truncate">
-          {formatNumber(usageAmount)}
+          {formatNumber(totalQuantity)}
         </span>
-        <span className="text-grey-600 body-medium-medium">{unit}</span>
+        <span className="text-grey-600 body-medium-medium">{baseUnit}</span>
       </div>
     </li>
   );
