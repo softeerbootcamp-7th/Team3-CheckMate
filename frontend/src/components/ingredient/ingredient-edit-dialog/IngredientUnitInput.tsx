@@ -4,7 +4,6 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '@/components/shared/shadcn-ui';
@@ -68,14 +67,15 @@ export const IngredientUnitInput = ({
               position={'popper'}
             >
               <SelectGroup>
-                {Object.values(INGREDIENT_UNIT).map((unit, index) => {
+                {Object.values(INGREDIENT_UNIT).map((unit, unitIndex) => {
                   return (
-                    <>
-                      <IngredientUnitSelectItem unit={unit} />
-                      {index !== Object.values(INGREDIENT_UNIT).length - 1 && (
-                        <SelectSeparator />
-                      )}
-                    </>
+                    <IngredientUnitSelectItem
+                      key={unit}
+                      unit={unit}
+                      isLast={
+                        unitIndex === Object.values(INGREDIENT_UNIT).length - 1
+                      }
+                    />
                   );
                 })}
               </SelectGroup>

@@ -1,5 +1,8 @@
 import { PaginationBar } from '@/components/shared';
-import { useMenusManagement, useRegisteredMenus } from '@/hooks/ingredient';
+import {
+  useMenusManagement,
+  useRegisteredMenusQuery,
+} from '@/hooks/ingredient';
 
 import { IngredientManagementHeader } from './IngredientManagementHeader';
 import { IngredientMenuCategories } from './IngredientMenuCategories';
@@ -7,7 +10,7 @@ import { IngredientMenuGrid } from './IngredientMenuGrid';
 
 export const IngredientManagement = () => {
   // 서버에 등록되어 있는 메뉴들 불러오기
-  const { data } = useRegisteredMenus();
+  const { data } = useRegisteredMenusQuery();
 
   const {
     categories,
@@ -21,7 +24,7 @@ export const IngredientManagement = () => {
     handleClickPrev,
     handleClickNext,
     handleClickPage,
-  } = useMenusManagement({ menus: data?.menus ?? [] });
+  } = useMenusManagement({ categoryMenus: data ?? [] });
 
   return (
     <div className="flex flex-col gap-7.5">

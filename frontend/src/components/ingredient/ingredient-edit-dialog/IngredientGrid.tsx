@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { X } from 'lucide-react';
 
-import { IngredientAiRecommendLoading } from '@/components/ingredient/ingredient-ai-recommend';
+import { IngredientAiRecommendLoading } from '@/components/ingredient';
 import { Button } from '@/components/shared/shadcn-ui';
 import type { IngredientField, IngredientFormValues } from '@/types/ingredient';
 

@@ -1,1 +1,1 @@
-export { type GetRegisteredMenusDto } from './getRegisteredMenusDto';
+export { type GetCategoryMenusResponseDto } from './getCategoryMenusDto';
