@@ -25,3 +25,5 @@ export { ONE_HUNDRED_MILLION, TEN_THOUSAND } from './number';
 export { TOAST_DEFAULT } from './toast';
 export { LINE_CHART } from './line-chart';
 export { BAR_CHART, STACK_BAR_CHART } from './bar-chart';
+
+export { LOCAL_STORAGE_KEY } from './localStorageKey';

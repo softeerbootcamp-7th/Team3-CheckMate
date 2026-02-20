@@ -182,7 +182,6 @@ export const useDashboardTabsDialog = () => {
 
   const handleCancel = () => {
     setNewTabs(tabs.map((tab) => tab.name));
-    toast('변경 사항이 저장되지 않았어요.');
     closeDialog();
   };
 
