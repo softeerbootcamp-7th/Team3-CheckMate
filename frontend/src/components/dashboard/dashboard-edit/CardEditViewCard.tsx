@@ -49,7 +49,7 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
       }
       onDragEnd={handleDragEnd}
       className="translate-x-0 cursor-grab active:cursor-grabbing"
-      onClick={handleAddCard}
+      onClick={!memoisedIsAdded ? handleAddCard : undefined}
     >
       <EditCardWrapper
         isAdded={memoisedIsAdded}

@@ -218,8 +218,8 @@ public class MenuService {
                         recipeRepository.findMenuVersionIdsWithRecipe(
                                 menuVersions.stream().map(MenuVersion::getId).toList()));
 
-        // 4. category 기준으로 MenuVersion 묶기
-        Map<String, List<MenuVersion>> categoryMap = new HashMap<>();
+        // 4. category 기준으로 MenuVersion 묶기 (카테고리 정렬)
+        Map<String, List<MenuVersion>> categoryMap = new TreeMap<>();
         for (MenuVersion menuVersion : menuVersions) {
             String category = menuVersion.getMenu().getCategory();
             categoryMap.computeIfAbsent(category, k -> new ArrayList<>()).add(menuVersion);

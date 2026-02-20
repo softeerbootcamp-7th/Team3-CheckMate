@@ -1,8 +1,7 @@
-import { aiIngredientRecommendHandler } from './ingredient/ai-ingredient-recommend/aiIngredientRecommendHandler';
 import { storeRegisterHandler } from './onboarding/store-register';
 import { analysisHandler } from './analysis';
 import { authHandler } from './auth';
-import { ingredientHandler } from './ingredient';
+import { aiIngredientRecommendHandler, ingredientHandler } from './ingredient';
 import { settingHandler } from './setting';
 
 export const handlers = [
