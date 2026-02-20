@@ -80,16 +80,16 @@ export const PeakTimeContent = ({
         className,
       )}
     >
-      <div className="flex items-center gap-1.5">
+      <div className="absolute top-7 left-26.25 flex items-center gap-1.5">
         <PeakTimeChartCaption label="실시간" color="primary" />
         <PeakTimeChartCaption
           label={`${weekday}요일 평균(4주)`}
           color="default"
         />
       </div>
-      <div className="h-22.5 w-75">
+      <div className="h-22.5 w-75 pt-2">
         <LineChart
-          viewBoxWidth={300}
+          viewBoxWidth={260}
           viewBoxHeight={90}
           hasXAxis={false}
           hasGradient
@@ -101,7 +101,7 @@ export const PeakTimeContent = ({
           xAxisType="default"
         />
       </div>
-      <p className="title-large-semibold">
+      <p className="title-medium-semibold">
         {peakTimeBriefingMessage.map(
           ({ text, isHighlight, highlightColor }, index) => {
             return (

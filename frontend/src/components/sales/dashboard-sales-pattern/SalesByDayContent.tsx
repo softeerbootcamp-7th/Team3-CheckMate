@@ -59,7 +59,7 @@ export const SalesByDayContent = ({
         activeDataIndex={activeDataIndex === -1 ? undefined : activeDataIndex}
         xAxisType="default"
       />
-      <p className="title-large-semibold w-full min-w-0">
+      <p className="title-medium-semibold w-full min-w-0">
         {salesByDayBriefingMessage.map(
           ({ text, isHighlight, highlightColor }, index) => {
             return (
