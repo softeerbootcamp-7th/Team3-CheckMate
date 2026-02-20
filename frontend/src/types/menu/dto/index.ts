@@ -9,6 +9,7 @@ export type {
 export type {
   GetPopularMenuCombinationResponseDto,
   PopularMenuCombination,
+  PairedMenu,
 } from './getPopularMenuCombinationDto';
 export type { GetDashboardTimeSlotMenuOrderCountResponseDto } from './getDashboardTimeSlotMenuOrderCountDto';
 export type { GetDashboardPopularMenuCombinationResponseDto } from './getDashboardPopularMenuCombinationDto';

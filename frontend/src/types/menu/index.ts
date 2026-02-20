@@ -10,6 +10,7 @@ export type {
   IngredientUsage,
   GetPopularMenuCombinationResponseDto,
   PopularMenuCombination,
+  PairedMenu,
   GetDashboardTimeSlotMenuOrderCountResponseDto,
   GetDashboardPopularMenuCombinationResponseDto,
   GetDetailTimeSlotMenuOrderCountResponseDto,
