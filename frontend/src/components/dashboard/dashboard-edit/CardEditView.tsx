@@ -7,7 +7,7 @@ import { useDragAndDropCard, useEditCard } from '@/hooks/dashboard';
 import { useEditCardContext } from '@/hooks/dashboard/useEditCardContext';
 import { dashboardOptions, putDashboardCardList } from '@/services/dashboard';
 import type {
-  PutDashboardCardListQuery,
+  PutDashboardCardListParam,
   PutDashboardCardListRequestDto,
 } from '@/types/dashboard';
 
@@ -26,12 +26,12 @@ export const CardEditView = () => {
 
   const mutateCardList = useMutation({
     mutationFn: ({
-      query,
-      request,
+      param,
+      body,
     }: {
-      query: PutDashboardCardListQuery;
-      request: PutDashboardCardListRequestDto;
-    }) => putDashboardCardList(query, request),
+      param: PutDashboardCardListParam;
+      body: PutDashboardCardListRequestDto;
+    }) => putDashboardCardList(param, body),
   });
 
   const handleCancel = () => {
@@ -40,7 +40,7 @@ export const CardEditView = () => {
 
   const handleSave = () => {
     mutateCardList.mutate(
-      { query: { dashboardId }, request: placedCards },
+      { param: { dashboardId }, body: placedCards },
       {
         onSuccess: () => {
           queryClient.invalidateQueries(dashboardOptions.cardList(dashboardId));
