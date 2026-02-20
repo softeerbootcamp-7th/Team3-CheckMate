@@ -1,4 +1,4 @@
-import { type FallbackProps, useErrorBoundary } from 'react-error-boundary';
+import { type FallbackProps } from 'react-error-boundary';
 
 import { Button } from '@/components/shared/shadcn-ui';
 
@@ -8,6 +8,7 @@ interface ErrorFallbackProps extends FallbackProps {
   onClickButton?: () => void;
 }
 export const ErrorFallback = ({
+  error,
   errorMessage,
   buttonText = '다시 시도',
   onClickButton,
@@ -18,7 +19,6 @@ export const ErrorFallback = ({
     onClickButton?.();
   };
 
-  const { error } = useErrorBoundary();
   const message =
     error instanceof Error ? error.message : '오류가 발생했습니다.';
 
