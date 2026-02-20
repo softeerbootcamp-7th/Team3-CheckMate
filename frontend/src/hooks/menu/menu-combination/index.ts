@@ -1,1 +1,1 @@
-export { useMenuCombinationRank } from './useMenuCobinationRank';
+export { useMenuCombinationRank } from './useMenuCombinationRank';
