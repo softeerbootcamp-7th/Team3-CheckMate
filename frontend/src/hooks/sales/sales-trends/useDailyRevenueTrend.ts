@@ -9,7 +9,11 @@ import {
 import { salesOptions } from '@/services/sales';
 import type { GetSalesTrendResponseDto } from '@/types/sales';
 import { getDailyRevenueTrendCardCode } from '@/utils/sales';
-import { createChartData, formatNumberInTenThousands } from '@/utils/shared';
+import {
+  createChartData,
+  formatDateISO,
+  formatNumberInTenThousands,
+} from '@/utils/shared';
 
 interface UseDailyRevenueTrendProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.recentDays7_14_30>;
@@ -29,8 +33,8 @@ export const useDailyRevenueTrend = ({
     ...salesOptions.dailyRevenueTrend<GetSalesTrendResponseDto>({
       analysisCardCode: dailyRevenueTrendCardCode,
       customPeriod: !periodType,
-      from: startDate?.toISOString(),
-      to: endDate?.toISOString(),
+      from: startDate ? formatDateISO(startDate) : undefined,
+      to: endDate ? formatDateISO(endDate) : undefined,
     }),
   });
 

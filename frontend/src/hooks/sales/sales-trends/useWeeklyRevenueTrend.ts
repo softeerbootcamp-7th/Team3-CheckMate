@@ -9,7 +9,11 @@ import {
 import { salesOptions } from '@/services/sales';
 import type { GetSalesTrendResponseDto } from '@/types/sales';
 import { getWeeklyRevenueTrendCardCode } from '@/utils/sales';
-import { createChartData, formatNumberInTenThousands } from '@/utils/shared';
+import {
+  createChartData,
+  formatDateISO,
+  formatNumberInTenThousands,
+} from '@/utils/shared';
 
 interface UseWeeklyRevenueTrendProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.recentWeeks8_12>;
@@ -29,8 +33,8 @@ export const useWeeklyRevenueTrend = ({
     ...salesOptions.weeklyRevenueTrend<GetSalesTrendResponseDto>({
       analysisCardCode: weeklyRevenueTrendCardCode,
       customPeriod: !periodType,
-      from: startDate?.toISOString(),
-      to: endDate?.toISOString(),
+      from: startDate ? formatDateISO(startDate) : undefined,
+      to: endDate ? formatDateISO(endDate) : undefined,
     }),
   });
 

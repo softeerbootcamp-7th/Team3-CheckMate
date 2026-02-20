@@ -5,6 +5,7 @@ export {
   formatDateYYYYMM,
   formatDateLocalized,
   formatDateYYMMDDHHMM,
+  formatDateISO,
 } from './formatDate';
 export { formatRelativeTime } from './formatTime';
 export type { DeepValueOf } from './deepValueOf';
