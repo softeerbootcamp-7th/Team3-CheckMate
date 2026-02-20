@@ -109,10 +109,37 @@ export const useDashboardTabsDialog = () => {
     inputRefs.current[currentIndex]?.focus();
   };
 
+  /** 원본과 비교하여 변경이 있는지 여부 */
+  const isDirty = useMemo(() => {
+    const trimmedTabs = newTabs.map((tab) => tab?.trim());
+    const filteredTabs = trimmedTabs.filter((tab) => tab) as string[];
+    const originalTabs = tabs.map((tab) => tab.name);
+
+    // 개수가 다르면 변경임
+    if (filteredTabs.length !== originalTabs.length) {
+      return true;
+    }
+
+    // 각 탭 이름 비교
+    return filteredTabs.some((tab, index) => tab !== originalTabs[index]);
+  }, [newTabs, tabs]);
+
+  const isValid = useMemo(() => {
+    const trimmedTabs = newTabs
+      .map((tab) => tab?.trim())
+      .filter((tab) => !!tab) as string[]; // undefined 및 빈 문자열 제거
+
+    // 중복 체크를 위한 Set 활용
+    const hasDuplicates = new Set(trimmedTabs).size !== trimmedTabs.length;
+    const hasInvalidLength = trimmedTabs.some((tab) => tab.length > 6);
+
+    return !hasDuplicates && !hasInvalidLength;
+  }, [newTabs]);
+
   const handleSave = async () => {
     const trimmedTabs = newTabs.map((tab) => tab?.trim()); // trim 처리
 
-    if (!validateTabs()) {
+    if (!isValid) {
       toast('입력하신 내용을 저장할 수 없어요.');
       return;
     }
@@ -183,45 +210,6 @@ export const useDashboardTabsDialog = () => {
     closeDialog();
   };
 
-  /** 원본과 비교하여 변경이 있는지 여부 */
-  const isDirty = useMemo(() => {
-    const trimmedTabs = newTabs.map((tab) => tab?.trim());
-    const filteredTabs = trimmedTabs.filter((tab) => tab) as string[];
-    const originalTabs = tabs.map((tab) => tab.name);
-
-    // 개수가 다르면 변경임
-    if (filteredTabs.length !== originalTabs.length) {
-      return true;
-    }
-
-    // 각 탭 이름 비교
-    return filteredTabs.some((tab, index) => tab !== originalTabs[index]);
-  }, [newTabs, tabs]);
-
-  const validateTabs = () => {
-    const trimmedTabsMap = new Map<string, number>();
-
-    for (let i = 0; i < newTabs.length; i++) {
-      const tab = newTabs[i];
-      if (tab === undefined) {
-        continue;
-      }
-
-      const trimmed = tab.trim();
-      if (!trimmed) {
-        continue;
-      }
-
-      if (trimmed.length > 6 || trimmedTabsMap.has(trimmed)) {
-        return false;
-      }
-
-      trimmedTabsMap.set(trimmed, i);
-    }
-
-    return true;
-  };
-
   return {
     inputRefs,
     newTabs,
@@ -234,7 +222,7 @@ export const useDashboardTabsDialog = () => {
     handleSave,
     handleCancel,
     isDirty,
-    validateTabs,
+    isValid,
   } as const;
 };
 
