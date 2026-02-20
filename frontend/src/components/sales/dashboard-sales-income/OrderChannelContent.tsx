@@ -9,6 +9,7 @@ import {
   SALES_SOURCE_COLORS,
 } from '@/constants/sales';
 import type { GetIncomeStructureByOrderChannelResponseDto } from '@/types/sales';
+import { getSalesIncomeStructureInsight } from '@/utils/sales';
 
 import { DashboardSalesIncomeContent } from './DashboardSalesIncomeContent';
 
@@ -42,18 +43,19 @@ export const OrderChannelContent = ({
     color: SALES_SOURCE_COLORS[data.salesSourceType],
   }));
 
-  const topTypeLabel =
-    SALES_SOURCE.ORDER_METHOD[
-      insight.topType as keyof typeof SALES_SOURCE.ORDER_METHOD
-    ];
+  const { topShare, topDeltaShare, topTypeLabel } =
+    getSalesIncomeStructureInsight<GetIncomeStructureByOrderChannelResponseDto>(
+      insight,
+      items,
+    );
 
   return (
     <DashboardSalesIncomeContent>
       <DashboardSalesIncomeContent.ComparisonMessage
         periodType={periodType}
         topTypeLabel={topTypeLabel}
-        topShare={insight.topShare}
-        deltaShare={insight.deltaShare}
+        topShare={topShare}
+        deltaShare={topDeltaShare}
       />
       <DashboardSalesIncomeContent.DoughnutChart
         periodType={periodType}

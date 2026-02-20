@@ -9,6 +9,7 @@ import {
   SALES_SOURCE_COLORS,
 } from '@/constants/sales';
 import type { GetIncomeStructureByPaymentMethodResponseDto } from '@/types/sales';
+import { getSalesIncomeStructureInsight } from '@/utils/sales';
 
 import { DashboardSalesIncomeContent } from './DashboardSalesIncomeContent';
 
@@ -42,15 +43,19 @@ export const PaymentMethodContent = ({
     color: SALES_SOURCE_COLORS[data.salesSourceType],
   }));
 
-  const topTypeLabel = SALES_SOURCE.PAYMENT_METHOD[insight.topType];
+  const { topShare, topDeltaShare, topTypeLabel } =
+    getSalesIncomeStructureInsight<GetIncomeStructureByPaymentMethodResponseDto>(
+      insight,
+      items,
+    );
 
   return (
     <DashboardSalesIncomeContent>
       <DashboardSalesIncomeContent.ComparisonMessage
         periodType={periodType}
         topTypeLabel={topTypeLabel}
-        topShare={insight.topShare}
-        deltaShare={insight.deltaShare}
+        topShare={topShare}
+        deltaShare={topDeltaShare}
       />
       <DashboardSalesIncomeContent.DoughnutChart
         periodType={periodType}
