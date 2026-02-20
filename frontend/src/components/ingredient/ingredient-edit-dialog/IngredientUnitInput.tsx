@@ -1,4 +1,3 @@
-import { Fragment } from 'react/jsx-runtime';
 import { type Control, Controller, type FieldErrors } from 'react-hook-form';
 
 import {
@@ -68,15 +67,15 @@ export const IngredientUnitInput = ({
               position={'popper'}
             >
               <SelectGroup>
-                {Object.values(INGREDIENT_UNIT).map((unit, index) => {
+                {Object.values(INGREDIENT_UNIT).map((unit, unitIndex) => {
                   return (
-                    <Fragment key={unit}>
-                      <IngredientUnitSelectItem unit={unit} />
-                      {/* Fragment 구조에서는 SelectSeparator가 정상 동작하지 않아 div로 구분선 처리 */}
-                      {index !== Object.values(INGREDIENT_UNIT).length - 1 && (
-                        <div className="bg-grey-300 h-px w-full" />
-                      )}
-                    </Fragment>
+                    <IngredientUnitSelectItem
+                      key={unit}
+                      unit={unit}
+                      isLast={
+                        unitIndex === Object.values(INGREDIENT_UNIT).length - 1
+                      }
+                    />
                   );
                 })}
               </SelectGroup>
