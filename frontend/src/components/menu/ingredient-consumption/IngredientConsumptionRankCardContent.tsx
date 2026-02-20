@@ -22,9 +22,11 @@ export const IngredientConsumptionRankCardContent = ({
     <div className="flex gap-5">
       <IngredientConsumptionRankList
         ingredientConsumptionRank={rankItems1to5}
+        startRank={1}
       />
       <IngredientConsumptionRankList
         ingredientConsumptionRank={rankItems6to10}
+        startRank={6}
       />
     </div>
   );
