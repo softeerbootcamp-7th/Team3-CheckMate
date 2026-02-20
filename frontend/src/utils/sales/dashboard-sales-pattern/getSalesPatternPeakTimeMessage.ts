@@ -13,6 +13,14 @@ export const getSalesPatternPeakTimeMessage = ({
   comparisonPeak,
   beforeComparisonPeak,
 }: GetSalesPatternPeakTimeMessageArgs): MessageToken[] => {
+  if (!todayPeak || !comparisonPeak) {
+    return [
+      createMessageToken('데이터가 더 쌓이면 '),
+      createMessageToken('가장 바쁜 시간', true, 'primary'),
+      createMessageToken('을 알려드릴게요.'),
+    ];
+  }
+
   if (beforeComparisonPeak) {
     return [
       createMessageToken('오늘은 '),

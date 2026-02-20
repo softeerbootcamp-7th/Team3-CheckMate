@@ -8,10 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface DashboardRepository extends JpaRepository<Dashboard, Long> {
 
-    @Query(
-            "SELECT d FROM Dashboard d "
-                    + "LEFT JOIN d.store s "
-                    + "WHERE s.id = :storeId OR s IS NULL")
+    @Query("SELECT d FROM Dashboard d " + "WHERE d.store.id = :storeId " + "OR d.store IS NULL")
     List<Dashboard> findAllByStoreIdWithDefault(@Param("storeId") Long storeId);
 
     boolean existsByStoreIdAndName(Long storeId, String name);

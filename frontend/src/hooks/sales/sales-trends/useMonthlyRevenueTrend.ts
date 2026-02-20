@@ -5,7 +5,11 @@ import { type PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetSalesTrendResponseDto } from '@/types/sales';
 import { getMonthlyRevenueTrendCardCode } from '@/utils/sales';
-import { createChartData, formatNumberInTenThousands } from '@/utils/shared';
+import {
+  createChartData,
+  formatDateISO,
+  formatNumberInTenThousands,
+} from '@/utils/shared';
 
 interface UseMonthlyRevenueTrendProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.recentMonths6_12>;
@@ -26,8 +30,8 @@ export const useMonthlyRevenueTrend = ({
     ...salesOptions.monthlyRevenueTrend<GetSalesTrendResponseDto>({
       analysisCardCode: monthlyRevenueTrendCardCode,
       customPeriod: !periodType,
-      from: startDate?.toISOString(),
-      to: endDate?.toISOString(),
+      from: startDate ? formatDateISO(startDate) : undefined,
+      to: endDate ? formatDateISO(endDate) : undefined,
     }),
   });
 

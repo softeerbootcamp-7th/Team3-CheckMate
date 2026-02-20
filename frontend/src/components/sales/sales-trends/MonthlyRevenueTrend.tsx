@@ -35,7 +35,7 @@ export const MonthlyRevenueTrend = () => {
   return (
     <DefaultCardWrapper
       title={monthlyRevenueTrendLabel}
-      className="flex h-57 w-full flex-col justify-start gap-5"
+      className="flex h-57 w-180 flex-col justify-start gap-5"
       aria-label={monthlyRevenueTrendLabel}
     >
       <SalesTrendCaption className="absolute top-5.5 left-30" />

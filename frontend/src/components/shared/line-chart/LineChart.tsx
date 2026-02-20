@@ -155,15 +155,6 @@ export const LineChart = ({
           />
         </>
       )}
-      <LineSeries
-        coordinate={primaryCoordinate}
-        color={primarySeries.color}
-        hasGradient={hasGradient}
-        gradientId={lineGradientId}
-        series={primarySeries}
-        activeTooltip={activeTooltip}
-        tooltipContent={tooltipContent}
-      />
 
       {secondarySeries && (
         <LineSeries
@@ -174,6 +165,15 @@ export const LineChart = ({
           tooltipContent={tooltipContent}
         />
       )}
+      <LineSeries
+        coordinate={primaryCoordinate}
+        color={primarySeries.color}
+        hasGradient={hasGradient}
+        gradientId={lineGradientId}
+        series={primarySeries}
+        activeTooltip={activeTooltip}
+        tooltipContent={tooltipContent}
+      />
     </svg>
   );
 };
