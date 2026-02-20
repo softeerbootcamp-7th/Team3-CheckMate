@@ -1,20 +1,18 @@
 import { RankBadge } from '@/components/shared';
-import type { MenuCombinationRank } from '@/types/menu';
+import type { PairedMenu } from '@/types/menu';
 import { formatNumber } from '@/utils/shared';
 
-type MenuCombination = MenuCombinationRank['combinationRank'][number];
-
 interface MenuCombinationItemProps {
-  rank: MenuCombination['rank'];
-  menuName: MenuCombination['menuName'];
-  totalOrderCount: MenuCombination['totalOrderCount'];
+  rank: number;
+  menuName: PairedMenu['menuName'];
+  count: PairedMenu['count'];
   isHighlight: boolean;
 }
 
 export const MenuCombinationItem = ({
   rank,
   menuName,
-  totalOrderCount,
+  count,
   isHighlight,
 }: MenuCombinationItemProps) => {
   return (
@@ -30,7 +28,7 @@ export const MenuCombinationItem = ({
       </span>
       <div className="flex w-35 shrink-0 items-center justify-end gap-1">
         <span className="text-grey-900 body-medium-semibold truncate">
-          {formatNumber(totalOrderCount)}
+          {formatNumber(count)}
         </span>
         <span className="text-grey-500 body-medium-medium">회</span>
       </div>

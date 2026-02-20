@@ -1,19 +1,23 @@
 import { MENU_COMBINATION } from '@/constants/menu';
-import type { MenuCombinationRank } from '@/types/menu';
+import type { PopularMenuCombination } from '@/types/menu';
 
 import { MenuCombinationItem } from './MenuCombinationItem';
 
 interface MenuCombinationListProps {
-  rank: MenuCombinationRank['rank'];
-  menuName: MenuCombinationRank['menuName'];
-  combinationRank: MenuCombinationRank['combinationRank'];
+  rank: number;
+  menuName: PopularMenuCombination['baseMenuName'];
+  pairedMenus: PopularMenuCombination['pairedMenus'];
 }
 
 export const MenuCombinationList = ({
   rank,
   menuName,
-  combinationRank,
+  pairedMenus,
 }: MenuCombinationListProps) => {
+  if (menuName === null || pairedMenus === null) {
+    return null;
+  }
+
   return (
     <div className="flex flex-1 flex-col gap-6">
       <div className="flex flex-col gap-1">
@@ -25,15 +29,16 @@ export const MenuCombinationList = ({
           함께 가장 많이 선택된 메뉴
         </span>
         <ol className="flex flex-col gap-1">
-          {combinationRank.map((combinationItem) => {
+          {pairedMenus.map((pairedMenu, index) => {
             const isHighlight =
-              combinationItem.rank <=
-              MENU_COMBINATION.HIGHLIGHT_COMBINATION_THRESHOLD;
+              index + 1 <= MENU_COMBINATION.HIGHLIGHT_COMBINATION_THRESHOLD;
             return (
               <MenuCombinationItem
-                key={combinationItem.rank}
+                key={index}
+                rank={index + 1}
+                menuName={pairedMenu.menuName}
+                count={pairedMenu.count}
                 isHighlight={isHighlight}
-                {...combinationItem}
               />
             );
           })}
