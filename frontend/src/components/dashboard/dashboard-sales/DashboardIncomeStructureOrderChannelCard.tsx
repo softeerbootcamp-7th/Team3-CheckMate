@@ -1,6 +1,9 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { OrderChannelContent } from '@/components/sales';
+import {
+  OrderChannelContent,
+  OrderChannelContentEmptyView,
+} from '@/components/sales';
 import {
   DASHBOARD_METRICS,
   type ExtractCardCodes,
@@ -27,6 +30,10 @@ export const DashboardIncomeStructureOrderChannelCard = ({
     );
 
   const { data } = useSuspenseQuery(queryOption);
+
+  if (data.items.length === 0) {
+    return <OrderChannelContentEmptyView />;
+  }
 
   return (
     <OrderChannelContent

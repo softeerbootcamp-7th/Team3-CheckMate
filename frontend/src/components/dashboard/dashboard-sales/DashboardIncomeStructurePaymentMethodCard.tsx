@@ -1,6 +1,9 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { PaymentMethodContent } from '@/components/sales';
+import {
+  PaymentMethodContent,
+  PaymentMethodContentEmptyView,
+} from '@/components/sales';
 import type {
   DASHBOARD_METRICS,
   ExtractCardCodes,
@@ -26,6 +29,10 @@ export const DashboardIncomeStructurePaymentMethodCard = ({
     );
 
   const { data } = useSuspenseQuery(queryOption);
+
+  if (data.items.length === 0) {
+    return <PaymentMethodContentEmptyView />;
+  }
 
   return (
     <PaymentMethodContent

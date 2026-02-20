@@ -1,6 +1,9 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { SalesTypeContent } from '@/components/sales';
+import {
+  SalesTypeContent,
+  SalesTypeContentEmptyView,
+} from '@/components/sales';
 import {
   DASHBOARD_METRICS,
   type ExtractCardCodes,
@@ -25,6 +28,10 @@ export const DashboardIncomeStructureSalesTypeCard = ({
     createCardDetailQuery<GetIncomeStructureBySalesTypeResponseDto>(cardCode);
 
   const { data } = useSuspenseQuery(queryOption);
+
+  if (data.items.length === 0) {
+    return <SalesTypeContentEmptyView />;
+  }
 
   return (
     <SalesTypeContent
