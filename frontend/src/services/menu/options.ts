@@ -9,7 +9,7 @@ const createMenuDetailQueryOption =
   <T>(
     key: Extract<
       keyof typeof menuKeys,
-      'menuSalesRank' | 'ingredientConsumptionRank'
+      'menuSalesRank' | 'ingredientConsumptionRank' | 'menuCombinationRank'
     >,
   ) =>
   (query: GetAnalysisDetailQuery) =>
@@ -23,4 +23,6 @@ export const menuOptions = {
     createMenuDetailQueryOption<T>('menuSalesRank')(query),
   ingredientConsumptionRank: <T>(query: GetAnalysisDetailQuery) =>
     createMenuDetailQueryOption<T>('ingredientConsumptionRank')(query),
+  menuCombinationRank: <T>(query: GetAnalysisDetailQuery) =>
+    createMenuDetailQueryOption<T>('menuCombinationRank')(query),
 };

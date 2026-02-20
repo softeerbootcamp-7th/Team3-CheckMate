@@ -19,4 +19,6 @@ export const menuKeys = {
     ] as const,
   // 인기 메뉴 조합 섹션의 공통 쿼리 키
   menuCombination: () => [...menuKeys.all, 'menuCombination'] as const,
+  menuCombinationRank: (query: GetAnalysisDetailQuery) =>
+    [...menuKeys.menuCombination(), 'menuCombinationRank', query] as const,
 };
