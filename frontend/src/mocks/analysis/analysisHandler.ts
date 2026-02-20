@@ -6,11 +6,7 @@ import {
   isSalesTypeMetricCardCode,
   isWeekdaySalesPatternMetricCardCode,
 } from '@/constants/dashboard';
-import {
-  INGREDIENT_USAGE_RANKING,
-  isMenuMetricCardCodes,
-  MENU_SALES_RANKING,
-} from '@/constants/menu';
+import { isMenuMetricCardCodes } from '@/constants/menu';
 import {
   ORDER_CHANNEL,
   PAYMENT_METHOD,
@@ -21,6 +17,7 @@ import type { SuccessResponse } from '@/services/shared';
 import type {
   GetIngredientUsageRankingResponseDto,
   GetMenuSalesRankingResponseDto,
+  GetPopularMenuCombinationResponseDto,
 } from '@/types/menu';
 import type {
   GetDetailSalesByDayResponseDto,
@@ -29,7 +26,21 @@ import type {
   GetIncomeStructureBySalesTypeResponseDto,
 } from '@/types/sales';
 
+import {
+  ingredientConsumptionRankItems,
+  menuCombinationRankItems,
+  menuSalesRankItems,
+} from '../data';
 import { mswHttp } from '../shared';
+
+const EMPTY_LIST_RESPONSE_PROBABILITY = 0.2;
+
+const shouldReturnEmptyList = () =>
+  Math.random() < EMPTY_LIST_RESPONSE_PROBABILITY;
+
+const getItemsWithRandomEmpty = <T>(items: T[]) => {
+  return shouldReturnEmptyList() ? [] : items;
+};
 
 const getHandler = [
   mswHttp.get('/api/analysis/detail', ({ request }) => {
@@ -117,7 +128,7 @@ const getHandler = [
           success: true,
           message: 'Success',
           data: {
-            items: MENU_SALES_RANKING.EXAMPLE_MENU_SALES_RANKING_ITEMS,
+            items: getItemsWithRandomEmpty(menuSalesRankItems.items),
           },
         });
       }
@@ -129,9 +140,22 @@ const getHandler = [
           success: true,
           message: 'Success',
           data: {
-            items:
-              INGREDIENT_USAGE_RANKING.EXAMPLE_INGREDIENT_USAGE_RANKING_ITEMS,
-            hasIngredient: true,
+            ...ingredientConsumptionRankItems,
+            items: getItemsWithRandomEmpty(
+              ingredientConsumptionRankItems.items,
+            ),
+          },
+        });
+      }
+
+      if (cardCode === 'MNU_05_04') {
+        return HttpResponse.json<
+          SuccessResponse<GetPopularMenuCombinationResponseDto>
+        >({
+          success: true,
+          message: 'Success',
+          data: {
+            items: getItemsWithRandomEmpty(menuCombinationRankItems.items),
           },
         });
       }
