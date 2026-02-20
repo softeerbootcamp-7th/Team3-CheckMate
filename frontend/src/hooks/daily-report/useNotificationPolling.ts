@@ -84,6 +84,8 @@ export const useNotificationPolling = () => {
     try {
       await queryClient.fetchQuery(notificationOptions.list);
       await queryClient.invalidateQueries(notificationOptions.closingTime);
+
+      setIsWithinReportTime(false); // closingTime을 새로 갱신했으니 리포트 발행 시간 체크를 다시 시작하도록 상태 초기화
     } catch (err) {
       console.error('failed to fetch notifications or invalidate time', err);
     }
