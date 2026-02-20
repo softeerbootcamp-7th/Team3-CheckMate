@@ -1,5 +1,5 @@
-export type { GetRegisteredMenusDto } from './dto';
-export type { MenuInfo } from './MenuInfo';
+export type { GetCategoryMenusResponseDto } from './dto';
+export type { MenuInfo, CategoryMenu } from './MenuInfo';
 export {
   type Ingredient,
   type IngredientFormValues,

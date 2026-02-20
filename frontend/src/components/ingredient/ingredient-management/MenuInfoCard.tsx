@@ -1,22 +1,16 @@
 import { useMenuDialog } from '@/hooks/ingredient';
+import type { MenuInfo } from '@/types/ingredient';
 import { formatNumber } from '@/utils/shared';
 
 import { IngredientEditDialog } from '../ingredient-edit-dialog';
 
 interface MenuCardProps {
-  menuId: string;
-  menuName: string;
-  price: number;
-  registeredIngredientCount: number; // 해당 메뉴에 등록된 식재료 개수
+  menuInfo: MenuInfo;
 }
 
-export const MenuInfoCard = ({
-  menuId,
-  menuName,
-  price,
-  registeredIngredientCount,
-}: MenuCardProps) => {
+export const MenuInfoCard = ({ menuInfo }: MenuCardProps) => {
   const { setIsDialogOpen, isDialogOpen } = useMenuDialog();
+  const { menuId, name, price, hasIngredients } = menuInfo;
   return (
     <>
       <article
@@ -24,10 +18,10 @@ export const MenuInfoCard = ({
         onClick={() => setIsDialogOpen(true)}
       >
         <div className="text-grey-900 flex flex-col gap-1.5">
-          <h3 aria-label={menuName} className="title-small-bold">
-            {menuName}
+          <h3 aria-label={name} className="title-small-bold">
+            {name}
           </h3>
-          {registeredIngredientCount === 0 && (
+          {!hasIngredients && (
             <span className="body-small-semibold text-others-negative">
               식재료 입력 필요
             </span>

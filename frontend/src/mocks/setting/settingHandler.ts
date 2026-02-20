@@ -6,7 +6,7 @@ import type { GetSettingMyStoreInfoResponseDto } from '@/types/setting';
 import { mswHttp } from '../shared';
 
 const getHandler = [
-  mswHttp.get('/api/setting/my-store-info', () => {
+  mswHttp.get('/api/stores', () => {
     return HttpResponse.json<SuccessResponse<GetSettingMyStoreInfoResponseDto>>(
       {
         success: true,

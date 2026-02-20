@@ -29,7 +29,7 @@ export const SalesByDayContent = ({
         unit: CHART_X_UNIT,
       })),
       mainY: salesByDayItems.map((item) => ({
-        amount: item.avgNetAmount,
+        amount: item.avgNetAmount ?? 0,
         unit: CHART_Y_UNIT,
       })),
     },
@@ -53,13 +53,13 @@ export const SalesByDayContent = ({
         barChartSeries={salesByDaySeries}
         hasXAxis
         hasBarGradient
-        showYGuideLine
         yGuideLineCount={4}
         hasBarLabel={false}
+        barColorChangeOnHover={false}
         activeDataIndex={activeDataIndex === -1 ? undefined : activeDataIndex}
         xAxisType="default"
       />
-      <p className="title-large-semibold w-full min-w-0">
+      <p className="title-medium-semibold w-full min-w-0">
         {salesByDayBriefingMessage.map(
           ({ text, isHighlight, highlightColor }, index) => {
             return (

@@ -1,7 +1,12 @@
 export interface MenuInfo {
-  id: string;
+  menuId: number;
   name: string;
   price: number;
-  registeredIngredientCount: number;
+  hasIngredients: boolean;
+}
+
+// 각 카테고리별 등록된 메뉴
+export interface CategoryMenu {
   category: string;
+  menus: MenuInfo[];
 }

@@ -74,6 +74,7 @@ export const MiniViewActiveCard = ({
         <img
           src={`${CDN_BASE_URL}/assets/images/${type}.svg`}
           alt={`${label} 미니 뷰`}
+          className="size-10"
           draggable={false}
         />
         <p className="body-small-medium text-grey-900 mt-200 mb-100 text-center break-keep">
