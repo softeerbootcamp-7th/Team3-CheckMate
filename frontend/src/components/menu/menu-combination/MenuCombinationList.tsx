@@ -5,8 +5,8 @@ import { MenuCombinationItem } from './MenuCombinationItem';
 
 interface MenuCombinationListProps {
   rank: number;
-  menuName: PopularMenuCombination['baseMenuName'];
-  pairedMenus: PopularMenuCombination['pairedMenus'];
+  menuName: NonNullable<PopularMenuCombination['baseMenuName']>;
+  pairedMenus: NonNullable<PopularMenuCombination['pairedMenus']>;
 }
 
 export const MenuCombinationList = ({
@@ -14,10 +14,6 @@ export const MenuCombinationList = ({
   menuName,
   pairedMenus,
 }: MenuCombinationListProps) => {
-  if (menuName === null || pairedMenus === null) {
-    return null;
-  }
-
   return (
     <div className="flex flex-1 flex-col gap-6">
       <div className="flex flex-col gap-1">
