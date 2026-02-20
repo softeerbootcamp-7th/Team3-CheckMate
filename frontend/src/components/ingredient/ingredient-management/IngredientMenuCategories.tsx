@@ -14,7 +14,11 @@ export const IngredientMenuCategories = ({
   const firstTab = selectedCategory ?? categories[0] ?? '';
 
   return (
-    <Tabs defaultValue={firstTab} onValueChange={setSelectedCategory}>
+    <Tabs
+      defaultValue={firstTab}
+      onValueChange={setSelectedCategory}
+      className="w-full min-w-0 overflow-x-auto pb-2!"
+    >
       <TabsList variant="line">
         {categories.map((category) => (
           <TabsTrigger
