@@ -1,5 +1,3 @@
-import { PeakTimeChartCaption } from '@/components/sales/dashboard-sales-pattern/PeakTimeChartCaption';
-import { usePeakTimeByHourPeriodType } from '@/components/sales/sales-patterns/period-type-provider';
 import {
   DefaultCardWrapper,
   LineChart,
@@ -8,6 +6,10 @@ import {
 import { SALES_METRIC } from '@/constants/sales';
 import { DAY_OF_WEEK_LIST, PERIOD_PRESET_KEYS } from '@/constants/shared';
 import { usePeakTimeByHour } from '@/hooks/sales';
+
+import { PeakTimeChartCaption } from '../dashboard-sales-pattern';
+
+import { usePeakTimeByHourPeriodType } from './period-type-provider';
 
 export const PeakTimeByHour = () => {
   const {
