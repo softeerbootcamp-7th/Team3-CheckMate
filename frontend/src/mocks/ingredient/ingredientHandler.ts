@@ -1,5 +1,6 @@
 import { HttpResponse } from 'msw';
 
+import { CATEGORY_MENUS, INGREDIENTS_BY_MENU_ID } from '@/mocks/data';
 import { type ErrorResponse, type SuccessResponse } from '@/services/shared';
 import type { GetCategoryMenusResponseDto } from '@/types/ingredient';
 import type {
@@ -8,7 +9,6 @@ import type {
   PutIngredientRegisterRequestDto,
 } from '@/types/ingredient/dto';
 
-import { CATEGORY_MENUS, INGREDIENTS_BY_MENU_ID } from '../data/ingredient';
 import { mswHttp } from '../shared';
 
 const getHandler = [
