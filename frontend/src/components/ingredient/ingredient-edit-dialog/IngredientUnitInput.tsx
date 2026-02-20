@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/shared/shadcn-ui';
-import { INGREDIENT_UNIT } from '@/constants/ingredient';
+import { SERVER_INGREDIENT_UNIT } from '@/constants/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 import { checkValidation } from '@/utils/ingredient';
 import { cn } from '@/utils/shared';
@@ -70,17 +70,20 @@ export const IngredientUnitInput = ({
               position={'popper'}
             >
               <SelectGroup>
-                {Object.values(INGREDIENT_UNIT).map((unit, unitIndex) => {
-                  return (
-                    <IngredientUnitSelectItem
-                      key={unit}
-                      unit={unit}
-                      isLast={
-                        unitIndex === Object.values(INGREDIENT_UNIT).length - 1
-                      }
-                    />
-                  );
-                })}
+                {Object.values(SERVER_INGREDIENT_UNIT).map(
+                  (unit, unitIndex) => {
+                    return (
+                      <IngredientUnitSelectItem
+                        key={unit}
+                        unit={unit}
+                        isLast={
+                          unitIndex ===
+                          Object.values(SERVER_INGREDIENT_UNIT).length - 1
+                        }
+                      />
+                    );
+                  },
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>
