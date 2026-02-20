@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
-import { DefaultCardWrapper, FetchBoundary } from '@/components/shared';
+import { DefaultCardWrapper } from '@/components/shared';
+import { DefaultCardFetchBoundary } from '@/components/shared/default-card-fetch-boundary';
 import {
   DASHBOARD_METRIC_CARDS,
   isMenuMetricCardCode,
@@ -37,7 +38,7 @@ export const DashboardMainContent = ({ cards }: DashboardMainContentProps) => {
         const card = DASHBOARD_METRIC_CARDS[item.cardCode];
 
         return (
-          <FetchBoundary key={`dashboard-card-${item.cardCode}`}>
+          <DefaultCardFetchBoundary key={`dashboard-card-${item.cardCode}`}>
             <DefaultCardWrapper
               className="rounded-400 bg-special-card-bg size-full p-5"
               style={{
@@ -52,7 +53,7 @@ export const DashboardMainContent = ({ cards }: DashboardMainContentProps) => {
             >
               <DashboardCardComponent cardCode={item.cardCode} />
             </DefaultCardWrapper>
-          </FetchBoundary>
+          </DefaultCardFetchBoundary>
         );
       })}
     </div>
