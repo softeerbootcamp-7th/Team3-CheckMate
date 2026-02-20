@@ -1,20 +1,16 @@
 import { type PropsWithChildren, useState } from 'react';
 
-import { useQueryClient } from '@tanstack/react-query';
-
 import {
   DashboardTabsContext,
   type DashboardTabsDialogMode,
 } from '@/constants/dashboard';
-import { dashboardOptions } from '@/services/dashboard';
+
+const DEFAULT_DASHBOARD_ID = 1; // 홈 대시보드 고정 ID
 
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
-  const queryClient = useQueryClient();
+  const [currentDashboardId, setCurrentDashboardId] =
+    useState<number>(DEFAULT_DASHBOARD_ID);
 
-  const [currentDashboardId, setCurrentDashboardId] = useState<number>(() => {
-    const tabs = queryClient.getQueryData(dashboardOptions.list.queryKey) ?? [];
-    return tabs.find((tab) => tab.isDefault)?.id ?? 1;
-  });
   const [dialogState, setDialogState] = useState<{
     open: boolean;
     mode: DashboardTabsDialogMode | null;
