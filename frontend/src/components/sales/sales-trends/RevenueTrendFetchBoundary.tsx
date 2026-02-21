@@ -1,26 +1,19 @@
 import type { ReactNode } from 'react';
 
 import { DefaultCardFetchBoundary } from '@/components/shared';
+import { cn } from '@/utils/shared';
 
 interface RevenueTrendFetchBoundaryProps {
-  cardWidth?: number;
-  cardHeight?: number;
   children: ReactNode;
+  className?: string;
 }
 
-const DEFAULT_CARD_WIDTH = 1060;
-const DEFAULT_CARD_HEIGHT = 228;
-
 export const RevenueTrendFetchBoundary = ({
-  cardWidth,
-  cardHeight,
   children,
+  className,
 }: RevenueTrendFetchBoundaryProps) => {
   return (
-    <DefaultCardFetchBoundary
-      cardWidth={cardWidth ?? DEFAULT_CARD_WIDTH}
-      cardHeight={cardHeight ?? DEFAULT_CARD_HEIGHT}
-    >
+    <DefaultCardFetchBoundary className={cn(className, 'h-57 w-265')}>
       {children}
     </DefaultCardFetchBoundary>
   );

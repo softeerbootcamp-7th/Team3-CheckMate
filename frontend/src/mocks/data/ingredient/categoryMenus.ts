@@ -92,6 +92,30 @@ export const CATEGORY_MENUS: CategoryMenu[] = [
         price: 3500,
         hasIngredients: INGREDIENTS_BY_MENU_ID[26].ingredients.length > 0,
       },
+      {
+        menuId: 27,
+        name: '딸기 크루아상',
+        price: 3200,
+        hasIngredients: INGREDIENTS_BY_MENU_ID[27].ingredients.length > 0,
+      },
+      {
+        menuId: 28,
+        name: '딸기 머핀',
+        price: 3500,
+        hasIngredients: INGREDIENTS_BY_MENU_ID[28].ingredients.length > 0,
+      },
+      {
+        menuId: 30,
+        name: '바나나 크루아상',
+        price: 3200,
+        hasIngredients: INGREDIENTS_BY_MENU_ID[30].ingredients.length > 0,
+      },
+      {
+        menuId: 29,
+        name: '바나나 머핀',
+        price: 3500,
+        hasIngredients: INGREDIENTS_BY_MENU_ID[29].ingredients.length > 0,
+      },
     ],
   },
 ];

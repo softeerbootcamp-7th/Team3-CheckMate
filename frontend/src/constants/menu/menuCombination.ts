@@ -1,3 +1,0 @@
-export const MENU_COMBINATION = {
-  HIGHLIGHT_COMBINATION_THRESHOLD: 3,
-} as const;

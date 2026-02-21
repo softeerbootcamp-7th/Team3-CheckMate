@@ -20,7 +20,7 @@ public class ReportService {
         return reportRepository
                 .findByStoreIdAndTargetDate(storeId, date)
                 .map(ReportResponse::from)
-                .orElseThrow(() -> new NotFoundException(ErrorStatus.REPORT_NOT_FOUND));
+                .orElse(null);
     }
 
     public CalendarResponse getMonthlyCalendar(Long storeId, int year, int month) {

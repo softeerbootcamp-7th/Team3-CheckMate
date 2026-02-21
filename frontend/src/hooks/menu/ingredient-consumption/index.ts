@@ -1,0 +1,1 @@
+export { useIngredientConsumptionRank } from './useIngredientConsumptionRank';
