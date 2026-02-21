@@ -1,8 +1,8 @@
-import {
-  type GetDailyReportCalendarQuery,
-  type GetDailyReportCalendarResponseDto,
-  type GetDailyReportContentParam,
-  type GetDailyReportContentResponseDto,
+import type {
+  GetDailyReportCalendarQuery,
+  GetDailyReportCalendarResponseDto,
+  GetDailyReportContentParam,
+  GetDailyReportContentResponseDto,
 } from '@/types/daily-report';
 
 import { authorizedApi } from '../shared';
