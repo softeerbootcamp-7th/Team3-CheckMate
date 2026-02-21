@@ -4,6 +4,16 @@ export const salesKeys = {
   all: ['sales'] as const,
   // 매출 현황 섹션의 공통 쿼리 키
   overview: () => [...salesKeys.all, 'overview'] as const,
+  realSales: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.overview(), 'realSales', query] as const,
+  orderCount: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.overview(), 'orderCount', query] as const,
+  averagePrice: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.overview(), 'averagePrice', query] as const,
+  totalSales: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.overview(), 'totalSales', query] as const,
+  discountAndCancellation: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.overview(), 'discountAndCancellation', query] as const,
   // 매출 패턴 섹션의 공통 쿼리 키
   patterns: () => [...salesKeys.all, 'patterns'] as const,
   // 매출 유입 구조 섹션의 공통 쿼리 키

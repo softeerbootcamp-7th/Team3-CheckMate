@@ -5,6 +5,31 @@ import { salesKeys } from '@/services/sales/keys';
 import type { GetAnalysisDetailQuery } from '@/types/analysis';
 
 export const salesOptions = {
+  realSales: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.realSales(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
+  orderCount: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.orderCount(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
+  averagePrice: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.averagePrice(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
+  totalSales: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.totalSales(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
+  discountAndCancellation: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.discountAndCancellation(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
   dailyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
     queryOptions({
       queryKey: salesKeys.dailyRevenueTrend(query),

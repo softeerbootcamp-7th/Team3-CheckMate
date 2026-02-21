@@ -13,3 +13,5 @@ export type {
   GetDashboardSalesByDayResponseDto,
 } from './getSalesByDayDto';
 export type { GetSalesTrendResponseDto } from './getSalesTrendDto';
+export type { GetTotalSalesResponseDto } from './getTotalSalesDto';
+export type { GetDiscountAndCancellationResponseDto } from './getDiscountAndCancellationDto';

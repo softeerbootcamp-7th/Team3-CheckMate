@@ -4,6 +4,7 @@ import type { ValueOf } from '@/utils/shared';
 export const getPeriodComparisonMessage = (
   type: ValueOf<typeof PERIOD_PRESETS.dayWeekMonth>,
 ) => {
+  // getDay는 0(일)~6(토) 반환. DAY_OF_WEEK_LIST는 월~일 순서이므로 조정 해줘야함
   const weekday = DAY_OF_WEEK_LIST[(new Date().getDay() + 6) % 7];
 
   switch (type) {
