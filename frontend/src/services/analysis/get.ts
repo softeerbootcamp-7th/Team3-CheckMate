@@ -17,9 +17,7 @@ export const getAnalysisDetail = async <T>(query: GetAnalysisDetailQuery) => {
 
   const queryString = queryParams.toString();
 
-  const path = queryString
-    ? `/api/analysis/detail?${queryString}`
-    : '/api/analysis/detail';
+  const path = `/api/analysis/detail?${queryString}`;
 
   const { data } = await authorizedApi.get<T>(path);
 

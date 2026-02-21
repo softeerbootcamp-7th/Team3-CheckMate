@@ -6,8 +6,8 @@ import {
 } from '@/components/menu';
 import {
   AveragePriceContent,
+  OrderChannelContent,
   OrderCountContent,
-  OrderMethodContent,
   PaymentMethodContent,
   PeakTimeContent,
   RealSalesContent,
@@ -24,8 +24,8 @@ import {
 } from '@/constants/menu';
 import {
   AVERAGE_PRICE,
+  ORDER_CHANNEL,
   ORDER_COUNT,
-  ORDER_METHOD,
   PAYMENT_METHOD,
   PEAK_TIME,
   REAL_SALES,
@@ -33,7 +33,6 @@ import {
   SALES_TREND,
   SALES_TYPE,
 } from '@/constants/sales';
-
 interface EditCardContentProps {
   cardCode: MetricCardCode;
 }
@@ -60,11 +59,11 @@ const {
   EXAMPLE_SALES_SOURCE_DATA: SALES_TYPE_EXAMPLE_SALES_SOURCE_DATA,
 } = SALES_TYPE;
 const {
-  EXAMPLE_TOP_TYPE: ORDER_METHOD_EXAMPLE_TOP_TYPE,
-  EXAMPLE_TOP_SHARE: ORDER_METHOD_EXAMPLE_TOP_SHARE,
-  EXAMPLE_DELTA_SHARE: ORDER_METHOD_EXAMPLE_DELTA_SHARE,
-  EXAMPLE_ORDER_METHOD_DATA: ORDER_METHOD_EXAMPLE_ORDER_METHOD_DATA,
-} = ORDER_METHOD;
+  EXAMPLE_TOP_TYPE: ORDER_CHANNEL_EXAMPLE_TOP_TYPE,
+  EXAMPLE_TOP_SHARE: ORDER_CHANNEL_EXAMPLE_TOP_SHARE,
+  EXAMPLE_DELTA_SHARE: ORDER_CHANNEL_EXAMPLE_DELTA_SHARE,
+  EXAMPLE_ORDER_CHANNEL_DATA: ORDER_CHANNEL_EXAMPLE_ORDER_CHANNEL_DATA,
+} = ORDER_CHANNEL;
 const {
   EXAMPLE_TOP_TYPE: PAYMENT_METHOD_EXAMPLE_TOP_TYPE,
   EXAMPLE_TOP_SHARE: PAYMENT_METHOD_EXAMPLE_TOP_SHARE,
@@ -138,14 +137,14 @@ export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
     case 'SLS_07_02':
     case 'SLS_07_03':
       return (
-        <OrderMethodContent
+        <OrderChannelContent
           cardCode={cardCode}
           insight={{
-            topType: ORDER_METHOD_EXAMPLE_TOP_TYPE,
-            topShare: ORDER_METHOD_EXAMPLE_TOP_SHARE,
-            deltaShare: ORDER_METHOD_EXAMPLE_DELTA_SHARE,
+            topType: ORDER_CHANNEL_EXAMPLE_TOP_TYPE,
+            topShare: ORDER_CHANNEL_EXAMPLE_TOP_SHARE,
+            deltaShare: ORDER_CHANNEL_EXAMPLE_DELTA_SHARE,
           }}
-          items={ORDER_METHOD_EXAMPLE_ORDER_METHOD_DATA}
+          items={ORDER_CHANNEL_EXAMPLE_ORDER_CHANNEL_DATA}
         />
       );
     case 'SLS_08_01':

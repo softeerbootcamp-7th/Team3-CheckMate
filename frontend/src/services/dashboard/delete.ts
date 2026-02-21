@@ -1,4 +1,7 @@
-import type { DeleteDashboardParam } from '@/types/dashboard';
+import type {
+  DeleteDashboardParam,
+  DeleteDashboardSseSubscriptionRequestDto,
+} from '@/types/dashboard';
 
 import { authorizedApi } from '../shared';
 
@@ -13,4 +16,12 @@ export const deleteDashboard = async (param: DeleteDashboardParam) => {
   );
 
   return data;
+};
+
+export const deleteDashboardSseSubscription = async (
+  body: DeleteDashboardSseSubscriptionRequestDto,
+) => {
+  await authorizedApi.delete('/api/sse/subscriptions', {
+    body: JSON.stringify(body),
+  });
 };

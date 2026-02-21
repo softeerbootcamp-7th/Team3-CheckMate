@@ -4,7 +4,7 @@ export type {
   GetOrderCountResponseDto,
   GetAveragePriceResponseDto,
   GetIncomeStructureBySalesTypeResponseDto,
-  GetIncomeStructureByOrderMethodResponseDto,
+  GetIncomeStructureByOrderChannelResponseDto,
   GetIncomeStructureByPaymentMethodResponseDto,
   GetDetailPeakTimeResponseDto,
   GetDashboardPeakTimeResponseDto,
@@ -20,3 +20,4 @@ export type {
   SalesByDaySummary,
   SalesByDayItem,
 } from './dashboard-sales-pattern';
+export type { SalesTrendItem } from './dashboard-sales-trend';

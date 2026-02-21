@@ -30,4 +30,19 @@ export const salesOptions = {
       queryKey: salesKeys.discountAndCancellation(query),
       queryFn: () => getAnalysisDetail<T>(query),
     }),
+  dailyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.dailyRevenueTrend(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
+  weeklyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.weeklyRevenueTrend(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
+  monthlyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.monthlyRevenueTrend(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
 };

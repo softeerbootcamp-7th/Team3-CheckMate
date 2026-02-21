@@ -13,3 +13,8 @@ export {
   getRealSalesCardCode,
   getTotalSalesCardCode,
 } from './sales-overview';
+export {
+  getDailyRevenueTrendCardCode,
+  getWeeklyRevenueTrendCardCode,
+  getMonthlyRevenueTrendCardCode,
+} from './sales-trends';

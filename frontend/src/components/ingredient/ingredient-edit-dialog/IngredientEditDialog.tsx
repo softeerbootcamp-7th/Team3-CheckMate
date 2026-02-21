@@ -1,73 +1,58 @@
-import { type FieldErrors, FormProvider } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { toast } from 'sonner';
 
+import { DefaultCardFetchBoundary } from '@/components/shared';
 import { Dialog, DialogContent } from '@/components/shared/shadcn-ui';
-import { TOAST_DEFAULT } from '@/constants/shared';
-import {
-  useAiIngredientRecommend,
-  useIngredientEditSubmit,
-  useIngredientForm,
-} from '@/hooks/ingredient';
+import { useIngredientEditSubmit } from '@/hooks/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 
 import { IngredientEditDialogHeader } from './IngredientEditDialogHeader';
-import { IngredientEditInfoHeader } from './IngredientEditInfoHeader';
-import { IngredientGrid } from './IngredientGrid';
-
+import { IngredientEditDialogMain } from './IngredientEditDialogMain';
 interface IngredientEditDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  menuId: string;
+  menuId: number;
+  menuName: string;
+  hasIngredients: boolean; // 메뉴에 등록된 식자재 유무. -> false면 폼 제출 시 post, true면 put 요청 보내야 함
 }
 
 export const IngredientEditDialog = ({
   open,
   onOpenChange,
+  menuId,
+  menuName,
+  hasIngredients,
 }: IngredientEditDialogProps) => {
-  const mockMenuIngredients = {
-    id: '1',
-    menu: '딸기 스무디',
-    ingredients: [
-      { ingredientId: '1', name: '딸기', amount: '200', unit: 'g' },
-      { ingredientId: '2', name: '우유', amount: '120', unit: 'ml' },
-      { ingredientId: '3', name: '딸기시럽', amount: '10', unit: 'ml' },
-    ],
-  };
-  const {
-    formMethods,
-    fieldArrayMethods,
-    isIngredientRowEmpty,
-    handleAddIngredient,
-    handleRemoveIngredient,
-  } = useIngredientForm({
-    ingredientFormValues: { ingredients: mockMenuIngredients.ingredients },
+  // 우선 폼 생성
+  const formMethods = useForm<IngredientFormValues>({
+    defaultValues: { ingredients: [] }, // 초기값은 빈 배열로 설정
+    mode: 'onBlur',
   });
 
-  const { isAiRecommendPending, handleAiIngredientRecommend } =
-    useAiIngredientRecommend({
-      fieldArrayReplace: fieldArrayMethods.replace,
-    });
-
-  const { onSubmit } = useIngredientEditSubmit({
-    onOpenChange,
-  });
-
+  // 취소 버튼 누르면 모달 창 닫기
   const onClickCancel = () => {
     onOpenChange(false);
+    formMethods.reset(); // 폼 초기화
   };
-  const onError = (errors: FieldErrors<IngredientFormValues>) => {
+  // 폼 validation 통과했을 때 실행되는 함수
+  const { onSubmit, isSubmitting } = useIngredientEditSubmit({
+    menuId,
+    onOpenChange,
+    hasIngredients,
+  });
+  // 폼 validation 실패 했을 때 불리는 함수
+  const onError = () => {
     toast(
       '입력이 덜 된 식재료는 저장할 수 없어요. 모두 입력하거나 삭제해 주세요',
-      {
-        duration: TOAST_DEFAULT.DURATION, // 3.5초 동안 띄워져있음
-        className:
-          '!bg-grey-900 !text-grey-50 !border-none !max-w-auto !w-max body-small-semibold px-400',
-        position: 'bottom-center',
-      },
+      { className: 'max-w-auto! w-max!' }, // 글자수가 많아 토스트 내에서 줄바꿈됨. 너비 늘려줌
     );
-    return errors; // 그냥 임시 return. 사용하는 데는 없음
   };
+
+  // 열려있지 않으면 dialog 컴포넌트 렌더링 안되도록
+  if (!open) {
+    return null;
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -81,29 +66,14 @@ export const IngredientEditDialog = ({
             {/** 메뉴명과 취소, 저장 버튼 있는 행 */}
             <IngredientEditDialogHeader
               onClickCancel={onClickCancel}
-              menuName={mockMenuIngredients.menu}
+              menuName={menuName}
+              isSubmitting={isSubmitting}
             />
-
             <div className="bg-grey-300 mt-5.5 h-0.5" />
-            <section className="mt-10 flex min-h-0 flex-1 flex-col gap-10">
-              {/** 식재료 목록 영역 위 식재료 입력 관련 정보 및 버튼 행(AI자동완성, 식재료추가 버튼 등) */}
-              <IngredientEditInfoHeader
-                isAiRecommendPending={isAiRecommendPending}
-                fields={fieldArrayMethods.fields}
-                onClickAddIngredient={handleAddIngredient}
-                onClickAiIngredientRecommend={() => {
-                  handleAiIngredientRecommend(mockMenuIngredients.menu);
-                }}
-              />
-
-              {/** 식재료 목록 나오는 그리드 영역 */}
-              <IngredientGrid
-                isPending={isAiRecommendPending}
-                fields={fieldArrayMethods.fields}
-                isIngredientRowEmpty={isIngredientRowEmpty}
-                onClickDeleteIngredient={handleRemoveIngredient}
-              />
-            </section>
+            {/** 식재료 입력 폼이 있는 메인 영역 */}
+            <DefaultCardFetchBoundary className="h-full w-full bg-transparent">
+              <IngredientEditDialogMain menuId={menuId} />
+            </DefaultCardFetchBoundary>
           </form>
         </DialogContent>
       </FormProvider>

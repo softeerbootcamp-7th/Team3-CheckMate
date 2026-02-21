@@ -15,7 +15,7 @@ export {
   REAL_SALES,
 } from './dashboard-current-sales';
 export {
-  ORDER_METHOD,
+  ORDER_CHANNEL,
   PAYMENT_METHOD,
   SALES_TYPE,
 } from './dashboard-sales-income';
@@ -26,3 +26,4 @@ export {
   type SalesMetricCardCodes,
   isSalesMetricCardCodes,
 } from './salesMetric';
+export { SALES_TREND_DETAIL } from './sales-trends/salesTrendDetail';

@@ -35,6 +35,8 @@ export const BarLineSeriesWithTooltip = ({
     <Tooltip>
       <TooltipTrigger asChild>
         <g>
+          {/* g태그는 Dot과 Bar 사이의 빈공간에 대한 interaction을 하지 않음
+          따라서, Dot과 Bar를 감싸는 path 태그를 추가해서 interaction을 가능하게 함 */}
           <path
             d={interactionPathD}
             fill="transparent"

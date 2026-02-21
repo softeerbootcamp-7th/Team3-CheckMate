@@ -3,9 +3,9 @@ import { useCallback } from 'react';
 import { GRID_COL_SIZE, GRID_ROW_SIZE } from '@/constants/dashboard';
 
 export const useGridCellSize = () => {
-  const GRID_HEIGHT_SIZE = 724;
-  const GRID_WIDTH_SIZE = 550;
-  const GRID_GAP_SIZE = 20;
+  const GRID_HEIGHT_SIZE = 410.4;
+  const GRID_WIDTH_SIZE = 153 * 4;
+  const GRID_GAP_SIZE = 12;
 
   const cellColSize =
     (GRID_WIDTH_SIZE - GRID_GAP_SIZE * (GRID_COL_SIZE - 1)) / GRID_COL_SIZE;
