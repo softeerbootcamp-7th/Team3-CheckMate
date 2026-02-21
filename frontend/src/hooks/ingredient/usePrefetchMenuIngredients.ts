@@ -6,7 +6,7 @@ import { ingredientOptions } from '@/services/ingredient';
 export const usePrefetchMenuIngredients = () => {
   const queryClient = useQueryClient();
   const prefetchMenuIngredients = ({ menuId }: { menuId: number }) => {
-    queryClient.prefetchQuery(ingredientOptions.menuingredients(menuId));
+    queryClient.prefetchQuery(ingredientOptions.menuIngredients(menuId));
   };
   return { prefetchMenuIngredients };
 };

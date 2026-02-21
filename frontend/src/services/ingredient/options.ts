@@ -4,7 +4,7 @@ import { getMenuIngredients } from './get';
 import { ingredientKeys } from './keys';
 
 export const ingredientOptions = {
-  menuingredients: (menuId: number) =>
+  menuIngredients: (menuId: number) =>
     queryOptions({
       queryKey: ingredientKeys.menuIngredients(menuId),
       queryFn: () => getMenuIngredients({ menuId }),

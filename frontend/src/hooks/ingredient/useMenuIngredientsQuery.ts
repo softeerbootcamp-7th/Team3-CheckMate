@@ -7,5 +7,5 @@ interface UseMenuIngredientsQueryParams {
 export const useMenuIngredientsQuery = ({
   menuId,
 }: UseMenuIngredientsQueryParams) => {
-  return useSuspenseQuery(ingredientOptions.menuingredients(menuId));
+  return useSuspenseQuery(ingredientOptions.menuIngredients(menuId));
 };

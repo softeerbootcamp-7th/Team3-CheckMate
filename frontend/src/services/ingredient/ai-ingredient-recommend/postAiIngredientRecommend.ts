@@ -13,12 +13,5 @@ export const postAiIngredientRecommend = async ({
     await authorizedApi.post<PostAiIngredientRecommendResponseDto>(
       `/api/menus/${menuId}/auto-complete`,
     );
-  return {
-    menuName: data.menuName,
-    ingredients: data.ingredients.map((item) => ({
-      name: item.name,
-      quantity: item.quantity.toString(),
-      unit: item.unit,
-    })),
-  };
+  return data;
 };
