@@ -3,9 +3,9 @@ import { useFormContext } from 'react-hook-form';
 
 import {
   useAiIngredientRecommend,
+  useIngredientFormField,
   useMenuIngredientsQuery,
 } from '@/hooks/ingredient';
-import { useIngredientFormField } from '@/hooks/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 
 import { IngredientEditInfoHeader } from './IngredientEditInfoHeader';
@@ -17,7 +17,8 @@ interface IngredientEditDialogMainProps {
 export const IngredientEditDialogMain = ({
   menuId,
 }: IngredientEditDialogMainProps) => {
-  const { control, getValues, reset } = useFormContext<IngredientFormValues>();
+  const { control, getValues, reset, formState } =
+    useFormContext<IngredientFormValues>();
   // 서버로 부터 해당 메뉴에 등록된 식재료 정보 받아오기
   const { data: menuIngredients } = useMenuIngredientsQuery({ menuId });
 
@@ -36,7 +37,7 @@ export const IngredientEditDialogMain = ({
     });
 
   useEffect(() => {
-    if (!menuIngredients) {
+    if (!menuIngredients || formState.isDirty) {
       return;
     }
     reset({
@@ -45,7 +46,7 @@ export const IngredientEditDialogMain = ({
         quantity: String(item.quantity), // 폼 창에서는 quantity가 number가 아니라 string 형태여야 함
       })),
     });
-  }, [menuIngredients, reset]);
+  }, [menuIngredients, reset, formState.isDirty]);
   return (
     <section className="mt-10 flex min-h-0 flex-1 flex-col gap-10">
       {/** 식재료 목록 영역 위 식재료 입력 관련 정보 및 버튼 행(AI자동완성, 식재료추가 버튼 등) */}

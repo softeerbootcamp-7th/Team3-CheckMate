@@ -19,7 +19,7 @@ export const useAiIngredientRecommend = ({
     // 받아온 데이터가 input 글자수 제한보다 초과되는 경우 잘라내기
     const adjustedIngredients = data.ingredients.map((item) => ({
       ...item,
-      name: item.name.slice(0, INGREDIENT_INPUT_MAX_LENGTH.MENU), // 식자재 이름의 경우 10글자 초과 시 자동 잘림
+      name: item.name.slice(0, INGREDIENT_INPUT_MAX_LENGTH.INGREDIENT_NAME), // 식자재 이름의 경우 10글자 초과 시 자동 잘림
       quantity: item.quantity.slice(0, INGREDIENT_INPUT_MAX_LENGTH.QUANTITY), // 수량의 경우 5글자 초과 시 자동 잘림
     }));
     // 받아온 데이터 폼에 넣기

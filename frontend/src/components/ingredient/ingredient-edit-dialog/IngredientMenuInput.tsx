@@ -27,9 +27,9 @@ export const IngredientMenuInput = ({
   return (
     <Input
       autoComplete="off"
-      maxLength={INGREDIENT_INPUT_MAX_LENGTH.MENU} // 태그 자체 글자수 제한 기능
+      maxLength={INGREDIENT_INPUT_MAX_LENGTH.INGREDIENT_NAME} // 태그 자체 글자수 제한 기능
       {...register(`ingredients.${index}.name`, {
-        maxLength: INGREDIENT_INPUT_MAX_LENGTH.MENU,
+        maxLength: INGREDIENT_INPUT_MAX_LENGTH.INGREDIENT_NAME,
         onBlur: (e) => {
           // 사용자가 입력 마치고 다른 영역 클릭했을 때 실행되는 함수 -> 앞뒤 공백 제거
           e.target.value = e.target.value.trim();
