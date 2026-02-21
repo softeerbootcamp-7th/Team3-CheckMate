@@ -3,13 +3,13 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { dailyReportOptions } from '@/services/daily-report';
 import { formatDateISO } from '@/utils/shared';
 
-interface useDailyReportContentOptions {
+interface UseDailyReportContentOptions {
   selectedDate?: Date;
 }
 
 export const useDailyReportContent = ({
   selectedDate,
-}: useDailyReportContentOptions) => {
+}: UseDailyReportContentOptions) => {
   const queryClient = useQueryClient();
 
   const now = new Date();
