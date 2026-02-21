@@ -33,12 +33,12 @@ export const SalesTrends = () => {
           </WeeklyRevenueTrendPeriodTypeProvider>
         </RevenueTrendFetchBoundary>
         <div className="flex gap-5">
-          <RevenueTrendFetchBoundary className="w-175">
+          <RevenueTrendFetchBoundary className="w-180">
             <MonthlyRevenueTrendPeriodTypeProvider>
               <MonthlyRevenueTrend />
             </MonthlyRevenueTrendPeriodTypeProvider>
           </RevenueTrendFetchBoundary>
-          <RevenueTrendFetchBoundary cardWidth={340}>
+          <RevenueTrendFetchBoundary className="w-85">
             <YearlyRevenueTrendPeriodTypeProvider>
               <YearlyRevenueTrend />
             </YearlyRevenueTrendPeriodTypeProvider>
