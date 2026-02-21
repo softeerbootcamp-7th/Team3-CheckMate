@@ -16,6 +16,9 @@ export const MenuPage = () => {
       <PopularMenuPeriodTypeProvider>
         <PopularMenuOverview />
       </PopularMenuPeriodTypeProvider>
+      <PopularMenuPeriodTypeProvider>
+        <PopularMenuOverview />
+      </PopularMenuPeriodTypeProvider>
       <MenuSalesPatternOverview />
       <IngredientConsumptionPeriodTypeProvider>
         <IngredientConsumptionOverview />

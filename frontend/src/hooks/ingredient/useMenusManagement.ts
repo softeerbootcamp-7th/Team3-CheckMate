@@ -47,7 +47,6 @@ export const useMenusManagement = ({
       setFirstCategory();
     }
   }, [categories, selectedCategory, setSelectedCategory]);
-
   return {
     filteredMenus,
     selectedCategory,

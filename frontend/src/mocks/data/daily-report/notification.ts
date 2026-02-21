@@ -2,21 +2,21 @@ import type { Notification } from '@/types/daily-report';
 
 export const NOTIFICATION_DATA: Notification[] = [
   {
-    id: '1',
-    message: '1월 14일 하루 리포트가 발행되었습니다.',
-    date: '2026-02-09T05:00:00Z',
-    read: false,
+    notificationId: '1',
+    content: '1월 14일 하루 리포트가 발행되었습니다.',
+    createdAt: '2026-02-09T05:00:00',
+    isRead: false,
   },
   {
-    id: '2',
-    message: '1월 14일 하루 리포트가 발행되었습니다.',
-    date: '2026-02-07T15:00:00Z',
-    read: true,
+    notificationId: '2',
+    content: '1월 14일 하루 리포트가 발행되었습니다.',
+    createdAt: '2026-02-07T15:00:00',
+    isRead: true,
   },
   {
-    id: '3',
-    message: '1월 14일 하루 리포트가 발행되었습니다.',
-    date: '2024-05-31T16:45:00Z',
-    read: false,
+    notificationId: '3',
+    content: '1월 14일 하루 리포트가 발행되었습니다.',
+    createdAt: '2024-05-31T16:45:00',
+    isRead: false,
   },
 ];

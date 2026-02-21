@@ -58,7 +58,10 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(storeCheckInterceptor)
                 .addPathPatterns("/api/analysis/**")
                 .addPathPatterns("/api/sse/**")
-                .addPathPatterns("/api/reports/**");
+                .addPathPatterns("/api/reports/**")
+                .addPathPatterns("/api/notifications/**")
+                .addPathPatterns("/api/chats/**")
+                .addPathPatterns("/api/stores/**");
     }
 
     @Bean
