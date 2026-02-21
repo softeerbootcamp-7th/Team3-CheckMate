@@ -50,17 +50,9 @@ export const useYearlyRevenueTrend = ({
   const yearlyRevenueTrendLabel =
     SALES_METRIC.SALES_TREND.YEARLY_SALES_TREND.label;
 
-  const yearlyRevenueTrendSubLabelContent = (
-    subY: string,
-    subYUnit: string,
-  ) => {
-    return `${subY}${subYUnit}`;
-  };
-
   return {
     yearlyRevenueTrendLabel,
     yearlyRevenueTrendBarData,
     yearlyRevenueTrendLabelData,
-    yearlyRevenueTrendSubLabelContent,
   };
 };

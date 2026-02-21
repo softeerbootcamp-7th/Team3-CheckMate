@@ -1,6 +1,5 @@
 import { BarChart } from '@/components/shared';
 import { DefaultCardWrapper, PeriodSelect } from '@/components/shared';
-//import { SALES_TREND_DETAIL } from '@/constants/sales';
 import { DATE_RANGE_PICKER_TYPE, PERIOD_PRESET_KEYS } from '@/constants/shared';
 import { useYearlyRevenueTrend } from '@/hooks/sales';
 
@@ -24,9 +23,6 @@ export const YearlyRevenueTrend = () => {
     startDate,
     endDate,
   });
-
-  // const { CHART_WIDTH, CHART_HEIGHT, CHART_Y_GUIDE_LINE_COUNT } =
-  //   SALES_TREND_DETAIL;
 
   return (
     <DefaultCardWrapper
