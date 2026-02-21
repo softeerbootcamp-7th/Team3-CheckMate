@@ -3,9 +3,9 @@ export type {
   GetRealSalesResponseDto,
   GetOrderCountResponseDto,
   GetAveragePriceResponseDto,
-  GetIncomeStructureBySalesTypeResponseDto,
-  GetIncomeStructureByOrderChannelResponseDto,
-  GetIncomeStructureByPaymentMethodResponseDto,
+  GetSalesSourceBySalesTypeResponseDto,
+  GetSalesSourceByOrderChannelResponseDto,
+  GetSalesSourceByPayMethodResponseDto,
   GetDetailPeakTimeResponseDto,
   GetDashboardPeakTimeResponseDto,
   GetDetailSalesByDayResponseDto,
@@ -14,7 +14,7 @@ export type {
   GetTotalSalesResponseDto,
   GetDiscountAndCancellationResponseDto,
 } from './dto';
-export type { SalesIncomeStructureInsight } from './dashboard-sales-income';
+export type { SalesSourceInsight } from './dashboard-sales-source';
 export type { PeakTimeItem, PeakTimeSummary } from './dashboard-sales-pattern';
 export type {
   SalesByDaySummary,

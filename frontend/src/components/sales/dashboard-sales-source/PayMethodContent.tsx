@@ -1,0 +1,65 @@
+import {
+  DASHBOARD_METRIC_CARDS,
+  DASHBOARD_METRICS,
+  type ExtractCardCodes,
+} from '@/constants/dashboard';
+import {
+  PAY_METHOD,
+  SALES_SOURCE,
+  SALES_SOURCE_COLORS,
+} from '@/constants/sales';
+import type { GetSalesSourceByPayMethodResponseDto } from '@/types/sales';
+import { getSalesSourceInsight } from '@/utils/sales';
+
+import { DashboardSalesSourceContent } from './DashboardSalesSourceContent';
+
+const { DOUGHNUT_CHART_TITLE } = PAY_METHOD;
+
+type PayMethodCardCodes = ExtractCardCodes<
+  typeof DASHBOARD_METRICS.SALES.sections.SALES_SOURCE.items.PAY_METHOD
+>;
+
+interface PayMethodContentProps extends GetSalesSourceByPayMethodResponseDto {
+  cardCode: PayMethodCardCodes;
+}
+
+export const PayMethodContent = ({
+  cardCode,
+  insight,
+  items,
+}: PayMethodContentProps) => {
+  const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
+
+  const payMethodData = items.map((item) => ({
+    salesSourceType: SALES_SOURCE.PAY_METHOD[item.payMethod],
+    revenue: item.salesAmount,
+    count: item.orderCount,
+    changeRate: item.deltaShare,
+  }));
+
+  const chartData = payMethodData.map((data) => ({
+    label: data.salesSourceType,
+    value: data.revenue,
+    color: SALES_SOURCE_COLORS[data.salesSourceType],
+  }));
+
+  const { topShare, topDeltaShare, topTypeLabel } =
+    getSalesSourceInsight<GetSalesSourceByPayMethodResponseDto>(insight, items);
+
+  return (
+    <DashboardSalesSourceContent>
+      <DashboardSalesSourceContent.ComparisonMessage
+        periodType={periodType}
+        topTypeLabel={topTypeLabel}
+        topShare={topShare}
+        deltaShare={topDeltaShare}
+      />
+      <DashboardSalesSourceContent.DoughnutChart
+        periodType={periodType}
+        chartData={chartData}
+        salesSourceData={payMethodData}
+        title={DOUGHNUT_CHART_TITLE}
+      />
+    </DashboardSalesSourceContent>
+  );
+};

@@ -16,9 +16,9 @@ export {
 } from './dashboard-current-sales';
 export {
   ORDER_CHANNEL,
-  PAYMENT_METHOD,
+  PAY_METHOD,
   SALES_TYPE,
-} from './dashboard-sales-income';
+} from './dashboard-sales-source';
 export { PEAK_TIME, SALES_BY_DAY } from './dashboard-sales-pattern';
 export { SALES_TREND } from './dashboard-sales-trend';
 export {

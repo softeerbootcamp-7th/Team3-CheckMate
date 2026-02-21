@@ -3,22 +3,22 @@ import type { ReactNode } from 'react';
 import { DoughnutChart } from '@/components/shared';
 import type { SALES_SOURCE, SalesSourceType } from '@/constants/sales';
 import { PERIOD_PRESETS } from '@/constants/shared';
-import type { SalesIncomeStructureInsight, SalesSource } from '@/types/sales';
+import type { SalesSource, SalesSourceInsight } from '@/types/sales';
 import type { DoughnutChartItem } from '@/types/shared';
-import { getSalesIncomeStructureComparisonMessage } from '@/utils/sales';
+import { getSalesSourceComparisonMessage } from '@/utils/sales';
 import { cn, type ValueOf } from '@/utils/shared';
 
 import { SalesSourceChartLegend } from '../sales-source';
 
-interface DashboardSalesIncomeContentProps {
+interface DashboardSalesSourceContentProps {
   className?: string;
   children?: ReactNode;
 }
 
-export const DashboardSalesIncomeContent = ({
+export const DashboardSalesSourceContent = ({
   className,
   children,
-}: DashboardSalesIncomeContentProps) => {
+}: DashboardSalesSourceContentProps) => {
   return (
     <article
       className={cn(
@@ -31,22 +31,20 @@ export const DashboardSalesIncomeContent = ({
   );
 };
 
-interface DashboardSalesIncomeContentComparisonMessageProps {
+interface DashboardSalesSourceContentComparisonMessageProps {
   periodType: ValueOf<typeof PERIOD_PRESETS.dayWeekMonth>;
   topTypeLabel: SalesSourceType;
-  topShare: SalesIncomeStructureInsight<keyof typeof SALES_SOURCE>['topShare'];
-  deltaShare: SalesIncomeStructureInsight<
-    keyof typeof SALES_SOURCE
-  >['deltaShare'];
+  topShare: SalesSourceInsight<keyof typeof SALES_SOURCE>['topShare'];
+  deltaShare: SalesSourceInsight<keyof typeof SALES_SOURCE>['deltaShare'];
 }
 
-export const DashboardSalesIncomeContentComparisonMessage = ({
+export const DashboardSalesSourceContentComparisonMessage = ({
   periodType,
   topTypeLabel,
   topShare,
   deltaShare,
-}: DashboardSalesIncomeContentComparisonMessageProps) => {
-  const comparisonMessageTokens = getSalesIncomeStructureComparisonMessage({
+}: DashboardSalesSourceContentComparisonMessageProps) => {
+  const comparisonMessageTokens = getSalesSourceComparisonMessage({
     periodType,
     topTypeLabel,
     topShare,
@@ -74,19 +72,19 @@ export const DashboardSalesIncomeContentComparisonMessage = ({
   );
 };
 
-interface DashboardSalesIncomeContentDoughnutChartProps {
+interface DashboardSalesSourceContentDoughnutChartProps {
   periodType: ValueOf<typeof PERIOD_PRESETS.dayWeekMonth>;
   chartData: DoughnutChartItem[];
   salesSourceData: SalesSource[];
   title: string;
 }
 
-export const DashboardSalesIncomeContentDoughnutChart = ({
+export const DashboardSalesSourceContentDoughnutChart = ({
   periodType,
   chartData,
   salesSourceData,
   title,
-}: DashboardSalesIncomeContentDoughnutChartProps) => {
+}: DashboardSalesSourceContentDoughnutChartProps) => {
   return (
     <div
       className={cn(
@@ -108,8 +106,8 @@ export const DashboardSalesIncomeContentDoughnutChart = ({
   );
 };
 
-DashboardSalesIncomeContent.ComparisonMessage =
-  DashboardSalesIncomeContentComparisonMessage;
+DashboardSalesSourceContent.ComparisonMessage =
+  DashboardSalesSourceContentComparisonMessage;
 
-DashboardSalesIncomeContent.DoughnutChart =
-  DashboardSalesIncomeContentDoughnutChart;
+DashboardSalesSourceContent.DoughnutChart =
+  DashboardSalesSourceContentDoughnutChart;

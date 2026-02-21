@@ -1,9 +1,9 @@
 export type { GetRealSalesResponseDto } from './getRealSalesDto';
 export type { GetOrderCountResponseDto } from './getOrderCountDto';
 export type { GetAveragePriceResponseDto } from './getAveragePriceDto';
-export type { GetIncomeStructureBySalesTypeResponseDto } from './getIncomeStructureBySalesTypeDto';
-export type { GetIncomeStructureByOrderChannelResponseDto } from './getIncomeStructureByOrderChannelDto';
-export type { GetIncomeStructureByPaymentMethodResponseDto } from './getIncomeStructureByPaymentMethodDto';
+export type { GetSalesSourceBySalesTypeResponseDto } from './getSalesSourceBySalesTypeDto';
+export type { GetSalesSourceByOrderChannelResponseDto } from './getSalesSourceByOrderChannelDto';
+export type { GetSalesSourceByPayMethodResponseDto } from './getSalesSourceByPayMethodDto';
 export type {
   GetDetailPeakTimeResponseDto,
   GetDashboardPeakTimeResponseDto,

@@ -8,19 +8,19 @@ import {
   SALES_SOURCE_COLORS,
   SALES_TYPE,
 } from '@/constants/sales';
-import type { GetIncomeStructureBySalesTypeResponseDto } from '@/types/sales';
-import { getSalesIncomeStructureInsight } from '@/utils/sales';
+import type { GetSalesSourceBySalesTypeResponseDto } from '@/types/sales';
+import { getSalesSourceInsight } from '@/utils/sales';
 
-import { DashboardSalesIncomeContent } from './DashboardSalesIncomeContent';
+import { DashboardSalesSourceContent } from './DashboardSalesSourceContent';
 
 const { DOUGHNUT_CHART_TITLE } = SALES_TYPE;
 
-type DashboardSalesIncomeCardCodes = ExtractCardCodes<
-  typeof DASHBOARD_METRICS.SALES.sections.INCOME_STRUCTURE.items.SALES_TYPE
+type DashboardSalesSourceCardCodes = ExtractCardCodes<
+  typeof DASHBOARD_METRICS.SALES.sections.SALES_SOURCE.items.SALES_TYPE
 >;
 
-interface SalesTypeContentProps extends GetIncomeStructureBySalesTypeResponseDto {
-  cardCode: DashboardSalesIncomeCardCodes;
+interface SalesTypeContentProps extends GetSalesSourceBySalesTypeResponseDto {
+  cardCode: DashboardSalesSourceCardCodes;
 }
 
 export const SalesTypeContent = ({
@@ -44,25 +44,22 @@ export const SalesTypeContent = ({
   }));
 
   const { topShare, topDeltaShare, topTypeLabel } =
-    getSalesIncomeStructureInsight<GetIncomeStructureBySalesTypeResponseDto>(
-      insight,
-      items,
-    );
+    getSalesSourceInsight<GetSalesSourceBySalesTypeResponseDto>(insight, items);
 
   return (
-    <DashboardSalesIncomeContent>
-      <DashboardSalesIncomeContent.ComparisonMessage
+    <DashboardSalesSourceContent>
+      <DashboardSalesSourceContent.ComparisonMessage
         periodType={periodType}
         topTypeLabel={topTypeLabel}
         topShare={topShare}
         deltaShare={topDeltaShare}
       />
-      <DashboardSalesIncomeContent.DoughnutChart
+      <DashboardSalesSourceContent.DoughnutChart
         periodType={periodType}
         chartData={chartData}
         salesSourceData={salesTypeData}
         title={DOUGHNUT_CHART_TITLE}
       />
-    </DashboardSalesIncomeContent>
+    </DashboardSalesSourceContent>
   );
 };

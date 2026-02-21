@@ -1,4 +1,4 @@
-import type { GetIncomeStructureBySalesTypeResponseDto } from '@/types/sales';
+import type { GetSalesSourceBySalesTypeResponseDto } from '@/types/sales';
 
 import { SALES_SOURCE } from '../salesSource';
 
@@ -32,6 +32,6 @@ export const SALES_TYPE = {
       share: 30,
       deltaShare: 6.8,
     },
-  ] as const satisfies GetIncomeStructureBySalesTypeResponseDto['items'],
+  ] as const satisfies GetSalesSourceBySalesTypeResponseDto['items'],
   DOUGHNUT_CHART_TITLE: '판매 유형 관련 도넛 차트',
 } as const;

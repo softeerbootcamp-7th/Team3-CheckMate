@@ -1,6 +1,6 @@
 import type { SALES_SOURCE } from '@/constants/sales';
 
-import type { SalesIncomeStructureInsight } from '../dashboard-sales-income';
+import type { SalesSourceInsight } from '../dashboard-sales-source';
 
 interface SalesTypeItem {
   salesType: keyof typeof SALES_SOURCE.SALE_TYPE;
@@ -10,9 +10,7 @@ interface SalesTypeItem {
   deltaShare: number;
 }
 
-export interface GetIncomeStructureBySalesTypeResponseDto {
-  insight?: SalesIncomeStructureInsight<
-    Extract<keyof typeof SALES_SOURCE, 'SALE_TYPE'>
-  >;
+export interface GetSalesSourceBySalesTypeResponseDto {
+  insight?: SalesSourceInsight<Extract<keyof typeof SALES_SOURCE, 'SALE_TYPE'>>;
   items: SalesTypeItem[];
 }

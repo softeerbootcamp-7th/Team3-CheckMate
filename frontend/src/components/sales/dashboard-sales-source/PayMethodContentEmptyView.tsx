@@ -1,6 +1,6 @@
 import { CreditCard } from 'lucide-react';
 
-export const PaymentMethodContentEmptyView = () => {
+export const PayMethodContentEmptyView = () => {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-5">
       <div className="bg-brand-50 size-10 rounded-full p-2">

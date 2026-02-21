@@ -1,21 +1,21 @@
 import { SALES_SOURCE } from '@/constants/sales';
 import type {
-  GetIncomeStructureByOrderChannelResponseDto,
-  GetIncomeStructureByPaymentMethodResponseDto,
-  GetIncomeStructureBySalesTypeResponseDto,
+  GetSalesSourceByOrderChannelResponseDto,
+  GetSalesSourceByPayMethodResponseDto,
+  GetSalesSourceBySalesTypeResponseDto,
 } from '@/types/sales';
 
 const salesSourceType = {
   ...SALES_SOURCE.SALE_TYPE,
-  ...SALES_SOURCE.ORDER_METHOD,
-  ...SALES_SOURCE.PAYMENT_METHOD,
+  ...SALES_SOURCE.ORDER_CHANNEL,
+  ...SALES_SOURCE.PAY_METHOD,
 } as const;
 
-export const getSalesIncomeStructureInsight = <
+export const getSalesSourceInsight = <
   T extends
-    | GetIncomeStructureBySalesTypeResponseDto
-    | GetIncomeStructureByPaymentMethodResponseDto
-    | GetIncomeStructureByOrderChannelResponseDto,
+    | GetSalesSourceBySalesTypeResponseDto
+    | GetSalesSourceByPayMethodResponseDto
+    | GetSalesSourceByOrderChannelResponseDto,
 >(
   insight: T['insight'],
   items: T['items'],

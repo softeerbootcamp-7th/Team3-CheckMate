@@ -1,7 +1,7 @@
-export { DashboardSalesIncomeContent } from './DashboardSalesIncomeContent';
+export { DashboardSalesSourceContent } from './DashboardSalesSourceContent';
 export { SalesTypeContent } from './SalesTypeContent';
 export { OrderChannelContent } from './OrderChannelContent';
-export { PaymentMethodContent } from './PaymentMethodContent';
+export { PayMethodContent } from './PayMethodContent';
 export { SalesTypeContentEmptyView } from './SalesTypeContentEmptyView';
-export { PaymentMethodContentEmptyView } from './PaymentMethodContentEmptyView';
+export { PayMethodContentEmptyView } from './PayMethodContentEmptyView';
 export { OrderChannelContentEmptyView } from './OrderChannelContentEmptyView';

@@ -39,7 +39,7 @@ const SALES_METRICS = {
         },
       },
     },
-    INCOME_STRUCTURE: {
+    SALES_SOURCE: {
       title: '매출 유입 구조',
       items: {
         SALES_TYPE: {
@@ -50,7 +50,7 @@ const SALES_METRICS = {
           label: '주문수단별 매출',
           cardCodes: ['SLS_07_01', 'SLS_07_02', 'SLS_07_03'] as const,
         },
-        PAYMENT_METHOD: {
+        PAY_METHOD: {
           label: '결제수단별 매출',
           cardCodes: ['SLS_08_01', 'SLS_08_02', 'SLS_08_03'] as const,
         },
@@ -257,16 +257,15 @@ export const isAveragePriceMetricCardCode =
     SALES_METRICS.sections.CURRENT_SALES.items.AVERAGE_PRICE,
   );
 export const isSalesTypeMetricCardCode = createMetricCardCodeBySectionItemGuard(
-  SALES_METRICS.sections.INCOME_STRUCTURE.items.SALES_TYPE,
+  SALES_METRICS.sections.SALES_SOURCE.items.SALES_TYPE,
 );
 export const isOrderChannelMetricCardCode =
   createMetricCardCodeBySectionItemGuard(
-    SALES_METRICS.sections.INCOME_STRUCTURE.items.ORDER_CHANNEL,
+    SALES_METRICS.sections.SALES_SOURCE.items.ORDER_CHANNEL,
   );
-export const isPaymentMethodMetricCardCode =
-  createMetricCardCodeBySectionItemGuard(
-    SALES_METRICS.sections.INCOME_STRUCTURE.items.PAYMENT_METHOD,
-  );
+export const isPayMethodMetricCardCode = createMetricCardCodeBySectionItemGuard(
+  SALES_METRICS.sections.SALES_SOURCE.items.PAY_METHOD,
+);
 export const isDailySalesTrendMetricCardCode =
   createMetricCardCodeBySectionItemGuard(
     SALES_METRICS.sections.SALES_TREND.items.DAILY_SALES_TREND,

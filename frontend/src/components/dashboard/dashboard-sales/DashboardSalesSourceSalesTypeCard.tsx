@@ -9,23 +9,23 @@ import {
   type ExtractCardCodes,
 } from '@/constants/dashboard';
 import { useDashboardCardDetailQueryOption } from '@/hooks/dashboard';
-import type { GetIncomeStructureBySalesTypeResponseDto } from '@/types/sales';
+import type { GetSalesSourceBySalesTypeResponseDto } from '@/types/sales';
 
-type DashboardIncomeStructureSalesTypeCardCodes = ExtractCardCodes<
-  typeof DASHBOARD_METRICS.SALES.sections.INCOME_STRUCTURE.items.SALES_TYPE
+type DashboardSalesSourceSalesTypeCardCodes = ExtractCardCodes<
+  typeof DASHBOARD_METRICS.SALES.sections.SALES_SOURCE.items.SALES_TYPE
 >;
 
-interface DashboardIncomeStructureSalesTypeCardProps {
-  cardCode: DashboardIncomeStructureSalesTypeCardCodes;
+interface DashboardSalesSourceSalesTypeCardProps {
+  cardCode: DashboardSalesSourceSalesTypeCardCodes;
 }
 
-export const DashboardIncomeStructureSalesTypeCard = ({
+export const DashboardSalesSourceSalesTypeCard = ({
   cardCode,
-}: DashboardIncomeStructureSalesTypeCardProps) => {
+}: DashboardSalesSourceSalesTypeCardProps) => {
   const { createCardDetailQuery } = useDashboardCardDetailQueryOption();
 
   const queryOption =
-    createCardDetailQuery<GetIncomeStructureBySalesTypeResponseDto>(cardCode);
+    createCardDetailQuery<GetSalesSourceBySalesTypeResponseDto>(cardCode);
 
   const { data } = useSuspenseQuery(queryOption);
 
