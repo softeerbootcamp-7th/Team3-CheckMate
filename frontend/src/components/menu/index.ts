@@ -6,8 +6,8 @@ export { CategoryRevenueChartLegend } from './CategoryRevenueChartLegend';
 export {
   IngredientUsageRankingCardContent,
   MenuSalesRankingCardContent,
-  MenuSalesRankingCardContentEmptyView,
   IngredientUsageRankingCardContentEmptyView,
 } from './dashboard-menu-ranking';
 export { TimeSlotMenuOrderCountCardContent } from './dashboard-menu-order';
 export { PopularMenuCombinationCardContent } from './dashboard-menu-combination';
+export { MenuSalesRankingCardContentEmptyView } from './shared';

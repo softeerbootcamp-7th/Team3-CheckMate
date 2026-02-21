@@ -36,9 +36,20 @@ export const DashboardMainContent = ({ cards }: DashboardMainContentProps) => {
     <div className="mb-10 grid h-181 w-full grid-cols-3 grid-rows-3 gap-5">
       {cards.map((item) => {
         const card = DASHBOARD_METRIC_CARDS[item.cardCode];
+        const fallbackStyle = {
+          gridColumn: `${item.colNo} / span ${card.sizeX}`,
+          gridRow: `${item.rowNo} / span ${card.sizeY}`,
+        };
+        const fallbackClassName = 'size-full';
 
         return (
-          <DefaultCardFetchBoundary key={`dashboard-card-${item.cardCode}`}>
+          <DefaultCardFetchBoundary
+            key={`dashboard-card-${item.cardCode}`}
+            errorFallbackClassName={fallbackClassName}
+            errorFallbackStyle={fallbackStyle}
+            loadingFallbackClassName={fallbackClassName}
+            loadingFallbackStyle={fallbackStyle}
+          >
             <DefaultCardWrapper
               className="rounded-400 bg-special-card-bg size-full p-5"
               style={{

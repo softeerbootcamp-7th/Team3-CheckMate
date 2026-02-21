@@ -5,3 +5,4 @@ export { useRegisteredMenusQuery } from './useRegisteredMenusQuery';
 export { useMenusManagement } from './useMenusManagement';
 export { useIngredientEditSubmit } from './useIngredientSubmit';
 export { useMenuIngredientsQuery } from './useMenuIngredientsQuery';
+export { usePrefetchMenuIngredients } from './usePrefetchMenuIngredients';

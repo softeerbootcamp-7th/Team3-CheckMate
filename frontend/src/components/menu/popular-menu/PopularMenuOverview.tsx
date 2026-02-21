@@ -1,27 +1,22 @@
-import { useState } from 'react';
-
 import { PeriodSelect, SectionHeader } from '@/components/shared';
-import {
-  PERIOD_PRESET_KEYS,
-  PERIOD_PRESETS,
-  type PeriodType,
-} from '@/constants/shared';
+import { PERIOD_PRESET_KEYS } from '@/constants/shared';
 import { usePeriodChangeRefreshTrigger } from '@/hooks/shared';
 import { menuKeys } from '@/services/menu';
 
 import { CategorySalesCard } from './CategorySalesCard';
 import { MenuSalesRankCard } from './MenuSalesRankCard';
-
-type PopularMenuPeriodPresetType =
-  | PeriodType<typeof PERIOD_PRESET_KEYS.today7_30>
-  | undefined;
+import { usePopularMenuPeriodType } from './period-type-provider';
 
 export const PopularMenuOverview = () => {
-  const [periodType, setPeriodType] = useState<PopularMenuPeriodPresetType>(
-    PERIOD_PRESETS.today7_30.today,
-  );
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const {
+    periodType,
+    setPeriodType,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+  } = usePopularMenuPeriodType();
+
   const { triggerUpdateRefreshDate, handlePeriodChange } =
     usePeriodChangeRefreshTrigger<typeof periodType>({
       setPeriodType,

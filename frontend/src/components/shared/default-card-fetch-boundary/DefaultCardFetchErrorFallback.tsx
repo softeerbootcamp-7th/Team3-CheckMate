@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { FallbackProps } from 'react-error-boundary';
 
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
@@ -7,16 +8,14 @@ import { Button } from '@/components/shared/shadcn-ui';
 
 // 기본 카드(흰 배경, 모서리 라운드)용 에러 폴백 컴포넌트
 interface DefaultCardFetchErrorFallbackProps extends FallbackProps {
-  cardWidth?: number;
-  cardHeight?: number;
   className?: string;
+  style?: CSSProperties;
 }
 
 export const DefaultCardFetchErrorFallback = ({
   resetErrorBoundary,
-  cardHeight,
-  cardWidth,
   className,
+  style,
 }: DefaultCardFetchErrorFallbackProps) => {
   const { reset } = useQueryErrorResetBoundary();
   const handleClickReset = () => {
@@ -24,7 +23,7 @@ export const DefaultCardFetchErrorFallback = ({
     reset(); // tanstack Query의 에러 상태를 초기화
   };
   return (
-    <StateWrapper width={cardWidth} height={cardHeight} className={className}>
+    <StateWrapper className={className} style={style}>
       <div className="flex flex-col items-center gap-3">
         <pre className="body-medium-medium text-center">
           오류가 발생했습니다!

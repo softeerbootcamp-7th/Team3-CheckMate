@@ -16,7 +16,12 @@ export const MenuSalesRankItem = ({
   totalSalesAmount,
   totalOrderCount,
 }: MenuSalesRankItemProps) => {
-  const isHighlight = rank <= MENU_SALES_RANK.HIGHLIGHT_RANK_THRESHOLD;
+  const {
+    HIGHLIGHT_RANK_THRESHOLD,
+    TOTAL_SALES_AMOUNT_UNIT,
+    TOTAL_ORDER_COUNT_UNIT,
+  } = MENU_SALES_RANK;
+  const isHighlight = rank <= HIGHLIGHT_RANK_THRESHOLD;
 
   return (
     <tr>
@@ -33,14 +38,14 @@ export const MenuSalesRankItem = ({
       </td>
       <td className="text-grey-900 text-end">
         <span className="truncate">{formatNumber(totalSalesAmount)}</span>
-        <span>원</span>
+        <span>{TOTAL_SALES_AMOUNT_UNIT}</span>
       </td>
       <td className="text-grey-600 w-full">
         <div className="flex items-center justify-end pl-3">
           <span className="block min-w-0 truncate">
             {formatNumber(totalOrderCount)}
           </span>
-          건
+          {TOTAL_ORDER_COUNT_UNIT}
         </div>
       </td>
     </tr>

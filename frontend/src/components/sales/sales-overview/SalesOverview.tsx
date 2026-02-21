@@ -1,3 +1,5 @@
+import { DefaultCardFetchBoundary } from '@/components/shared';
+
 import { ActualRevenue } from './ActualRevenue';
 import { AverageRevenuePerOrder } from './AverageRevenuePerOrder';
 import { DiscountCancel } from './DiscountCancel';
@@ -13,13 +15,23 @@ export const SalesOverview = () => {
         <SalesOverviewHeader />
         <section className="mt-4 grid gap-5">
           <div className="grid grid-cols-3 gap-5">
-            <ActualRevenue />
-            <OrderCount />
-            <AverageRevenuePerOrder />
+            <DefaultCardFetchBoundary cardWidth={340} cardHeight={228}>
+              <ActualRevenue />
+            </DefaultCardFetchBoundary>
+            <DefaultCardFetchBoundary cardWidth={340} cardHeight={228}>
+              <OrderCount />
+            </DefaultCardFetchBoundary>
+            <DefaultCardFetchBoundary cardWidth={340} cardHeight={228}>
+              <AverageRevenuePerOrder />
+            </DefaultCardFetchBoundary>
           </div>
           <div className="flex gap-5">
-            <TotalRevenue />
-            <DiscountCancel />
+            <DefaultCardFetchBoundary cardWidth={412} cardHeight={100}>
+              <TotalRevenue />
+            </DefaultCardFetchBoundary>
+            <DefaultCardFetchBoundary cardWidth={628} cardHeight={100}>
+              <DiscountCancel />
+            </DefaultCardFetchBoundary>
           </div>
         </section>
       </PeriodTypeProvider>

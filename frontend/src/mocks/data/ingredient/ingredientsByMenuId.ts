@@ -68,4 +68,38 @@ export const INGREDIENTS_BY_MENU_ID: Record<
     menuName: '초코 머핀',
     ingredients: [],
   },
+  27: {
+    menuName: '딸기 크루아상',
+    ingredients: [
+      { name: '밀가루', quantity: 120, unit: 'G' },
+      { name: '버터', quantity: 40, unit: 'G' },
+      { name: '우유', quantity: 30, unit: 'ML' },
+      { name: '딸기 시럽', quantity: 15, unit: 'ML' },
+    ],
+  },
+  28: {
+    menuName: '딸기 머핀',
+    ingredients: [
+      { name: '밀가루', quantity: 80, unit: 'G' },
+      { name: '딸기 시럽', quantity: 15, unit: 'ML' },
+      { name: '버터', quantity: 60, unit: 'G' },
+    ],
+  },
+  29: {
+    menuName: '바나나 크루아상',
+    ingredients: [
+      { name: '밀가루', quantity: 120, unit: 'G' },
+      { name: '버터', quantity: 40, unit: 'G' },
+      { name: '우유', quantity: 30, unit: 'ML' },
+      { name: '바나나 시럽', quantity: 15, unit: 'ML' },
+    ],
+  },
+  30: {
+    menuName: '바나나 머핀',
+    ingredients: [
+      { name: '밀가루', quantity: 80, unit: 'G' },
+      { name: '바나나 시럽', quantity: 15, unit: 'ML' },
+      { name: '버터', quantity: 60, unit: 'G' },
+    ],
+  },
 };
