@@ -8,10 +8,10 @@ interface NotificationItemProps {
 export const NotificationItem = ({ notification }: NotificationItemProps) => {
   return (
     <li>
-      <p className="text-grey-900 body-small-medium">{notification.message}</p>
-      <Badge show={!notification.read} position="right">
+      <p className="text-grey-900 body-small-medium">{notification.content}</p>
+      <Badge show={!notification.isRead} position="right">
         <span className="text-grey-500 caption-large-medium">
-          {formatRelativeTime(new Date(notification.date))}
+          {formatRelativeTime(new Date(notification.createdAt))}
         </span>
       </Badge>
     </li>

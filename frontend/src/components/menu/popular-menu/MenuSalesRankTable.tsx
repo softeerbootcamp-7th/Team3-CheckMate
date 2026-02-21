@@ -8,13 +8,13 @@ import { usePopularMenuPeriodType } from './period-type-provider';
 export const MenuSalesRankTable = () => {
   const { periodType, startDate, endDate } = usePopularMenuPeriodType();
 
-  const { cardCode, displayedRankItems } = useMenuSalesRank({
+  const { cardCode, isEmptyRankItems, displayedRankItems } = useMenuSalesRank({
     periodType,
     startDate,
     endDate,
   });
 
-  if (displayedRankItems.length === 0) {
+  if (isEmptyRankItems) {
     return <MenuSalesRankingCardContentEmptyView cardCode={cardCode} />;
   }
 
