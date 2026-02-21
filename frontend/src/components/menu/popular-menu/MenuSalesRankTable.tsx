@@ -1,13 +1,23 @@
-import { MENU_SALES_RANK } from '@/constants/menu';
-import { menuSalesRankItems } from '@/mocks/data/menu';
+import { useMenuSalesRank } from '@/hooks/menu';
+
+import { MenuSalesRankingCardContentEmptyView } from '../shared';
 
 import { MenuSalesRankItem } from './MenuSalesRankItem';
+import { usePopularMenuPeriodType } from './period-type-provider';
 
 export const MenuSalesRankTable = () => {
-  const displayedRankItems = menuSalesRankItems.slice(
-    0,
-    MENU_SALES_RANK.MAX_DISPLAYED_RANK_ITEMS,
-  );
+  const { periodType, startDate, endDate } = usePopularMenuPeriodType();
+
+  const { cardCode, displayedRankItems } = useMenuSalesRank({
+    periodType,
+    startDate,
+    endDate,
+  });
+
+  if (displayedRankItems.length === 0) {
+    return <MenuSalesRankingCardContentEmptyView cardCode={cardCode} />;
+  }
+
   return (
     <table className="w-full table-fixed border-separate border-spacing-y-3 overflow-y-auto p-0">
       {/* table-fixed 때문에 colgroup을 통해 각 열의 너비 조정 */}
@@ -27,13 +37,13 @@ export const MenuSalesRankTable = () => {
       </thead>
       <tbody>
         {displayedRankItems.map(
-          ({ rank, menuName, totalSalesAmount, totalOrderCount }) => (
+          ({ menuName, totalSalesAmount, orderCount }, index) => (
             <MenuSalesRankItem
-              key={rank}
-              rank={rank}
+              key={`${menuName}-${index}`}
+              rank={index + 1}
               menuName={menuName}
               totalSalesAmount={totalSalesAmount}
-              totalOrderCount={totalOrderCount}
+              totalOrderCount={orderCount}
             />
           ),
         )}
