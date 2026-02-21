@@ -1,8 +1,9 @@
 import { BAR_CHART } from '@/constants/shared';
 import type {
-  BarChartDatum,
   BarChartSeries,
+  ChartDatum,
   Coordinate,
+  LabelOption,
   StackBarDatum,
 } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared';
@@ -25,7 +26,10 @@ interface BarSeriesProps {
   primarySeries: AllBarChartSeries;
   secondarySeries?: AllBarChartSeries;
   activeTooltip: boolean;
-  hasBarLabel?: boolean;
+  showBarLabel?: boolean;
+  showSubBarLabel?: boolean;
+  labelOption?: LabelOption;
+  subLabelOption?: LabelOption;
   viewBoxHeight: number;
   viewBoxWidth: number;
   hasXAxis?: boolean; //현재 barchart에서 x축 사용하고 있는지
@@ -41,7 +45,10 @@ export const BarSeries = ({
   hasGradient = false,
   primarySeries,
   secondarySeries,
-  hasBarLabel = false,
+  showBarLabel = true,
+  showSubBarLabel = true,
+  labelOption,
+  subLabelOption,
   hasXAxis = false,
   viewBoxHeight,
   viewBoxWidth,
@@ -72,7 +79,7 @@ export const BarSeries = ({
                   index
                 ].amount?.toString() ?? '',
                 (
-                  primarySeries.data.mainY[index] as BarChartDatum
+                  primarySeries.data.mainY[index] as ChartDatum
                 ).unit?.toString() ?? '',
               )
             : null;
@@ -80,7 +87,7 @@ export const BarSeries = ({
             <g
               key={primarySeries.data.mainX[index].amount} // 시간대(00시 또는 요일)를 key로 사용
             >
-              {secondarySeries && (
+              {secondarySeries && showSubBarLabel && (
                 <BarLabel
                   x={x}
                   y={y - BAR_CHART.LABEL_GAP}
@@ -90,11 +97,17 @@ export const BarSeries = ({
                     index,
                     series: secondarySeries,
                   })}
-                  textColor={secondarySeries.color}
-                  fontSize={BAR_CHART.SUB_LABEL_FONT_SIZE}
+                  labelOptions={{
+                    ...subLabelOption,
+                    textColor:
+                      subLabelOption?.textColor ??
+                      BAR_CHART.SUB_LABEL_TEXT_COLOR,
+                    fontSize:
+                      subLabelOption?.fontSize ?? BAR_CHART.SUB_LABEL_FONT_SIZE,
+                  }}
                 />
               )}
-              {hasBarLabel && (
+              {showBarLabel && (
                 <BarLabel
                   x={x}
                   y={y}
@@ -103,8 +116,7 @@ export const BarSeries = ({
                     index,
                     series: primarySeries,
                   })}
-                  textColor={BAR_CHART.LABEL_TEXT_COLOR}
-                  fontSize={BAR_CHART.LABEL_FONT_SIZE}
+                  labelOptions={labelOption}
                 />
               )}
               {isStackBar ? (
