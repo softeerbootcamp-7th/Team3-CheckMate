@@ -12,7 +12,4 @@ export type {
   IngredientField,
   MenuIngredients,
 } from './ingredient';
-export {
-  type PostAiIngredientRecommendRequestDto,
-  type PostAiIngredientRecommendResponseDto,
-} from './ai-ingredient-recommend';
+export type { PostAiIngredientRecommendResponseDto } from './ai-ingredient-recommend';

@@ -1,11 +1,12 @@
-import { HttpResponse } from 'msw';
+import { HttpResponse, passthrough } from 'msw';
 
 import { mswHttp } from '@/mocks/shared';
 import type { SuccessResponse } from '@/services/shared';
 import type { PostAiIngredientRecommendResponseDto } from '@/types/ingredient';
 
 export const aiIngredientRecommendHandler = [
-  mswHttp.post('/api/ingredient/ai-ingredient-recommend', async () => {
+  mswHttp.post('/api/menus/:menuId/auto-complete', async () => {
+    return passthrough(); // 이 핸들러는 실제 API 요청을 허용하도록 passthrough
     // 2초 딜레이 줘서 로딩 중(스켈레톤 UI) 보이게 -> 나중에 삭제해야함
     await new Promise((resolve) => setTimeout(resolve, 2000));
     return HttpResponse.json<
@@ -14,11 +15,28 @@ export const aiIngredientRecommendHandler = [
       {
         success: true,
         data: {
+          menuName: '오렌지 주스',
           ingredients: [
-            { name: '딸기', quantity: '200', unit: 'G' },
-            { name: '우유', quantity: '120', unit: 'ML' },
-            { name: '연유', quantity: '5', unit: 'ML' },
-            { name: '얼음', quantity: '100', unit: 'G' },
+            {
+              name: '오렌지',
+              quantity: 200,
+              unit: 'G',
+            },
+            {
+              name: '설탕',
+              quantity: 15,
+              unit: 'G',
+            },
+            {
+              name: '물',
+              quantity: 50,
+              unit: 'ML',
+            },
+            {
+              name: '레몬즙',
+              quantity: 10,
+              unit: 'ML',
+            },
           ],
         },
         message: '식재료 추천 성공',
