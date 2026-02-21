@@ -7,14 +7,16 @@ interface IngredientConsumptionRankCardContentProps {
   rankItems1to5: IngredientUsage[];
   rankItems6to10: IngredientUsage[];
   isCustomPeriod: boolean;
+  isEmptyRankItems: boolean;
 }
 
 export const IngredientConsumptionRankCardContent = ({
   rankItems1to5,
   rankItems6to10,
   isCustomPeriod,
+  isEmptyRankItems,
 }: IngredientConsumptionRankCardContentProps) => {
-  if (rankItems1to5.length === 0) {
+  if (isEmptyRankItems) {
     return <IngredientUsageRankingEmptyView isCustomPeriod={isCustomPeriod} />;
   }
 

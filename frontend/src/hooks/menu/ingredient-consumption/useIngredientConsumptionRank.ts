@@ -33,17 +33,34 @@ export const useIngredientConsumptionRank = ({
 
   const rankItems = data?.items ?? [];
 
-  const rankItems1to5 = rankItems.slice(
+  const isEmptyRankItems = rankItems.length === 0;
+
+  const slicedRankItems = rankItems.slice(
+    0,
+    INGREDIENT_CONSUMPTION_RANK.MAX_DISPLAYED_RANK_ITEMS_6_TO_10,
+  );
+
+  const adjustedRankItems = [
+    ...slicedRankItems,
+    ...Array.from({
+      length:
+        INGREDIENT_CONSUMPTION_RANK.MAX_DISPLAYED_RANK_ITEMS_6_TO_10 -
+        slicedRankItems.length,
+    }).map(() => INGREDIENT_CONSUMPTION_RANK.EMPTY_RANK_ITEM),
+  ];
+
+  const rankItems1to5 = adjustedRankItems.slice(
     0,
     INGREDIENT_CONSUMPTION_RANK.MAX_DISPLAYED_RANK_ITEMS_1_TO_5,
   );
-  const rankItems6to10 = rankItems.slice(
+  const rankItems6to10 = adjustedRankItems.slice(
     INGREDIENT_CONSUMPTION_RANK.MAX_DISPLAYED_RANK_ITEMS_1_TO_5,
     INGREDIENT_CONSUMPTION_RANK.MAX_DISPLAYED_RANK_ITEMS_6_TO_10,
   );
 
   return {
     hasIngredient: data?.hasIngredient ?? false,
+    isEmptyRankItems,
     rankItems1to5,
     rankItems6to10,
   };

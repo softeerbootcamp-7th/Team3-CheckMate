@@ -14,6 +14,8 @@ export const IngredientConsumptionRankItem = ({
   baseUnit,
   isHighlight,
 }: IngredientConsumptionRankItemProps) => {
+  const formattedTotalQuantity =
+    totalQuantity < 0 ? '-' : formatNumber(totalQuantity);
   return (
     <li className="bg-grey-50 rounded-200 border-grey-100 flex min-w-0 items-center gap-3 border p-300">
       <RankBadge
@@ -27,7 +29,7 @@ export const IngredientConsumptionRankItem = ({
       </span>
       <div className="flex shrink-0 grow items-center justify-end gap-1">
         <span className="text-grey-900 body-medium-semibold truncate">
-          {formatNumber(totalQuantity)}
+          {formattedTotalQuantity}
         </span>
         <span className="text-grey-600 body-medium-medium">{baseUnit}</span>
       </div>
