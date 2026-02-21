@@ -4,7 +4,6 @@ export {
   formatDateYYYYMMDD,
   formatDateYYYYMM,
   formatDateLocalized,
-  formatDateISO,
   formatDateYYMMDDHHMM,
   formatDateISO,
 } from './formatDate';
