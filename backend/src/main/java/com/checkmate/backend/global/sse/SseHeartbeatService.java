@@ -13,18 +13,22 @@ public class SseHeartbeatService {
     private final SseEmitterManager sseEmitterManager;
 
     public void sendHeartbeat() {
-        Map<Long, SseEmitter> emitters = sseEmitterManager.getEmitters();
+        Map<Long, SseSession> emitters = sseEmitterManager.getEmitters();
 
         emitters.forEach(
-                (storeId, emitter) -> {
-                    log.info("[sendHeartbeat][start][storeId={}]", storeId);
+                (storeId, sseSession) -> {
+                    String emitterId = sseSession.emitterId();
+                    SseEmitter emitter = sseSession.emitter();
+
+                    log.info("[sendHeartbeat][start][storeId={}, emitterId= {}]", storeId, emitterId);
                     try {
                         emitter.send(SseEmitter.event().comment("hb"));
-                        log.info("[sendHeartbeat][success][storeId={}]", storeId);
+                        log.info("[sendHeartbeat][success][storeId={}, emitterId= {}]", storeId, emitterId);
                     } catch (Exception e) {
                         log.warn(
-                                "[sendHeartbeat][failed][storeId={}][reason={}]",
+                                "[sendHeartbeat][failed][storeId={}, emitterId= {}][reason={}]",
                                 storeId,
+                                emitterId,
                                 e.getMessage());
                         sseEmitterManager.removeClient(storeId);
                     }
