@@ -1,5 +1,5 @@
 import type { ChartDatum } from '@/types/shared';
-import type { ChartDatumWithLabel } from '@/types/shared/chart';
+import type { ChartDatumWithLabel } from '@/types/shared';
 
 export const createChartData = <T>(
   items: T[],
