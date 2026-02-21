@@ -20,17 +20,17 @@ export const DailyReportContent = ({
     dailyReportOptions.content(formatDateISO(selectedDate ?? now)),
   );
 
-  const { title, status_label, kpi, insights, strategies } = content;
+  const { title, statusLabel, kpi, insights, strategies } = content;
 
   return (
     <div className="overflow-y-auto p-6">
       <div className="flex items-center justify-between">
         <DailyReportTitle selectedDate={selectedDate} title={title} />
-        <DailyReportEvaluation status_label={status_label} />
+        <DailyReportEvaluation statusLabel={statusLabel} />
       </div>
 
       <div className="mt-6 flex gap-5">
-        <DailyReportKPI kpi={kpi.net_sales} />
+        <DailyReportKPI kpi={kpi.netSales} />
         <DailyReportKPI kpi={kpi.orders} />
         <DailyReportKPI kpi={kpi.aov} />
       </div>

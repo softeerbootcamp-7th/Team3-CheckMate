@@ -3,14 +3,14 @@ import type { DailyReportStatusLabel } from '@/constants/daily-report';
 import type { Insight, Kpi } from '../dailyReport';
 
 export interface GetDailyReportContentResponseDto {
-  report_date: string;
+  targetDate: string;
   title: {
-    full_text: string;
+    fullText: string;
     highlight: string;
   };
-  status_label: DailyReportStatusLabel;
+  statusLabel: DailyReportStatusLabel;
   kpi: {
-    net_sales: Kpi;
+    netSales: Kpi;
     orders: Kpi;
     aov: Kpi;
   };
