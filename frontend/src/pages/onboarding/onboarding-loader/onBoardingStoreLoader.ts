@@ -5,7 +5,6 @@ import type { QueryClient } from '@tanstack/react-query';
 import { authOptions } from '@/services/auth/options';
 
 export const onBoardingStoreLoader = (queryClient: QueryClient) => async () => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
   const data = await queryClient
     .ensureQueryData(authOptions.status)
     .catch(() => {

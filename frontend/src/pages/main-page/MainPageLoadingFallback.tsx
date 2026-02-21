@@ -14,7 +14,7 @@ interface LoadingContentProps {
 }
 
 const LoadingContent = ({ pathname }: LoadingContentProps) => {
-  if (pathname.startsWith(ROUTE_PATHS.DASHBOARD.BASE)) {
+  if (pathname.includes(ROUTE_PATHS.DASHBOARD.BASE)) {
     return <DashboardPageLoadingFallback />;
   }
 
@@ -26,11 +26,11 @@ const LoadingContent = ({ pathname }: LoadingContentProps) => {
     return <MenuPageLoadingFallback />;
   }
 
-  if (pathname.startsWith(ROUTE_PATHS.DAILY_REPORT)) {
+  if (pathname.includes(ROUTE_PATHS.DAILY_REPORT)) {
     return <DailyReportPageLoadingFallback />;
   }
 
-  if (pathname.startsWith(ROUTE_PATHS.SETTINGS.BASE)) {
+  if (pathname.includes(ROUTE_PATHS.SETTINGS.BASE)) {
     return <SettingPageLoadingFallback />;
   }
 
