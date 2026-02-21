@@ -3,7 +3,7 @@ import { postAuthRefresh } from '../auth';
 import { ApiError } from './apiError';
 
 class AuthToken {
-  private accessToken: string;
+  private accessToken?: string;
   private isRefreshing: boolean = false;
   private retryQueue: {
     request: Request;
@@ -90,7 +90,7 @@ class AuthToken {
   }
 
   remove() {
-    this.accessToken = '';
+    this.accessToken = undefined;
   }
 }
 
