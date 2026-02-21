@@ -1,10 +1,10 @@
 import { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Badge } from '@/components/shared';
 import type { SidebarOptionItem } from '@/types/shared';
 import { cn } from '@/utils/shared';
 
+import { DailyReportMenuItem } from './DailyReportMenuItem';
 import { SidebarSubmenuItem } from './SidebarSubmenuItem';
 
 interface SidebarMenuItemProps {
@@ -26,10 +26,11 @@ export const SidebarMenuItem = memo(({ menu }: SidebarMenuItemProps) => {
         }
         to={menu.path}
       >
-        {/* TODO 알림 존재 여부 패칭해올 것 */}
-        <Badge show={menu.id === 'DAILY_REPORT'} position="top-left">
-          {menu.Icon && <menu.Icon />}
-        </Badge>
+        {menu.id === 'DAILY_REPORT' ? (
+          <DailyReportMenuItem menuIcon={menu.Icon && <menu.Icon />} />
+        ) : (
+          menu.Icon && <menu.Icon />
+        )}
         <span className="mt-0.5">{menu.name}</span>
       </NavLink>
 

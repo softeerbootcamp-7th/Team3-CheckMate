@@ -1,5 +1,4 @@
-import { Suspense } from 'react';
-
+import { FetchBoundary } from '@/components/shared';
 import { Tabs } from '@/components/shared/shadcn-ui';
 import {
   useDashboardSseConnection,
@@ -22,9 +21,9 @@ export const DashboardLayout = () => {
       className="mt-8 w-265"
     >
       <DashboardHeader />
-      <Suspense fallback={<DashboardMainSuspense />}>
+      <FetchBoundary LoadingFallback={DashboardMainSuspense}>
         <DashboardMain />
-      </Suspense>
+      </FetchBoundary>
     </Tabs>
   );
 };

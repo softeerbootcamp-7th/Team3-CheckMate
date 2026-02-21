@@ -9,6 +9,8 @@ import {
 import { LOCAL_STORAGE_KEY } from '@/constants/shared';
 import { dashboardOptions } from '@/services/dashboard';
 
+const DEFAULT_DASHBOARD_ID = 1; // 홈 대시보드 고정 ID
+
 export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
   const { data: tabs } = useSuspenseQuery(dashboardOptions.list);
 
@@ -16,13 +18,23 @@ export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
   const { CURRENT_DASHBOARD_ID: storageKey } = LOCAL_STORAGE_KEY;
 
   const getSavedDashboardId = () => {
-    if (localStorage.getItem(storageKey)) {
-      const parsedId = Number(localStorage.getItem(storageKey));
-      if (tabs.some((t) => t.id === parsedId)) {
-        return parsedId;
+    try {
+      if (localStorage.getItem(storageKey)) {
+        const parsedId = Number(localStorage.getItem(storageKey));
+
+        if (tabs.some((tab) => tab.id === parsedId)) {
+          return parsedId;
+        }
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e.message);
+      } else {
+        console.error('저장된 대시보드 정보를 불러올 수 없어요.', e);
       }
     }
   };
+
   const saveDashboardId = (id: number) => {
     try {
       localStorage.setItem(storageKey, String(id));
@@ -36,7 +48,9 @@ export const DashboardTabsProvider = ({ children }: PropsWithChildren) => {
   };
 
   const [currentDashboardId, setCurrentDashboardIdState] = useState<number>(
-    getSavedDashboardId() ?? tabs.find((tab) => tab.isDefault)?.id ?? 1,
+    getSavedDashboardId() ??
+      tabs.find((tab) => tab.isDefault)?.id ??
+      DEFAULT_DASHBOARD_ID,
   );
   const setCurrentDashboardId = (id: number) => {
     setCurrentDashboardIdState(id);

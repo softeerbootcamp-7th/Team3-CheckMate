@@ -7,7 +7,10 @@ export {
   formatDateYYMMDDHHMM,
   formatDateISO,
 } from './formatDate';
-export { formatRelativeTime } from './formatTime';
+export {
+  formatRelativeTime,
+  getRelativeDatetimeWithOneHourAfter,
+} from './formatTime';
 export type { DeepValueOf } from './deepValueOf';
 export {
   getNumberOfDate,
