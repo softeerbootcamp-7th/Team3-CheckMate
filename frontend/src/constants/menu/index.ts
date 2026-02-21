@@ -1,5 +1,4 @@
 export { INGREDIENT_CONSUMPTION_RANK } from './ingredientConsumption';
-export { MENU_COMBINATION } from './menuCombination';
 export {
   MENU_SALES_RANKING,
   INGREDIENT_USAGE_RANKING,
@@ -13,3 +12,4 @@ export {
   isMenuMetricCardCodes,
 } from './menuMetric';
 export { MENU_SALES_RANK } from './popular-menu';
+export { MENU_COMBINATION_RANK } from './menu-combination';
