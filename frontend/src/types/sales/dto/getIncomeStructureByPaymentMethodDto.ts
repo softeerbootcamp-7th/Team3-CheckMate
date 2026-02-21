@@ -11,7 +11,7 @@ interface PaymentMethodItem {
 }
 
 export interface GetIncomeStructureByPaymentMethodResponseDto {
-  insight: SalesIncomeStructureInsight<
+  insight?: SalesIncomeStructureInsight<
     Extract<keyof typeof SALES_SOURCE, 'PAYMENT_METHOD'>
   >;
   items: PaymentMethodItem[];
