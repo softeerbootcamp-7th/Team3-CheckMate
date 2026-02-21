@@ -7,6 +7,7 @@ export const BAR_CHART = {
   DEFAULT_BAR_COLOR: 'var(--color-grey-600)', // 기본 막대 색상
   LABEL_TEXT_COLOR: 'var(--color-grey-900)',
   LABEL_FONT_SIZE: 14,
+  LABEL_FONT_WEIGHT: 500,
   SUB_LABEL_TEXT_COLOR: 'var(--color-grey-500)',
   SUB_LABEL_FONT_SIZE: 12,
   LABEL_GAP: 20, // 레이블 까리의 간격

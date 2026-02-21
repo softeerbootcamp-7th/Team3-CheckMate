@@ -1,6 +1,6 @@
 import type {
   AllBarChartSeries,
-  BarChartDatum,
+  ChartDatum,
   StackBarDatum,
 } from '@/types/shared';
 import { formatNumberInTenThousands } from '@/utils/shared';
@@ -19,7 +19,7 @@ export const getLabelContentText = ({
 }) => {
   if (isSubLabel) {
     // 서브 라벨일 때는 원 단위 환산 필요 없음
-    const value = series.data.mainY[index] as BarChartDatum;
+    const value = series.data.mainY[index] as ChartDatum;
     return `${value.amount}${value.unit}`;
   } else if (isStackBar) {
     // 스택바 그래프의 메인라벨일 때는 mainY의 각 항목이 배열이므로 각 스택의 합계를 계산하여 라벨에 표시
@@ -34,7 +34,7 @@ export const getLabelContentText = ({
     return `${total} ${unit}`;
   } else {
     // 일반 바 그래프의 메인 라벨일 때는 mainY의 단일 값을 라벨에 표시
-    const value = series.data.mainY[index] as BarChartDatum;
+    const value = series.data.mainY[index] as ChartDatum;
     return `${formatNumberInTenThousands(Number(value.amount))}${value.unit}`;
   }
 };

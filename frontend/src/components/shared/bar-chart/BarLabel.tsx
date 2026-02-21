@@ -1,26 +1,28 @@
 import { BAR_CHART } from '@/constants/shared';
+import type { LabelOption } from '@/types/shared';
 
 interface BarLabelProps {
   x: number;
   y: number;
   label: string | number;
   offsetY?: number;
-  textColor: string;
-  fontSize?: number;
-  textAnchor?: 'start' | 'middle' | 'end';
-  fontWeight?: number;
+  labelOptions?: LabelOption; // labelOptions으로 라벨 관련 옵션 한번에 받는다
 }
 
 export const BarLabel = ({
   x,
   y,
   label,
-  textColor = '#A2A4A7',
+  labelOptions,
   offsetY = 8,
-  fontSize = 12,
-  textAnchor = 'middle',
-  fontWeight = 500,
 }: BarLabelProps) => {
+  // labelOptions이 있으면 그 안에서 옵션을 꺼내고 없으면 기본값 사용
+  const {
+    fontWeight = BAR_CHART.LABEL_FONT_WEIGHT,
+    fontSize = BAR_CHART.LABEL_FONT_SIZE,
+    textColor = BAR_CHART.LABEL_TEXT_COLOR,
+    textAnchor = 'middle',
+  } = labelOptions || {};
   return (
     <text
       x={0}
