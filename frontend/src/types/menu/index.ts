@@ -11,4 +11,8 @@ export type {
   GetDashboardTimeSlotMenuOrderCountResponseDto,
   GetDashboardPopularMenuCombinationResponseDto,
   GetDetailTimeSlotMenuOrderCountResponseDto,
+  GetMenuListResponseDto,
+  PostMenusRequestDto,
+  PostOrderRequestDto,
 } from './dto';
+export type { Menu, MenuCategory, MenuRegisterForm } from './admin-menu';

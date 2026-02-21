@@ -1,0 +1,1 @@
+export { AdminMenuRegisterForm } from './AdminMenuRegisterForm';
