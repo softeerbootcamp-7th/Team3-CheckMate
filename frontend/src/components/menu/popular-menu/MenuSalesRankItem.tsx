@@ -23,6 +23,11 @@ export const MenuSalesRankItem = ({
   } = MENU_SALES_RANK;
   const isHighlight = rank <= HIGHLIGHT_RANK_THRESHOLD;
 
+  const formattedTotalSalesAmount =
+    totalSalesAmount < 0 ? '-' : formatNumber(totalSalesAmount);
+  const formattedTotalOrderCount =
+    totalOrderCount < 0 ? '-' : formatNumber(totalOrderCount);
+
   return (
     <tr>
       <td>
@@ -37,13 +42,13 @@ export const MenuSalesRankItem = ({
         {menuName}
       </td>
       <td className="text-grey-900 text-end">
-        <span className="truncate">{formatNumber(totalSalesAmount)}</span>
+        <span className="truncate">{formattedTotalSalesAmount}</span>
         <span>{TOTAL_SALES_AMOUNT_UNIT}</span>
       </td>
       <td className="text-grey-600 w-full">
         <div className="flex items-center justify-end pl-3">
           <span className="block min-w-0 truncate">
-            {formatNumber(totalOrderCount)}
+            {formattedTotalOrderCount}
           </span>
           {TOTAL_ORDER_COUNT_UNIT}
         </div>
