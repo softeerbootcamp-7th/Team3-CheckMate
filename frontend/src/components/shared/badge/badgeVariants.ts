@@ -5,9 +5,10 @@ export const badgeVariants = cva(
   {
     variants: {
       position: {
-        'top-left': 'before:-top-px before:-left-1.25',
-        'top-right': 'before:-top-px before:-right-px',
-        right: 'before:top-[50%] before:-right-2.5 before:translate-y-[-0.5px]',
+        'top-left': 'before:-top-px before:-translate-x-1',
+        'top-right': 'before:-top-px before:right-0',
+        right:
+          'before:top-[50%] before:right-0 before:translate-x-2.5 before:translate-y-[-1.5px]',
       },
       show: {
         true: '',

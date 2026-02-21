@@ -7,11 +7,11 @@ import { FetchBoundary } from '@/components/shared';
 
 export const DashboardPage = () => {
   return (
-    <DashboardTabsProvider>
-      <FetchBoundary>
+    <FetchBoundary>
+      <DashboardTabsProvider>
         <DashboardLayout />
         <DashboardTabsDialog />
-      </FetchBoundary>
-    </DashboardTabsProvider>
+      </DashboardTabsProvider>
+    </FetchBoundary>
   );
 };

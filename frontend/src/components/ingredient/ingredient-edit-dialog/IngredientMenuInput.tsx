@@ -5,6 +5,7 @@ import type {
 } from 'react-hook-form';
 
 import { Input } from '@/components/shared/shadcn-ui';
+import { INGREDIENT_INPUT_MAX_LENGTH } from '@/constants/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 import { checkValidation } from '@/utils/ingredient';
 import { cn } from '@/utils/shared';
@@ -26,9 +27,9 @@ export const IngredientMenuInput = ({
   return (
     <Input
       autoComplete="off"
-      maxLength={10} // 태그 자체 글자수 제한 기능
+      maxLength={INGREDIENT_INPUT_MAX_LENGTH.INGREDIENT_NAME} // 태그 자체 글자수 제한 기능
       {...register(`ingredients.${index}.name`, {
-        maxLength: 10,
+        maxLength: INGREDIENT_INPUT_MAX_LENGTH.INGREDIENT_NAME,
         onBlur: (e) => {
           // 사용자가 입력 마치고 다른 영역 클릭했을 때 실행되는 함수 -> 앞뒤 공백 제거
           e.target.value = e.target.value.trim();

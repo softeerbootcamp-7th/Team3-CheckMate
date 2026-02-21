@@ -1,5 +1,7 @@
-import type { GetCategoryMenusResponseDto } from '@/types/ingredient';
-import type { GetMenuIngredientsResponseDto } from '@/types/ingredient/dto';
+import type {
+  GetCategoryMenusResponseDto,
+  GetMenuIngredientsResponseDto,
+} from '@/types/ingredient';
 
 import { authorizedApi } from '../shared';
 

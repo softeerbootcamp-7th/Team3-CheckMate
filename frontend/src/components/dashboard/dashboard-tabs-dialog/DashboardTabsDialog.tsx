@@ -1,3 +1,4 @@
+import { FetchBoundary } from '@/components/shared';
 import {
   Dialog,
   DialogContent,
@@ -28,7 +29,9 @@ export const DashboardTabsDialog = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <DashboardTabsDialogContent />
+        <FetchBoundary>
+          <DashboardTabsDialogContent />
+        </FetchBoundary>
       </DialogContent>
     </Dialog>
   );
