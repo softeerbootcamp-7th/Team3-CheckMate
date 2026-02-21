@@ -11,7 +11,7 @@ interface OrderChannelItem {
 }
 
 export interface GetIncomeStructureByOrderChannelResponseDto {
-  insight: SalesIncomeStructureInsight<
+  insight?: SalesIncomeStructureInsight<
     Extract<keyof typeof SALES_SOURCE, 'ORDER_METHOD'>
   >;
   items: OrderChannelItem[];

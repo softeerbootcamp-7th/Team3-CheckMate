@@ -59,7 +59,7 @@ export const DefaultCardWrapper = ({
   return (
     <article
       className={cn(
-        'bg-special-card-bg rounded-400 relative flex h-57 w-85 flex-col justify-between p-5',
+        'bg-special-card-bg rounded-400 relative flex h-57 w-85 flex-col p-5',
         className,
       )}
       {...props}

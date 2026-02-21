@@ -5,7 +5,10 @@ export {
   getSalesPatternByDayMessage,
 } from './dashboard-sales-pattern';
 export { getSalesCurrentComparisonMessage } from './dashboard-current-sales';
-export { getSalesIncomeStructureComparisonMessage } from './dashboard-sales-income';
+export {
+  getSalesIncomeStructureComparisonMessage,
+  getSalesIncomeStructureInsight,
+} from './dashboard-sales-income';
 export {
   getAveragePriceCardCode,
   getDiscountAndCancellationCardCode,
