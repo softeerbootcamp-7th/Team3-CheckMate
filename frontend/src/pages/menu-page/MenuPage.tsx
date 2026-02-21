@@ -7,6 +7,7 @@ import {
   PopularMenuOverview,
   PopularMenuPeriodTypeProvider,
 } from '@/components/menu';
+import { MenuSalesPatternPeriodTypeProvider } from '@/components/menu/menu-sales-pattern/period-type-provider';
 import { useMainScrollTop } from '@/hooks/shared';
 
 export const MenuPage = () => {
@@ -17,7 +18,9 @@ export const MenuPage = () => {
       <PopularMenuPeriodTypeProvider>
         <PopularMenuOverview />
       </PopularMenuPeriodTypeProvider>
-      <MenuSalesPatternOverview />
+      <MenuSalesPatternPeriodTypeProvider>
+        <MenuSalesPatternOverview />
+      </MenuSalesPatternPeriodTypeProvider>
       <IngredientConsumptionPeriodTypeProvider>
         <IngredientConsumptionOverview />
       </IngredientConsumptionPeriodTypeProvider>
