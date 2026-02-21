@@ -33,13 +33,21 @@ import {
 } from '../data';
 import { mswHttp } from '../shared';
 
-const EMPTY_LIST_RESPONSE_PROBABILITY = 0.2;
+const getItemsWithRandomLength = <T>(items: T[]) => {
+  const randomLength = Math.floor(Math.random() * (items.length + 1));
 
-const shouldReturnEmptyList = () =>
-  Math.random() < EMPTY_LIST_RESPONSE_PROBABILITY;
+  return items.slice(0, randomLength);
+};
 
-const getItemsWithRandomEmpty = <T>(items: T[]) => {
-  return shouldReturnEmptyList() ? [] : items;
+const getPopularMenuCombinationItemsWithRandomLength = (
+  items: GetPopularMenuCombinationResponseDto['items'],
+) => {
+  return getItemsWithRandomLength(items).map((item) => ({
+    ...item,
+    pairedMenus: item.pairedMenus
+      ? getItemsWithRandomLength(item.pairedMenus)
+      : item.pairedMenus,
+  }));
 };
 
 const getHandler = [
@@ -128,7 +136,7 @@ const getHandler = [
           success: true,
           message: 'Success',
           data: {
-            items: getItemsWithRandomEmpty(menuSalesRankItems.items),
+            items: getItemsWithRandomLength(menuSalesRankItems.items),
           },
         });
       }
@@ -141,7 +149,7 @@ const getHandler = [
           message: 'Success',
           data: {
             ...ingredientConsumptionRankItems,
-            items: getItemsWithRandomEmpty(
+            items: getItemsWithRandomLength(
               ingredientConsumptionRankItems.items,
             ),
           },
@@ -155,7 +163,9 @@ const getHandler = [
           success: true,
           message: 'Success',
           data: {
-            items: getItemsWithRandomEmpty(menuCombinationRankItems.items),
+            items: getPopularMenuCombinationItemsWithRandomLength(
+              menuCombinationRankItems.items,
+            ),
           },
         });
       }
