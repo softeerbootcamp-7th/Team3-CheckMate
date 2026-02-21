@@ -1,15 +1,23 @@
-import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/shared/shadcn-ui';
 import { ROUTE_PATHS } from '@/constants/shared';
 import { postSignOut } from '@/services/auth';
+import { authToken } from '@/services/shared';
 
 export const SignOutButton = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const { mutate: signOut, isPending } = useMutation({
     mutationFn: postSignOut,
-    onSuccess: () => {
-      window.location.replace(ROUTE_PATHS.SIGN_IN);
+    onSuccess: async () => {
+      authToken.remove();
+      queryClient.clear();
+      navigate(ROUTE_PATHS.SIGN_IN, { replace: true });
     },
     onError: () => {
       toast.error('로그아웃 다시 시도해주세요.');
