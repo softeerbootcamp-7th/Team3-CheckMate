@@ -6,6 +6,7 @@ import {
   isSalesTypeMetricCardCode,
   isWeekdaySalesPatternMetricCardCode,
 } from '@/constants/dashboard';
+import { isMenuMetricCardCodes, MENU_SALES_RANKING } from '@/constants/menu';
 import {
   ORDER_CHANNEL,
   PAYMENT_METHOD,
@@ -13,6 +14,7 @@ import {
   SALES_TYPE,
 } from '@/constants/sales';
 import type { SuccessResponse } from '@/services/shared';
+import type { GetMenuSalesRankingResponseDto } from '@/types/menu';
 import type {
   GetDetailSalesByDayResponseDto,
   GetIncomeStructureByOrderChannelResponseDto,
@@ -94,6 +96,24 @@ const getHandler = [
           },
         },
       );
+    }
+
+    if (isMenuMetricCardCodes(cardCode)) {
+      if (
+        cardCode === 'MNU_01_01' ||
+        cardCode === 'MNU_01_04' ||
+        cardCode === 'MNU_01_05'
+      ) {
+        return HttpResponse.json<
+          SuccessResponse<GetMenuSalesRankingResponseDto>
+        >({
+          success: true,
+          message: 'Success',
+          data: {
+            items: MENU_SALES_RANKING.EXAMPLE_MENU_SALES_RANKING_ITEMS,
+          },
+        });
+      }
     }
     return passthrough();
   }),
