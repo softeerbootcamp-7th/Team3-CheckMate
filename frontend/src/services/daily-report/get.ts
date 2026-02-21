@@ -16,7 +16,7 @@ export const getDailyReportContent = async (
     `/api/reports/${date}`,
   );
 
-  return data;
+  return data ?? null;
 };
 export const getDailyReportCalendar = async (
   query: GetDailyReportCalendarQuery,

@@ -3,6 +3,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { dailyReportOptions } from '@/services/daily-report/options';
 import { formatDateISO } from '@/utils/shared';
 
+import { DailyReportEmpty } from './DailyReportEmpty';
 import { DailyReportEvaluation } from './DailyReportEvaluation';
 import { DailyReportInsight } from './DailyReportInsight';
 import { DailyReportKPI } from './DailyReportKPI';
@@ -19,6 +20,10 @@ export const DailyReportContent = ({
   const { data: content } = useSuspenseQuery(
     dailyReportOptions.content(formatDateISO(selectedDate ?? now)),
   );
+
+  if (!content) {
+    return <DailyReportEmpty />;
+  }
 
   const { title, statusLabel, kpi, insights, strategies } = content;
 
