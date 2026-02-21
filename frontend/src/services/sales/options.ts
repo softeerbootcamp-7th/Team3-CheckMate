@@ -45,4 +45,9 @@ export const salesOptions = {
       queryKey: salesKeys.monthlyRevenueTrend(query),
       queryFn: () => getAnalysisDetail<T>(query),
     }),
+  peakTimeByHour: <T>(query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys.peakTimeByHour(query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    }),
 };
