@@ -52,7 +52,7 @@ export const YearlyRevenueTrend = () => {
           showYGuideLine={false}
           activeTooltip
           xAxisType="right-arrow"
-          hasBarGradient={true}
+          hasBarGradient
           showBarLabel
           showSubBarLabel
           tooltipContent={yearlyRevenueTrendTooltipContent}
