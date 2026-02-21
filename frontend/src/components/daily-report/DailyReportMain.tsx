@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import { RevenueCalendar } from '../shared';
-import { FetchBoundary } from '../shared/fetch-boundary';
+import { FetchBoundary, RevenueCalendar } from '../shared';
 
 import { DailyReportContent } from './daily-report-content';
 
