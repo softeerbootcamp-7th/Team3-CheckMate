@@ -50,13 +50,15 @@ export const Dots = ({
         return (
           <Tooltip key={index}>
             <TooltipTrigger asChild>
-              <Dot
-                x={x}
-                y={y}
-                color={color}
-                ariaLabel={tooltipContentText}
-                hasHoverEffect={true}
-              />
+              <g>
+                <Dot
+                  x={x}
+                  y={y}
+                  color={color}
+                  ariaLabel={tooltipContentText}
+                  hasHoverEffect={true}
+                />
+              </g>
             </TooltipTrigger>
             <TooltipContent
               side="top"

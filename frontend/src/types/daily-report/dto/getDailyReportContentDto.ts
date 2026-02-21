@@ -1,28 +1,16 @@
 import type { DailyReportStatusLabel } from '@/constants/daily-report';
 
-export interface Kpi {
-  label: string; // "실매출",
-  value: string; // "{값}원",
-  diff_val: string; // "{+N%|-N%|비슷|비교불가}",
-  diff_desc: string; // "동요일 대비",
-  trend_dir: 'up' | 'down' | 'flat' | 'none'; // "up|down|flat|none"
-}
-export interface Insight {
-  idx: number;
-  observe: string;
-  meaning: string;
-  impact: string;
-}
+import type { Insight, Kpi } from '../dailyReport';
 
 export interface GetDailyReportContentResponseDto {
-  report_date: string;
+  targetDate: string;
   title: {
-    full_text: string;
+    fullText: string;
     highlight: string;
   };
-  status_label: DailyReportStatusLabel;
+  statusLabel: DailyReportStatusLabel;
   kpi: {
-    net_sales: Kpi;
+    netSales: Kpi;
     orders: Kpi;
     aov: Kpi;
   };

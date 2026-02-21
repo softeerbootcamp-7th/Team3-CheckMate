@@ -1,33 +1,33 @@
 import type { GetDailyReportContentResponseDto } from '@/types/daily-report';
 
 export const DAILY_REPORT_CONTENT_DATA: GetDailyReportContentResponseDto = {
-  report_date: '2024년 03월 15일',
+  targetDate: '2024년 03월 15일',
   title: {
-    full_text: '오늘은 성과가 뚜렷한 날이에요.',
+    fullText: '오늘은 성과가 뚜렷한 날이에요.',
     highlight: '성과가 뚜렷한',
   },
-  status_label: '주의',
+  statusLabel: '주의',
   kpi: {
-    net_sales: {
+    netSales: {
       label: '실매출',
       value: '1,850,000원',
-      diff_val: '-18.5%',
-      diff_desc: '동요일 대비',
-      trend_dir: 'down',
+      diffVal: '-18.5%',
+      diffDesc: '동요일 대비',
+      trendDir: 'down',
     },
     orders: {
       label: '주문건수',
       value: '85건',
-      diff_val: '+5.8%',
-      diff_desc: '동요일 대비',
-      trend_dir: 'up',
+      diffVal: '+5.8%',
+      diffDesc: '동요일 대비',
+      trendDir: 'up',
     },
     aov: {
       label: '객단가',
       value: '21,760원',
-      diff_val: '+12.0%',
-      diff_desc: '동요일 대비',
-      trend_dir: 'up',
+      diffVal: '+12.0%',
+      diffDesc: '동요일 대비',
+      trendDir: 'up',
     },
   },
   insights: [

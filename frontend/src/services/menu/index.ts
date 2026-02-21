@@ -1,1 +1,2 @@
-export const { menuKeys } = await import('./keys');
+export { menuKeys } from './keys';
+export { menuOptions } from './options';

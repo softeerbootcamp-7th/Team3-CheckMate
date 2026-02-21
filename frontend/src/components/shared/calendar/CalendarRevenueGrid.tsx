@@ -1,4 +1,9 @@
-import { cn, getCurrentDate, isSameDate } from '@/utils/shared';
+import { useMemo } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+
+import { dailyReportOptions } from '@/services/daily-report';
+import { cn, formatDateISO, getCurrentDate, isSameDate } from '@/utils/shared';
 
 import { CalendarRevenueCell } from './CalendarRevenueCell';
 
@@ -19,6 +24,15 @@ export const CalendarRevenueGrid = ({
   firstWeekOfNextMonth,
   handleSelectDate,
 }: CalendarRevenueGridProps) => {
+  const { data: calendarData } = useQuery(
+    dailyReportOptions.calendar(currentDateForCalendar),
+  );
+  const salesByDate = useMemo(() => {
+    return new Map(
+      calendarData?.monthlySales.map((item) => [item.date, item.netSales]),
+    );
+  }, [calendarData?.monthlySales]);
+
   const renderDateCell = ({
     date,
     isPreviousMonth,
@@ -51,7 +65,7 @@ export const CalendarRevenueGrid = ({
               : `curr-${date}`
         }
         date={date}
-        revenue={20000000}
+        revenue={salesByDate?.get(formatDateISO(currentDate)) ?? null}
         className={cn(
           isSelected &&
             'before:bg-grey-900 text-grey-50 before:absolute before:z-2 before:size-6 before:-translate-y-2.5 before:rounded-full before:content-[""]',
