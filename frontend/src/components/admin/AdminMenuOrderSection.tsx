@@ -68,6 +68,8 @@ export const AdminMenuOrderSection = ({
     });
   };
 
+  const isOrderEmpty = orderItems.length === 0;
+
   return (
     <>
       {/* ===== 우측 주문서 상단(빈 상태/선택 상태) ===== */}
@@ -199,7 +201,7 @@ export const AdminMenuOrderSection = ({
               : 'bg-grey-300 text-grey-600 hover:bg-grey-300',
           )}
           onClick={handlePostOrder}
-          disabled={isPostingOrder}
+          disabled={isPostingOrder || isOrderEmpty}
         >
           주문하기
         </Button>
