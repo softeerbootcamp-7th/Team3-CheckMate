@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { SALES_METRIC, SALES_PATTERN_DETAIL } from '@/constants/sales';
-import type { PERIOD_PRESET_KEYS, PeriodType } from '@/constants/shared';
+import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetDetailSalesByDayResponseDto } from '@/types/sales';
 import { createChartData, formatDateISO } from '@/utils/shared';
