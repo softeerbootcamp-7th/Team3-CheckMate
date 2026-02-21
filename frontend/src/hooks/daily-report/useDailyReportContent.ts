@@ -26,7 +26,7 @@ export const useDailyReportContent = ({
 
   const { data: content } = useQuery({
     ...dailyReportOptions.content(formatDateISO(targetDate)),
-    enabled: todaySales !== undefined,
+    enabled: calendarData === undefined || todaySales !== undefined,
   });
 
   return {
