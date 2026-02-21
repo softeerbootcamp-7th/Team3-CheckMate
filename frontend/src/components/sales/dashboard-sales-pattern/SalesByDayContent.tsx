@@ -54,7 +54,7 @@ export const SalesByDayContent = ({
         hasXAxis
         hasBarGradient
         yGuideLineCount={4}
-        hasBarLabel={false}
+        showBarLabel={false}
         barColorChangeOnHover={false}
         activeDataIndex={activeDataIndex === -1 ? undefined : activeDataIndex}
         xAxisType="default"
