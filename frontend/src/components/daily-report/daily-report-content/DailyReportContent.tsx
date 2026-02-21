@@ -15,7 +15,7 @@ export const DailyReportContent = ({
 }: DailyReportContentProps) => {
   const { todaySales, content } = useDailyReportContent({ selectedDate });
 
-  if (!todaySales || !content) {
+  if (todaySales === undefined || !content) {
     return <DailyReportEmpty />;
   }
 
