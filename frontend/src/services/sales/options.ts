@@ -4,6 +4,22 @@ import { getAnalysisDetail } from '@/services/analysis';
 import { salesKeys } from '@/services/sales/keys';
 import type { GetAnalysisDetailQuery } from '@/types/analysis';
 
+const createSalesDetailQueryOption =
+  <T>(
+    key: Extract<
+      keyof typeof salesKeys,
+      | 'dailyRevenueTrend'
+      | 'weeklyRevenueTrend'
+      | 'monthlyRevenueTrend'
+      | 'peakTimeByHour'
+    >,
+  ) =>
+  (query: GetAnalysisDetailQuery) =>
+    queryOptions({
+      queryKey: salesKeys[key](query),
+      queryFn: () => getAnalysisDetail<T>(query),
+    });
+
 export const salesOptions = {
   realSales: <T>(query: GetAnalysisDetailQuery) =>
     queryOptions({
@@ -31,23 +47,11 @@ export const salesOptions = {
       queryFn: () => getAnalysisDetail<T>(query),
     }),
   dailyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.dailyRevenueTrend(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('dailyRevenueTrend')(query),
   weeklyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.weeklyRevenueTrend(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('weeklyRevenueTrend')(query),
   monthlyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.monthlyRevenueTrend(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('monthlyRevenueTrend')(query),
   peakTimeByHour: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.peakTimeByHour(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('peakTimeByHour')(query),
 };

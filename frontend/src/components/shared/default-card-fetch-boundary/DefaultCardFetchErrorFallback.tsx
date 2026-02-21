@@ -25,9 +25,7 @@ export const DefaultCardFetchErrorFallback = ({
   return (
     <StateWrapper className={className} style={style}>
       <div className="flex flex-col items-center gap-3">
-        <pre className="body-medium-medium text-center">
-          오류가 발생했습니다!
-        </pre>
+        <p className="body-medium-medium text-center">오류가 발생했습니다!</p>
 
         <Button
           className="rounded-200 body-medium-medium bg-brand-main text-grey-50 px-4 py-3"
