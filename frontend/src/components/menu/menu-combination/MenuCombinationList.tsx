@@ -19,7 +19,7 @@ export const MenuCombinationList = ({
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-6">
+    <div className="flex min-w-77 flex-1 flex-col gap-6">
       <div className="flex flex-col gap-1">
         <span className="body-small-bold text-brand-main">TOP {rank}</span>
         <span className="title-small-semibold text-grey-900">{menuName}</span>
