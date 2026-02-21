@@ -7,6 +7,7 @@ import {
   DailyRevenueTrendPeriodTypeProvider,
   MonthlyRevenueTrendPeriodTypeProvider,
   WeeklyRevenueTrendPeriodTypeProvider,
+  YearlyRevenueTrendPeriodTypeProvider,
 } from './period-type-provider';
 import { RevenueTrendFetchBoundary } from './RevenueTrendFetchBoundary';
 import { WeeklyRevenueTrend } from './WeeklyRevenueTrend';
@@ -37,7 +38,11 @@ export const SalesTrends = () => {
               <MonthlyRevenueTrend />
             </MonthlyRevenueTrendPeriodTypeProvider>
           </RevenueTrendFetchBoundary>
-          <YearlyRevenueTrend />
+          <RevenueTrendFetchBoundary cardWidth={340}>
+            <YearlyRevenueTrendPeriodTypeProvider>
+              <YearlyRevenueTrend />
+            </YearlyRevenueTrendPeriodTypeProvider>
+          </RevenueTrendFetchBoundary>
         </div>
       </section>
     </section>

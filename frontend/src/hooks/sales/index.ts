@@ -9,4 +9,5 @@ export {
   useDailyRevenueTrend,
   useWeeklyRevenueTrend,
   useMonthlyRevenueTrend,
+  useYearlyRevenueTrend,
 } from './sales-trends';
