@@ -1,16 +1,18 @@
 import { Navigate, type RouteObject } from 'react-router-dom';
 
-import { Spinner } from '@/components/shared';
 import { ROUTE_PATHS } from '@/constants/shared';
-import { onBoardingStoreLoader } from '@/pages/onboarding/onboarding-loader';
-import { onBoardingPosLoader } from '@/pages/onboarding/onboarding-loader/onBoardingPosLoader';
-import { PosIntegrationPage } from '@/pages/onboarding/pos-integration-page';
-import { StoreRegisterPage } from '@/pages/onboarding/store-register-page';
+import {
+  OnboardingLoadingFallback,
+  onBoardingPosLoader,
+  onBoardingStoreLoader,
+  PosIntegrationPage,
+  StoreRegisterPage,
+} from '@/pages/onboarding';
 import { queryClient } from '@/services/shared';
 
 export const onboardingRoutes: RouteObject = {
   path: ROUTE_PATHS.ONBOARDING.BASE,
-  hydrateFallbackElement: <Spinner className="text-brand-main size-5" />,
+  hydrateFallbackElement: <OnboardingLoadingFallback />,
   children: [
     {
       index: true,
