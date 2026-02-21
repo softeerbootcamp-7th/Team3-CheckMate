@@ -8,14 +8,14 @@ import { checkIsStackBarChart } from '@/utils/shared/bar-chart';
 interface UseBarChartProps {
   viewBoxWidth: number;
   viewBoxHeight: number;
-  barChartSeries: AllBarChartSeries;
+  primarySeries: AllBarChartSeries;
   hasXAxis?: boolean;
 }
 
 export const useBarChart = ({
   viewBoxWidth,
   viewBoxHeight,
-  barChartSeries,
+  primarySeries,
   hasXAxis = false,
 }: UseBarChartProps) => {
   const [adjustedHeight, setAdjustedHeight] = useState<number>(viewBoxHeight);
@@ -23,29 +23,29 @@ export const useBarChart = ({
   const svgRef = useRef<SVGSVGElement>(null);
   const xAxisRef = useRef<SVGPathElement>(null);
 
-  const isStackBarChart = checkIsStackBarChart({ series: barChartSeries });
+  const isStackBarChart = checkIsStackBarChart({ series: primarySeries });
 
   const xLabelList = useMemo(() => {
-    return barChartSeries.data.mainX.map((datum) => datum.amount ?? '');
-  }, [barChartSeries.data.mainX]);
+    return primarySeries.data.mainX.map((datum) => datum.amount ?? '');
+  }, [primarySeries.data.mainX]);
 
   const xCoordinate = useMemo(() => {
-    if (barChartSeries.data.mainX.length === 0) {
+    if (primarySeries.data.mainX.length === 0) {
       return [];
     }
     return getXCoordinate({
       svgWidth: viewBoxWidth,
-      xDataLength: barChartSeries.data.mainX.length,
+      xDataLength: primarySeries.data.mainX.length,
     });
-  }, [viewBoxWidth, barChartSeries.data.mainX.length]);
+  }, [viewBoxWidth, primarySeries.data.mainX.length]);
 
   //
   const maximumY = useMemo(() => {
     const totalData = isStackBarChart
-      ? (barChartSeries.data.mainY as StackBarDatum[]).map((stack) =>
+      ? (primarySeries.data.mainY as StackBarDatum[]).map((stack) =>
           stack.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0),
         )
-      : (barChartSeries.data.mainY as BarChartDatum[]).map(
+      : (primarySeries.data.mainY as BarChartDatum[]).map(
           (datum) => datum.amount,
         );
 
@@ -58,18 +58,18 @@ export const useBarChart = ({
       Math.ceil(Math.ceil(maximumAmount * 1.5) / 10) * 10;
 
     return adjustedMaximumAmount;
-  }, [barChartSeries.data.mainY, isStackBarChart]);
+  }, [primarySeries.data.mainY, isStackBarChart]);
   const primaryCoordinate = useMemo(() => {
-    if (barChartSeries.data.mainX.length === 0) {
+    if (primarySeries.data.mainX.length === 0) {
       return [];
     }
     // 만약 stackBarChart면 스택별로 데이터를 하나의 바로 합친 후 좌표를 계산해야 함
     const barSeriesForCoordinate = isStackBarChart
       ? {
-          ...barChartSeries,
+          ...primarySeries,
           data: {
-            ...barChartSeries.data,
-            mainY: (barChartSeries.data.mainY as StackBarDatum[]).map(
+            ...primarySeries.data,
+            mainY: (primarySeries.data.mainY as StackBarDatum[]).map(
               (stack) => ({
                 // 해당 스택바의 모든 스택 조각 amount를 더함
                 amount: stack.reduce(
@@ -81,7 +81,7 @@ export const useBarChart = ({
             ),
           },
         }
-      : barChartSeries;
+      : primarySeries;
 
     return getCoordinate({
       svgWidth: viewBoxWidth,
@@ -90,7 +90,7 @@ export const useBarChart = ({
       yData: barSeriesForCoordinate.data.mainY as BarChartDatum[],
       maximumY,
     });
-  }, [viewBoxWidth, adjustedHeight, barChartSeries, maximumY, isStackBarChart]);
+  }, [viewBoxWidth, adjustedHeight, primarySeries, maximumY, isStackBarChart]);
 
   useLayoutEffect(() => {
     const updateAdjustedHeight = () => {
