@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { dailyReportOptions } from '@/services/daily-report/options';
-import { formatDateISO } from '@/utils/shared/formatDate';
+import { dailyReportOptions } from '@/services/daily-report';
+import { formatDateISO } from '@/utils/shared';
 
 interface useDailyReportContentOptions {
   selectedDate?: Date;

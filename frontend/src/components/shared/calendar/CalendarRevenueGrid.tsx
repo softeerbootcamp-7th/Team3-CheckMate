@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { dailyReportOptions } from '@/services/daily-report/options';
+import { dailyReportOptions } from '@/services/daily-report';
 import { cn, formatDateISO, getCurrentDate, isSameDate } from '@/utils/shared';
 
 import { CalendarRevenueCell } from './CalendarRevenueCell';
