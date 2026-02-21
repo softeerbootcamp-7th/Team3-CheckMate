@@ -1,6 +1,6 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import type { BarChartDatum, StackBarDatum } from '@/types/shared';
+import type { ChartDatum, StackBarDatum } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared/bar-chart';
 import { getCoordinate, getXCoordinate } from '@/utils/shared';
 import { checkIsStackBarChart } from '@/utils/shared/bar-chart';
@@ -45,9 +45,7 @@ export const useBarChart = ({
       ? (primarySeries.data.mainY as StackBarDatum[]).map((stack) =>
           stack.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0),
         )
-      : (primarySeries.data.mainY as BarChartDatum[]).map(
-          (datum) => datum.amount,
-        );
+      : (primarySeries.data.mainY as ChartDatum[]).map((datum) => datum.amount);
 
     const maximumAmount =
       totalData.length > 0
@@ -87,7 +85,7 @@ export const useBarChart = ({
       svgWidth: viewBoxWidth,
       adjustedHeight,
       xDataLength: barSeriesForCoordinate.data.mainX.length,
-      yData: barSeriesForCoordinate.data.mainY as BarChartDatum[],
+      yData: barSeriesForCoordinate.data.mainY as ChartDatum[],
       maximumY,
     });
   }, [viewBoxWidth, adjustedHeight, primarySeries, maximumY, isStackBarChart]);

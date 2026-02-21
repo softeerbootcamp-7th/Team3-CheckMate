@@ -1,6 +1,6 @@
 import { useBarChart } from '@/hooks/shared';
 import { useBarChartId } from '@/hooks/shared';
-import type { XAxisType } from '@/types/shared';
+import type { LabelOption, XAxisType } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared';
 
 import { XAxis, XAxisLabel, XGuideLine, YGuideLine } from '../chart';
@@ -69,9 +69,21 @@ interface BarChartProps {
    */
   xAxisType: XAxisType;
   /**
-   * 각 막대 위에 레이블 표시 여부
+   * 각 막대 위에 레이블 표시 여부 -> primarySeries의 데이터 값이 레이블로 표시됨
    */
-  hasBarLabel?: boolean;
+  showBarLabel?: boolean;
+  /**
+   * 각 막대 위에 서브 레이블 표시 여부 -> secondarySeries의 데이터 값이 레이블로 표시됨
+   */
+  showSubBarLabel?: boolean;
+  /**
+   * 각 막대 위에 레이블 옵션
+   */
+  labelOption?: LabelOption;
+  /**
+   * 각 막대 위에 서브 레이블 옵션
+   */
+  subLabelOption?: LabelOption;
   /**
    * 현재 포커스된 데이터의 인덱스
    */
@@ -96,7 +108,10 @@ export const BarChart = ({
   tooltipContent = (...args: string[]) => args.join(' '),
   chartTitle,
   chartDescription,
-  hasBarLabel = true,
+  showBarLabel = true,
+  showSubBarLabel = true,
+  labelOption,
+  subLabelOption,
   xAxisType,
   activeDataIndex,
   barColorChangeOnHover = true,
@@ -171,7 +186,10 @@ export const BarChart = ({
         tooltipContent={tooltipContent}
         xCoordinate={xCoordinate}
         hasXAxis={hasXAxis}
-        hasBarLabel={hasBarLabel}
+        showBarLabel={showBarLabel}
+        labelOption={labelOption}
+        showSubBarLabel={showSubBarLabel}
+        subLabelOption={subLabelOption}
         activeDataIndex={activeDataIndex}
         barColorChangeOnHover={barColorChangeOnHover}
       />
