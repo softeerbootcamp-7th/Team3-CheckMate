@@ -1,7 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
-
-import { dailyReportOptions } from '@/services/daily-report/options';
-import { formatDateISO } from '@/utils/shared';
+import { useDailyReportContent } from '@/hooks/daily-report';
 
 import { DailyReportEmpty } from './DailyReportEmpty';
 import { DailyReportEvaluation } from './DailyReportEvaluation';
@@ -16,17 +13,13 @@ interface DailyReportContentProps {
 export const DailyReportContent = ({
   selectedDate,
 }: DailyReportContentProps) => {
-  const now = new Date();
-  const { data: content } = useSuspenseQuery(
-    dailyReportOptions.content(formatDateISO(selectedDate ?? now)),
-  );
+  const { todaySales, content } = useDailyReportContent({ selectedDate });
 
-  if (!content) {
+  if (!todaySales || !content) {
     return <DailyReportEmpty />;
   }
 
   const { title, statusLabel, kpi, insights, strategies } = content;
-
   return (
     <div className="overflow-y-auto p-6">
       <div className="flex items-center justify-between">

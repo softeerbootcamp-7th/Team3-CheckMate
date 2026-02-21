@@ -9,9 +9,16 @@ export const dailyReportOptions = {
       queryKey: dailyReportKeys.content(date),
       queryFn: () => getDailyReportContent({ date }),
     }),
-  calendar: (year: number, month: number) =>
+  calendar: (date: Date) =>
     queryOptions({
-      queryKey: dailyReportKeys.calendar(year, month),
-      queryFn: () => getDailyReportCalendar({ year, month }),
+      queryKey: dailyReportKeys.calendar(
+        date.getFullYear(),
+        date.getMonth() + 1,
+      ),
+      queryFn: () =>
+        getDailyReportCalendar({
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+        }),
     }),
 } as const;

@@ -24,10 +24,8 @@ export const CalendarRevenueGrid = ({
   firstWeekOfNextMonth,
   handleSelectDate,
 }: CalendarRevenueGridProps) => {
-  const year = currentDateForCalendar.getFullYear();
-  const month = currentDateForCalendar.getMonth() + 1;
   const { data: calendarData } = useQuery(
-    dailyReportOptions.calendar(year, month),
+    dailyReportOptions.calendar(currentDateForCalendar),
   );
   const salesByDate = useMemo(() => {
     return new Map(
