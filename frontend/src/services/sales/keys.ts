@@ -20,6 +20,12 @@ export const salesKeys = {
     [...salesKeys.patterns(), 'peakTimeByHour', query] as const,
   // 매출 유입 구조 섹션의 공통 쿼리 키
   source: () => [...salesKeys.all, 'source'] as const,
+  salesType: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.source(), 'salesType', query] as const,
+  orderChannel: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.source(), 'orderChannel', query] as const,
+  payMethod: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.source(), 'payMethod', query] as const,
   // 매출 추이 섹션의 공통 쿼리 키
   trends: () => [...salesKeys.all, 'trends'] as const,
   dailyRevenueTrend: (query: GetAnalysisDetailQuery) =>
