@@ -4,11 +4,10 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '@/components/shared/shadcn-ui';
-import { INGREDIENT_UNIT } from '@/constants/ingredient';
+import { SERVER_INGREDIENT_UNIT } from '@/constants/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 import { checkValidation } from '@/utils/ingredient';
 import { cn } from '@/utils/shared';
@@ -43,7 +42,10 @@ export const IngredientUnitInput = ({
       }}
       render={({ field }) => {
         return (
-          <Select value={field.value} onValueChange={field.onChange}>
+          <Select
+            value={field.value?.toString() || ''}
+            onValueChange={field.onChange}
+          >
             <SelectTrigger
               className={cn(
                 formErrors.ingredients?.[index]?.unit
@@ -68,16 +70,20 @@ export const IngredientUnitInput = ({
               position={'popper'}
             >
               <SelectGroup>
-                {Object.values(INGREDIENT_UNIT).map((unit, index) => {
-                  return (
-                    <>
-                      <IngredientUnitSelectItem unit={unit} />
-                      {index !== Object.values(INGREDIENT_UNIT).length - 1 && (
-                        <SelectSeparator />
-                      )}
-                    </>
-                  );
-                })}
+                {Object.values(SERVER_INGREDIENT_UNIT).map(
+                  (unit, unitIndex) => {
+                    return (
+                      <IngredientUnitSelectItem
+                        key={unit}
+                        unit={unit}
+                        isLast={
+                          unitIndex ===
+                          Object.values(SERVER_INGREDIENT_UNIT).length - 1
+                        }
+                      />
+                    );
+                  },
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>

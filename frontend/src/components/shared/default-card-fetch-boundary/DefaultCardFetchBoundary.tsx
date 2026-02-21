@@ -9,12 +9,14 @@ type FetchBoundaryProps = {
   children: React.ReactNode;
   cardWidth?: number;
   cardHeight?: number;
+  className?: string;
 };
 
 export const DefaultCardFetchBoundary = ({
   children,
   cardWidth,
   cardHeight,
+  className,
 }: FetchBoundaryProps) => {
   return (
     <ErrorBoundary
@@ -23,6 +25,7 @@ export const DefaultCardFetchBoundary = ({
           {...props}
           cardWidth={cardWidth}
           cardHeight={cardHeight}
+          className={className}
         />
       )}
     >
@@ -31,6 +34,7 @@ export const DefaultCardFetchBoundary = ({
           <DefaultCardFetchLoadingFallback
             cardWidth={cardWidth}
             cardHeight={cardHeight}
+            className={className}
           />
         }
       >
