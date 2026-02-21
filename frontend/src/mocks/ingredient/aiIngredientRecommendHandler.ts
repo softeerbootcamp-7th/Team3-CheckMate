@@ -1,4 +1,4 @@
-import { HttpResponse } from 'msw';
+import { HttpResponse, passthrough } from 'msw';
 
 import { mswHttp } from '@/mocks/shared';
 import type { SuccessResponse } from '@/services/shared';
@@ -6,6 +6,7 @@ import type { PostAiIngredientRecommendResponseDto } from '@/types/ingredient';
 
 export const aiIngredientRecommendHandler = [
   mswHttp.post('/api/menus/:menuId/auto-complete', async () => {
+    return passthrough(); // 이 핸들러는 실제 API 요청을 허용하도록 passthrough
     // 2초 딜레이 줘서 로딩 중(스켈레톤 UI) 보이게 -> 나중에 삭제해야함
     await new Promise((resolve) => setTimeout(resolve, 2000));
     return HttpResponse.json<
