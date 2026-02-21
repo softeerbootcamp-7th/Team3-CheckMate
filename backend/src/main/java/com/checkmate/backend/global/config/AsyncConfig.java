@@ -1,12 +1,11 @@
 package com.checkmate.backend.global.config;
 
+import java.util.concurrent.Executor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
-import java.util.concurrent.Executor;
 
 @Configuration
 @EnableAsync
@@ -20,14 +19,14 @@ public class AsyncConfig {
         executor.setQueueCapacity(100);
         executor.setThreadNamePrefix("order-event-");
 
-        executor.setRejectedExecutionHandler((r, e) -> {
-            log.warn(
-                    "[OrderEventExecutor][Task rejected. poolSize={}, active={}, queueSize={}]",
-                    e.getPoolSize(),
-                    e.getActiveCount(),
-                    e.getQueue().size()
-            );
-        });
+        executor.setRejectedExecutionHandler(
+                (r, e) -> {
+                    log.warn(
+                            "[OrderEventExecutor][Task rejected. poolSize={}, active={}, queueSize={}]",
+                            e.getPoolSize(),
+                            e.getActiveCount(),
+                            e.getQueue().size());
+                });
 
         executor.initialize();
         return executor;

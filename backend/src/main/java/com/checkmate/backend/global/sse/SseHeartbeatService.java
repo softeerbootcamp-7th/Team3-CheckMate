@@ -20,10 +20,16 @@ public class SseHeartbeatService {
                     String emitterId = sseSession.emitterId();
                     SseEmitter emitter = sseSession.emitter();
 
-                    log.info("[sendHeartbeat][start][storeId={}, emitterId= {}]", storeId, emitterId);
+                    log.info(
+                            "[sendHeartbeat][start][storeId={}, emitterId= {}]",
+                            storeId,
+                            emitterId);
                     try {
                         emitter.send(SseEmitter.event().comment("hb"));
-                        log.info("[sendHeartbeat][success][storeId={}, emitterId= {}]", storeId, emitterId);
+                        log.info(
+                                "[sendHeartbeat][success][storeId={}, emitterId= {}]",
+                                storeId,
+                                emitterId);
                     } catch (Exception e) {
                         log.warn(
                                 "[sendHeartbeat][failed][storeId={}, emitterId= {}][reason={}]",

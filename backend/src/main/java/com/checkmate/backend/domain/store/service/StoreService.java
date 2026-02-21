@@ -127,7 +127,6 @@ public class StoreService {
             int waitSeconds = 3 + ThreadLocalRandom.current().nextInt(5);
             TimeUnit.SECONDS.sleep(waitSeconds);
 
-
             Store store =
                     storeRepository
                             .findById(storeId)

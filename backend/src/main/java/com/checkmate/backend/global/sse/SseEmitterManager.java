@@ -51,31 +51,33 @@ public class SseEmitterManager {
                     return new SseSession(emitterId, emitter); // 새 Emitter 등록
                 });
 
-        emitter.onCompletion(() -> {
-            log.info("[onCompletion][storeId={}, emitterId={}]", storeId, emitterId);
+        emitter.onCompletion(
+                () -> {
+                    log.info("[onCompletion][storeId={}, emitterId={}]", storeId, emitterId);
 
-            // emitter 제거
-            emitters.computeIfPresent(storeId, (key, session) ->
-                    session.emitterId().equals(emitterId) ? null : session
-            );
+                    // emitter 제거
+                    emitters.computeIfPresent(
+                            storeId,
+                            (key, session) ->
+                                    session.emitterId().equals(emitterId) ? null : session);
 
-            // emitter 없으면 topics 제거
-            emitters.compute(storeId, (key, session) -> {
-                if (session == null) {
-                    clientTopics.remove(storeId);
-                    log.info("[onCompletion][topics removed][storeId={}]", storeId);
-                }
-                return session;
-            });
+                    // emitter 없으면 topics 제거
+                    emitters.compute(
+                            storeId,
+                            (key, session) -> {
+                                if (session == null) {
+                                    clientTopics.remove(storeId);
+                                    log.info("[onCompletion][topics removed][storeId={}]", storeId);
+                                }
+                                return session;
+                            });
+                });
 
-        });
-
-        emitter.onTimeout(() -> log.info("[onTimeout][storeId={}, emitterId={}]", storeId, emitterId));
-        emitter.onError(
-                e -> log.warn("[onError][storeId={} reason={}]", storeId, e.getMessage()));
+        emitter.onTimeout(
+                () -> log.info("[onTimeout][storeId={}, emitterId={}]", storeId, emitterId));
+        emitter.onError(e -> log.warn("[onError][storeId={} reason={}]", storeId, e.getMessage()));
 
         return emitter;
-
     }
 
     public SseSession getEmitter(Long storeId) {
@@ -89,11 +91,11 @@ public class SseEmitterManager {
             try {
                 session.emitter().complete(); // emitter만 종료
             } catch (Exception e) {
-                log.warn("[removeClient][Failed to complete SseEmitter for storeId={}]", storeId, e);
+                log.warn(
+                        "[removeClient][Failed to complete SseEmitter for storeId={}]", storeId, e);
             }
         }
     }
-
 
     public void subscribe(Long storeId, SubscriptionTopicsRequest subscriptionRequest) {
         List<AnalysisCardCode> topics = subscriptionRequest.topics();
