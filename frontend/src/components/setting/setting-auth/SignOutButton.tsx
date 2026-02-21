@@ -20,7 +20,7 @@ export const SignOutButton = () => {
       navigate(ROUTE_PATHS.SIGN_IN, { replace: true });
     },
     onError: () => {
-      toast.error('로그아웃 다시 시도해주세요.');
+      toast.error('로그아웃을 실패했습니다. 다시 시도해주세요.');
     },
   });
 
