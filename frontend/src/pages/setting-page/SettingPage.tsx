@@ -1,4 +1,8 @@
-import { SettingMyStoreInfo, SettingOption } from '@/components/setting';
+import {
+  SettingMyStoreInfo,
+  SettingOption,
+  SignOutButton,
+} from '@/components/setting';
 import { DefaultCardFetchBoundary } from '@/components/shared';
 
 export const SettingPage = () => {
@@ -18,11 +22,9 @@ export const SettingPage = () => {
           optionDescription="식재료 관리"
         />
         {/* 계정 보안 섹션 */}
-        <SettingOption
-          optionName="계정 보안"
-          linkTo="/logout"
-          optionDescription="로그아웃"
-        />
+        <SettingOption optionName="계정 보안">
+          <SignOutButton />
+        </SettingOption>
       </div>
     </div>
   );
