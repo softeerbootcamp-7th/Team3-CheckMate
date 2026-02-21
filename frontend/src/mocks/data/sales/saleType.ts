@@ -9,7 +9,7 @@ export const SALE_TYPE_DATA: SalesSource[] = [
     changeRate: -4.4,
   },
   {
-    salesSourceType: SALES_SOURCE.SALE_TYPE.TAKEOUT,
+    salesSourceType: SALES_SOURCE.SALE_TYPE.TAKE_OUT,
     revenue: 0,
     count: 0,
     changeRate: -6.7,

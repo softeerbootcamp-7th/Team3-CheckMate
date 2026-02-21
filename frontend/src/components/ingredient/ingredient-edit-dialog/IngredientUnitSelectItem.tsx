@@ -1,8 +1,10 @@
 import { SelectItem } from '@/components/shared/shadcn-ui';
+import type { Ingredient } from '@/types/ingredient';
+import { convertServerUnitToUiUnit } from '@/utils/ingredient';
 import { cn } from '@/utils/shared';
 
 interface IngredientUnitSelectItemProps {
-  unit: string;
+  unit: Ingredient['unit'];
   isLast?: boolean;
 }
 
@@ -18,7 +20,7 @@ export const IngredientUnitSelectItem = ({
         isLast && 'border-0',
       )}
     >
-      {unit}
+      {convertServerUnitToUiUnit(unit)}
     </SelectItem>
   );
 };

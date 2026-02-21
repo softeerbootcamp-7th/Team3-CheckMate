@@ -1,18 +1,23 @@
+import { useOrderCount } from '@/hooks/sales';
+
 import { usePeriodTypeContext } from './period-type-provider';
 import { SalesComparison } from './shared';
 
 export const OrderCount = () => {
-  const { periodType } = usePeriodTypeContext();
+  const { periodType, startDate, endDate } = usePeriodTypeContext();
 
-  const mockedLastOrderCount = periodType ? 23 : undefined;
-  const mockedCurrentOrderCount = 42;
+  const { orderCount, differenceOrderCount } = useOrderCount({
+    periodType,
+    startDate,
+    endDate,
+  });
 
   return (
     <SalesComparison
       title="주문건수"
       unit="건"
-      lastValue={mockedLastOrderCount}
-      currentValue={mockedCurrentOrderCount}
+      differenceAmount={differenceOrderCount}
+      currentValue={orderCount}
     />
   );
 };

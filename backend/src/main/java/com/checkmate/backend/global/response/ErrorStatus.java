@@ -103,7 +103,7 @@ public enum ErrorStatus {
     // 500
     AI_RESPONSE_PARSE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "AI 응답 데이터를 추출하는 데 실패했습니다."),
     EXTERNAL_API_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "외부 서비스 호출 중 오류가 발생했습니다."),
-    ;
+    STREAMING_CONNECTION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "스트리밍 연결에 실패했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

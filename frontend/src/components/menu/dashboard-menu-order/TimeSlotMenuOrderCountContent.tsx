@@ -20,7 +20,7 @@ export const TimeSlotMenuOrderCountContent = ({
     >
       <span className="title-large-bold text-brand-main flex w-70">
         <span className="min-w-0 truncate">{menuName}</span>
-        <span className="shrink-0">{`는 ${timeSlot2H}~${getNextHour(timeSlot2H)}시`}</span>
+        <span className="shrink-0">{`은(는) ${timeSlot2H}~${getNextHour(timeSlot2H)}시`}</span>
       </span>
       <span>주문이 가장 많아요</span>
     </p>

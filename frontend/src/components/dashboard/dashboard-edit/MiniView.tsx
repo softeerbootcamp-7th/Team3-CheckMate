@@ -21,14 +21,14 @@ export const MiniView = () => {
         <h1 className="title-large-bold text-grey-900">{title}</h1>
       </header>
       <div
-        className="relative mx-auto min-h-181 min-w-137.5"
+        className="relative mx-auto min-h-[410.4px] min-w-153"
         ref={gridRef}
         onDragOver={handleGridDragOver}
         onDragLeave={handleGridDragLeave}
         onDrop={handleGridDrop}
       >
         {/* 그리드 셀 가이드라인 */}
-        <div className="grid h-full grow grid-cols-3 grid-rows-3 gap-5">
+        <div className="grid h-full grow grid-cols-3 grid-rows-3 gap-3">
           {Array.from({ length: GRID_ROW_SIZE * GRID_COL_SIZE }).map(
             (_, index) => (
               <MiniViewEmptyCard key={`grid-${index}`} />
