@@ -17,4 +17,5 @@ export {
   getDailyRevenueTrendCardCode,
   getWeeklyRevenueTrendCardCode,
   getMonthlyRevenueTrendCardCode,
+  getYearlyRevenueTrendCardCode,
 } from './sales-trends';
