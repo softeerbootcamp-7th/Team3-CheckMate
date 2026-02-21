@@ -5,12 +5,14 @@ import { MenuCombinationRankEmptyView } from './MenuCombinationRankEmptyView';
 
 interface MenuCombinationRankCardContentProps {
   popularMenuCombinations: GetPopularMenuCombinationResponseDto['items'];
+  isEmptyRankItems: boolean;
 }
 
 export const MenuCombinationRankCardContent = ({
   popularMenuCombinations,
+  isEmptyRankItems,
 }: MenuCombinationRankCardContentProps) => {
-  if (popularMenuCombinations.length === 0) {
+  if (isEmptyRankItems) {
     return <MenuCombinationRankEmptyView />;
   }
 

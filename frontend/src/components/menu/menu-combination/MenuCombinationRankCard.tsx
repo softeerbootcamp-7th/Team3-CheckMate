@@ -7,7 +7,7 @@ import { useMenuCombinationPeriodType } from './period-type-provider';
 export const MenuCombinationRankCard = () => {
   const { periodType, startDate, endDate } = useMenuCombinationPeriodType();
 
-  const { popularMenuCombinations } = useMenuCombinationRank({
+  const { popularMenuCombinations, isEmptyRankItems } = useMenuCombinationRank({
     periodType,
     startDate,
     endDate,
@@ -20,6 +20,7 @@ export const MenuCombinationRankCard = () => {
     >
       <MenuCombinationRankCardContent
         popularMenuCombinations={popularMenuCombinations}
+        isEmptyRankItems={isEmptyRankItems}
       />
     </DefaultCardWrapper>
   );

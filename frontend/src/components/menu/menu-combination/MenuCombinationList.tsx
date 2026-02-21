@@ -1,4 +1,4 @@
-import { MENU_COMBINATION } from '@/constants/menu';
+import { MENU_COMBINATION_RANK } from '@/constants/menu';
 import type { PopularMenuCombination } from '@/types/menu';
 
 import { MenuCombinationItem } from './MenuCombinationItem';
@@ -31,7 +31,7 @@ export const MenuCombinationList = ({
         <ol className="flex flex-col gap-1">
           {pairedMenus.map((pairedMenu, index) => {
             const isHighlight =
-              index + 1 <= MENU_COMBINATION.HIGHLIGHT_COMBINATION_THRESHOLD;
+              index + 1 <= MENU_COMBINATION_RANK.HIGHLIGHT_RANK_THRESHOLD;
             return (
               <MenuCombinationItem
                 key={index}

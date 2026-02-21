@@ -15,6 +15,8 @@ export const MenuCombinationItem = ({
   count,
   isHighlight,
 }: MenuCombinationItemProps) => {
+  const formattedCount = count < 0 ? '-' : formatNumber(count);
+
   return (
     <li className="rounded-200 bg-grey-50 flex items-center gap-3 p-200">
       <RankBadge
@@ -28,7 +30,7 @@ export const MenuCombinationItem = ({
       </span>
       <div className="flex w-35 shrink-0 items-center justify-end gap-1">
         <span className="text-grey-900 body-medium-semibold truncate">
-          {formatNumber(count)}
+          {formattedCount}
         </span>
         <span className="text-grey-500 body-medium-medium">회</span>
       </div>
