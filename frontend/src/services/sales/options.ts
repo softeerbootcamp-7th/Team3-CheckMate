@@ -8,6 +8,11 @@ const createSalesDetailQueryOption =
   <T>(
     key: Extract<
       keyof typeof salesKeys,
+      | 'realSales'
+      | 'orderCount'
+      | 'averagePrice'
+      | 'totalSales'
+      | 'discountAndCancellation'
       | 'dailyRevenueTrend'
       | 'weeklyRevenueTrend'
       | 'monthlyRevenueTrend'
@@ -23,30 +28,15 @@ const createSalesDetailQueryOption =
 
 export const salesOptions = {
   realSales: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.realSales(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('realSales')(query),
   orderCount: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.orderCount(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('orderCount')(query),
   averagePrice: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.averagePrice(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('averagePrice')(query),
   totalSales: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.totalSales(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('totalSales')(query),
   discountAndCancellation: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.discountAndCancellation(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>('discountAndCancellation')(query),
   dailyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
     createSalesDetailQueryOption<T>('dailyRevenueTrend')(query),
   weeklyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
