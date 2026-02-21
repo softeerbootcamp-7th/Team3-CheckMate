@@ -65,7 +65,7 @@ export const CalendarRevenueGrid = ({
               : `curr-${date}`
         }
         date={date}
-        revenue={salesByDate?.get(formatDateISO(currentDate))}
+        revenue={salesByDate?.get(formatDateISO(currentDate)) ?? null}
         className={cn(
           isSelected &&
             'before:bg-grey-900 text-grey-50 before:absolute before:z-2 before:size-6 before:-translate-y-2.5 before:rounded-full before:content-[""]',

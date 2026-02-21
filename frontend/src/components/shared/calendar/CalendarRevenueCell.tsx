@@ -4,7 +4,7 @@ import { Button } from '../shadcn-ui';
 
 interface CalendarRevenueCellProps {
   date: number;
-  revenue?: number;
+  revenue: number | null;
   onClick?: () => void;
   className?: string;
 }
@@ -26,13 +26,8 @@ export const CalendarRevenueCell = ({
       onClick={onClick}
     >
       <p className="z-10">{date}</p>
-      <p
-        className={cn(
-          'caption-large-medium text-grey-500 z-10',
-          revenue === undefined && 'opacity-0',
-        )}
-      >
-        {revenue ? formatNumberInTenThousands(revenue) : '0'}
+      <p className={cn('caption-large-medium text-grey-500 z-10')}>
+        {revenue !== null ? formatNumberInTenThousands(revenue) : '-'}
       </p>
     </Button>
   );
