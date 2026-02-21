@@ -60,7 +60,7 @@ export const StackBar = ({
         {barSegmentInfoList.map((segment, index) => {
           return (
             <Bar
-              key={`${segment.label}-${index}`}
+              key={`${index}`}
               barMiddleX={barMiddleX}
               barTopY={segment.y}
               width={width}
