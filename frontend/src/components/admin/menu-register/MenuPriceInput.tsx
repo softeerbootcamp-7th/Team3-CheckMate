@@ -25,10 +25,10 @@ export const MenuPriceInput = () => {
   const handlePriceChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.replace(/[^0-9]/g, '');
     if (value.startsWith('0')) {
-      field.onChange(value.slice(1));
+      field.onChange(Number(value.slice(1)));
       return;
     }
-    field.onChange(value);
+    field.onChange(Number(value));
   };
 
   return (
