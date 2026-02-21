@@ -15,21 +15,21 @@ export const SalesOverview = () => {
         <SalesOverviewHeader />
         <section className="mt-4 grid gap-5">
           <div className="grid grid-cols-3 gap-5">
-            <DefaultCardFetchBoundary cardWidth={340} cardHeight={228}>
+            <DefaultCardFetchBoundary className="h-57 w-85">
               <ActualRevenue />
             </DefaultCardFetchBoundary>
-            <DefaultCardFetchBoundary cardWidth={340} cardHeight={228}>
+            <DefaultCardFetchBoundary className="h-57 w-157">
               <OrderCount />
             </DefaultCardFetchBoundary>
-            <DefaultCardFetchBoundary cardWidth={340} cardHeight={228}>
+            <DefaultCardFetchBoundary className="h-57 w-157">
               <AverageRevenuePerOrder />
             </DefaultCardFetchBoundary>
           </div>
           <div className="flex gap-5">
-            <DefaultCardFetchBoundary cardWidth={412} cardHeight={100}>
+            <DefaultCardFetchBoundary className="h-25 w-103">
               <TotalRevenue />
             </DefaultCardFetchBoundary>
-            <DefaultCardFetchBoundary cardWidth={628} cardHeight={100}>
+            <DefaultCardFetchBoundary className="h-25 w-157">
               <DiscountCancel />
             </DefaultCardFetchBoundary>
           </div>

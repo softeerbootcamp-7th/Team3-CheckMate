@@ -3,12 +3,22 @@ import { Link } from 'react-router-dom';
 import { DefaultCardWrapper } from '@/components/shared';
 import { Button } from '@/components/shared/shadcn-ui';
 import { CDN_BASE_URL, ROUTE_PATHS } from '@/constants/shared';
+import { cn } from '@/utils/shared';
 
-export const IngredientConsumptionEmptyView = () => {
+interface EmptyIngredientViewProps {
+  className?: string;
+}
+
+export const EmptyIngredientView = ({
+  className,
+}: EmptyIngredientViewProps) => {
   return (
     <DefaultCardWrapper
       aria-label="식재료 미등록"
-      className="flex h-95.5 flex-col items-center justify-center gap-6"
+      className={cn(
+        'flex h-95.5 flex-col items-center justify-center gap-6',
+        className,
+      )}
     >
       <div className="flex flex-col items-center gap-2">
         <img

@@ -1,10 +1,43 @@
 import type {
+  GetDailyReportCalendarQuery,
+  GetDailyReportCalendarResponseDto,
+  GetDailyReportContentParam,
+  GetDailyReportContentResponseDto,
   GetExistsUnreadNotificationResponseDto,
   GetNextClosingTimeResponseDto,
   GetNotificationListResponseDto,
 } from '@/types/daily-report';
 
 import { authorizedApi } from '../shared';
+
+/** 하루 리포트 내용 조회 */
+export const getDailyReportContent = async (
+  param: GetDailyReportContentParam,
+) => {
+  const { date } = param;
+
+  const { data } = await authorizedApi.get<GetDailyReportContentResponseDto>(
+    `/api/reports/${date}`,
+  );
+
+  return data ?? null;
+};
+
+/** 캘린더 월별 매출 데이터 조회 */
+export const getDailyReportCalendar = async (
+  query: GetDailyReportCalendarQuery,
+) => {
+  const queryParams = new URLSearchParams({
+    month: query.month.toString(),
+    year: query.year.toString(),
+  }).toString();
+
+  const { data } = await authorizedApi.get<GetDailyReportCalendarResponseDto>(
+    `/api/reports/calendar?${queryParams}`,
+  );
+
+  return data;
+};
 
 /** 미열람 알림 존재 여부 확인 (polling) */
 export const getExistsUnreadNotification = async () => {

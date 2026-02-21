@@ -1,17 +1,27 @@
 import { DefaultCardWrapper } from '@/components/shared';
-import { menuCombinationRankItems } from '@/mocks/data/menu';
+import { useMenuCombinationRank } from '@/hooks/menu';
 
-import { MenuCombinationList } from './MenuCombinationList';
+import { MenuCombinationRankCardContent } from './MenuCombinationRankCardContent';
+import { useMenuCombinationPeriodType } from './period-type-provider';
 
 export const MenuCombinationRankCard = () => {
+  const { periodType, startDate, endDate } = useMenuCombinationPeriodType();
+
+  const { popularMenuCombinations, isEmptyRankItems } = useMenuCombinationRank({
+    periodType,
+    startDate,
+    endDate,
+  });
+
   return (
     <DefaultCardWrapper
       aria-label="인기 메뉴 조합 랭킹"
-      className="flex w-full flex-row gap-10"
+      className="flex h-[25rem] w-full flex-row gap-10"
     >
-      {menuCombinationRankItems.map((item) => (
-        <MenuCombinationList key={item.rank} {...item} />
-      ))}
+      <MenuCombinationRankCardContent
+        popularMenuCombinations={popularMenuCombinations}
+        isEmptyRankItems={isEmptyRankItems}
+      />
     </DefaultCardWrapper>
   );
 };
