@@ -6,11 +6,7 @@ import {
   isSalesTypeMetricCardCode,
   isWeekdaySalesPatternMetricCardCode,
 } from '@/constants/dashboard';
-import {
-  INGREDIENT_USAGE_RANKING,
-  isMenuMetricCardCodes,
-  MENU_SALES_RANKING,
-} from '@/constants/menu';
+import { isMenuMetricCardCodes } from '@/constants/menu';
 import {
   ORDER_CHANNEL,
   PAYMENT_METHOD,
@@ -21,6 +17,7 @@ import type { SuccessResponse } from '@/services/shared';
 import type {
   GetIngredientUsageRankingResponseDto,
   GetMenuSalesRankingResponseDto,
+  GetPopularMenuCombinationResponseDto,
 } from '@/types/menu';
 import type {
   GetDetailSalesByDayResponseDto,
@@ -29,7 +26,29 @@ import type {
   GetIncomeStructureBySalesTypeResponseDto,
 } from '@/types/sales';
 
+import {
+  ingredientConsumptionRankItems,
+  menuCombinationRankItems,
+  menuSalesRankItems,
+} from '../data';
 import { mswHttp } from '../shared';
+
+const getItemsWithRandomLength = <T>(items: T[]) => {
+  const randomLength = Math.floor(Math.random() * (items.length + 1));
+
+  return items.slice(0, randomLength);
+};
+
+const getPopularMenuCombinationItemsWithRandomLength = (
+  items: GetPopularMenuCombinationResponseDto['items'],
+) => {
+  return getItemsWithRandomLength(items).map((item) => ({
+    ...item,
+    pairedMenus: item.pairedMenus
+      ? getItemsWithRandomLength(item.pairedMenus)
+      : item.pairedMenus,
+  }));
+};
 
 const getHandler = [
   mswHttp.get('/api/analysis/detail', ({ request }) => {
@@ -117,7 +136,7 @@ const getHandler = [
           success: true,
           message: 'Success',
           data: {
-            items: MENU_SALES_RANKING.EXAMPLE_MENU_SALES_RANKING_ITEMS,
+            items: getItemsWithRandomLength(menuSalesRankItems.items),
           },
         });
       }
@@ -129,9 +148,24 @@ const getHandler = [
           success: true,
           message: 'Success',
           data: {
-            items:
-              INGREDIENT_USAGE_RANKING.EXAMPLE_INGREDIENT_USAGE_RANKING_ITEMS,
-            hasIngredient: true,
+            ...ingredientConsumptionRankItems,
+            items: getItemsWithRandomLength(
+              ingredientConsumptionRankItems.items,
+            ),
+          },
+        });
+      }
+
+      if (cardCode === 'MNU_05_04' || cardCode === 'MNU_05_05') {
+        return HttpResponse.json<
+          SuccessResponse<GetPopularMenuCombinationResponseDto>
+        >({
+          success: true,
+          message: 'Success',
+          data: {
+            items: getPopularMenuCombinationItemsWithRandomLength(
+              menuCombinationRankItems.items,
+            ),
           },
         });
       }
