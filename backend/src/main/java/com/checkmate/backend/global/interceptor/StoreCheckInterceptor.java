@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j
@@ -19,10 +20,18 @@ public class StoreCheckInterceptor implements HandlerInterceptor {
             HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull Object handler) {
+        if (!(handler instanceof HandlerMethod handlerMethod)) {
+            return true;
+        }
+
+        if (handlerMethod.hasMethodAnnotation(PermitNoStore.class)) {
+            return true;
+        }
+
         MemberSession member = (MemberSession) request.getAttribute("loginMember");
 
         if (member == null || member.storeId() == null) {
-            log.warn("Access Denied: No Store ID found for member");
+            log.warn("Access Denied: Store registration required");
             throw new ForbiddenException(ErrorStatus.STORE_NOT_REGISTERED);
         }
 

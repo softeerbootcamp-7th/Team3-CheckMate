@@ -1,4 +1,4 @@
-import { HttpResponse } from 'msw';
+import { HttpResponse, passthrough } from 'msw';
 
 import { CATEGORY_MENUS, INGREDIENTS_BY_MENU_ID } from '@/mocks/data';
 import { type ErrorResponse, type SuccessResponse } from '@/services/shared';
@@ -7,13 +7,14 @@ import type {
   GetMenuIngredientsResponseDto,
   PostIngredientRegisterRequestDto,
   PutIngredientRegisterRequestDto,
-} from '@/types/ingredient/dto';
+} from '@/types/ingredient';
 
 import { mswHttp } from '../shared';
 
 const getHandler = [
   // 매장에 등록된 메뉴들 조회
   mswHttp.get('/api/menus', () => {
+    return passthrough(); // 이 핸들러는 실제 API 요청을 허용하도록 passthrough
     const data = CATEGORY_MENUS.map((category) => ({
       ...category,
       menus: category.menus.map((menu) => ({
@@ -36,6 +37,7 @@ const getHandler = [
   }),
   // 각 메뉴 별 등록된 식자재 조회 핸들러
   mswHttp.get('/api/menus/:menuId/recipe', ({ params }) => {
+    return passthrough(); // 이 핸들러는 실제 API 요청을 허용하도록 passthrough
     const menuId = Number(params.menuId);
 
     const response = INGREDIENTS_BY_MENU_ID[menuId];
@@ -67,6 +69,7 @@ const postHandler = [
   mswHttp.post(
     '/api/menus/:menuId/ingredients',
     async ({ params, request }) => {
+      return passthrough(); // 이 핸들러는 실제 API 요청을 허용하도록 passthrough
       const menuId = Number(params.menuId);
 
       let body: PostIngredientRegisterRequestDto;
@@ -115,6 +118,7 @@ const postHandler = [
 const putHandler = [
   // 메뉴에 등록된 식자재 변경(put)
   mswHttp.put('/api/menus/:menuId/ingredients', async ({ params, request }) => {
+    return passthrough(); // 이 핸들러는 실제 API 요청을 허용하도록 passthrough
     const menuId = Number(params.menuId);
 
     if (Number.isNaN(menuId)) {
