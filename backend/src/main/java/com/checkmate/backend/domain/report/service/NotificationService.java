@@ -23,7 +23,7 @@ public class NotificationService {
 
     @Transactional
     public void createNotification(Store store, String title) {
-        String content = String.format("%s 발행이 완료되었습니다.", title);
+        String content = String.format("%s 하루 리포트가 발행되었습니다.", title);
         Notification notification = Notification.builder().store(store).content(content).build();
         notificationRepository.save(notification);
 

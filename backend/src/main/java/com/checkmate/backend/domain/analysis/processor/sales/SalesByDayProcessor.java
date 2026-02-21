@@ -13,6 +13,8 @@ import com.checkmate.backend.global.util.TimeUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -88,20 +90,35 @@ public class SalesByDayProcessor implements AnalysisProcessor<SalesAnalysisConte
         DashboardSalesByDayResponse dashboard =
                 new DashboardSalesByDayResponse(
                         getDayOfWeekShortKorean(dayOfWeekValue), // 오늘 요일
-                        todayAvgNetAmount,
+                        round(todayAvgNetAmount),
                         todayOrderCount,
                         topDay,
                         isSignificant);
 
-        List<SalesByDayItem> items =
+        // keㅛ: 요일 value: salesByDayProjections
+        Map<Integer, SalesByDayProjection> projectionMap =
                 salesByDayProjections.stream()
-                        .map(
-                                p ->
-                                        new SalesByDayItem(
-                                                getDayOfWeekShortKorean(p.day()),
-                                                p.avgNetAmount() != null ? p.avgNetAmount() : 0.0,
-                                                p.orderCount() != null ? p.orderCount() : 0L))
-                        .toList();
+                        .collect(
+                                Collectors.toMap(
+                                        SalesByDayProjection::day, // key: 요일
+                                        Function.identity() // value: SalesByDayProjection 객체 자체
+                                        ));
+
+        List<SalesByDayItem> items = new ArrayList<>();
+
+        for (int day = 1; day <= 7; day++) {
+            SalesByDayProjection p = projectionMap.get(day);
+
+            double avgNetAmount =
+                    Optional.ofNullable(p).map(SalesByDayProjection::avgNetAmount).orElse(0.0);
+
+            avgNetAmount = round(avgNetAmount);
+
+            long orderCount =
+                    Optional.ofNullable(p).map(SalesByDayProjection::orderCount).orElse(0L);
+
+            items.add(new SalesByDayItem(getDayOfWeekShortKorean(day), avgNetAmount, orderCount));
+        }
 
         DetailSalesByDayResponse detail = new DetailSalesByDayResponse(items);
 
@@ -119,5 +136,10 @@ public class SalesByDayProcessor implements AnalysisProcessor<SalesAnalysisConte
             case 7 -> "일";
             default -> "월"; // fallback: 잘못된 값 들어오면 월로 처리
         };
+    }
+
+    /** 소수점 1자리까지 반올림 */
+    private double round(double value) {
+        return Math.round(value * 10) / 10.0;
     }
 }

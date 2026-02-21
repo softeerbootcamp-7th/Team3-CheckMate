@@ -6,3 +6,8 @@ export {
 } from './dashboard-sales-pattern';
 export { getSalesCurrentComparisonMessage } from './dashboard-current-sales';
 export { getSalesIncomeStructureComparisonMessage } from './dashboard-sales-income';
+export {
+  getDailyRevenueTrendCardCode,
+  getWeeklyRevenueTrendCardCode,
+  getMonthlyRevenueTrendCardCode,
+} from './sales-trends';

@@ -9,12 +9,14 @@ import { Button } from '@/components/shared/shadcn-ui';
 interface DefaultCardFetchErrorFallbackProps extends FallbackProps {
   cardWidth?: number;
   cardHeight?: number;
+  className?: string;
 }
 
 export const DefaultCardFetchErrorFallback = ({
   resetErrorBoundary,
   cardHeight,
   cardWidth,
+  className,
 }: DefaultCardFetchErrorFallbackProps) => {
   const { reset } = useQueryErrorResetBoundary();
   const handleClickReset = () => {
@@ -22,7 +24,7 @@ export const DefaultCardFetchErrorFallback = ({
     reset(); // tanstack Query의 에러 상태를 초기화
   };
   return (
-    <StateWrapper width={cardWidth} height={cardHeight}>
+    <StateWrapper width={cardWidth} height={cardHeight} className={className}>
       <div className="flex flex-col items-center gap-3">
         <pre className="body-medium-medium text-center">
           오류가 발생했습니다!

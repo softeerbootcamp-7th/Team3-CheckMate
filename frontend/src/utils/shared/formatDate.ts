@@ -31,6 +31,26 @@ export const formatDateYYYYMM = (date?: Date) => {
   }).format(date);
 };
 
+/**
+ * @description 인자로 주어진 date를 YY.MM.DD HH:mm 형식으로 포맷팅
+ * @param date - 포맷팅할 date
+ * @returns - 포맷팅된 date string 또는 null
+ */
+export const formatDateYYMMDDHHMM = (date?: Date) => {
+  if (!date) {
+    return null;
+  }
+
+  return new Intl.DateTimeFormat('ko-KR', {
+    year: '2-digit',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false, // 오전/오후 제거
+  }).format(date);
+};
+
 export const formatDateLocalized = (date?: Date) => {
   if (!date) {
     return null;
@@ -40,4 +60,8 @@ export const formatDateLocalized = (date?: Date) => {
     month: 'long',
     day: 'numeric',
   });
+};
+
+export const formatDateISO = (date: Date) => {
+  return date.toISOString().slice(0, 10);
 };

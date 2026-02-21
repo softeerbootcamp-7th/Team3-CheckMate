@@ -1,13 +1,9 @@
-import type {
-  SalesIncomeStructureInsight,
-  SalesIncomeStructureTopType,
-} from '../dashboard-sales-income';
+import { SALES_SOURCE } from '@/constants/sales';
+
+import type { SalesIncomeStructureInsight } from '../dashboard-sales-income';
 
 interface PaymentMethodItem {
-  payMethod: Extract<
-    SalesIncomeStructureTopType,
-    '카드' | '현금' | '간편결제' | '기타'
-  >;
+  payMethod: keyof typeof SALES_SOURCE.PAYMENT_METHOD;
   salesAmount: number;
   orderCount: number;
   share: number;
@@ -15,6 +11,8 @@ interface PaymentMethodItem {
 }
 
 export interface GetIncomeStructureByPaymentMethodResponseDto {
-  insight: SalesIncomeStructureInsight;
+  insight: SalesIncomeStructureInsight<
+    Extract<keyof typeof SALES_SOURCE, 'PAYMENT_METHOD'>
+  >;
   items: PaymentMethodItem[];
 }

@@ -4,13 +4,15 @@ import { Spinner, StateWrapper } from '@/components/shared/';
 interface DefaultCardFetchLoadingFallbackProps {
   cardWidth?: number;
   cardHeight?: number;
+  className?: string;
 }
 export const DefaultCardFetchLoadingFallback = ({
   cardWidth,
   cardHeight,
+  className,
 }: DefaultCardFetchLoadingFallbackProps) => {
   return (
-    <StateWrapper width={cardWidth} height={cardHeight}>
+    <StateWrapper width={cardWidth} height={cardHeight} className={className}>
       <div className="flex flex-col items-center gap-3">
         <Spinner className="size-8" />
         <span className="body-medium-medium">데이터를 불러오는 중 입니다</span>

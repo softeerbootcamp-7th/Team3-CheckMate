@@ -4,7 +4,7 @@ import type { ValueOf } from '@/utils/shared';
 export const getPeriodComparisonMessage = (
   type: ValueOf<typeof PERIOD_PRESETS.dayWeekMonth>,
 ) => {
-  const weekday = DAY_OF_WEEK_LIST[new Date().getDay()];
+  const weekday = DAY_OF_WEEK_LIST[(new Date().getDay() + 6) % 7];
 
   switch (type) {
     case PERIOD_PRESETS.dayWeekMonth.today:
