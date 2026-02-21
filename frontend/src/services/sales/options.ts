@@ -11,6 +11,7 @@ const createSalesDetailQueryOption =
       | 'dailyRevenueTrend'
       | 'weeklyRevenueTrend'
       | 'monthlyRevenueTrend'
+      | 'yearlyRevenueTrend'
       | 'peakTimeByHour'
     >,
   ) =>
@@ -52,6 +53,8 @@ export const salesOptions = {
     createSalesDetailQueryOption<T>('weeklyRevenueTrend')(query),
   monthlyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
     createSalesDetailQueryOption<T>('monthlyRevenueTrend')(query),
+  yearlyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
+    createSalesDetailQueryOption<T>('yearlyRevenueTrend')(query),
   peakTimeByHour: <T>(query: GetAnalysisDetailQuery) =>
     createSalesDetailQueryOption<T>('peakTimeByHour')(query),
 };
