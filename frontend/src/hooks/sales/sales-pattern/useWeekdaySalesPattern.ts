@@ -4,7 +4,11 @@ import { SALES_METRIC, SALES_PATTERN_DETAIL } from '@/constants/sales';
 import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetDetailSalesByDayResponseDto } from '@/types/sales';
-import { createChartData, formatDateISO } from '@/utils/shared';
+import {
+  createChartData,
+  formatDateISO,
+  formatPriceWithComma,
+} from '@/utils/shared';
 
 interface UseWeekdaySalesPatternProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.recent4W>;
@@ -51,5 +55,17 @@ export const useWeekdaySalesPattern = ({
     },
     color: SECONDARY_COLOR,
   };
-  return { weekdaySalesPatternBarData, weekdaySalesPatternLabelData };
+
+  // 툴팁에 상세 가격 화폐 단위로 보여주기 위한 함수
+  const weekdaySalesPatternTooltipContent = (
+    mainY: string,
+    mainYUnit: string,
+  ) => {
+    return `${formatPriceWithComma(Number(mainY)).split('.')[0]}${mainYUnit}`;
+  };
+  return {
+    weekdaySalesPatternBarData,
+    weekdaySalesPatternLabelData,
+    weekdaySalesPatternTooltipContent,
+  };
 };

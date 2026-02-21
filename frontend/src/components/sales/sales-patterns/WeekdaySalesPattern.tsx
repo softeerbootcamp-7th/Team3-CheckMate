@@ -25,12 +25,15 @@ export const WeekdaySalesPattern = () => {
   const { label: peakTimeLabel } =
     SALES_METRIC.SALES_PATTERN.WEEKDAY_SALES_PATTERN;
 
-  const { weekdaySalesPatternBarData, weekdaySalesPatternLabelData } =
-    useWeekdaySalesPattern({
-      periodType,
-      startDate,
-      endDate,
-    });
+  const {
+    weekdaySalesPatternBarData,
+    weekdaySalesPatternLabelData,
+    weekdaySalesPatternTooltipContent,
+  } = useWeekdaySalesPattern({
+    periodType,
+    startDate,
+    endDate,
+  });
 
   return (
     <DefaultCardWrapper
@@ -57,6 +60,7 @@ export const WeekdaySalesPattern = () => {
           xAxisType="default"
           activeDataIndex={todayWeekDayIdx}
           activeTooltip
+          tooltipContent={weekdaySalesPatternTooltipContent}
           chartTitle={`${peakTimeLabel} 차트`}
           chartDescription={`매장이 바쁜 때를 파악해요.`}
           primarySeries={weekdaySalesPatternBarData}
