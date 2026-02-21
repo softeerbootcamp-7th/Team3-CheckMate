@@ -2,7 +2,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import {
   IngredientUsageRankingCardContent,
-  IngredientUsageRankingCardContentEmptyView,
+  IngredientUsageRankingEmptyView,
 } from '@/components/menu';
 import {
   DASHBOARD_METRICS,
@@ -29,7 +29,7 @@ export const DashboardIngredientUsageRankingCard = ({
   const { data } = useSuspenseQuery(queryOption);
 
   if (data.hasIngredient && data.items.length === 0) {
-    return <IngredientUsageRankingCardContentEmptyView />;
+    return <IngredientUsageRankingEmptyView />;
   }
 
   return (

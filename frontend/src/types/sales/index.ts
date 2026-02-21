@@ -11,6 +11,8 @@ export type {
   GetDetailSalesByDayResponseDto,
   GetDashboardSalesByDayResponseDto,
   GetSalesTrendResponseDto,
+  GetTotalSalesResponseDto,
+  GetDiscountAndCancellationResponseDto,
 } from './dto';
 export type { SalesIncomeStructureInsight } from './dashboard-sales-income';
 export type { PeakTimeItem, PeakTimeSummary } from './dashboard-sales-pattern';

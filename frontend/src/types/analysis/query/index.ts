@@ -1,1 +1,1 @@
-export type { GetAnalysisDetailQuery } from './getAnalysisDetail';
+export type { GetAnalysisDetailQuery } from './getAnalysisDetailQuery';

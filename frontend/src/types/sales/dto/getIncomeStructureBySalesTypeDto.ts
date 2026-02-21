@@ -11,7 +11,7 @@ interface SalesTypeItem {
 }
 
 export interface GetIncomeStructureBySalesTypeResponseDto {
-  insight: SalesIncomeStructureInsight<
+  insight?: SalesIncomeStructureInsight<
     Extract<keyof typeof SALES_SOURCE, 'SALE_TYPE'>
   >;
   items: SalesTypeItem[];

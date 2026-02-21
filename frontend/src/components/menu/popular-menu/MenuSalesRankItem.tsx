@@ -1,13 +1,13 @@
 import { RankBadge } from '@/components/shared';
 import { MENU_SALES_RANK } from '@/constants/menu';
-import type { MenuSalesRank } from '@/types/menu';
+import type { MenuSales } from '@/types/menu';
 import { formatNumber } from '@/utils/shared';
 
 interface MenuSalesRankItemProps {
-  rank: MenuSalesRank['rank'];
-  menuName: MenuSalesRank['menuName'];
-  totalSalesAmount: MenuSalesRank['totalSalesAmount'];
-  totalOrderCount: MenuSalesRank['totalOrderCount'];
+  rank: number;
+  menuName: MenuSales['menuName'];
+  totalSalesAmount: MenuSales['totalSalesAmount'];
+  totalOrderCount: MenuSales['orderCount'];
 }
 
 export const MenuSalesRankItem = ({
@@ -16,7 +16,17 @@ export const MenuSalesRankItem = ({
   totalSalesAmount,
   totalOrderCount,
 }: MenuSalesRankItemProps) => {
-  const isHighlight = rank <= MENU_SALES_RANK.HIGHLIGHT_RANK_THRESHOLD;
+  const {
+    HIGHLIGHT_RANK_THRESHOLD,
+    TOTAL_SALES_AMOUNT_UNIT,
+    TOTAL_ORDER_COUNT_UNIT,
+  } = MENU_SALES_RANK;
+  const isHighlight = rank <= HIGHLIGHT_RANK_THRESHOLD;
+
+  const formattedTotalSalesAmount =
+    totalSalesAmount < 0 ? '-' : formatNumber(totalSalesAmount);
+  const formattedTotalOrderCount =
+    totalOrderCount < 0 ? '-' : formatNumber(totalOrderCount);
 
   return (
     <tr>
@@ -32,15 +42,15 @@ export const MenuSalesRankItem = ({
         {menuName}
       </td>
       <td className="text-grey-900 text-end">
-        <span className="truncate">{formatNumber(totalSalesAmount)}</span>
-        <span>원</span>
+        <span className="truncate">{formattedTotalSalesAmount}</span>
+        <span>{TOTAL_SALES_AMOUNT_UNIT}</span>
       </td>
       <td className="text-grey-600 w-full">
         <div className="flex items-center justify-end pl-3">
           <span className="block min-w-0 truncate">
-            {formatNumber(totalOrderCount)}
+            {formattedTotalOrderCount}
           </span>
-          건
+          {TOTAL_ORDER_COUNT_UNIT}
         </div>
       </td>
     </tr>

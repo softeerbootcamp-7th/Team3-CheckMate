@@ -11,6 +11,7 @@ import com.checkmate.backend.domain.store.service.BusinessVerificationService;
 import com.checkmate.backend.domain.store.service.StoreService;
 import com.checkmate.backend.global.auth.LoginMember;
 import com.checkmate.backend.global.auth.MemberSession;
+import com.checkmate.backend.global.interceptor.PermitNoStore;
 import com.checkmate.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -121,6 +122,7 @@ public class StoreController {
                                                                 + "}")))
     })
     @PostMapping
+    @PermitNoStore
     public ResponseEntity<ApiResponse<Void>> create(
             @LoginMember MemberSession member,
             @Valid @RequestBody StoreCreateRequestDTO storeCreateRequestDTO) {
@@ -182,6 +184,7 @@ public class StoreController {
                                                                 + "}")))
     })
     @PostMapping("/business/verify")
+    @PermitNoStore
     public ResponseEntity<ApiResponse<BusinessVerifyResponseDTO>> verifyBusiness(
             @RequestBody BusinessVerifyRequestDTO businessVerifyRequestDTO) {
         BusinessVerifyResponseDTO response =
