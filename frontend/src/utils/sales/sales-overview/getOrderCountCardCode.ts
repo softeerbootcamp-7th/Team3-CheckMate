@@ -1,6 +1,6 @@
 import { SALES_METRIC } from '@/constants/sales';
 import {
-  type PERIOD_PRESET_KEYS,
+  PERIOD_PRESET_KEYS,
   PERIOD_PRESETS,
   type PeriodType,
 } from '@/constants/shared';

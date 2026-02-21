@@ -1,4 +1,4 @@
-import { useTotalSales } from '@/hooks/sales/sales-overview/useTotalSales';
+import { useTotalSales } from '@/hooks/sales';
 import { formatNumber } from '@/utils/shared';
 
 import { usePeriodTypeContext } from './period-type-provider';

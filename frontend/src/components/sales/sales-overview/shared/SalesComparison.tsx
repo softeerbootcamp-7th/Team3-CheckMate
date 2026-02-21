@@ -48,7 +48,7 @@ export const SalesComparison = ({
         )}
       >
         {differenceAmount >= 0 && '+'}
-        {formatNumber(differenceAmount ?? 0)}
+        {formatNumber(differenceAmount)}
         {unit}
       </p>
     </DefaultCardWrapper>

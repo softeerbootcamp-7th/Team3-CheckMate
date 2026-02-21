@@ -8,10 +8,6 @@ export const getAnalysisDetail = async <T>(query: GetAnalysisDetailQuery) => {
     if (value === undefined) {
       return;
     }
-    if (key === 'from' || key === 'to') {
-      // 날짜는 yyyy-mm-dd 형식으로 변환해서 보내야함
-      value = new Date(value).toISOString().split('T')[0];
-    }
     queryParams.set(key, String(value));
   });
 
