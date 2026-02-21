@@ -1,9 +1,9 @@
-import type { IngredientUnit } from '@/constants/ingredient';
+import type { ServerIngredientUnit } from '@/constants/ingredient';
 
 export interface Ingredient {
   name: string;
   quantity: string;
-  unit: IngredientUnit | ''; // 새로운 식자재 행 추가할 때 unit은 빈 문자열이어야 함 (아직 단위 선택 안 했을 때)
+  unit: ServerIngredientUnit | '';
 }
 
 export interface IngredientFormValues {

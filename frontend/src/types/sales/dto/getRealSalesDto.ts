@@ -1,4 +1,4 @@
-export interface GetRealTimeSalesResponseDto {
+export interface GetRealSalesResponseDto {
   netAmount: number;
   differenceAmount: number;
   changeRate: number;

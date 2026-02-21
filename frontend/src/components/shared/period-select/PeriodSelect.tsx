@@ -1,9 +1,11 @@
 import {
   DATE_RANGE_PICKER_TYPE,
+  type DateRangePickerType,
   PERIOD_PRESETS,
   type PeriodPresetType,
   type PeriodType,
 } from '@/constants/shared';
+import { cn } from '@/utils/shared';
 
 import { DateRangeLabel } from '../date-range-label';
 import { DateRangePicker } from '../date-range-picker';
@@ -16,6 +18,8 @@ interface PeriodSelectProps<T extends PeriodPresetType> {
   setStartDate: (date?: Date) => void;
   endDate?: Date;
   setEndDate: (date?: Date) => void;
+  dateRangePickerType?: DateRangePickerType;
+  className?: string;
 }
 
 export const PeriodSelect = <T extends PeriodPresetType>({
@@ -26,9 +30,11 @@ export const PeriodSelect = <T extends PeriodPresetType>({
   setStartDate,
   endDate,
   setEndDate,
+  dateRangePickerType,
+  className,
 }: PeriodSelectProps<T>) => {
   return (
-    <div className="flex items-center gap-2.5">
+    <div className={cn('flex items-center gap-2.5', className)}>
       {(Object.values(PERIOD_PRESETS[periodPreset]) as PeriodType<T>[]).map(
         (period) => (
           <DateRangeLabel
@@ -49,7 +55,7 @@ export const PeriodSelect = <T extends PeriodPresetType>({
         setStartDate={setStartDate}
         endDate={endDate}
         setEndDate={setEndDate}
-        dateRangePickerType={DATE_RANGE_PICKER_TYPE.date}
+        dateRangePickerType={dateRangePickerType ?? DATE_RANGE_PICKER_TYPE.date}
         onSave={() => setPeriodType(undefined)}
       />
     </div>

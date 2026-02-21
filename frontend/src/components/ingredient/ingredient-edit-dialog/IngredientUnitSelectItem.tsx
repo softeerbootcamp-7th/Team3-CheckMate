@@ -1,18 +1,26 @@
 import { SelectItem } from '@/components/shared/shadcn-ui';
+import type { Ingredient } from '@/types/ingredient';
+import { convertServerUnitToUiUnit } from '@/utils/ingredient';
+import { cn } from '@/utils/shared';
 
 interface IngredientUnitSelectItemProps {
-  unit: string;
+  unit: Ingredient['unit'];
+  isLast?: boolean;
 }
 
 export const IngredientUnitSelectItem = ({
   unit,
+  isLast,
 }: IngredientUnitSelectItemProps) => {
   return (
     <SelectItem
       value={unit}
-      className="body-medium-semibold text-grey-900 flex h-9 w-19 justify-center p-250"
+      className={cn(
+        'body-medium-semibold text-grey-900 border-grey-300 flex h-9 w-19 justify-center border-b p-250',
+        isLast && 'border-0',
+      )}
     >
-      {unit}
+      {convertServerUnitToUiUnit(unit)}
     </SelectItem>
   );
 };

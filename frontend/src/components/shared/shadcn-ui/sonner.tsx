@@ -22,7 +22,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
         error: <OctagonXIcon className="size-4" />,
         loading: <Loader2Icon className="size-4 animate-spin" />,
       }}
-      duration={35000}
+      duration={3500}
       position="bottom-center"
       toastOptions={{
         classNames: { toast: 'body-small-semibold!' },

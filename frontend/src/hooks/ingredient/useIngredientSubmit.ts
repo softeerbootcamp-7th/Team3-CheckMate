@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { TOAST_DEFAULT } from '@/constants/shared';
 import {
   ingredientKeys,
   postIngredientRegister,
@@ -24,16 +23,18 @@ export const useIngredientEditSubmit = ({
 
   // 식자재 등록/수정 성공 시 실행할 함수
   const handleSubmitSuccess = async () => {
-    // 식자재 등록 후 해당 메뉴의 식자재 캐시 무효화
-    queryClient.invalidateQueries({
-      queryKey: ingredientKeys.menuIngredients(menuId),
-      refetchType: 'none', // 캐시 무효화 시키지만 refetch는 바로 발생 안시킴(어차피 모달창 닫을 것이기 때문)
-    });
-    // 식자재 등록 후 매장에 등록된 메뉴 목록 다시 불러와야 함
-    // 메뉴 목록에서 화면에 보여지는 hasIngredient('등록된 식자재 존재 유무') 정보가 바뀌기 때문
-    queryClient.invalidateQueries({
-      queryKey: ingredientKeys.registeredMenus(),
-    });
+    await Promise.all([
+      // 식자재 등록 후 해당 메뉴의 식자재 캐시 무효화
+      queryClient.invalidateQueries({
+        queryKey: ingredientKeys.menuIngredients(menuId),
+        refetchType: 'none', // 캐시 무효화 시키지만 refetch는 바로 발생 안시킴(어차피 모달창 닫을 것이기 때문)
+      }),
+      // 식자재 등록 후 매장에 등록된 메뉴 목록 다시 불러와야 함
+      // 메뉴 목록에서 화면에 보여지는 hasIngredient('등록된 식자재 존재 유무') 정보가 바뀌기 때문
+      queryClient.invalidateQueries({
+        queryKey: ingredientKeys.registeredMenus(),
+      }),
+    ]);
 
     onOpenChange(false); // 모달 창 닫기
   };
@@ -41,11 +42,7 @@ export const useIngredientEditSubmit = ({
   // 식자재 등록/수정 실패 시 실행할 함수
   const handleSubmitError = () => {
     // 서버와 통신 실패했다면 토스트 띄우기
-    toast('식재료 등록에 실패했어요. 다시 시도해 주세요', {
-      duration: TOAST_DEFAULT.DURATION, // 3.5초 동안 띄워져있음
-      position: TOAST_DEFAULT.POSITION,
-      className: TOAST_DEFAULT.STYLE,
-    });
+    toast('식재료 등록에 실패했어요. 다시 시도해 주세요');
   };
 
   const { mutate, isPending: isSubmitting } = useMutation({

@@ -4,7 +4,6 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { INGREDIENT_INPUT_MAX_LENGTH } from '@/constants/ingredient';
-import { TOAST_DEFAULT } from '@/constants/shared';
 import { postAiIngredientRecommend } from '@/services/ingredient';
 import type { IngredientFormValues, MenuIngredients } from '@/types/ingredient';
 
@@ -35,11 +34,7 @@ export const useAiIngredientRecommend = ({
     mutationFn: postAiIngredientRecommend,
     onSuccess: handleSuccess,
     onError: () => {
-      toast('식재료 자동완성에 실패했어요. 다시 시도해 주세요.', {
-        duration: TOAST_DEFAULT.DURATION,
-        position: TOAST_DEFAULT.POSITION,
-        className: TOAST_DEFAULT.STYLE,
-      });
+      toast('식재료 자동완성에 실패했어요. 다시 시도해 주세요.');
     },
   });
   const requestAiIngredientRecommend = (menuId: number) => {

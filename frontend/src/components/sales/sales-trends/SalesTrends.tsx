@@ -3,6 +3,12 @@ import { salesKeys } from '@/services/sales';
 
 import { DailyRevenueTrend } from './DailyRevenueTrend';
 import { MonthlyRevenueTrend } from './MonthlyRevenueTrend';
+import {
+  DailyRevenueTrendPeriodTypeProvider,
+  MonthlyRevenueTrendPeriodTypeProvider,
+  WeeklyRevenueTrendPeriodTypeProvider,
+} from './period-type-provider';
+import { RevenueTrendFetchBoundary } from './RevenueTrendFetchBoundary';
 import { WeeklyRevenueTrend } from './WeeklyRevenueTrend';
 import { YearlyRevenueTrend } from './YearlyRevenueTrend';
 
@@ -15,10 +21,22 @@ export const SalesTrends = () => {
         prefixKey={salesKeys.trends()}
       />
       <section className="mt-4 grid grid-rows-3 gap-5">
-        <DailyRevenueTrend />
-        <WeeklyRevenueTrend />
+        <RevenueTrendFetchBoundary>
+          <DailyRevenueTrendPeriodTypeProvider>
+            <DailyRevenueTrend />
+          </DailyRevenueTrendPeriodTypeProvider>
+        </RevenueTrendFetchBoundary>
+        <RevenueTrendFetchBoundary>
+          <WeeklyRevenueTrendPeriodTypeProvider>
+            <WeeklyRevenueTrend />
+          </WeeklyRevenueTrendPeriodTypeProvider>
+        </RevenueTrendFetchBoundary>
         <div className="flex gap-5">
-          <MonthlyRevenueTrend />
+          <RevenueTrendFetchBoundary cardWidth={700}>
+            <MonthlyRevenueTrendPeriodTypeProvider>
+              <MonthlyRevenueTrend />
+            </MonthlyRevenueTrendPeriodTypeProvider>
+          </RevenueTrendFetchBoundary>
           <YearlyRevenueTrend />
         </div>
       </section>

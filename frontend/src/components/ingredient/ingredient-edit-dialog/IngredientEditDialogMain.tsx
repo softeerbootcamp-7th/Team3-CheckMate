@@ -40,7 +40,10 @@ export const IngredientEditDialogMain = ({
       return;
     }
     reset({
-      ingredients: menuIngredients.ingredients,
+      ingredients: menuIngredients.ingredients.map((item) => ({
+        ...item,
+        quantity: String(item.quantity), // 폼 창에서는 quantity가 number가 아니라 string 형태여야 함
+      })),
     });
   }, [menuIngredients, reset]);
   return (

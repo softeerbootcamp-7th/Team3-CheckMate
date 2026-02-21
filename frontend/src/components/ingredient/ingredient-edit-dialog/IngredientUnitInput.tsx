@@ -1,4 +1,3 @@
-import { Fragment } from 'react/jsx-runtime';
 import { type Control, Controller, type FieldErrors } from 'react-hook-form';
 
 import {
@@ -8,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/shared/shadcn-ui';
-import { INGREDIENT_UNIT } from '@/constants/ingredient';
+import { SERVER_INGREDIENT_UNIT } from '@/constants/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
 import { checkValidation } from '@/utils/ingredient';
 import { cn } from '@/utils/shared';
@@ -71,17 +70,20 @@ export const IngredientUnitInput = ({
               position={'popper'}
             >
               <SelectGroup>
-                {Object.values(INGREDIENT_UNIT).map((unit, index) => {
-                  return (
-                    <Fragment key={unit}>
-                      <IngredientUnitSelectItem unit={unit} />
-                      {/* Fragment 구조에서는 SelectSeparator가 정상 동작하지 않아 div로 구분선 처리 */}
-                      {index !== Object.values(INGREDIENT_UNIT).length - 1 && (
-                        <div className="bg-grey-300 h-px w-full" />
-                      )}
-                    </Fragment>
-                  );
-                })}
+                {Object.values(SERVER_INGREDIENT_UNIT).map(
+                  (unit, unitIndex) => {
+                    return (
+                      <IngredientUnitSelectItem
+                        key={unit}
+                        unit={unit}
+                        isLast={
+                          unitIndex ===
+                          Object.values(SERVER_INGREDIENT_UNIT).length - 1
+                        }
+                      />
+                    );
+                  },
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>

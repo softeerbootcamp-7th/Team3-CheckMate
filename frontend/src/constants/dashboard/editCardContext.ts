@@ -8,6 +8,8 @@ import {
 import type { DashboardCard, DragState, GhostState } from '@/types/dashboard';
 
 interface EditCardContextType {
+  dashboardId: number;
+
   initPlacedCards: DashboardCard[];
 
   placedCards: DashboardCard[];

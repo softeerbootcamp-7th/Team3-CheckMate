@@ -15,5 +15,7 @@ export const checkValidation = ({
     return true;
   }
   // 필수 입력 이어야함
-  return currentFieldValue !== null && String(currentFieldValue).length > 0;
+  return (
+    currentFieldValue !== null && String(currentFieldValue).trim().length > 0
+  );
 };
