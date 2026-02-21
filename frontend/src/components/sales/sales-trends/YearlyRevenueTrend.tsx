@@ -18,6 +18,7 @@ export const YearlyRevenueTrend = () => {
     yearlyRevenueTrendLabel,
     yearlyRevenueTrendBarData,
     yearlyRevenueTrendLabelData,
+    yearlyRevenueTrendTooltipContent,
   } = useYearlyRevenueTrend({
     periodType,
     startDate,
@@ -52,7 +53,9 @@ export const YearlyRevenueTrend = () => {
           activeTooltip
           xAxisType="right-arrow"
           hasBarGradient={true}
-          hasBarLabel={true}
+          showBarLabel
+          showSubBarLabel
+          tooltipContent={yearlyRevenueTrendTooltipContent}
           chartTitle={yearlyRevenueTrendLabel}
           chartDescription="매출이 늘고 있는지, 줄고 있는지 흐름으로 살펴봐요."
         />

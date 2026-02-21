@@ -5,7 +5,11 @@ import { type PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetSalesTrendResponseDto } from '@/types/sales';
 import { getYearlyRevenueTrendCardCode } from '@/utils/sales';
-import { createChartData, formatDateISO } from '@/utils/shared';
+import {
+  createChartData,
+  formatDateISO,
+  formatPriceWithComma,
+} from '@/utils/shared';
 
 interface UseYearlyRevenueTrendProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.recentYears3>;
@@ -50,9 +54,18 @@ export const useYearlyRevenueTrend = ({
   const yearlyRevenueTrendLabel =
     SALES_METRIC.SALES_TREND.YEARLY_SALES_TREND.label;
 
+  // 상세 가격을 3자리마다 콤마로 구분해서 00,000 원 이렇게 보여주는 툴팁 콘텐츠 함수
+  const yearlyRevenueTrendTooltipContent = (
+    mainY: string,
+    mainYUnit: string,
+  ) => {
+    return `${formatPriceWithComma(Number(mainY))}${mainYUnit}`;
+  };
+
   return {
     yearlyRevenueTrendLabel,
     yearlyRevenueTrendBarData,
     yearlyRevenueTrendLabelData,
+    yearlyRevenueTrendTooltipContent,
   };
 };
