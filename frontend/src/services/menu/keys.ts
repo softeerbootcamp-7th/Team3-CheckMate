@@ -21,4 +21,6 @@ export const menuKeys = {
   menuCombination: () => [...menuKeys.all, 'menuCombination'] as const,
   menuCombinationRank: (query: GetAnalysisDetailQuery) =>
     [...menuKeys.menuCombination(), 'menuCombinationRank', query] as const,
+  timeSlotMenuOrderCount: (query: GetAnalysisDetailQuery) =>
+    [...menuKeys.menuSalesPattern(), 'timeSlotMenuOrderCount', query] as const,
 };
