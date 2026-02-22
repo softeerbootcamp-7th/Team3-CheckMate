@@ -38,7 +38,7 @@
 <div align="center">
 
 [용어 사전](./docs/checkmate_glossary.md)
-&emsp; &emsp; &emsp; &emsp; &emsp;  [상세 페이지 소개](./docs/checkmate_glossary.md)
+&emsp; &emsp; &emsp; &emsp; &emsp;  [상세 페이지 소개](./docs/checkmate_pages.md)
 
 </div>
 
