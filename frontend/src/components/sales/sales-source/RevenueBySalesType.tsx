@@ -1,12 +1,12 @@
-import { SALE_TYPE_DATA } from '@/mocks/data/sales';
+import { SALES_TYPE_DATA } from '@/mocks/data/sales';
 
 import { SalesSourceChart } from './sales-source-chart';
 
-export const RevenueBySaleType = () => {
+export const RevenueBySalesType = () => {
   return (
     <SalesSourceChart
       title="판매유형별 매출"
-      salesSourceData={SALE_TYPE_DATA}
+      salesSourceData={SALES_TYPE_DATA}
     />
   );
 };

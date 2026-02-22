@@ -6,7 +6,7 @@ import type {
 } from '@/types/sales';
 
 const salesSourceType = {
-  ...SALES_SOURCE.SALE_TYPE,
+  ...SALES_SOURCE.SALES_TYPE,
   ...SALES_SOURCE.ORDER_CHANNEL,
   ...SALES_SOURCE.PAY_METHOD,
 } as const;

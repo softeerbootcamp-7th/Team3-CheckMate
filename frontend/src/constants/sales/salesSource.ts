@@ -1,7 +1,7 @@
 import type { DeepValueOf } from '@/utils/shared';
 
 export const SALES_SOURCE = {
-  SALE_TYPE: {
+  SALES_TYPE: {
     // 홀, 배달, 포장
     DINE_IN: '홀',
     DELIVERY: '배달',
@@ -20,12 +20,13 @@ export const SALES_SOURCE = {
   },
 } as const;
 
-export type SalesSourceType = DeepValueOf<typeof SALES_SOURCE>;
+export type SalesSourceType<T extends keyof typeof SALES_SOURCE> =
+  keyof (typeof SALES_SOURCE)[T];
 
 export const SALES_SOURCE_COLORS = {
-  [SALES_SOURCE.SALE_TYPE.DINE_IN]: 'var(--color-brand-500)',
-  [SALES_SOURCE.SALE_TYPE.DELIVERY]: 'var(--color-grey-500)',
-  [SALES_SOURCE.SALE_TYPE.TAKE_OUT]: 'var(--color-brand-50)',
+  [SALES_SOURCE.SALES_TYPE.DINE_IN]: 'var(--color-brand-500)',
+  [SALES_SOURCE.SALES_TYPE.DELIVERY]: 'var(--color-grey-500)',
+  [SALES_SOURCE.SALES_TYPE.TAKE_OUT]: 'var(--color-brand-50)',
   [SALES_SOURCE.ORDER_CHANNEL.POS]: 'var(--color-brand-500)',
   [SALES_SOURCE.ORDER_CHANNEL.KIOSK]: 'var(--color-grey-500)',
   [SALES_SOURCE.ORDER_CHANNEL.DELIVERY_APP]: 'var(--color-brand-200)',
@@ -36,11 +37,14 @@ export const SALES_SOURCE_COLORS = {
 };
 
 const SALES_SOURCE_TYPES: readonly string[] = [
-  ...Object.values(SALES_SOURCE.SALE_TYPE),
+  ...Object.values(SALES_SOURCE.SALES_TYPE),
   ...Object.values(SALES_SOURCE.ORDER_CHANNEL),
   ...Object.values(SALES_SOURCE.PAY_METHOD),
 ];
 
-export const isSalesSourceType = (value: string): value is SalesSourceType => {
+type SalesSourceValues = DeepValueOf<typeof SALES_SOURCE>;
+export const isSalesSourceType = (
+  value: string,
+): value is SalesSourceValues => {
   return SALES_SOURCE_TYPES.includes(value);
 };

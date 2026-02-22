@@ -12,28 +12,28 @@ export const PAY_METHOD = {
   EXAMPLE_DELTA_SHARE: 6.7,
   EXAMPLE_PAY_METHOD_DATA: [
     {
-      payMethod: PAY_METHOD_KEYS[0],
+      salesType: PAY_METHOD_KEYS[0],
       salesAmount: 2371000,
       orderCount: 26,
       share: 25,
       deltaShare: 4.4,
     },
     {
-      payMethod: PAY_METHOD_KEYS[1],
+      salesType: PAY_METHOD_KEYS[1],
       salesAmount: 7531000,
       orderCount: 25,
       share: 25,
       deltaShare: 6.7,
     },
     {
-      payMethod: PAY_METHOD_KEYS[2],
+      salesType: PAY_METHOD_KEYS[2],
       salesAmount: 2567000,
       orderCount: 75,
       share: 25,
       deltaShare: -5.2,
     },
     {
-      payMethod: PAY_METHOD_KEYS[3],
+      salesType: PAY_METHOD_KEYS[3],
       salesAmount: 3894000,
       orderCount: 39,
       share: 25,

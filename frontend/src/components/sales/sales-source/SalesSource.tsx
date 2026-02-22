@@ -1,7 +1,7 @@
 import { PeriodTypeProvider } from './period-type-provider';
 import { RevenueByOrderChannel } from './RevenueByOrderChannel';
 import { RevenueByPayMethod } from './RevenueByPayMethod';
-import { RevenueBySaleType } from './RevenueBySaleType';
+import { RevenueBySalesType } from './RevenueBySalesType';
 import { SalesSourceHeader } from './SalesSourceHeader';
 
 export const SalesSource = () => {
@@ -10,7 +10,7 @@ export const SalesSource = () => {
       <PeriodTypeProvider>
         <SalesSourceHeader />
         <section className="mt-4 grid grid-cols-3 gap-5">
-          <RevenueBySaleType />
+          <RevenueBySalesType />
           <RevenueByOrderChannel />
           <RevenueByPayMethod />
         </section>
