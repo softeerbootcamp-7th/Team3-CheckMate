@@ -1,5 +1,5 @@
 import { DoughnutChart } from '@/components/shared';
-import { useCategorySales } from '@/hooks/menu/popular-menu/useCategorySales';
+import { useCategorySales } from '@/hooks/menu';
 
 import { MenuSalesRankingCardContentEmptyView } from '../shared';
 

@@ -1,4 +1,4 @@
-import { formatNumber } from '@/utils/shared/formatNumber';
+import { formatNumber } from '@/utils/shared';
 
 interface CategorySalesChartLegendItemProps {
   label: string;
