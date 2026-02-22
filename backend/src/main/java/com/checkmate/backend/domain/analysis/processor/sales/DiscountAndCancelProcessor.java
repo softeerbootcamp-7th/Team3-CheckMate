@@ -30,12 +30,19 @@ public class DiscountAndCancelProcessor implements AnalysisProcessor<SalesAnalys
     @Override
     public AnalysisResponse process(SalesAnalysisContext context) {
 
-        // 주문건수
-        Long orderCount =
-                salesAnalysisRepository.countOrders(
+        // 할인 건수
+        Long discountOrders =
+                salesAnalysisRepository.countDiscountOrders(
                         context.getStoreId(), context.getStartDate(), context.getEndDate());
 
-        orderCount = Optional.ofNullable(orderCount).orElse(0L);
+        discountOrders = Optional.ofNullable(discountOrders).orElse(0L);
+
+        // 취소 건수
+        Long countCanceledOrders =
+                salesAnalysisRepository.countCanceledOrders(
+                        context.getStoreId(), context.getStartDate(), context.getEndDate());
+
+        countCanceledOrders = Optional.ofNullable(countCanceledOrders).orElse(0L);
 
         // 할인
         Long discountAmount =
@@ -50,7 +57,8 @@ public class DiscountAndCancelProcessor implements AnalysisProcessor<SalesAnalys
         canceledAmount = Optional.ofNullable(canceledAmount).orElse(0L);
 
         DiscountAndCancelResponse response =
-                new DiscountAndCancelResponse(orderCount, discountAmount, canceledAmount);
+                new DiscountAndCancelResponse(
+                        discountOrders, countCanceledOrders, discountAmount, canceledAmount);
 
         return new AnalysisResponse(context.getAnalysisCardCode(), response, response);
     }

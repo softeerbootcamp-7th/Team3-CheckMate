@@ -8,13 +8,13 @@ export {
   RealSalesContent,
 } from './dashboard-current-sales';
 export {
-  DashboardSalesIncomeContent,
+  DashboardSalesSourceContent,
   SalesTypeContent,
   OrderChannelContent,
-  PaymentMethodContent,
+  PayMethodContent,
   SalesTypeContentEmptyView,
-  PaymentMethodContentEmptyView,
+  PayMethodContentEmptyView,
   OrderChannelContentEmptyView,
-} from './dashboard-sales-income';
+} from './dashboard-sales-source';
 export { PeakTimeContent, SalesByDayContent } from './dashboard-sales-pattern';
 export { SalesTrendContent } from './dashboard-sales-trend';

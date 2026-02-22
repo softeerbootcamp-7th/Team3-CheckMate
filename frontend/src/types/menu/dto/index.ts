@@ -3,6 +3,10 @@ export type {
   MenuSales,
 } from './getMenuSalesRankingDto';
 export type {
+  GetCategorySalesResponseDto,
+  CategorySales,
+} from './getCategorySalesDto';
+export type {
   GetIngredientUsageRankingResponseDto,
   IngredientUsage,
 } from './getIngredientUsageRankingDto';
@@ -14,3 +18,6 @@ export type {
 export type { GetDashboardTimeSlotMenuOrderCountResponseDto } from './getDashboardTimeSlotMenuOrderCountDto';
 export type { GetDashboardPopularMenuCombinationResponseDto } from './getDashboardPopularMenuCombinationDto';
 export type { GetDetailTimeSlotMenuOrderCountResponseDto } from './getDetailTimeSlotMenuOrderCountDto';
+export type { GetMenuListResponseDto } from './getMenuListDto';
+export type { PostMenusRequestDto } from './postMenusDto';
+export type { PostOrderRequestDto } from './postOrderDto';

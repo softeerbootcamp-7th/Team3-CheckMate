@@ -3,8 +3,6 @@ package com.checkmate.backend.domain.report.service;
 import com.checkmate.backend.domain.report.dto.response.CalendarResponse;
 import com.checkmate.backend.domain.report.dto.response.ReportResponse;
 import com.checkmate.backend.domain.report.repository.ReportRepository;
-import com.checkmate.backend.global.exception.NotFoundException;
-import com.checkmate.backend.global.response.ErrorStatus;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

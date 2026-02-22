@@ -39,7 +39,7 @@ const SALES_METRICS = {
         },
       },
     },
-    INCOME_STRUCTURE: {
+    SALES_SOURCE: {
       title: '매출 유입 구조',
       items: {
         SALES_TYPE: {
@@ -50,7 +50,7 @@ const SALES_METRICS = {
           label: '주문수단별 매출',
           cardCodes: ['SLS_07_01', 'SLS_07_02', 'SLS_07_03'] as const,
         },
-        PAYMENT_METHOD: {
+        PAY_METHOD: {
           label: '결제수단별 매출',
           cardCodes: ['SLS_08_01', 'SLS_08_02', 'SLS_08_03'] as const,
         },
@@ -131,50 +131,50 @@ const MENU_METRICS = {
   },
 } as const satisfies MetricTabs;
 
-const WEATHER_METRICS = {
-  tab: '날씨분석',
-  sections: {
-    WEATHER_FORECAST: {
-      title: '날씨예보',
-      items: {
-        TODAY_WEATHER_FORECAST: {
-          label: '오늘 날씨 예보',
-          cardCodes: ['WTH_01_01'] as const,
-        },
-        TODAY_WEATHER_FORECAST_HOURLY: {
-          label: '오늘 시간별 예보',
-          cardCodes: ['WTH_02_01'] as const,
-        },
-        WEEKLY_WEATHER_FORECAST: {
-          label: '주간 날씨 예보',
-          cardCodes: ['WTH_03_04'] as const,
-        },
-      },
-    },
-    RAIN_INFLUENCE: {
-      title: '강수 영향도',
-      items: {
-        RAIN_INSIGHT: {
-          label: '강수 인사이트',
-          cardCodes: ['WTH_04_07'] as const,
-        },
-        ORDER_COUNT_RATIO: {
-          label: '강수 유무 판매채널별 주문건수 비율',
-          cardCodes: ['WTH_05_07'] as const,
-        },
-        ORDER_COUNT_AND_SALES_CHANGE: {
-          label: '강수 주문수 및 매출 변화',
-          cardCodes: ['WTH_06_07'] as const,
-        },
-      },
-    },
-  },
-} as const satisfies MetricTabs;
+// const WEATHER_METRICS = {
+//   tab: '날씨분석',
+//   sections: {
+//     WEATHER_FORECAST: {
+//       title: '날씨예보',
+//       items: {
+//         TODAY_WEATHER_FORECAST: {
+//           label: '오늘 날씨 예보',
+//           cardCodes: ['WTH_01_01'] as const,
+//         },
+//         TODAY_WEATHER_FORECAST_HOURLY: {
+//           label: '오늘 시간별 예보',
+//           cardCodes: ['WTH_02_01'] as const,
+//         },
+//         WEEKLY_WEATHER_FORECAST: {
+//           label: '주간 날씨 예보',
+//           cardCodes: ['WTH_03_04'] as const,
+//         },
+//       },
+//     },
+//     RAIN_INFLUENCE: {
+//       title: '강수 영향도',
+//       items: {
+//         RAIN_INSIGHT: {
+//           label: '강수 인사이트',
+//           cardCodes: ['WTH_04_07'] as const,
+//         },
+//         ORDER_COUNT_RATIO: {
+//           label: '강수 유무 판매채널별 주문건수 비율',
+//           cardCodes: ['WTH_05_07'] as const,
+//         },
+//         ORDER_COUNT_AND_SALES_CHANGE: {
+//           label: '강수 주문수 및 매출 변화',
+//           cardCodes: ['WTH_06_07'] as const,
+//         },
+//       },
+//     },
+//   },
+// } as const satisfies MetricTabs;
 
 export const DASHBOARD_METRICS = {
   SALES: SALES_METRICS,
   MENU: MENU_METRICS,
-  WEATHER: WEATHER_METRICS,
+  // WEATHER: WEATHER_METRICS,
 } as const satisfies Record<string, MetricTabs>;
 
 /**
@@ -257,16 +257,15 @@ export const isAveragePriceMetricCardCode =
     SALES_METRICS.sections.CURRENT_SALES.items.AVERAGE_PRICE,
   );
 export const isSalesTypeMetricCardCode = createMetricCardCodeBySectionItemGuard(
-  SALES_METRICS.sections.INCOME_STRUCTURE.items.SALES_TYPE,
+  SALES_METRICS.sections.SALES_SOURCE.items.SALES_TYPE,
 );
 export const isOrderChannelMetricCardCode =
   createMetricCardCodeBySectionItemGuard(
-    SALES_METRICS.sections.INCOME_STRUCTURE.items.ORDER_CHANNEL,
+    SALES_METRICS.sections.SALES_SOURCE.items.ORDER_CHANNEL,
   );
-export const isPaymentMethodMetricCardCode =
-  createMetricCardCodeBySectionItemGuard(
-    SALES_METRICS.sections.INCOME_STRUCTURE.items.PAYMENT_METHOD,
-  );
+export const isPayMethodMetricCardCode = createMetricCardCodeBySectionItemGuard(
+  SALES_METRICS.sections.SALES_SOURCE.items.PAY_METHOD,
+);
 export const isDailySalesTrendMetricCardCode =
   createMetricCardCodeBySectionItemGuard(
     SALES_METRICS.sections.SALES_TREND.items.DAILY_SALES_TREND,

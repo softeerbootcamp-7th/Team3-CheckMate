@@ -14,11 +14,13 @@ import { PeakTimeChartCaption } from './PeakTimeChartCaption';
 interface PeakTimeContentProps {
   peakTimeData: GetDetailPeakTimeResponseDto;
   className?: string;
+  disableCaption?: boolean;
 }
 
 export const PeakTimeContent = ({
   peakTimeData,
   className,
+  disableCaption = false,
 }: PeakTimeContentProps) => {
   const weekday = DAY_OF_WEEK_LIST[(new Date().getDay() + 6) % 7];
 
@@ -76,18 +78,20 @@ export const PeakTimeContent = ({
   return (
     <article
       className={cn(
-        'flex w-75 flex-col items-start justify-start gap-1',
+        '-mt-1 flex w-75 flex-col items-start justify-start gap-1',
         className,
       )}
     >
-      <div className="flex items-center gap-1.5">
-        <PeakTimeChartCaption label="실시간" color="primary" />
-        <PeakTimeChartCaption
-          label={`${weekday}요일 평균(4주)`}
-          color="default"
-        />
-      </div>
-      <div className="h-22.5 w-75 pt-2">
+      {!disableCaption && (
+        <div className="absolute top-5.5 left-26 flex items-center gap-1.5">
+          <PeakTimeChartCaption label="실시간" color="primary" />
+          <PeakTimeChartCaption
+            label={`${weekday}요일 평균(4주)`}
+            color="default"
+          />
+        </div>
+      )}
+      <div className="mb-1 h-22.5 w-75">
         <LineChart
           viewBoxWidth={260}
           viewBoxHeight={90}

@@ -43,18 +43,18 @@ export const SalesByDayContent = ({
   return (
     <article
       className={cn(
-        'flex w-75 flex-col items-start justify-start gap-1',
+        '-mt-4.5 flex w-75 flex-col items-start justify-start gap-1.75',
         className,
       )}
     >
       <BarChart
         viewBoxWidth={300}
         viewBoxHeight={90}
-        barChartSeries={salesByDaySeries}
+        primarySeries={salesByDaySeries}
         hasXAxis
         hasBarGradient
         yGuideLineCount={4}
-        hasBarLabel={false}
+        showBarLabel={false}
         barColorChangeOnHover={false}
         activeDataIndex={activeDataIndex === -1 ? undefined : activeDataIndex}
         xAxisType="default"

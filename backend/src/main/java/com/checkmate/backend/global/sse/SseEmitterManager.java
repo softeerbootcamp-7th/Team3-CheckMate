@@ -1,6 +1,8 @@
 package com.checkmate.backend.global.sse;
 
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
+import com.checkmate.backend.global.exception.BadRequestException;
+import com.checkmate.backend.global.response.ErrorStatus;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
@@ -13,66 +15,110 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class SseEmitterManager {
 
     // StoreId -> SseEmitter
-    @Getter private final Map<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
+    @Getter private final Map<Long, SseSession> emitters = new ConcurrentHashMap<>();
 
     // StoreId -> subscribed topics
     private final Map<Long, Set<AnalysisCardCode>> clientTopics = new ConcurrentHashMap<>();
 
-    public void addEmitter(Long storeId, SseEmitter newEmitter) {
+    public SseEmitter addEmitter(Long storeId) {
+        // 타임아웃 5분
+        SseEmitter emitter = new SseEmitter(300_000L);
+        String emitterId = UUID.randomUUID().toString();
+
+        log.info("[SSE][connect][storeId= {}, emitterId= {}]", storeId, emitterId);
+
         emitters.compute(
                 storeId,
-                (key, existingEmitter) -> {
-                    if (existingEmitter != null) {
+                (key, existingSession) -> {
+                    if (existingSession != null) {
+                        String existingEmitterId = existingSession.emitterId();
+                        SseEmitter existingEmitter = existingSession.emitter();
+
                         try {
+
                             existingEmitter.complete(); // 기존 연결 종료
-                            log.info("[SSE] Existing emitter completed for storeId={}", storeId);
+
+                            log.info(
+                                    "[SSE][Existing emitter completed][storeId={}, existing EmitterId= {}]",
+                                    storeId,
+                                    existingEmitterId);
                         } catch (Exception e) {
                             log.warn(
-                                    "[SSE] Failed to complete existing emitter for storeId={}",
+                                    "[SSE][Failed to complete existing emitter][storeId={}, existing EmitterId= {}]",
                                     storeId,
+                                    existingEmitterId,
                                     e);
                         }
-                        clientTopics.remove(storeId); // 기존 topic만 정리
                     }
-                    return newEmitter; // 새 Emitter 등록
+                    return new SseSession(emitterId, emitter); // 새 Emitter 등록
                 });
 
-        // Emitter 이벤트에서는 Map 제거 X
-        newEmitter.onCompletion(() -> log.info("[SSE][disconnect][storeId={}]", storeId));
-        newEmitter.onTimeout(() -> log.info("[SSE][timeout][storeId={}]", storeId));
-        newEmitter.onError(
-                e -> log.warn("[SSE][error][storeId={} reason={}]", storeId, e.getMessage()));
+        emitter.onCompletion(
+                () -> {
+                    log.info("[onCompletion][storeId={}, emitterId={}]", storeId, emitterId);
+
+                    // emitter 제거
+                    emitters.computeIfPresent(
+                            storeId,
+                            (key, session) ->
+                                    session.emitterId().equals(emitterId) ? null : session);
+
+                    // emitter 없으면 topics 제거
+                    emitters.compute(
+                            storeId,
+                            (key, session) -> {
+                                if (session == null) {
+                                    clientTopics.remove(storeId);
+                                    log.info("[onCompletion][topics removed][storeId={}]", storeId);
+                                }
+                                return session;
+                            });
+                });
+
+        emitter.onTimeout(
+                () -> log.info("[onTimeout][storeId={}, emitterId={}]", storeId, emitterId));
+        emitter.onError(e -> log.warn("[onError][storeId={} reason={}]", storeId, e.getMessage()));
+
+        return emitter;
     }
 
-    public SseEmitter getEmitter(Long storeId) {
+    public SseSession getEmitter(Long storeId) {
         return emitters.get(storeId);
     }
 
     public void removeClient(Long storeId) {
-        SseEmitter sseEmitter = emitters.remove(storeId);
+        SseSession session = emitters.get(storeId); // Map에서 제거하지 않고 가져오기
 
-        // emitter가 존재하면 종료
-        if (sseEmitter != null) {
+        if (session != null) {
             try {
-                sseEmitter.complete();
+                session.emitter().complete(); // emitter만 종료
             } catch (Exception e) {
-                // 종료 중 예외 로그
                 log.warn(
                         "[removeClient][Failed to complete SseEmitter for storeId={}]", storeId, e);
             }
         }
-
-        // clientTopics에서도 제거
-        clientTopics.remove(storeId);
     }
 
-    public void subscribe(Long storeId, SubscriptionTopicsRequest SubscriptionTopicsRequest) {
+    public void subscribe(Long storeId, SubscriptionTopicsRequest subscriptionRequest) {
 
-        List<AnalysisCardCode> topics = SubscriptionTopicsRequest.topics();
+        emitters.compute(
+                storeId,
+                (key, session) -> {
+                    if (session == null) {
+                        log.warn("[subscribe][SSE 연결 없이 구독 시도][storeId= {}]", storeId);
+                        throw new BadRequestException(ErrorStatus.SUBSCRIBE_WITHOUT_SSE);
+                    }
 
-        for (AnalysisCardCode topic : topics) {
-            clientTopics.computeIfAbsent(storeId, k -> ConcurrentHashMap.newKeySet()).add(topic);
-        }
+                    Set<AnalysisCardCode> newTopics =
+                            Optional.ofNullable(subscriptionRequest.topics())
+                                    .map(Set::copyOf)
+                                    .orElseGet(Set::of);
+
+                    // 기존 구독을 덮어쓰거나 새로 삽입
+                    clientTopics.put(storeId, newTopics);
+
+                    return session;
+                });
     }
 
     public void unsubscribe(Long storeId, SubscriptionTopicsRequest request) {

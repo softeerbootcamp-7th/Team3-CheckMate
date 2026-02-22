@@ -22,9 +22,9 @@ export const SalesSourceChart = ({
   const chartData: DoughnutChartItem[] = useMemo(
     () =>
       salesSourceData.map((item) => ({
-        label: item.salesSourceType,
-        value: item.revenue,
-        color: SALES_SOURCE_COLORS[item.salesSourceType],
+        label: item.salesSource,
+        value: item.salesAmount,
+        color: SALES_SOURCE_COLORS[item.salesSource],
       })),
     [salesSourceData],
   );

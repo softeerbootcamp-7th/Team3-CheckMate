@@ -12,6 +12,7 @@ import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
 import com.checkmate.backend.domain.order.OrderCreatedEvent;
 import com.checkmate.backend.global.exception.BadRequestException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class DashboardAnalysisService {
 
         List<DashboardAnalysisDataResponse.DashboardAnalysisItem> items = new ArrayList<>();
 
-        LocalDateTime anchor = LocalDateTime.now();
+        LocalDateTime anchor = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
         for (AnalysisCardCode analysisCardCode : analysisCardCodes) {
             // 1. Context 생성

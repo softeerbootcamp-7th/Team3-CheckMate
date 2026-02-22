@@ -6,6 +6,7 @@ export {
   formatDateLocalized,
   formatDateYYMMDDHHMM,
   formatDateISO,
+  formatDateForDto,
 } from './formatDate';
 export {
   formatRelativeTime,
@@ -32,7 +33,12 @@ export {
 export { formatPriceWithComma } from './formatPriceWithComma';
 export { formatNumber, formatNumberInTenThousands } from './formatNumber';
 export { filterCoordinate } from './line-chart';
-export { getXCoordinate, calculateMaximumY, createChartData } from './chart';
+export {
+  getXCoordinate,
+  calculateMaximumY,
+  createChartData,
+  createChartDataGroupedBy,
+} from './chart';
 
 export {
   computeChartDataWithPercentage,
@@ -45,12 +51,11 @@ export {
 export { createPeriodTypeProvider } from './period-select';
 export { assertNever } from './assertNever';
 export type { Nullable } from './nullable';
-export { getNextHour } from './getNextHour';
+export { getNextHour, getHourLabel } from './formatHour';
 export { getCoordinate } from './getCoordinate';
 export {
   getBarSegmentInfoList,
   checkIsStackBarChart,
-  getTooltipContent,
   getStackTotalAmount,
   getBarHeight,
   getBarWidth,

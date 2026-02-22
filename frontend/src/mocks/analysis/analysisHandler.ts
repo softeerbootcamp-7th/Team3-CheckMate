@@ -2,17 +2,11 @@ import { HttpResponse, passthrough } from 'msw';
 
 import {
   isOrderChannelMetricCardCode,
-  isPaymentMethodMetricCardCode,
+  isPayMethodMetricCardCode,
   isSalesTypeMetricCardCode,
-  isWeekdaySalesPatternMetricCardCode,
 } from '@/constants/dashboard';
 import { isMenuMetricCardCodes } from '@/constants/menu';
-import {
-  ORDER_CHANNEL,
-  PAYMENT_METHOD,
-  SALES_BY_DAY,
-  SALES_TYPE,
-} from '@/constants/sales';
+import { ORDER_CHANNEL, PAY_METHOD, SALES_TYPE } from '@/constants/sales';
 import type { SuccessResponse } from '@/services/shared';
 import type {
   GetIngredientUsageRankingResponseDto,
@@ -20,10 +14,9 @@ import type {
   GetPopularMenuCombinationResponseDto,
 } from '@/types/menu';
 import type {
-  GetDetailSalesByDayResponseDto,
-  GetIncomeStructureByOrderChannelResponseDto,
-  GetIncomeStructureByPaymentMethodResponseDto,
-  GetIncomeStructureBySalesTypeResponseDto,
+  GetSalesSourceByOrderChannelResponseDto,
+  GetSalesSourceByPayMethodResponseDto,
+  GetSalesSourceBySalesTypeResponseDto,
 } from '@/types/sales';
 
 import {
@@ -61,7 +54,7 @@ const getHandler = [
 
     if (isSalesTypeMetricCardCode(cardCode)) {
       return HttpResponse.json<
-        SuccessResponse<GetIncomeStructureBySalesTypeResponseDto>
+        SuccessResponse<GetSalesSourceBySalesTypeResponseDto>
       >({
         success: true,
         message: 'Success',
@@ -78,7 +71,7 @@ const getHandler = [
 
     if (isOrderChannelMetricCardCode(cardCode)) {
       return HttpResponse.json<
-        SuccessResponse<GetIncomeStructureByOrderChannelResponseDto>
+        SuccessResponse<GetSalesSourceByOrderChannelResponseDto>
       >({
         success: true,
         message: 'Success',
@@ -93,9 +86,9 @@ const getHandler = [
       });
     }
 
-    if (isPaymentMethodMetricCardCode(cardCode)) {
+    if (isPayMethodMetricCardCode(cardCode)) {
       return HttpResponse.json<
-        SuccessResponse<GetIncomeStructureByPaymentMethodResponseDto>
+        SuccessResponse<GetSalesSourceByPayMethodResponseDto>
       >({
         success: true,
         message: 'Success',
@@ -105,23 +98,9 @@ const getHandler = [
             topShare: 46,
             deltaShare: 6.7,
           },
-          items: PAYMENT_METHOD.EXAMPLE_PAYMENT_METHOD_DATA,
+          items: PAY_METHOD.EXAMPLE_PAY_METHOD_DATA,
         },
       });
-    }
-
-    if (isWeekdaySalesPatternMetricCardCode(cardCode)) {
-      return HttpResponse.json<SuccessResponse<GetDetailSalesByDayResponseDto>>(
-        {
-          success: true,
-          message: 'Success',
-          data: {
-            topDay: '금',
-            isSignificant: false,
-            items: SALES_BY_DAY.EXAMPLE_DATA,
-          },
-        },
-      );
     }
 
     if (isMenuMetricCardCodes(cardCode)) {

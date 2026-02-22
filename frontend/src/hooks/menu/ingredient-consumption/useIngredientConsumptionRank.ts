@@ -4,7 +4,7 @@ import { INGREDIENT_CONSUMPTION_RANK, MENU_METRIC } from '@/constants/menu';
 import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { menuOptions } from '@/services/menu';
 import type { GetIngredientUsageRankingResponseDto } from '@/types/menu';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UseIngredientConsumptionRankProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.todayOnly>;
@@ -25,15 +25,13 @@ export const useIngredientConsumptionRank = ({
       {
         analysisCardCode: cardCode,
         customPeriod: !periodType,
-        from: startDate ? formatDateISO(startDate) : undefined,
-        to: endDate ? formatDateISO(endDate) : undefined,
+        from: formatDateForDto(startDate),
+        to: formatDateForDto(endDate),
       },
     ),
   );
 
   const rankItems = data?.items ?? [];
-
-  const isEmptyRankItems = rankItems.length === 0;
 
   const slicedRankItems = rankItems.slice(
     0,
@@ -60,7 +58,6 @@ export const useIngredientConsumptionRank = ({
 
   return {
     hasIngredient: data?.hasIngredient ?? false,
-    isEmptyRankItems,
     rankItems1to5,
     rankItems6to10,
   };

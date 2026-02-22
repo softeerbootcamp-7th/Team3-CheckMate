@@ -21,8 +21,20 @@ const getDashboardMenuRankItems = ({
       totalAmount: item.totalSalesAmount,
       unit: '원' as const,
     }))
+    .concat(
+      Array.from({
+        length: Math.max(
+          0,
+          DASHBOARD_RANKING.MAX_DISPLAYED_RANK_ITEMS - items.length,
+        ),
+      }).map((_, index) => ({
+        rank: items.length + index + 1,
+        unit: '원' as const,
+        ...DASHBOARD_RANKING.EMPTY_RANK_ITEM,
+      })),
+    )
     .slice(0, DASHBOARD_RANKING.MAX_DISPLAYED_RANK_ITEMS);
-  // 최대 4등까지만 보여줌
+  // 4등까지 보여줌
 };
 
 interface MenuSalesRankingCardContentProps extends GetMenuSalesRankingResponseDto {

@@ -6,9 +6,9 @@ export {
 } from './dashboard-sales-pattern';
 export { getSalesCurrentComparisonMessage } from './dashboard-current-sales';
 export {
-  getSalesIncomeStructureComparisonMessage,
-  getSalesIncomeStructureInsight,
-} from './dashboard-sales-income';
+  getSalesSourceComparisonMessage,
+  getSalesSourceInsight,
+} from './dashboard-sales-source';
 export {
   getAveragePriceCardCode,
   getDiscountAndCancellationCardCode,
@@ -17,7 +17,14 @@ export {
   getTotalSalesCardCode,
 } from './sales-overview';
 export {
+  getSalesTypeCardCode,
+  getOrderChannelCardCode,
+  getPayMethodCardCode,
+} from './sales-source';
+export {
   getDailyRevenueTrendCardCode,
   getWeeklyRevenueTrendCardCode,
   getMonthlyRevenueTrendCardCode,
+  getYearlyRevenueTrendCardCode,
 } from './sales-trends';
+export { getWeekdaySalesPatternCardCode } from './sales-pattern';

@@ -37,7 +37,7 @@ const parseRawEvent = (rawEvent: string, onRetry?: (retry: number) => void) => {
     }
 
     if (line.startsWith('data:')) {
-      data = line.replace('data:', '').trim();
+      data += line.replace('data:', '');
       continue;
     }
 
@@ -91,12 +91,18 @@ interface SseClientOptions extends RequestInit {
   onclose?: () => void;
 
   /**
-   * request 생성, 메세지 처리, 콜백 실행 등에서 에러가 발생 시 호출됨
-   * retry 로직을 설계하는 것이 좋음: 치명적 에러는 rethrow, 그렇지 않으면 interval을 반환하여 마지막으로 수신한 event에 대해 자동으로 retry를 수행할 수 있음
-   * 정의하지 않을 시 1초 후 retry를 수행
+   * request 생성, 메세지 처리, 콜백 실행 등에서 request 생성에러가 발생 시 호출됨
+   * retryInterval과 함께 사용하면 에러 알림 후 retry를 수행
+   */
+  onerror?: (err: unknown) => void;
+
+  /**
+   * 에러 발생 시 retry interval(ms)을 반환하는 콜백
+   * 정의하면 반환된 interval 후 자동으로 재연결을 시도함
+   * retry 로직을 설계하는 것이 좋음: 치명적 에러는 rethrow, 그렇지 않으면 interval 반환하여 마지막으로 수신한 event에 대해 자동으로 retry를 수행할 수 있음
    */
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  onerror?: (err: unknown) => number | null | undefined | void;
+  retryIntervalFn?: (err: unknown) => number | null | undefined | void;
 
   /**
    * 브라우저가 숨겨진 상태에서도 연결을 유지하길 원하면 true로 설정
@@ -115,6 +121,7 @@ export const sseClient = (
     onmessage,
     onclose,
     onerror,
+    retryIntervalFn,
     openWhenHidden,
     ...rest
   }: SseClientOptions,
@@ -207,7 +214,7 @@ export const sseClient = (
 
           let delimiterIndex: number;
           while ((delimiterIndex = buffer.indexOf('\n\n')) !== -1) {
-            const rawEvent = buffer.substring(0, delimiterIndex).trim();
+            const rawEvent = buffer.substring(0, delimiterIndex);
             buffer = buffer.substring(delimiterIndex + 2);
             if (rawEvent) {
               const message = parseRawEvent(rawEvent, (retry) => {
@@ -226,28 +233,31 @@ export const sseClient = (
         resolve();
       } catch (error) {
         if (!currentRequestAbortController.signal.aborted) {
-          try {
-            const interval = onerror?.(error) ?? retryInterval;
+          // 401 에러 시 토큰 갱신 후 재시도 (retryIntervalFn 유무와 무관)
+          if (isApiError(error) && error.status === 401) {
+            await postAuthRefresh()
+              .then(({ accessToken }) => {
+                authToken.set(accessToken);
+                headers.set('Authorization', `Bearer ${accessToken}`);
+                window.clearTimeout(retryTimer);
+                retryTimer = window.setTimeout(create, DEFAULT_RETRY_INTERVAL);
+              })
+              .catch((err) => {
+                dispose();
+                reject(err);
+              });
+            return;
+          }
+
+          if (retryIntervalFn) {
+            // retryInterval이 정의된 경우: onerror 알림 후 재시도
+            onerror?.(error);
+            const interval = retryIntervalFn(error) ?? retryInterval;
             window.clearTimeout(retryTimer);
             retryTimer = window.setTimeout(create, interval);
-          } catch (error) {
-            if (isApiError(error) && error.status === 401) {
-              await postAuthRefresh()
-                .then(({ accessToken }) => {
-                  authToken.set(accessToken);
-                  window.clearTimeout(retryTimer);
-                  retryTimer = window.setTimeout(
-                    create,
-                    DEFAULT_RETRY_INTERVAL,
-                  );
-                })
-                .catch((err) => {
-                  dispose();
-                  reject(err);
-                });
-              return;
-            }
-
+          } else {
+            // retryInterval이 없는 경우: onerror 알림 후 연결 종료
+            onerror?.(error);
             dispose();
             reject(error);
           }

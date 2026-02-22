@@ -6,19 +6,16 @@ interface GetBarSegmentInfoListParams {
   barTopY: number;
   barHeight: number;
   totalAmount: number;
+  barSegmentCount: number; // 스택 바를 구성하는 조각 바의 개수
 }
 export const getBarSegmentInfoList = ({
   stackBarData,
   barTopY,
   barHeight,
   totalAmount,
+  barSegmentCount,
 }: GetBarSegmentInfoListParams) => {
-  // 스택 내부 데이터를 금액 기준으로 내림차순 정렬
-  const sortedStackBarData = [...stackBarData].sort(
-    (a, b) => Number(b.amount) - Number(a.amount),
-  );
-
-  return sortedStackBarData.reduce<{
+  return stackBarData.reduce<{
     percentage: number; // 앞에서 부터 누적된 퍼센트
     barSegmentInfoList: {
       y: number;
@@ -30,20 +27,17 @@ export const getBarSegmentInfoList = ({
   }>(
     (acc, segment, index) => {
       const amount = Number(segment.amount) || 0;
-      if (index > STACK_BAR_CHART.TOP_RANK) {
-        return acc; // 4번째 데이터부터는 앞에서 기타로 묶였으므로 건너뛰어야함
-      }
 
       // 현재 조각 바의 상단 중간 y 좌표
-      const currentY = barTopY + (acc.percentage / 100) * barHeight;
+      const barSegmentY = barTopY + (acc.percentage / 100) * barHeight;
 
       // 현재 조각 바의 % 비율
       const percentage =
-        totalAmount > 0
-          ? index < STACK_BAR_CHART.TOP_RANK //가장 많이 팔린거 3개 외에는 기타로 묶임
-            ? Math.round((amount / totalAmount) * 100 * 10) / 10 // 퍼센트는 소수점 첫째자리까지 반올림
-            : 100 - acc.percentage
-          : 0;
+        index === barSegmentCount - 1 // 마지막 조각바의 경우
+          ? Math.round(Math.max(0, 100 - acc.percentage) * 10) / 10 // 마지막 조각 바는 나머지 퍼센트를 모두 가져감 (소수점 반올림으로 인한 오차 보정). 음수가 된다명 0으로 처리
+          : totalAmount > 0
+            ? Math.round((amount / totalAmount) * 100 * 10) / 10 // 퍼센트는 소수점 첫째자리까지 반올림. 여기서 생기는 미세한 오차(+,-)는 마지막 바 조각이 다 떠안고 감
+            : 0;
 
       // 현재 조각 바의 높이
       const barSegmentHeight = (percentage / 100) * barHeight;
@@ -53,11 +47,10 @@ export const getBarSegmentInfoList = ({
         barSegmentInfoList: [
           ...acc.barSegmentInfoList,
           {
-            y: currentY,
+            y: barSegmentY,
             barHeight: barSegmentHeight,
-            percentage: Math.round(percentage * 10) / 10,
-            //가장 많이 팔린거(3개만)개 외에는 기타로 전체 묶임
-            label: index >= STACK_BAR_CHART.TOP_RANK ? '기타' : segment.label,
+            percentage,
+            label: segment.label,
             color: segment.color ?? STACK_BAR_CHART.RANK_COLOR[index],
           },
         ],

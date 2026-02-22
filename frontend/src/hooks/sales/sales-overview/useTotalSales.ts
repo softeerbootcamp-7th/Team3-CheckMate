@@ -4,7 +4,7 @@ import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetTotalSalesResponseDto } from '@/types/sales';
 import { getTotalSalesCardCode } from '@/utils/sales/';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UseTotalSalesProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth>;
@@ -23,8 +23,8 @@ export const useTotalSales = ({
     salesOptions.totalSales<GetTotalSalesResponseDto>({
       analysisCardCode: totalSalesCardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   );
   const { grossAmount, orderCount } = data;

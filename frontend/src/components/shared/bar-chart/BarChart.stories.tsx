@@ -3,11 +3,11 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
-  PRIMARY_SERIES_MOCK,
-  SECONDARY_SERIES_MOCK,
-  WEEKLY_DATA,
+  BAR_SERIES_MOCK,
+  STACK_BAR,
+  STACK_BAR_HOURLY,
+  WEEKLY_BAR_DATA,
 } from '@/mocks/data';
-import { STACK_BAR, STACK_BAR_HOURLY } from '@/mocks/data/storybook/';
 import type { BarChartSeries, StackBarChartSeries } from '@/types/shared';
 
 import { Button, TooltipProvider } from '../shadcn-ui';
@@ -37,7 +37,7 @@ const meta = {
     yGuideLineCount: {
       control: 'number',
     },
-    barChartSeries: {
+    primarySeries: {
       control: 'object',
     },
     // secondarySeries: {
@@ -71,7 +71,7 @@ export const Default: Story = {
     showXGuideLine: true,
     showYGuideLine: true,
     yGuideLineCount: 4,
-    barChartSeries: WEEKLY_DATA,
+    primarySeries: WEEKLY_BAR_DATA,
     activeTooltip: true,
     tooltipContent: (mainY, subY) => `${mainY} (${subY})`,
     chartTitle: '일별 매출 꺾은선 차트',
@@ -103,10 +103,17 @@ export const StackBar: Story = {
     showXGuideLine: true,
     showYGuideLine: true,
     yGuideLineCount: 4,
-    barChartSeries: STACK_BAR,
+    primarySeries: STACK_BAR,
     activeTooltip: true,
     chartTitle: '일별 매출 꺾은선 차트',
     chartDescription: '일별 매출 꺾은선 차트 설명',
+    tooltipContent: (
+      label: string, // 메뉴명
+      orderCount: string, // 주문 건수
+      percentage: string, // 퍼센트
+    ) => {
+      return `${label}, ${orderCount}건(${percentage})`;
+    },
     xAxisType: 'right-arrow',
     activeDataIndex: 3,
     barColorChangeOnHover: true,
@@ -126,18 +133,18 @@ export const StackBar: Story = {
 };
 
 const RealtimeBarChart = (args: Story['args']) => {
-  const [barChartSeries, setBarChartSeries] = useState<BarChartSeries>(
-    args.barChartSeries as BarChartSeries,
+  const [primarySeries, setBarChartSeries] = useState<BarChartSeries>(
+    args.primarySeries as BarChartSeries,
   );
 
   const [activeDataIndex, setActiveDataIndex] = useState<number>(
-    args.barChartSeries.data.mainX.length - 1,
+    args.primarySeries.data.mainX.length - 1,
   );
 
   const handleUpdateCurrentBarChartSeries = () => {
     let currentIndex =
-      barChartSeries.data.mainY.filter((datum) => datum.amount !== null)
-        .length - 1;
+      primarySeries.data.mainY.filter((datum) => datum.amount !== null).length -
+      1;
 
     if (currentIndex < 0) {
       currentIndex = 0;
@@ -153,8 +160,8 @@ const RealtimeBarChart = (args: Story['args']) => {
 
       newMainY[currentIndex] = {
         ...newMainY[currentIndex],
-        amount: +currentAmount + Math.floor(Math.random() * 10),
-        unit: '건',
+        amount: +currentAmount + Math.floor(Math.random() * 10000),
+        unit: '원',
       };
 
       // newSubY[currentIndex] = {
@@ -175,11 +182,11 @@ const RealtimeBarChart = (args: Story['args']) => {
   };
 
   const handleUpdateNextBarChartSeries = () => {
-    const nextIndex = barChartSeries.data.mainY.filter(
+    const nextIndex = primarySeries.data.mainY.filter(
       (datum) => datum.amount !== null,
     ).length;
 
-    // if (nextIndex === barChartSeries.data.mainY.length) {
+    // if (nextIndex === primarySeries.data.mainY.length) {
     //   return;
     // }
 
@@ -209,7 +216,7 @@ const RealtimeBarChart = (args: Story['args']) => {
   };
 
   const handleReset = () => {
-    setBarChartSeries(PRIMARY_SERIES_MOCK);
+    setBarChartSeries(BAR_SERIES_MOCK);
   };
 
   return (
@@ -223,7 +230,7 @@ const RealtimeBarChart = (args: Story['args']) => {
         >
           <BarChart
             {...args}
-            barChartSeries={barChartSeries}
+            primarySeries={primarySeries}
             activeDataIndex={activeDataIndex}
             //secondarySeries={secondarySeries}
           />
@@ -257,13 +264,13 @@ const RealtimeBarChart = (args: Story['args']) => {
   );
 };
 const RealtimeStackBarChart = (args: Story['args']) => {
-  const [barChartSeries, setBarChartSeries] = useState<StackBarChartSeries>(
-    args.barChartSeries as StackBarChartSeries,
+  const [primarySeries, setBarChartSeries] = useState<StackBarChartSeries>(
+    args.primarySeries as StackBarChartSeries,
   );
 
   const handleUpdateCurrentBarChartSeries = () => {
     const currentIndex =
-      barChartSeries.data.mainY.filter((stack) => stack && stack.length > 0)
+      primarySeries.data.mainY.filter((stack) => stack && stack.length > 0)
         .length - 1;
 
     const safeIndex = Math.max(0, currentIndex);
@@ -297,11 +304,11 @@ const RealtimeStackBarChart = (args: Story['args']) => {
   };
 
   const handleUpdateNextBarChartSeries = () => {
-    const nextIndex = barChartSeries.data.mainY.filter(
+    const nextIndex = primarySeries.data.mainY.filter(
       (stack) => stack && stack.length > 0,
     ).length;
 
-    // if (nextIndex === barChartSeries.data.mainY.length) {
+    // if (nextIndex === primarySeries.data.mainY.length) {
     //   return;
     // }
 
@@ -344,7 +351,7 @@ const RealtimeStackBarChart = (args: Story['args']) => {
         >
           <BarChart
             {...args}
-            barChartSeries={barChartSeries}
+            primarySeries={primarySeries}
             //secondarySeries={secondarySeries}
           />
         </div>
@@ -384,7 +391,7 @@ export const Realtime: Story = {
     hasBarGradient: true,
     showXGuideLine: true,
     showYGuideLine: true,
-    barChartSeries: SECONDARY_SERIES_MOCK,
+    primarySeries: BAR_SERIES_MOCK,
     //secondarySeries: SECONDARY_SERIES_MOCK,
     activeTooltip: true,
     tooltipContent: (mainY, subY) => `${mainY} (${subY})`,
@@ -402,7 +409,14 @@ export const RealtimeStackBar: Story = {
     hasBarGradient: true,
     showXGuideLine: true,
     showYGuideLine: true,
-    barChartSeries: STACK_BAR_HOURLY,
+    primarySeries: STACK_BAR_HOURLY,
+    tooltipContent: (
+      label: string, // 메뉴명
+      orderCount: string, // 주문 건수
+      percentage: string, // 퍼센트
+    ) => {
+      return `${label}, ${orderCount}건(${percentage})`;
+    },
     //secondarySeries: SECONDARY_SERIES_MOCK,
     activeTooltip: true,
     yGuideLineCount: 4,
