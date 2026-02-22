@@ -7,7 +7,11 @@ import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { menuOptions } from '@/services/menu';
 import type { GetDetailTimeSlotMenuOrderCountResponseDto } from '@/types/menu';
 import { getMenuSalesPatternCardCode } from '@/utils/menu';
-import { createChartData, formatDateISO, getHourLabel } from '@/utils/shared';
+import {
+  createChartData,
+  formatDateForDto,
+  getHourLabel,
+} from '@/utils/shared';
 import { createChartDataGroupedBy } from '@/utils/shared';
 
 interface UseTimeSlotMenuOrderCountProps {
@@ -31,8 +35,8 @@ export const useTimeSlotMenuOrderCount = ({
       {
         analysisCardCode: cardCode,
         customPeriod: !periodType,
-        from: startDate ? formatDateISO(startDate) : undefined,
-        to: endDate ? formatDateISO(endDate) : undefined,
+        from: formatDateForDto(startDate),
+        to: formatDateForDto(endDate),
       },
     ),
   );
