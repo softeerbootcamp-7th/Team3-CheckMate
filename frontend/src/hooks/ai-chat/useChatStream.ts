@@ -2,7 +2,10 @@ import { useCallback, useReducer, useRef } from 'react';
 
 import { CHAT_ROLE } from '@/constants/ai-chat';
 import { sseClient } from '@/services/shared';
-import { type ChatHistoryItem } from '@/types/ai-chat';
+import {
+  type ChatHistoryItem,
+  type PostAiChatStreamRequestDto,
+} from '@/types/ai-chat';
 
 interface ChatState {
   chatHistoryList: ChatHistoryItem[];
@@ -74,7 +77,7 @@ export const useChatStream = () => {
       abortControllerRef.current = new AbortController();
 
       try {
-        const requestBody = {
+        const requestBody: PostAiChatStreamRequestDto = {
           history: state.chatHistoryList.map(({ role, content }) => ({
             role,
             content: content || '오류',
