@@ -1,3 +1,3 @@
 export { getXCoordinate } from './getXCoordinate';
 export { calculateMaximumY } from './calculateMaximumY';
-export { createChartData } from './createChartData';
+export { createChartData, createChartDataGroupedBy } from './createChartData';

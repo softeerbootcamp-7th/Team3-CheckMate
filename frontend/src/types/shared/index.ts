@@ -14,7 +14,6 @@ export type {
   XAxisType,
 } from './line-chart';
 export type {
-  BarChartDatum,
   BarChartData,
   BarChartSeries,
   StackBarSegment,
@@ -23,7 +22,13 @@ export type {
   StackBarChartData,
   StackBarChartSeries,
   AllBarChartSeries,
+  LabelOption,
 } from './bar-chart';
-export type { ChartData, ChartSeries, ChartDatum } from './chart';
+export type {
+  ChartData,
+  ChartSeries,
+  ChartDatum,
+  ChartDatumWithLabel,
+} from './chart';
 export type { EventSourceMessage } from './eventSourceMessage';
 export type { BarLineChartData, BarLineChartSeries } from './bar-line-chart';

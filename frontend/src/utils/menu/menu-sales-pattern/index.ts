@@ -1,0 +1,1 @@
+export { getMenuSalesPatternCardCode } from './getMenuSalesPatternCardCode';

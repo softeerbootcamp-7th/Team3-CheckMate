@@ -1,1 +1,6 @@
-export type { ChartData, ChartSeries, ChartDatum } from './chartDataType';
+export type {
+  ChartData,
+  ChartSeries,
+  ChartDatum,
+  ChartDatumWithLabel,
+} from './chartDataType';

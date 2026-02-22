@@ -1,5 +1,4 @@
 export type {
-  BarChartDatum,
   BarChartData,
   BarChartSeries,
   StackBarSegment,
@@ -9,3 +8,4 @@ export type {
   StackBarChartSeries,
   AllBarChartSeries,
 } from './barChartDataType';
+export type { LabelOption } from './labelOption';
