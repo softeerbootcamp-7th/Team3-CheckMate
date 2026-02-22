@@ -52,8 +52,8 @@ export const SalesTrendContent = ({
       className={cn(
         'mt-4 flex flex-col items-start justify-start',
         period === PERIOD_PRESETS.recentDays7_14_30.recent30Days
-          ? 'w-170'
-          : 'w-265',
+          ? 'w-166'
+          : 'w-5xl',
         className,
       )}
     >
