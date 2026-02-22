@@ -37,9 +37,9 @@ export const useSalesType = ({
         const found = data.items.find((item) => item.salesType === key);
         return {
           salesSource: label,
-          salesAmount: found ? found.salesAmount : 0,
-          orderCount: found ? found.orderCount : 0,
-          deltaShare: found ? found.deltaShare : 0,
+          salesAmount: found?.salesAmount ?? 0,
+          orderCount: found?.orderCount ?? 0,
+          deltaShare: found?.deltaShare ?? 0,
         };
       }),
     [data],
