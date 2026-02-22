@@ -11,7 +11,7 @@ export const CategorySalesChartLegendItem = ({
   color,
 }: CategorySalesChartLegendItemProps) => {
   return (
-    <li key={label} className="flex justify-between">
+    <li className="flex justify-between">
       <div className="flex w-fit shrink-0 items-center gap-2">
         <div
           className="rounded-50 inline-block size-3.5 shrink-0"
