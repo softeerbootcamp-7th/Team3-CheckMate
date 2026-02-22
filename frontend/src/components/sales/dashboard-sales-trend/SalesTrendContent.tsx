@@ -20,6 +20,7 @@ interface SalesTrendContentProps {
   salesTrendData: BarLineChartSeries;
   trendChartWidth?: number;
   trendChartHeight?: number;
+  disableCaption?: boolean;
   className?: string;
 }
 
@@ -28,6 +29,7 @@ export const SalesTrendContent = ({
   salesTrendData,
   trendChartWidth,
   trendChartHeight,
+  disableCaption = false,
   className,
 }: SalesTrendContentProps) => {
   const { period } = DASHBOARD_METRIC_CARDS[cardCode];
@@ -48,14 +50,14 @@ export const SalesTrendContent = ({
   return (
     <article
       className={cn(
-        'flex flex-col items-start justify-start gap-4',
+        'mt-4 flex flex-col items-start justify-start',
         period === PERIOD_PRESETS.recentDays7_14_30.recent30Days
           ? 'w-170'
           : 'w-265',
         className,
       )}
     >
-      <SalesTrendCaption />
+      {!disableCaption && <SalesTrendCaption />}
       <BarLineChart
         viewBoxWidth={trendChartWidthValue}
         viewBoxHeight={trendChartHeightValue}

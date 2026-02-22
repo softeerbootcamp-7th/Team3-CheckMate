@@ -41,7 +41,7 @@ export const DefaultCardWrapper = ({
       return (
         <Button
           onClick={onClickChevronRightIcon}
-          className="text-grey-700 relative flex items-center p-0!"
+          className="text-grey-700 relative mb-6 flex h-fit items-center p-0!"
         >
           <h3 className="body-medium-semibold">{title}</h3>
           <ChevronRight className="size-4" />
