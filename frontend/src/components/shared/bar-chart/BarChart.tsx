@@ -1,6 +1,6 @@
 import { useBarChart } from '@/hooks/shared';
 import { useBarChartId } from '@/hooks/shared';
-import type { XAxisType } from '@/types/shared';
+import type { LabelOption, XAxisType } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared';
 
 import { XAxis, XAxisLabel, XGuideLine, YGuideLine } from '../chart';
@@ -37,11 +37,16 @@ interface BarChartProps {
   /**
    * Y축 가이드 라인 개수 (Y축과 수평으로 표시되는 점선의 개수)
    */
-  yGuideLineCount: number;
+  yGuideLineCount?: number;
   /**
    * 막대 차트 첫 번쩨 데이터 (실시간 데이터 or 단일 데이터) - 차트의 색상은 primarySeries의 color 속성에 따라 자동으로 설정됨
    */
-  barChartSeries: AllBarChartSeries;
+  primarySeries: AllBarChartSeries;
+
+  /**
+   * 막대 차트 두 번쩨 데이터 sub라벨용
+   */
+  secondarySeries?: AllBarChartSeries;
 
   /**
    * 각 데이터의 툴팁 표시 여부
@@ -64,9 +69,21 @@ interface BarChartProps {
    */
   xAxisType: XAxisType;
   /**
-   * 각 막대 위에 레이블 표시 여부
+   * 각 막대 위에 레이블 표시 여부 -> primarySeries의 데이터 값이 레이블로 표시됨
    */
-  hasBarLabel?: boolean;
+  showBarLabel?: boolean;
+  /**
+   * 각 막대 위에 서브 레이블 표시 여부 -> secondarySeries의 데이터 값이 레이블로 표시됨
+   */
+  showSubBarLabel?: boolean;
+  /**
+   * 각 막대 위에 레이블 옵션
+   */
+  labelOption?: LabelOption;
+  /**
+   * 각 막대 위에 서브 레이블 옵션
+   */
+  subLabelOption?: LabelOption;
   /**
    * 현재 포커스된 데이터의 인덱스
    */
@@ -84,13 +101,17 @@ export const BarChart = ({
   hasBarGradient = false,
   showXGuideLine = false,
   showYGuideLine = false,
-  barChartSeries,
-  yGuideLineCount,
+  primarySeries,
+  secondarySeries,
+  yGuideLineCount = 0,
   activeTooltip = false,
   tooltipContent = (...args: string[]) => args.join(' '),
   chartTitle,
   chartDescription,
-  hasBarLabel = true,
+  showBarLabel = true,
+  showSubBarLabel = true,
+  labelOption,
+  subLabelOption,
   xAxisType,
   activeDataIndex,
   barColorChangeOnHover = true,
@@ -108,7 +129,7 @@ export const BarChart = ({
   } = useBarChart({
     viewBoxWidth,
     viewBoxHeight,
-    barChartSeries,
+    primarySeries,
     hasXAxis,
   });
 
@@ -116,9 +137,9 @@ export const BarChart = ({
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
-      ref={svgRef}
       width={viewBoxWidth}
       height={viewBoxHeight}
+      ref={svgRef}
       role="graphics-document"
       aria-labelledby={titleId}
       aria-describedby={descId}
@@ -157,14 +178,18 @@ export const BarChart = ({
       <BarSeries
         coordinate={primaryCoordinate}
         hasGradient={hasBarGradient}
-        series={barChartSeries}
+        primarySeries={primarySeries}
+        secondarySeries={secondarySeries}
         activeTooltip={activeTooltip}
         viewBoxHeight={viewBoxHeight}
         viewBoxWidth={viewBoxWidth}
         tooltipContent={tooltipContent}
         xCoordinate={xCoordinate}
         hasXAxis={hasXAxis}
-        hasBarLabel={hasBarLabel}
+        showBarLabel={showBarLabel}
+        labelOption={labelOption}
+        showSubBarLabel={showSubBarLabel}
+        subLabelOption={subLabelOption}
         activeDataIndex={activeDataIndex}
         barColorChangeOnHover={barColorChangeOnHover}
       />

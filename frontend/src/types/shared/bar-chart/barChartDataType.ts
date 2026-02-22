@@ -1,10 +1,8 @@
 import type { ChartDatum } from '../chart';
 
-export type BarChartDatum = ChartDatum;
-
 export interface BarChartData {
-  mainX: BarChartDatum[]; // 시간 목록
-  mainY: BarChartDatum[]; // 단일 막대 그래프 데이터 목록
+  mainX: ChartDatum[]; // 시간 목록
+  mainY: ChartDatum[]; // 단일 막대 그래프 데이터 목록
 }
 export interface BarChartSeries {
   data: BarChartData;
@@ -14,7 +12,7 @@ export interface BarChartSeries {
 // ======== 스택바에 사용되는 데이터 타입
 
 // 스택 바의 한 조각 데이터
-export interface StackBarSegment extends BarChartDatum {
+export interface StackBarSegment extends ChartDatum {
   label: string; // 메뉴 이름, 카테고리 이름 등
   color?: string;
 }
@@ -27,7 +25,7 @@ export interface StackBarSegmentWithPercentage extends StackBarSegment {
 }
 
 export interface StackBarChartData {
-  mainX: BarChartDatum[]; // 시간목록
+  mainX: ChartDatum[]; // 시간목록
   mainY: StackBarDatum[];
 }
 
