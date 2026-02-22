@@ -1,23 +1,23 @@
 import { SALES_SOURCE } from '@/constants/sales/salesSource';
 import type { SalesSource } from '@/types/sales';
 
-export const SALES_TYPE_DATA: SalesSource<'SALES_TYPE'>[] = [
+export const SALES_TYPE_DATA: SalesSource[] = [
   {
-    salesSourceType: SALES_SOURCE.SALES_TYPE.DINE_IN,
-    revenue: 0,
-    count: 0,
-    changeRate: -4.4,
+    salesSource: SALES_SOURCE.SALES_TYPE.DINE_IN,
+    salesAmount: 0,
+    orderCount: 0,
+    deltaShare: -4.4,
   },
   {
-    salesSourceType: SALES_SOURCE.SALES_TYPE.TAKE_OUT,
-    revenue: 0,
-    count: 0,
-    changeRate: -6.7,
+    salesSource: SALES_SOURCE.SALES_TYPE.TAKE_OUT,
+    salesAmount: 0,
+    orderCount: 0,
+    deltaShare: -6.7,
   },
   {
-    salesSourceType: SALES_SOURCE.SALES_TYPE.DELIVERY,
-    revenue: 0,
-    count: 0,
-    changeRate: -5.2,
+    salesSource: SALES_SOURCE.SALES_TYPE.DELIVERY,
+    salesAmount: 0,
+    orderCount: 0,
+    deltaShare: -5.2,
   },
 ];

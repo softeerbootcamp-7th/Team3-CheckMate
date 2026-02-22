@@ -31,16 +31,16 @@ export const OrderChannelContent = ({
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
   const orderChannelData = items.map((item) => ({
-    salesSourceType: SALES_SOURCE.ORDER_CHANNEL[item.orderChannel],
-    revenue: item.salesAmount,
-    count: item.orderCount,
-    changeRate: item.deltaShare,
+    salesSource: SALES_SOURCE.ORDER_CHANNEL[item.orderChannel],
+    salesAmount: item.salesAmount,
+    orderCount: item.orderCount,
+    deltaShare: item.deltaShare,
   }));
 
   const chartData = orderChannelData.map((data) => ({
-    label: data.salesSourceType,
-    value: data.revenue,
-    color: SALES_SOURCE_COLORS[data.salesSourceType],
+    label: data.salesSource,
+    value: data.salesAmount,
+    color: SALES_SOURCE_COLORS[data.salesSource],
   }));
 
   const { topShare, topDeltaShare, topTypeLabel } =

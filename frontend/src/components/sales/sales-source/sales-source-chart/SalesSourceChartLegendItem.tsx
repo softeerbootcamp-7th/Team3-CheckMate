@@ -30,12 +30,11 @@ export const SalesSourceChartLegendItem = ({
         <div
           className="rounded-50 inline-block size-3.5"
           style={{
-            backgroundColor:
-              SALES_SOURCE_COLORS[salesSourceData.salesSourceType],
+            backgroundColor: SALES_SOURCE_COLORS[salesSourceData.salesSource],
           }}
         />
         <span className="body-small-medium text-grey-900">
-          {salesSourceData.salesSourceType}
+          {salesSourceData.salesSource}
         </span>
       </div>
       {/* 매출 */}
@@ -47,25 +46,25 @@ export const SalesSourceChartLegendItem = ({
             : 'justify-self-end',
         )}
       >
-        {formatNumberInTenThousands(salesSourceData.revenue)} (
-        {salesSourceData.count}건)
+        {formatNumberInTenThousands(salesSourceData.salesAmount)} (
+        {salesSourceData.orderCount}건)
       </span>
       {/* 변화율 */}
       {periodType === PERIOD_PRESETS.dayWeekMonth.today &&
-        salesSourceData.changeRate !== undefined && (
+        salesSourceData.deltaShare !== undefined && (
           <span
             className={cn(
               'body-small-semibold text-brand-main justify-self-end',
-              salesSourceData.changeRate < 0 && 'text-others-negative',
+              salesSourceData.deltaShare < 0 && 'text-others-negative',
             )}
           >
             <object
-              data={`${CDN_BASE_URL}/assets/images/${salesSourceData.changeRate >= 0 ? 'up' : 'down'}.svg`}
+              data={`${CDN_BASE_URL}/assets/images/${salesSourceData.deltaShare >= 0 ? 'up' : 'down'}.svg`}
               className="inline size-4"
               aria-hidden="true"
             />
-            {salesSourceData.changeRate > 0 ? '+' : ''}
-            {salesSourceData.changeRate}%p
+            {salesSourceData.deltaShare > 0 ? '+' : ''}
+            {salesSourceData.deltaShare}%p
           </span>
         )}
     </li>

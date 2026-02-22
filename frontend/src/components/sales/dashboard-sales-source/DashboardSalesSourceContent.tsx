@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { DoughnutChart } from '@/components/shared';
-import type { SALES_SOURCE, SalesSourceType } from '@/constants/sales';
+import type { SALES_SOURCE, SalesSourceValueType } from '@/constants/sales';
 import { PERIOD_PRESETS } from '@/constants/shared';
 import type { SalesSource, SalesSourceInsight } from '@/types/sales';
 import type { DoughnutChartItem } from '@/types/shared';
@@ -33,7 +33,7 @@ export const DashboardSalesSourceContent = ({
 
 interface DashboardSalesSourceContentComparisonMessageProps {
   periodType: ValueOf<typeof PERIOD_PRESETS.dayWeekMonth>;
-  topTypeLabel: SalesSourceType;
+  topTypeLabel: SalesSourceValueType;
   topShare: SalesSourceInsight<keyof typeof SALES_SOURCE>['topShare'];
   deltaShare: SalesSourceInsight<keyof typeof SALES_SOURCE>['deltaShare'];
 }

@@ -31,16 +31,16 @@ export const SalesTypeContent = ({
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
   const salesTypeData = items.map((item) => ({
-    salesSourceType: SALES_SOURCE.SALE_TYPE[item.salesType],
-    revenue: item.salesAmount,
-    count: item.orderCount,
-    changeRate: item.deltaShare,
+    salesSource: SALES_SOURCE.SALES_TYPE[item.salesType],
+    salesAmount: item.salesAmount,
+    orderCount: item.orderCount,
+    deltaShare: item.deltaShare,
   }));
 
   const chartData = salesTypeData.map((data) => ({
-    label: data.salesSourceType,
-    value: data.revenue,
-    color: SALES_SOURCE_COLORS[data.salesSourceType],
+    label: data.salesSource,
+    value: data.salesAmount,
+    color: SALES_SOURCE_COLORS[data.salesSource],
   }));
 
   const { topShare, topDeltaShare, topTypeLabel } =

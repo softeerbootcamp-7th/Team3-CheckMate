@@ -3,7 +3,7 @@ export {
   isSalesSourceType,
   SALES_SOURCE,
 } from './salesSource';
-export type { SalesSourceType } from './salesSource';
+export type { SalesSourceKeyType, SalesSourceValueType } from './salesSource';
 export { SALES_UNIT } from './salesUnit';
 export {
   BRIEFING_MESSAGE_HIGHLIGHT_COLOR,

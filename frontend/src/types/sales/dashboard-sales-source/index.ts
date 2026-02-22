@@ -1,4 +1,5 @@
 export type {
   SalesSourceInsight,
   SalesSourceTopType,
-} from './salesSalesSourceInsight';
+} from './salesSourceInsight';
+export type { SalesSource } from './salesSource';

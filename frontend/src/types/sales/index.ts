@@ -1,4 +1,3 @@
-export type { SalesSource } from './salesSource';
 export type {
   GetRealSalesResponseDto,
   GetOrderCountResponseDto,
@@ -14,7 +13,7 @@ export type {
   GetTotalSalesResponseDto,
   GetDiscountAndCancellationResponseDto,
 } from './dto';
-export type { SalesSourceInsight } from './dashboard-sales-source';
+export type { SalesSourceInsight, SalesSource } from './dashboard-sales-source';
 export type { PeakTimeItem, PeakTimeSummary } from './dashboard-sales-pattern';
 export type {
   SalesByDaySummary,

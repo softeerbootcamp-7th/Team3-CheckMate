@@ -1,6 +1,6 @@
-import type { SALES_SOURCE, SalesSourceType } from '@/constants/sales';
+import type { SALES_SOURCE, SalesSourceValueType } from '@/constants/sales';
 import { PERIOD_PRESETS } from '@/constants/shared';
-import type { SalesSourceInsight } from '@/types/sales/dashboard-sales-source/salesSalesSourceInsight';
+import type { SalesSourceInsight } from '@/types/sales';
 import { formatNumber, type ValueOf } from '@/utils/shared';
 
 import { createMessageToken, type MessageToken } from '../dashboard';
@@ -12,7 +12,7 @@ interface GetSalesSourceComparisonMessageArgs extends Omit<
   'showDeltaText' | 'showFocusText' | 'topType'
 > {
   periodType: ValueOf<typeof PERIOD_PRESETS.dayWeekMonth>;
-  topTypeLabel: SalesSourceType;
+  topTypeLabel: SalesSourceValueType;
 }
 
 export const getSalesSourceComparisonMessage = ({

@@ -20,7 +20,7 @@ export const SALES_SOURCE = {
   },
 } as const;
 
-export type SalesSourceType<T extends keyof typeof SALES_SOURCE> =
+export type SalesSourceKeyType<T extends keyof typeof SALES_SOURCE> =
   keyof (typeof SALES_SOURCE)[T];
 
 export const SALES_SOURCE_COLORS = {
@@ -36,15 +36,15 @@ export const SALES_SOURCE_COLORS = {
   [SALES_SOURCE.PAY_METHOD.ETC]: 'var(--color-brand-50)',
 };
 
+export type SalesSourceValueType = DeepValueOf<typeof SALES_SOURCE>;
 const SALES_SOURCE_TYPES: readonly string[] = [
   ...Object.values(SALES_SOURCE.SALES_TYPE),
   ...Object.values(SALES_SOURCE.ORDER_CHANNEL),
   ...Object.values(SALES_SOURCE.PAY_METHOD),
 ];
 
-type SalesSourceValues = DeepValueOf<typeof SALES_SOURCE>;
 export const isSalesSourceType = (
   value: string,
-): value is SalesSourceValues => {
+): value is SalesSourceValueType => {
   return SALES_SOURCE_TYPES.includes(value);
 };

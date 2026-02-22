@@ -31,16 +31,16 @@ export const PayMethodContent = ({
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
   const payMethodData = items.map((item) => ({
-    salesSourceType: SALES_SOURCE.PAY_METHOD[item.payMethod],
-    revenue: item.salesAmount,
-    count: item.orderCount,
-    changeRate: item.deltaShare,
+    salesSource: SALES_SOURCE.PAY_METHOD[item.payMethod],
+    salesAmount: item.salesAmount,
+    orderCount: item.orderCount,
+    deltaShare: item.deltaShare,
   }));
 
   const chartData = payMethodData.map((data) => ({
-    label: data.salesSourceType,
-    value: data.revenue,
-    color: SALES_SOURCE_COLORS[data.salesSourceType],
+    label: data.salesSource,
+    value: data.salesAmount,
+    color: SALES_SOURCE_COLORS[data.salesSource],
   }));
 
   const { topShare, topDeltaShare, topTypeLabel } =
