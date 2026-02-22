@@ -23,8 +23,7 @@ export const IngredientConsumptionRankCard = () => {
   return (
     <DefaultCardWrapper
       aria-label="식재료 소진량 랭킹"
-      title="식재료 소진량 랭킹"
-      className="flex h-95.5 w-full min-w-0 flex-col gap-7.5"
+      className="flex h-86 w-full min-w-0 flex-col gap-7.5"
     >
       <IngredientConsumptionRankCardContent
         rankItems1to5={rankItems1to5}
