@@ -26,8 +26,7 @@ public class OrderEventHandler {
     private final List<AnalysisContextFactory> contextFactories;
     private final SseEventSender sseEventSender;
 
-    // TODO 스레드 풀 따로 정의해볼 것
-    @Async
+    @Async("orderEventExecutor")
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handle(OrderCreatedEvent event) {
 
