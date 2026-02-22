@@ -3,6 +3,10 @@ export type {
   MenuSales,
 } from './getMenuSalesRankingDto';
 export type {
+  GetCategorySalesResponseDto,
+  CategorySales,
+} from './getCategorySalesDto';
+export type {
   GetIngredientUsageRankingResponseDto,
   IngredientUsage,
 } from './getIngredientUsageRankingDto';

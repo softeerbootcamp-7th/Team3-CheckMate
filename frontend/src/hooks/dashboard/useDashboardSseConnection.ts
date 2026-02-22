@@ -12,7 +12,7 @@ import {
   isMonthlySalesTrendMetricCardCode,
   isOrderChannelMetricCardCode,
   isOrderCountMetricCardCode,
-  isPaymentMethodMetricCardCode,
+  isPayMethodMetricCardCode,
   isPeakTimeMetricCardCode,
   isPopularMenuCombinationMetricCardCode,
   isRealSalesMetricCardCode,
@@ -245,7 +245,7 @@ export const useDashboardSseConnection = () => {
             isIngredientConsumptionRankMetricCardCode(message.event) ||
             isSalesTypeMetricCardCode(message.event) ||
             isOrderChannelMetricCardCode(message.event) ||
-            isPaymentMethodMetricCardCode(message.event)
+            isPayMethodMetricCardCode(message.event)
           ) {
             queryClient.setQueryData(
               getCardDetailQueryKey(message.event),

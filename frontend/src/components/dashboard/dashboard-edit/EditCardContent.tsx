@@ -8,7 +8,7 @@ import {
   AveragePriceContent,
   OrderChannelContent,
   OrderCountContent,
-  PaymentMethodContent,
+  PayMethodContent,
   PeakTimeContent,
   RealSalesContent,
   SalesByDayContent,
@@ -26,7 +26,7 @@ import {
   AVERAGE_PRICE,
   ORDER_CHANNEL,
   ORDER_COUNT,
-  PAYMENT_METHOD,
+  PAY_METHOD,
   PEAK_TIME,
   REAL_SALES,
   SALES_BY_DAY,
@@ -65,11 +65,11 @@ const {
   EXAMPLE_ORDER_CHANNEL_DATA: ORDER_CHANNEL_EXAMPLE_ORDER_CHANNEL_DATA,
 } = ORDER_CHANNEL;
 const {
-  EXAMPLE_TOP_TYPE: PAYMENT_METHOD_EXAMPLE_TOP_TYPE,
-  EXAMPLE_TOP_SHARE: PAYMENT_METHOD_EXAMPLE_TOP_SHARE,
-  EXAMPLE_DELTA_SHARE: PAYMENT_METHOD_EXAMPLE_DELTA_SHARE,
-  EXAMPLE_PAYMENT_METHOD_DATA: PAYMENT_METHOD_EXAMPLE_PAYMENT_METHOD_DATA,
-} = PAYMENT_METHOD;
+  EXAMPLE_TOP_TYPE: PAY_METHOD_EXAMPLE_TOP_TYPE,
+  EXAMPLE_TOP_SHARE: PAY_METHOD_EXAMPLE_TOP_SHARE,
+  EXAMPLE_DELTA_SHARE: PAY_METHOD_EXAMPLE_DELTA_SHARE,
+  EXAMPLE_PAY_METHOD_DATA: PAY_METHOD_EXAMPLE_PAY_METHOD_DATA,
+} = PAY_METHOD;
 const { EXAMPLE_DATA: PEAK_TIME_EXAMPLE_DATA } = PEAK_TIME;
 const {
   EXAMPLE_DATA: SALES_BY_DAY_EXAMPLE_DATA,
@@ -151,14 +151,14 @@ export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
     case 'SLS_08_02':
     case 'SLS_08_03':
       return (
-        <PaymentMethodContent
+        <PayMethodContent
           cardCode={cardCode}
           insight={{
-            topType: PAYMENT_METHOD_EXAMPLE_TOP_TYPE,
-            topShare: PAYMENT_METHOD_EXAMPLE_TOP_SHARE,
-            deltaShare: PAYMENT_METHOD_EXAMPLE_DELTA_SHARE,
+            topType: PAY_METHOD_EXAMPLE_TOP_TYPE,
+            topShare: PAY_METHOD_EXAMPLE_TOP_SHARE,
+            deltaShare: PAY_METHOD_EXAMPLE_DELTA_SHARE,
           }}
-          items={PAYMENT_METHOD_EXAMPLE_PAYMENT_METHOD_DATA}
+          items={PAY_METHOD_EXAMPLE_PAY_METHOD_DATA}
         />
       );
     case 'SLS_09_04':

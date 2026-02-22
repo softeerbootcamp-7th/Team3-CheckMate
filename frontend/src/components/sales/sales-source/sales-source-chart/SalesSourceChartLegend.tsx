@@ -26,7 +26,7 @@ export const SalesSourceChartLegend = ({
       <ul className="mt-1 flex flex-col gap-1">
         {salesSourceData.map((data) => (
           <SalesSourceChartLegendItem
-            key={data.salesSourceType}
+            key={data.salesSource}
             salesSourceData={data}
             periodType={periodType}
           />

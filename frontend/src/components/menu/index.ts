@@ -11,7 +11,6 @@ export {
   MenuCombinationOverview,
   MenuCombinationPeriodTypeProvider,
 } from './menu-combination';
-export { CategoryRevenueChartLegend } from './CategoryRevenueChartLegend';
 export {
   IngredientUsageRankingCardContent,
   MenuSalesRankingCardContent,

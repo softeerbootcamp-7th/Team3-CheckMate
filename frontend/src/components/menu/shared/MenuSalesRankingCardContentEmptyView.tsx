@@ -4,7 +4,9 @@ import {
   DASHBOARD_METRIC_CARDS,
   DASHBOARD_METRICS,
   type ExtractCardCodes,
+  isMetricCardCode,
 } from '@/constants/dashboard';
+import { type ExtractMenuMetricCardCodes, MENU_METRIC } from '@/constants/menu';
 import {
   PERIOD_PRESET_KEYS,
   PERIOD_PRESETS,
@@ -13,9 +15,11 @@ import {
 import { createMessageToken } from '@/utils/sales/dashboard';
 import { cn } from '@/utils/shared';
 
-type MenuSalesRankingCardContentEmptyViewCodes = ExtractCardCodes<
-  typeof DASHBOARD_METRICS.MENU.sections.POPULAR_MENU.items.MENU_SALES_RANKING
->;
+type MenuSalesRankingCardContentEmptyViewCodes =
+  | ExtractCardCodes<
+      typeof DASHBOARD_METRICS.MENU.sections.POPULAR_MENU.items.MENU_SALES_RANKING
+    >
+  | ExtractMenuMetricCardCodes<typeof MENU_METRIC.POPULAR_MENU.CATEGORY_SALES>;
 
 interface MenuSalesRankingCardContentEmptyViewProps {
   cardCode: MenuSalesRankingCardContentEmptyViewCodes;
@@ -54,7 +58,21 @@ const getEmptyViewMessage = (
 export const MenuSalesRankingCardContentEmptyView = ({
   cardCode,
 }: MenuSalesRankingCardContentEmptyViewProps) => {
-  const { period } = DASHBOARD_METRIC_CARDS[cardCode];
+  let period: PeriodType<typeof PERIOD_PRESET_KEYS.today7_30> =
+    PERIOD_PRESETS.today7_30.today;
+  if (isMetricCardCode(cardCode)) {
+    period = DASHBOARD_METRIC_CARDS[cardCode].period;
+  } else {
+    const menuMetricCard = MENU_METRIC.POPULAR_MENU.CATEGORY_SALES;
+    if (cardCode === menuMetricCard.cardCodes.today) {
+      period = PERIOD_PRESETS.today7_30.today;
+    } else if (cardCode === menuMetricCard.cardCodes.recent7Days) {
+      period = PERIOD_PRESETS.today7_30.recent7Days;
+    } else if (cardCode === menuMetricCard.cardCodes.recent30Days) {
+      period = PERIOD_PRESETS.today7_30.recent30Days;
+    }
+  }
+
   const { body, caption } = getEmptyViewMessage(period);
 
   return (

@@ -41,7 +41,7 @@ export const SALES_METRIC = {
       },
     },
   },
-  INCOME_STRUCTURE: {
+  SALES_SOURCE: {
     SALES_TYPE: {
       label: '판매유형별 매출',
       cardCodes: {
@@ -50,7 +50,7 @@ export const SALES_METRIC = {
         thisMonth: 'SLS_06_03',
       },
     },
-    ORDER_METHOD: {
+    ORDER_CHANNEL: {
       label: '주문수단별 매출',
       cardCodes: {
         today: 'SLS_07_01',
@@ -58,7 +58,7 @@ export const SALES_METRIC = {
         thisMonth: 'SLS_07_03',
       },
     },
-    PAYMENT_METHOD: {
+    PAY_METHOD: {
       label: '결제수단별 매출',
       cardCodes: {
         today: 'SLS_08_01',

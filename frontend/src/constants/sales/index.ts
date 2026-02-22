@@ -3,7 +3,7 @@ export {
   isSalesSourceType,
   SALES_SOURCE,
 } from './salesSource';
-export type { SalesSourceType } from './salesSource';
+export type { SalesSourceKeyType, SalesSourceValueType } from './salesSource';
 export { SALES_UNIT } from './salesUnit';
 export {
   BRIEFING_MESSAGE_HIGHLIGHT_COLOR,
@@ -16,9 +16,9 @@ export {
 } from './dashboard-current-sales';
 export {
   ORDER_CHANNEL,
-  PAYMENT_METHOD,
+  PAY_METHOD,
   SALES_TYPE,
-} from './dashboard-sales-income';
+} from './dashboard-sales-source';
 export { PEAK_TIME, SALES_BY_DAY } from './dashboard-sales-pattern';
 export { SALES_TREND } from './dashboard-sales-trend';
 export {
