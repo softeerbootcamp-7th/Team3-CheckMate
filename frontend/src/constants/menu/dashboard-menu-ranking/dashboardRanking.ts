@@ -4,6 +4,5 @@ export const DASHBOARD_RANKING = {
   EMPTY_RANK_ITEM: {
     itemName: '-',
     totalAmount: -1,
-    unit: '원' as const,
   },
 } as const;

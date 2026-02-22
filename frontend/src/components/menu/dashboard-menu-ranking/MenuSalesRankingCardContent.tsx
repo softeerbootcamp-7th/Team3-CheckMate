@@ -29,6 +29,7 @@ const getDashboardMenuRankItems = ({
         ),
       }).map((_, index) => ({
         rank: items.length + index + 1,
+        unit: '원' as const,
         ...DASHBOARD_RANKING.EMPTY_RANK_ITEM,
       })),
     )

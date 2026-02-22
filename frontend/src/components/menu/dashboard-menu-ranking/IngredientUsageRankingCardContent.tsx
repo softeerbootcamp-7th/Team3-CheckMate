@@ -1,6 +1,7 @@
 // 대시보드>메뉴분석에서 식재료별 소진량 랭킹 카드
 import { useMemo } from 'react';
 
+import { INGREDIENT_UNIT } from '@/constants/ingredient';
 import { DASHBOARD_RANKING } from '@/constants/menu';
 import type { DashboardRankItem } from '@/types/menu';
 import type {
@@ -33,6 +34,7 @@ const getDashboardIngredientRankItems = ({
         ),
       }).map((_, index) => ({
         rank: items.length + index + 1,
+        unit: INGREDIENT_UNIT.g, // 임시
         ...DASHBOARD_RANKING.EMPTY_RANK_ITEM,
       })),
     )
