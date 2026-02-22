@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +31,6 @@ public class ReportWorker {
     private final LlmClient llmClient;
     private final ReportRepository reportRepository;
     private final StoreRepository storeRepository;
-    private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;
     private final PromptProvider promptProvider;
     private final NotificationService notificationService;
