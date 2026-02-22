@@ -7,6 +7,7 @@ import {
   DailyRevenueTrendPeriodTypeProvider,
   MonthlyRevenueTrendPeriodTypeProvider,
   WeeklyRevenueTrendPeriodTypeProvider,
+  YearlyRevenueTrendPeriodTypeProvider,
 } from './period-type-provider';
 import { RevenueTrendFetchBoundary } from './RevenueTrendFetchBoundary';
 import { WeeklyRevenueTrend } from './WeeklyRevenueTrend';
@@ -32,12 +33,16 @@ export const SalesTrends = () => {
           </WeeklyRevenueTrendPeriodTypeProvider>
         </RevenueTrendFetchBoundary>
         <div className="flex gap-5">
-          <RevenueTrendFetchBoundary className="w-175">
+          <RevenueTrendFetchBoundary className="w-180">
             <MonthlyRevenueTrendPeriodTypeProvider>
               <MonthlyRevenueTrend />
             </MonthlyRevenueTrendPeriodTypeProvider>
           </RevenueTrendFetchBoundary>
-          <YearlyRevenueTrend />
+          <RevenueTrendFetchBoundary className="w-85">
+            <YearlyRevenueTrendPeriodTypeProvider>
+              <YearlyRevenueTrend />
+            </YearlyRevenueTrendPeriodTypeProvider>
+          </RevenueTrendFetchBoundary>
         </div>
       </section>
     </section>

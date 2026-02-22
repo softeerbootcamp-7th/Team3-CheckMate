@@ -1,10 +1,10 @@
 import { cn } from '@/utils/shared';
 
 interface BoxSkeletonProps {
-  classname?: string;
+  className?: string;
 }
 
-export const BoxSkeleton = ({ classname }: BoxSkeletonProps) => {
+export const BoxSkeleton = ({ className: classname }: BoxSkeletonProps) => {
   return (
     <div
       className={cn(

@@ -37,6 +37,9 @@ export const salesOptions = {
   monthlyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
     createSalesDetailQueryOption<T>(salesKeys.monthlyRevenueTrend)(query),
 
+  yearlyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
+    createSalesDetailQueryOption<T>(salesKeys.yearlyRevenueTrend)(query),
+
   peakTimeByHour: <T>(query: GetAnalysisDetailQuery) =>
     createSalesDetailQueryOption<T>(salesKeys.peakTimeByHour)(query),
 

@@ -9,5 +9,6 @@ export {
   useDailyRevenueTrend,
   useWeeklyRevenueTrend,
   useMonthlyRevenueTrend,
+  useYearlyRevenueTrend,
 } from './sales-trends';
 export { usePeakTimeByHour, useWeekdaySalesPattern } from './sales-pattern';
