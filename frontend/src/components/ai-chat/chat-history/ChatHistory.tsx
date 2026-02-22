@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { CHAT_ROLE } from '@/constants/ai-chat/chatRole';
+import { CHAT_ROLE } from '@/constants/ai-chat';
 import { useSpacerHeight } from '@/hooks/ai-chat';
 import type { ChatHistoryItem as ChatHistoryItemType } from '@/types/ai-chat';
 
