@@ -25,6 +25,17 @@ const getDashboardIngredientRankItems = ({
       totalAmount: item.totalQuantity,
       unit: item.baseUnit as DashboardRankItem['unit'],
     }))
+    .concat(
+      Array.from({
+        length: Math.max(
+          0,
+          DASHBOARD_RANKING.MAX_DISPLAYED_RANK_ITEMS - items.length,
+        ),
+      }).map((_, index) => ({
+        rank: items.length + index + 1,
+        ...DASHBOARD_RANKING.EMPTY_RANK_ITEM,
+      })),
+    )
     .slice(0, DASHBOARD_RANKING.MAX_DISPLAYED_RANK_ITEMS); // 최대 4등까지만 보여줌
 };
 

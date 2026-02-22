@@ -9,7 +9,7 @@ export const IngredientConsumptionRankCard = () => {
   const { periodType, startDate, endDate } =
     useIngredientConsumptionPeriodType();
 
-  const { hasIngredient, rankItems1to5, rankItems6to10, isEmptyRankItems } =
+  const { hasIngredient, rankItems1to5, rankItems6to10 } =
     useIngredientConsumptionRank({
       periodType,
       startDate,
@@ -29,8 +29,6 @@ export const IngredientConsumptionRankCard = () => {
       <IngredientConsumptionRankCardContent
         rankItems1to5={rankItems1to5}
         rankItems6to10={rankItems6to10}
-        isCustomPeriod={!periodType}
-        isEmptyRankItems={isEmptyRankItems}
       />
       {/* 더보기 버튼 제거 */}
       {/* <LoadMoreDataButton
