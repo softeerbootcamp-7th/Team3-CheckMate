@@ -5,6 +5,7 @@ export {
   useTotalSales,
   useDiscountAndCancellation,
 } from './sales-overview';
+export { useSalesType, useOrderChannel, usePayMethod } from './sales-source';
 export {
   useDailyRevenueTrend,
   useWeeklyRevenueTrend,

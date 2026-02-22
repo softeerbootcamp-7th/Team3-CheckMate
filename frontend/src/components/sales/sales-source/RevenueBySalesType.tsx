@@ -1,4 +1,4 @@
-import { useSalesType } from '@/hooks/sales/sales-source/useSalesType';
+import { useSalesType } from '@/hooks/sales';
 
 import { usePeriodTypeContext } from './period-type-provider';
 import { SalesSourceChart } from './sales-source-chart';

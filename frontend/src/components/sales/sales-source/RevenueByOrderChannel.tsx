@@ -1,4 +1,4 @@
-import { useOrderChannel } from '@/hooks/sales/sales-source/useOrderChannel';
+import { useOrderChannel } from '@/hooks/sales';
 
 import { usePeriodTypeContext } from './period-type-provider';
 import { SalesSourceChart } from './sales-source-chart';

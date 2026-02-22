@@ -1,4 +1,4 @@
-import { RANKING_COLORS } from '@/constants/shared/doughnut-chart';
+import { RANKING_COLORS } from '@/constants/shared';
 import type { DoughnutChartItem } from '@/types/shared';
 
 import { CategorySalesChartLegendItem } from './CategorySalesChartLegendItem';

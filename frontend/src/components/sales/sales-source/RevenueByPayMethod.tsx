@@ -1,4 +1,4 @@
-import { usePayMethod } from '@/hooks/sales/sales-source/usePayMethod';
+import { usePayMethod } from '@/hooks/sales';
 
 import { usePeriodTypeContext } from './period-type-provider';
 import { SalesSourceChart } from './sales-source-chart';
