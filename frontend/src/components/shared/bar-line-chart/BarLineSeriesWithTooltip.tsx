@@ -57,7 +57,6 @@ export const BarLineSeriesWithTooltip = ({
             barTopY={barY}
             width={barWidth}
             height={barHeight}
-            bgColor={color}
             radius={BAR_CHART.BAR_RADIUS}
             hasGradient
             barColorChangeOnHover

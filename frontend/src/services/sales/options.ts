@@ -1,57 +1,48 @@
-import { queryOptions } from '@tanstack/react-query';
+import { type QueryKey, queryOptions } from '@tanstack/react-query';
 
 import { getAnalysisDetail } from '@/services/analysis';
 import { salesKeys } from '@/services/sales/keys';
 import type { GetAnalysisDetailQuery } from '@/types/analysis';
 
 const createSalesDetailQueryOption =
-  <T>(
-    key: Extract<
-      keyof typeof salesKeys,
-      | 'dailyRevenueTrend'
-      | 'weeklyRevenueTrend'
-      | 'monthlyRevenueTrend'
-      | 'peakTimeByHour'
-    >,
-  ) =>
+  <T>(key: (q: GetAnalysisDetailQuery) => QueryKey) =>
   (query: GetAnalysisDetailQuery) =>
     queryOptions({
-      queryKey: salesKeys[key](query),
+      queryKey: key(query),
       queryFn: () => getAnalysisDetail<T>(query),
     });
 
 export const salesOptions = {
   realSales: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.realSales(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>(salesKeys.realSales)(query),
+
   orderCount: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.orderCount(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>(salesKeys.orderCount)(query),
+
   averagePrice: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.averagePrice(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>(salesKeys.averagePrice)(query),
+
   totalSales: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.totalSales(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>(salesKeys.totalSales)(query),
+
   discountAndCancellation: <T>(query: GetAnalysisDetailQuery) =>
-    queryOptions({
-      queryKey: salesKeys.discountAndCancellation(query),
-      queryFn: () => getAnalysisDetail<T>(query),
-    }),
+    createSalesDetailQueryOption<T>(salesKeys.discountAndCancellation)(query),
+
   dailyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
-    createSalesDetailQueryOption<T>('dailyRevenueTrend')(query),
+    createSalesDetailQueryOption<T>(salesKeys.dailyRevenueTrend)(query),
+
   weeklyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
-    createSalesDetailQueryOption<T>('weeklyRevenueTrend')(query),
+    createSalesDetailQueryOption<T>(salesKeys.weeklyRevenueTrend)(query),
+
   monthlyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
-    createSalesDetailQueryOption<T>('monthlyRevenueTrend')(query),
+    createSalesDetailQueryOption<T>(salesKeys.monthlyRevenueTrend)(query),
+
+  yearlyRevenueTrend: <T>(query: GetAnalysisDetailQuery) =>
+    createSalesDetailQueryOption<T>(salesKeys.yearlyRevenueTrend)(query),
+
   peakTimeByHour: <T>(query: GetAnalysisDetailQuery) =>
-    createSalesDetailQueryOption<T>('peakTimeByHour')(query),
+    createSalesDetailQueryOption<T>(salesKeys.peakTimeByHour)(query),
+
+  weekdaySalesPattern: <T>(query: GetAnalysisDetailQuery) =>
+    createSalesDetailQueryOption<T>(salesKeys.weekdaySalesPattern)(query),
 };

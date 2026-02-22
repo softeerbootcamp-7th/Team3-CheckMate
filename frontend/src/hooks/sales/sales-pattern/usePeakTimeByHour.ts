@@ -7,7 +7,7 @@ import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetDetailPeakTimeResponseDto } from '@/types/sales';
 import { createPeakTimeSeries } from '@/utils/sales';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UsePeakTimeByHourProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.todayOnly>;
@@ -28,8 +28,8 @@ export const usePeakTimeByHour = ({
     ...salesOptions.peakTimeByHour<GetDetailPeakTimeResponseDto>({
       analysisCardCode: peakTimeCardCodes.today,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   });
 

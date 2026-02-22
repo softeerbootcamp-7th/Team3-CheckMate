@@ -2,9 +2,12 @@ import { SectionHeader } from '@/components/shared';
 import { salesKeys } from '@/services/sales';
 
 import { PeakTimeByHour } from './PeakTimeByHour';
-import { PeakTimeByHourPeriodTypeProvider } from './period-type-provider';
-import { RevenueByWeekday } from './RevenueByWeekday';
+import {
+  PeakTimeByHourPeriodTypeProvider,
+  WeekdaySalesPatternPeriodTypeProvider,
+} from './period-type-provider';
 import { SalesPatternsFetchBoundary } from './SalesPatternsFetchBoundary';
+import { WeekdaySalesPattern } from './WeekdaySalesPattern';
 
 export const SalesPatterns = () => {
   return (
@@ -21,7 +24,11 @@ export const SalesPatterns = () => {
             <PeakTimeByHour />
           </PeakTimeByHourPeriodTypeProvider>
         </SalesPatternsFetchBoundary>
-        <RevenueByWeekday />
+        <SalesPatternsFetchBoundary>
+          <WeekdaySalesPatternPeriodTypeProvider>
+            <WeekdaySalesPattern />
+          </WeekdaySalesPatternPeriodTypeProvider>
+        </SalesPatternsFetchBoundary>
       </section>
     </section>
   );
