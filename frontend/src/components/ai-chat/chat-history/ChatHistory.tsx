@@ -9,12 +9,14 @@ import { UserBubble } from './UserBubble';
 
 interface ChatHistoryProps {
   chatHistoryList: ChatHistoryItemType[];
+  lastAnswer: string | null;
   isLoading: boolean;
   isStreaming: boolean;
 }
 
 export const ChatHistory = ({
   chatHistoryList,
+  lastAnswer,
   isLoading,
   isStreaming,
 }: ChatHistoryProps) => {
@@ -56,13 +58,19 @@ export const ChatHistory = ({
                 <BotBubble
                   key={`${chat.role}-${index}`}
                   message={chat.content}
-                  isLatest={isLatest}
-                  isLoading={isLatest && isLoading}
-                  botBubbleRef={isLatest ? botBubbleRef : undefined}
+                  isLoading={false}
+                  botBubbleRef={undefined}
                 />
               );
           }
         })}
+        {lastAnswer !== null && ( // 마지막 답변이 있을 때만 BotBubble 렌더링
+          <BotBubble
+            message={lastAnswer}
+            isLoading={isLoading}
+            botBubbleRef={botBubbleRef}
+          />
+        )}
       </div>
       {/* 스트리밍용 하단 spacer */}
       <div ref={spacerRef} className="w-full shrink-0" />

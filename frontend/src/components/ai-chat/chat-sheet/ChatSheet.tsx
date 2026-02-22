@@ -19,6 +19,7 @@ export const ChatSheet = () => {
   const [didStartChat, setDidStartChat] = useState<boolean>(false);
   const {
     chatHistoryList,
+    lastAnswer,
     isLoading,
     isStreaming,
     submitQuestion,
@@ -90,6 +91,7 @@ export const ChatSheet = () => {
           ) : (
             <ChatHistory
               chatHistoryList={chatHistoryList}
+              lastAnswer={lastAnswer}
               isLoading={isLoading}
               isStreaming={isStreaming}
             />
