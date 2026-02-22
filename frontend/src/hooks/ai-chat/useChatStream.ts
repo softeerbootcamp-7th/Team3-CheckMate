@@ -1,9 +1,10 @@
 import { useCallback, useRef, useState } from 'react';
 
-import type { ChatHistoryItem } from '@/types/ai-chat';
+import { CHAT_ROLE } from '@/constants/ai-chat';
+import { type ChatHistoryItem } from '@/types/ai-chat';
 
 // mock 데이터
-const mockedAnswer: ChatHistoryItem['answer'] = `오늘 제일 잘 팔린 메뉴는 👉 _아이스 아메리카노_입니다.
+const mockedAnswer: ChatHistoryItem['content'] = `오늘 제일 잘 팔린 메뉴는 👉 _아이스 아메리카노_입니다.
 
 총 42잔 판매로 전체 판매 1위
 점심 이후(12–15시)에 주문이 가장 몰렸어요
@@ -43,7 +44,11 @@ export const useChatStream = (): UseChatStreamReturn => {
     abortControllerRef.current = new AbortController();
 
     // 질문을 히스토리에 추가
-    setChatHistoryList((prev) => [...prev, { question, answer: '' }]);
+    setChatHistoryList((prev) => [
+      ...prev,
+      { role: CHAT_ROLE.USER, content: question },
+      { role: CHAT_ROLE.ASSISTANT, content: '' }, // 답변이 들어갈 자리
+    ]);
 
     // 로딩 상태 시작
     setIsLoading(true);
@@ -78,8 +83,8 @@ export const useChatStream = (): UseChatStreamReturn => {
         setChatHistoryList((prev) => [
           ...prev.slice(0, -1),
           {
-            question: prev[prev.length - 1].question,
-            answer: newText,
+            role: CHAT_ROLE.ASSISTANT,
+            content: newText,
           },
         ]);
         currentIndex++;

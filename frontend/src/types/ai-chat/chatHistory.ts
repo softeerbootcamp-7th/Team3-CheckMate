@@ -1,4 +1,6 @@
+import type { ChatRoleType } from '@/constants/ai-chat';
+
 export interface ChatHistoryItem {
-  question: string;
-  answer: string;
+  role: ChatRoleType;
+  content: string;
 }

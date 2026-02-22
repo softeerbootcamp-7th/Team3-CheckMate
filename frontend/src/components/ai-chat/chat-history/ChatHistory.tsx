@@ -1,9 +1,11 @@
 import { useRef } from 'react';
 
+import { CHAT_ROLE } from '@/constants/ai-chat/chatRole';
 import { useSpacerHeight } from '@/hooks/ai-chat';
 import type { ChatHistoryItem as ChatHistoryItemType } from '@/types/ai-chat';
 
-import { ChatHistoryItem } from './ChatHistoryItem';
+import { BotBubble } from './BotBubble';
+import { UserBubble } from './UserBubble';
 
 interface ChatHistoryProps {
   chatHistoryList: ChatHistoryItemType[];
@@ -29,6 +31,8 @@ export const ChatHistory = ({
     historyCount: chatHistoryList.length,
   });
 
+  const { USER, ASSISTANT } = CHAT_ROLE;
+
   return (
     <section
       ref={wrapperRef}
@@ -38,17 +42,26 @@ export const ChatHistory = ({
         {chatHistoryList.map((chat, index) => {
           const isLatest = index === chatHistoryList.length - 1;
 
-          return (
-            <ChatHistoryItem
-              key={`${chat.question}-${index}`}
-              question={chat.question}
-              answer={chat.answer}
-              isLatest={isLatest}
-              isLoading={isLatest && isLoading}
-              userBubbleRef={isLatest ? userBubbleRef : undefined}
-              botBubbleRef={isLatest ? botBubbleRef : undefined}
-            />
-          );
+          switch (chat.role) {
+            case USER:
+              return (
+                <UserBubble
+                  key={`${chat.role}-${index}`}
+                  message={chat.content}
+                  userBubbleRef={isLatest ? userBubbleRef : undefined}
+                />
+              );
+            case ASSISTANT:
+              return (
+                <BotBubble
+                  key={`${chat.role}-${index}`}
+                  message={chat.content}
+                  isLatest={isLatest}
+                  isLoading={isLatest && isLoading}
+                  botBubbleRef={isLatest ? botBubbleRef : undefined}
+                />
+              );
+          }
         })}
       </div>
       {/* 스트리밍용 하단 spacer */}

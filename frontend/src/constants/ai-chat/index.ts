@@ -6,3 +6,4 @@ export {
   CHAT_WEATHER_ANALYSIS_QUESTIONS,
   CHAT_DEFAULT_QUESTIONS,
 } from './questions';
+export { CHAT_ROLE, type ChatRoleType } from './chatRole';
