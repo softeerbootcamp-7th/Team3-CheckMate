@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { RefreshCcwIcon } from 'lucide-react';
@@ -8,18 +8,9 @@ import { Button } from '@/components/shared/shadcn-ui';
 import { postDashboardSseSubscription } from '@/services/dashboard';
 
 export const usePostCardSubscription = () => {
-  const {
-    mutate: subscribeDashboardCardMutation,
-    isPending: isSubscribingDashboardCard,
-  } = useMutation({
+  const { mutate: subscribeDashboardCardMutation } = useMutation({
     mutationFn: postDashboardSseSubscription,
   });
-
-  const isPendingRef = useRef(isSubscribingDashboardCard);
-
-  useEffect(() => {
-    isPendingRef.current = isSubscribingDashboardCard;
-  }, [isSubscribingDashboardCard]);
 
   const subscribeDashboardCardList = useCallback(
     function subscribeDashboardCardList(
@@ -36,7 +27,6 @@ export const usePostCardSubscription = () => {
                   onClick={() => {
                     subscribeDashboardCardList(variables);
                   }}
-                  disabled={isPendingRef.current}
                   aria-label="다시 시도하기"
                 >
                   <RefreshCcwIcon className="size-4" />
