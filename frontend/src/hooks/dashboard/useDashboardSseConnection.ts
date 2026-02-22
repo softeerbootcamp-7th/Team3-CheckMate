@@ -311,7 +311,7 @@ export const useDashboardSseConnection = () => {
     ],
   );
 
-  const handleSseError = useCallback(() => {
+  const handleRetryInterval = useCallback(() => {
     retryCountRef.current++;
     // 지수 백오프
     const backoff = Math.min(
@@ -331,11 +331,11 @@ export const useDashboardSseConnection = () => {
     sseClient('/api/sse/connection', {
       signal: abortController.signal,
       onmessage: handleSseMessage,
-      onerror: handleSseError,
+      retryIntervalFn: handleRetryInterval,
     });
 
     return () => {
       abortController.abort();
     };
-  }, [handleSseMessage, handleSseError]);
+  }, [handleSseMessage, handleRetryInterval]);
 };

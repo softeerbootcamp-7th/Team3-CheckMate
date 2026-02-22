@@ -1,18 +1,22 @@
 import { useRef } from 'react';
 
+import { CHAT_ROLE } from '@/constants/ai-chat';
 import { useSpacerHeight } from '@/hooks/ai-chat';
 import type { ChatHistoryItem as ChatHistoryItemType } from '@/types/ai-chat';
 
-import { ChatHistoryItem } from './ChatHistoryItem';
+import { BotBubble } from './BotBubble';
+import { UserBubble } from './UserBubble';
 
 interface ChatHistoryProps {
   chatHistoryList: ChatHistoryItemType[];
+  lastAnswer: string | null;
   isLoading: boolean;
   isStreaming: boolean;
 }
 
 export const ChatHistory = ({
   chatHistoryList,
+  lastAnswer,
   isLoading,
   isStreaming,
 }: ChatHistoryProps) => {
@@ -29,6 +33,8 @@ export const ChatHistory = ({
     historyCount: chatHistoryList.length,
   });
 
+  const { USER, ASSISTANT } = CHAT_ROLE;
+
   return (
     <section
       ref={wrapperRef}
@@ -38,18 +44,34 @@ export const ChatHistory = ({
         {chatHistoryList.map((chat, index) => {
           const isLatest = index === chatHistoryList.length - 1;
 
-          return (
-            <ChatHistoryItem
-              key={`${chat.question}-${index}`}
-              question={chat.question}
-              answer={chat.answer}
-              isLatest={isLatest}
-              isLoading={isLatest && isLoading}
-              userBubbleRef={isLatest ? userBubbleRef : undefined}
-              botBubbleRef={isLatest ? botBubbleRef : undefined}
-            />
-          );
+          switch (chat.role) {
+            case USER:
+              return (
+                <UserBubble
+                  key={`${chat.role}-${index}`}
+                  message={chat.content}
+                  userBubbleRef={isLatest ? userBubbleRef : undefined}
+                />
+              );
+            case ASSISTANT:
+              return (
+                <BotBubble
+                  key={`${chat.role}-${index}`}
+                  message={chat.content}
+                />
+              );
+            default:
+              console.warn('알 수 없는 역할의 채팅 항목:', chat);
+              return null;
+          }
         })}
+        {lastAnswer !== null && ( // 마지막 답변이 있을 때만 BotBubble 렌더링
+          <BotBubble
+            message={lastAnswer}
+            isLoading={isLoading}
+            botBubbleRef={botBubbleRef}
+          />
+        )}
       </div>
       {/* 스트리밍용 하단 spacer */}
       <div ref={spacerRef} className="w-full shrink-0" />
