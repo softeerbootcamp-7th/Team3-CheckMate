@@ -18,10 +18,10 @@ export const SalesOverview = () => {
             <DefaultCardFetchBoundary className="h-57 w-85">
               <ActualRevenue />
             </DefaultCardFetchBoundary>
-            <DefaultCardFetchBoundary className="h-57 w-157">
+            <DefaultCardFetchBoundary className="h-57 w-85">
               <OrderCount />
             </DefaultCardFetchBoundary>
-            <DefaultCardFetchBoundary className="h-57 w-157">
+            <DefaultCardFetchBoundary className="h-57 w-85">
               <AverageRevenuePerOrder />
             </DefaultCardFetchBoundary>
           </div>
