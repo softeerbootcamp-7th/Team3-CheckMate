@@ -75,7 +75,7 @@ export const useWeekdaySalesPattern = ({
     mainY: string,
     mainYUnit: string,
   ) => {
-    return `${formatPriceWithComma(Number(mainY)).split('.')[0]}}${mainYUnit}`;
+    return `${formatPriceWithComma(Number(mainY)).split('.')[0]}${mainYUnit}`;
   };
   return {
     weekdaySalesPatternBarData,

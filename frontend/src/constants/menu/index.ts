@@ -14,3 +14,4 @@ export {
 } from './menuMetric';
 export { MENU_SALES_RANK } from './popular-menu';
 export { MENU_COMBINATION_RANK } from './menu-combination';
+export { MENU_SALES_PATTERN_DETAIL } from './menu-sales-pattern';

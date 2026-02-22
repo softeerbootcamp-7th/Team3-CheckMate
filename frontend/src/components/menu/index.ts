@@ -6,7 +6,10 @@ export {
   IngredientConsumptionOverview,
   IngredientConsumptionPeriodTypeProvider,
 } from './ingredient-consumption';
-export { MenuSalesPatternOverview } from './menu-sales-pattern';
+export {
+  MenuSalesPatternOverview,
+  MenuSalesPatternPeriodTypeProvider,
+} from './menu-sales-pattern';
 export {
   MenuCombinationOverview,
   MenuCombinationPeriodTypeProvider,

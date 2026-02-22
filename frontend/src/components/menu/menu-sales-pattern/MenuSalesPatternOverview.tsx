@@ -1,25 +1,24 @@
-import { useState } from 'react';
-
-import { PeriodSelect, SectionHeader } from '@/components/shared';
 import {
-  PERIOD_PRESET_KEYS,
-  PERIOD_PRESETS,
-  type PeriodType,
-} from '@/constants/shared';
+  DefaultCardFetchBoundary,
+  PeriodSelect,
+  SectionHeader,
+} from '@/components/shared';
+import { PERIOD_PRESET_KEYS } from '@/constants/shared';
 import { usePeriodChangeRefreshTrigger } from '@/hooks/shared';
 import { menuKeys } from '@/services/menu';
 
-import { HourlyOrderPatternCard } from './HourlyOrderPatternCard';
-
-type MenuSalesPatternPeriodPresetType =
-  | PeriodType<typeof PERIOD_PRESET_KEYS.today7_30>
-  | undefined;
+import { useMenuSalesPatternPeriodType } from './period-type-provider';
+import { TimeSlotMenuOrderCount } from './TimeSlotMenuOrderCount';
 
 export const MenuSalesPatternOverview = () => {
-  const [periodType, setPeriodType] =
-    useState<MenuSalesPatternPeriodPresetType>(PERIOD_PRESETS.today7_30.today);
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const {
+    periodType,
+    setPeriodType,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+  } = useMenuSalesPatternPeriodType();
 
   // 기간 변경과 섹션헤더의 새로고침 시간 업데이트 연결시켜주는 휵
   const { triggerUpdateRefreshDate, handlePeriodChange } =
@@ -46,7 +45,9 @@ export const MenuSalesPatternOverview = () => {
           />
         }
       />
-      <HourlyOrderPatternCard />
+      <DefaultCardFetchBoundary className="h-87 w-full">
+        <TimeSlotMenuOrderCount />
+      </DefaultCardFetchBoundary>
     </section>
   );
 };
