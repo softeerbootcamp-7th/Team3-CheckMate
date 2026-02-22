@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { MENU_SALES_PATTERN_DETAIL } from '@/constants/menu';
@@ -6,7 +8,7 @@ import { menuOptions } from '@/services/menu';
 import type { GetDetailTimeSlotMenuOrderCountResponseDto } from '@/types/menu';
 import { getMenuSalesPatternCardCode } from '@/utils/menu';
 import { createChartData, formatDateISO, getHourLabel } from '@/utils/shared';
-import { createChartDataGroupedBy } from '@/utils/shared/chart';
+import { createChartDataGroupedBy } from '@/utils/shared';
 
 interface UseTimeSlotMenuOrderCountProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.today7_30>;
@@ -35,23 +37,26 @@ export const useTimeSlotMenuOrderCount = ({
     ),
   );
 
-  const timeSlotMenuOrderCountData = {
-    data: {
-      mainX: createChartData(
-        data.items,
-        (item) => getHourLabel(item.timeSlot2H), // 한 자리 시간대는 앞에 0을 붙여서 2자리 + '시'로 표현
-        X_UNIT,
-      ),
-      mainY: createChartDataGroupedBy(
-        data.items,
-        (item) => item.menus,
-        (menu) => menu.orderCount,
-        (menu) => menu.menuName,
-        Y_UNIT,
-      ),
-    },
-    color: LABEL_COLOR,
-  };
+  const timeSlotMenuOrderCountData = useMemo(
+    () => ({
+      data: {
+        mainX: createChartData(
+          data.items,
+          (item) => getHourLabel(item.timeSlot2H), // 한 자리 시간대는 앞에 0을 붙여서 2자리 + '시'로 표현
+          X_UNIT,
+        ),
+        mainY: createChartDataGroupedBy(
+          data.items,
+          (item) => item.menus,
+          (menu) => menu.orderCount,
+          (menu) => menu.menuName,
+          Y_UNIT,
+        ),
+      },
+      color: LABEL_COLOR,
+    }),
+    [data, X_UNIT, Y_UNIT, LABEL_COLOR],
+  );
 
   return { timeSlotMenuOrderCountData };
 };

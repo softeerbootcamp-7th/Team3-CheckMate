@@ -1,5 +1,4 @@
-import { DefaultCardWrapper } from '@/components/shared';
-import { BarChart } from '@/components/shared';
+import { BarChart, DefaultCardWrapper } from '@/components/shared';
 import { MENU_METRIC, MENU_SALES_PATTERN_DETAIL } from '@/constants/menu';
 import { useTimeSlotMenuOrderCount } from '@/hooks/menu';
 
