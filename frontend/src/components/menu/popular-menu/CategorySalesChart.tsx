@@ -1,24 +1,23 @@
 import { useMemo, useState } from 'react';
 
 import { DoughnutChart } from '@/components/shared';
-import { CATEGORIES_RANKING_DATA } from '@/mocks/data/menu/categoriesRevenue';
-import type { CategoriesRevenue } from '@/types/menu/categoriesRevenue';
+import { CATEGORY_SALES_DATA } from '@/mocks/data/menu';
+import type { CategorySales } from '@/types/menu';
 import type { DoughnutChartItem } from '@/types/shared/doughnutChartItem';
 
 import { CategorySalesChartLegend } from './CategorySalesChartLegend';
 
 export const CategorySalesChart = () => {
-  const [categoriesRevenueData] = useState<CategoriesRevenue[]>(
-    CATEGORIES_RANKING_DATA,
-  );
+  const [categoriesRevenueData] =
+    useState<CategorySales[]>(CATEGORY_SALES_DATA);
 
   const chartData: DoughnutChartItem[] = useMemo(
     () =>
       [...categoriesRevenueData]
-        .sort((a, b) => b.revenue - a.revenue)
+        .sort((a, b) => b.totalSalesAmount - a.totalSalesAmount)
         .map((item) => ({
           label: item.category,
-          value: item.revenue,
+          value: item.totalSalesAmount,
         })),
     [categoriesRevenueData],
   );

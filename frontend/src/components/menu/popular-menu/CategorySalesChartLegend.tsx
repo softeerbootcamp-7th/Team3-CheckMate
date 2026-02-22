@@ -27,7 +27,7 @@ export const CategorySalesChartLegend = <T extends DoughnutChartItem>({
               </span>
             </div>
             <span className="body-small-medium text-grey-900">
-              {formatNumber(data.value)}%
+              {formatNumber(data.value)}원
             </span>
           </li>
         ))}
