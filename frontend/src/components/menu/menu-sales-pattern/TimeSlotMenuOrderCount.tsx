@@ -9,11 +9,12 @@ export const TimeSlotMenuOrderCount = () => {
     MENU_SALES_PATTERN_DETAIL.TIME_SLOT_MENU_ORDER_COUNT;
   const { periodType, startDate, endDate } = useMenuSalesPatternPeriodType();
 
-  const { timeSlotMenuOrderCountData } = useTimeSlotMenuOrderCount({
-    periodType,
-    startDate,
-    endDate,
-  });
+  const { timeSlotMenuOrderCountData, timeSlotMenuOrderCountTooltipContent } =
+    useTimeSlotMenuOrderCount({
+      periodType,
+      startDate,
+      endDate,
+    });
   const { label: peakTimeLabel } =
     MENU_METRIC.MENU_SALES_PATTERN.TIME_BASED_MENU_ORDER_COUNT;
   return (
@@ -35,6 +36,7 @@ export const TimeSlotMenuOrderCount = () => {
           textColor: LABEL_COLOR,
         }}
         primarySeries={timeSlotMenuOrderCountData}
+        tooltipContent={timeSlotMenuOrderCountTooltipContent}
       />
     </DefaultCardWrapper>
   );

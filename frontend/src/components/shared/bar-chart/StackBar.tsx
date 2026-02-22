@@ -2,11 +2,7 @@ import { useRef } from 'react';
 
 import { useBarInitAnimation } from '@/hooks/shared';
 import type { StackBarSegment } from '@/types/shared';
-import {
-  getBarSegmentInfoList,
-  getStackTotalAmount,
-  getTooltipContent,
-} from '@/utils/shared';
+import { getBarSegmentInfoList, getStackTotalAmount } from '@/utils/shared';
 
 import { Bar } from './Bar';
 
@@ -41,12 +37,14 @@ export const StackBar = ({
 
   // 스택 바 내 전체 데이터 합계 계산 (비율 산정용)
   const totalAmount = getStackTotalAmount({ stackBarData });
+  const barSegmentCount = stackBarData.length; // 스택 바를 구성하는 조각 바의 개수
   // 각 조각 바에 대한 정보(y 좌표, 높이, 비율 등) 계산
   const barSegmentInfoList = getBarSegmentInfoList({
     stackBarData,
     barTopY,
     barHeight: height,
     totalAmount,
+    barSegmentCount,
   });
 
   return (
@@ -73,12 +71,11 @@ export const StackBar = ({
               activeTooltip={activeTooltip}
               barColorChangeOnHover={false}
               tooltipContentText={
-                getTooltipContent({
-                  tooltipContent,
-                  label: segment.label,
-                  percentage: segment.percentage,
-                  totalAmount,
-                }) || ''
+                tooltipContent?.(
+                  segment.label,
+                  totalAmount.toString(),
+                  `${segment.percentage.toString()}%`,
+                ) ?? ''
               }
             />
           );

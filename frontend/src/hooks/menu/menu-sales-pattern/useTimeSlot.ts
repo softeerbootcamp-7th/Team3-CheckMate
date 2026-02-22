@@ -57,6 +57,13 @@ export const useTimeSlotMenuOrderCount = ({
     }),
     [data, X_UNIT, Y_UNIT, LABEL_COLOR],
   );
+  const timeSlotMenuOrderCountTooltipContent = (
+    label: string, // 메뉴명
+    orderCount: string, // 주문 건수
+    percentage: string, // 퍼센트
+  ) => {
+    return `${label}, ${orderCount}건(${percentage})`;
+  };
 
-  return { timeSlotMenuOrderCountData };
+  return { timeSlotMenuOrderCountData, timeSlotMenuOrderCountTooltipContent };
 };

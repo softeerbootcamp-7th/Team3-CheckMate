@@ -3,11 +3,11 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
-  PRIMARY_SERIES_MOCK,
-  SECONDARY_SERIES_MOCK,
-  WEEKLY_DATA,
+  BAR_SERIES_MOCK,
+  STACK_BAR,
+  STACK_BAR_HOURLY,
+  WEEKLY_BAR_DATA,
 } from '@/mocks/data';
-import { STACK_BAR, STACK_BAR_HOURLY } from '@/mocks/data/storybook/';
 import type { BarChartSeries, StackBarChartSeries } from '@/types/shared';
 
 import { Button, TooltipProvider } from '../shadcn-ui';
@@ -71,7 +71,7 @@ export const Default: Story = {
     showXGuideLine: true,
     showYGuideLine: true,
     yGuideLineCount: 4,
-    primarySeries: WEEKLY_DATA,
+    primarySeries: WEEKLY_BAR_DATA,
     activeTooltip: true,
     tooltipContent: (mainY, subY) => `${mainY} (${subY})`,
     chartTitle: '일별 매출 꺾은선 차트',
@@ -107,6 +107,13 @@ export const StackBar: Story = {
     activeTooltip: true,
     chartTitle: '일별 매출 꺾은선 차트',
     chartDescription: '일별 매출 꺾은선 차트 설명',
+    tooltipContent: (
+      label: string, // 메뉴명
+      orderCount: string, // 주문 건수
+      percentage: string, // 퍼센트
+    ) => {
+      return `${label}, ${orderCount}건(${percentage})`;
+    },
     xAxisType: 'right-arrow',
     activeDataIndex: 3,
     barColorChangeOnHover: true,
@@ -153,8 +160,8 @@ const RealtimeBarChart = (args: Story['args']) => {
 
       newMainY[currentIndex] = {
         ...newMainY[currentIndex],
-        amount: +currentAmount + Math.floor(Math.random() * 10),
-        unit: '건',
+        amount: +currentAmount + Math.floor(Math.random() * 10000),
+        unit: '원',
       };
 
       // newSubY[currentIndex] = {
@@ -209,7 +216,7 @@ const RealtimeBarChart = (args: Story['args']) => {
   };
 
   const handleReset = () => {
-    setBarChartSeries(PRIMARY_SERIES_MOCK);
+    setBarChartSeries(BAR_SERIES_MOCK);
   };
 
   return (
@@ -384,7 +391,7 @@ export const Realtime: Story = {
     hasBarGradient: true,
     showXGuideLine: true,
     showYGuideLine: true,
-    primarySeries: SECONDARY_SERIES_MOCK,
+    primarySeries: BAR_SERIES_MOCK,
     //secondarySeries: SECONDARY_SERIES_MOCK,
     activeTooltip: true,
     tooltipContent: (mainY, subY) => `${mainY} (${subY})`,
@@ -403,6 +410,13 @@ export const RealtimeStackBar: Story = {
     showXGuideLine: true,
     showYGuideLine: true,
     primarySeries: STACK_BAR_HOURLY,
+    tooltipContent: (
+      label: string, // 메뉴명
+      orderCount: string, // 주문 건수
+      percentage: string, // 퍼센트
+    ) => {
+      return `${label}, ${orderCount}건(${percentage})`;
+    },
     //secondarySeries: SECONDARY_SERIES_MOCK,
     activeTooltip: true,
     yGuideLineCount: 4,

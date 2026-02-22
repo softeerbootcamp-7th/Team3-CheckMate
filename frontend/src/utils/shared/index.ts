@@ -55,7 +55,6 @@ export { getCoordinate } from './getCoordinate';
 export {
   getBarSegmentInfoList,
   checkIsStackBarChart,
-  getTooltipContent,
   getStackTotalAmount,
   getBarHeight,
   getBarWidth,
