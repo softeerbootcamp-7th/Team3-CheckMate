@@ -3,17 +3,6 @@ import { useCallback, useReducer, useRef } from 'react';
 import { CHAT_ROLE } from '@/constants/ai-chat';
 import { sseClient } from '@/services/shared';
 import { type ChatHistoryItem } from '@/types/ai-chat';
-import type { EventSourceMessage } from '@/types/shared';
-
-interface UseChatStreamReturn {
-  chatHistoryList: ChatHistoryItem[];
-  lastAnswer: string | null;
-  isLoading: boolean;
-  isStreaming: boolean;
-  submitQuestion: (question: string) => void;
-  cancelChat: () => void;
-  resetChat: () => void;
-}
 
 interface ChatState {
   chatHistoryList: ChatHistoryItem[];
@@ -28,6 +17,7 @@ interface ChatAction {
 const chatReducer = (state: ChatState, action: ChatAction) => {
   switch (action.type) {
     case 'QUESTION':
+      // 질문이 제출되면 로딩 상태로 전환하고, 질문을 히스토리에 추가
       return {
         ...state,
         isLoading: true,
@@ -38,6 +28,7 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         lastAnswer: '',
       };
     case 'STREAM':
+      // 스트리밍된 답변을 lastAnswer에 누적
       return {
         ...state,
         isLoading: false,
@@ -45,6 +36,7 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         lastAnswer: (state.lastAnswer ?? '') + (action.payload || ''),
       };
     case 'FINISH':
+      // 스트리밍이 종료되면 마지막 답변을 히스토리에 추가하고, 로딩 및 스트리밍 상태 해제
       return {
         ...state,
         isLoading: false,
@@ -56,6 +48,7 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         lastAnswer: null,
       };
     case 'RESET':
+      // 챗 상태 초기화
       return {
         isLoading: false,
         isStreaming: false,
@@ -64,7 +57,8 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
       };
   }
 };
-export const useChatStream = (): UseChatStreamReturn => {
+
+export const useChatStream = () => {
   const [state, dispatch] = useReducer(chatReducer, {
     chatHistoryList: [],
     lastAnswer: null,
@@ -73,19 +67,6 @@ export const useChatStream = (): UseChatStreamReturn => {
   });
 
   const abortControllerRef = useRef<AbortController | null>(null);
-
-  const handleSseMessage = useCallback((message: EventSourceMessage) => {
-    dispatch({ type: 'STREAM', payload: message.data });
-  }, []);
-
-  const handleSseClose = useCallback(() => {
-    dispatch({ type: 'FINISH' });
-  }, []);
-
-  const handleSseError = useCallback((error: unknown) => {
-    console.error('SSE error:', error);
-    dispatch({ type: 'FINISH' });
-  }, []);
 
   const submitQuestion = useCallback(
     (question: string) => {
@@ -104,9 +85,10 @@ export const useChatStream = (): UseChatStreamReturn => {
           headers: { 'Content-Type': 'application/json' },
           body,
           signal: abortControllerRef.current.signal,
-          onmessage: handleSseMessage,
-          onclose: handleSseClose,
-          onerror: handleSseError,
+          onmessage: (message) =>
+            dispatch({ type: 'STREAM', payload: message.data }),
+          onclose: () => dispatch({ type: 'FINISH' }),
+          onerror: () => dispatch({ type: 'FINISH' }),
           openWhenHidden: true,
         });
       } catch (error) {
@@ -116,17 +98,16 @@ export const useChatStream = (): UseChatStreamReturn => {
         return;
       }
 
-      // 질문을 히스토리에 추가
       dispatch({ type: 'QUESTION', payload: question });
     },
-    [state.chatHistoryList, handleSseMessage, handleSseClose, handleSseError],
+    [state.chatHistoryList],
   );
 
   const cancelChat = useCallback(() => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
-      dispatch({ type: 'FINISH' });
     }
+    dispatch({ type: 'FINISH' });
   }, []);
 
   const resetChat = useCallback(() => {
