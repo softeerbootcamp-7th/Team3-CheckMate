@@ -90,6 +90,9 @@ export const useChatStream = () => {
           onclose: () => dispatch({ type: 'FINISH' }),
           onerror: () => dispatch({ type: 'FINISH' }),
           openWhenHidden: true,
+        }).catch((error) => {
+          console.error('Failed to connect to chat stream', error);
+          dispatch({ type: 'FINISH' });
         });
       } catch (error) {
         console.error('Failed to stringify chat history', error);
