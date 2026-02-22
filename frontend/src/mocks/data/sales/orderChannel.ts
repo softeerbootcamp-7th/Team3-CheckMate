@@ -1,4 +1,4 @@
-import { SALES_SOURCE } from '@/constants/sales/salesSource';
+import { SALES_SOURCE } from '@/constants/sales';
 import type { SalesSource } from '@/types/sales';
 
 export const ORDER_CHANNEL_DATA: SalesSource[] = [
