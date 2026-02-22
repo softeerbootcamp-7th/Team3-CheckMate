@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { SALES_SOURCE } from '@/constants/sales';
@@ -29,16 +31,18 @@ export const useOrderChannel = ({
     }),
   });
 
-  const orderChannelData = Object.entries(SALES_SOURCE.ORDER_CHANNEL).map(
-    ([key, label]) => {
-      const found = data.items.find((item) => item.orderChannel === key);
-      return {
-        salesSource: label,
-        salesAmount: found ? found.salesAmount : 0,
-        orderCount: found ? found.orderCount : 0,
-        deltaShare: found ? found.deltaShare : 0,
-      };
-    },
+  const orderChannelData = useMemo(
+    () =>
+      Object.entries(SALES_SOURCE.ORDER_CHANNEL).map(([key, label]) => {
+        const found = data.items.find((item) => item.orderChannel === key);
+        return {
+          salesSource: label,
+          salesAmount: found ? found.salesAmount : 0,
+          orderCount: found ? found.orderCount : 0,
+          deltaShare: found ? found.deltaShare : 0,
+        };
+      }),
+    [data],
   );
   return {
     orderChannelData,

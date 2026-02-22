@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { SALES_SOURCE } from '@/constants/sales';
@@ -29,16 +31,18 @@ export const usePayMethod = ({
     }),
   });
 
-  const payMethodData = Object.entries(SALES_SOURCE.PAY_METHOD).map(
-    ([key, label]) => {
-      const found = data.items.find((item) => item.payMethod === key);
-      return {
-        salesSource: label,
-        salesAmount: found ? found.salesAmount : 0,
-        orderCount: found ? found.orderCount : 0,
-        deltaShare: found ? found.deltaShare : 0,
-      };
-    },
+  const payMethodData = useMemo(
+    () =>
+      Object.entries(SALES_SOURCE.PAY_METHOD).map(([key, label]) => {
+        const found = data.items.find((item) => item.payMethod === key);
+        return {
+          salesSource: label,
+          salesAmount: found ? found.salesAmount : 0,
+          orderCount: found ? found.orderCount : 0,
+          deltaShare: found ? found.deltaShare : 0,
+        };
+      }),
+    [data],
   );
   return {
     payMethodData,

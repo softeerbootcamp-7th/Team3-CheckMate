@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { SALES_SOURCE } from '@/constants/sales';
@@ -29,17 +31,20 @@ export const useSalesType = ({
     }),
   });
 
-  const salesTypeData = Object.entries(SALES_SOURCE.SALES_TYPE).map(
-    ([key, label]) => {
-      const found = data.items.find((item) => item.salesType === key);
-      return {
-        salesSource: label,
-        salesAmount: found ? found.salesAmount : 0,
-        orderCount: found ? found.orderCount : 0,
-        deltaShare: found ? found.deltaShare : 0,
-      };
-    },
+  const salesTypeData = useMemo(
+    () =>
+      Object.entries(SALES_SOURCE.SALES_TYPE).map(([key, label]) => {
+        const found = data.items.find((item) => item.salesType === key);
+        return {
+          salesSource: label,
+          salesAmount: found ? found.salesAmount : 0,
+          orderCount: found ? found.orderCount : 0,
+          deltaShare: found ? found.deltaShare : 0,
+        };
+      }),
+    [data],
   );
+
   return {
     salesTypeData,
   };
