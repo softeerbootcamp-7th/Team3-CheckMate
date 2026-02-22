@@ -1,30 +1,13 @@
 import { useCallback, useRef, useState } from 'react';
 
 import { CHAT_ROLE } from '@/constants/ai-chat';
+import { sseClient } from '@/services/shared';
 import { type ChatHistoryItem } from '@/types/ai-chat';
-
-// mock 데이터
-const mockedAnswer: ChatHistoryItem['content'] = `오늘 제일 잘 팔린 메뉴는 👉 _아이스 아메리카노_입니다.
-
-총 42잔 판매로 전체 판매 1위
-점심 이후(12–15시)에 주문이 가장 몰렸어요
-테이크아웃 비중이 높았습니다 ☕️
-
-그다음으로 잘 팔린 메뉴
-바닐라 라떼 – 27잔
-크루아상 – 19개 (커피와 함께 세트 주문 많음)
-
-💡 운영 인사이트
-
-더운 날씨 영향으로 **아이스 음료 비중이 78%**로 높아요
-
-아메리카노 + 베이커리 조합이 잘 나가서
-→ 내일은 세트 노출을 조금 더 강조해도 좋아 보여요
-
-앞으로도 궁금한 점 있으면 언제든 물어봐 주세요! 😊`;
+import type { EventSourceMessage } from '@/types/shared';
 
 interface UseChatStreamReturn {
   chatHistoryList: ChatHistoryItem[];
+  lastAnswer: string | null;
   isLoading: boolean;
   isStreaming: boolean;
   submitQuestion: (question: string) => void;
@@ -34,81 +17,131 @@ interface UseChatStreamReturn {
 
 export const useChatStream = (): UseChatStreamReturn => {
   const [chatHistoryList, setChatHistoryList] = useState<ChatHistoryItem[]>([]);
+  const [lastAnswer, setLastAnswer] = useState<string | null>(null); // 마지막 답변을 상태로 관리
 
   const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const submitQuestion = useCallback((question: string) => {
-    abortControllerRef.current = new AbortController();
+  const handleSseMessage = useCallback((message: EventSourceMessage) => {
+    try {
+      const response = JSON.parse(message.data);
 
-    // 질문을 히스토리에 추가
-    setChatHistoryList((prev) => [
-      ...prev,
-      { role: CHAT_ROLE.USER, content: question },
-      { role: CHAT_ROLE.ASSISTANT, content: '' }, // 답변이 들어갈 자리
-    ]);
-
-    // 로딩 상태 시작
-    setIsLoading(true);
-
-    // 2초 뒤 스트리밍 시작 (mock)
-    const MOCK_LOADING_DELAY = 2000;
-    const MOCK_STREAMING_SPEED = 30; // ms per character
-    setTimeout(() => {
-      // 로딩 완료, 스트리밍 시작
       setIsLoading(false);
       setIsStreaming(true);
+      setLastAnswer((prev) => prev + response);
+    } catch (error) {
+      console.error('Failed to parse SSE message', error);
+    }
+  }, []);
 
-      const lastAnswer = mockedAnswer;
-      let currentIndex = 0;
-      const intervalId = setInterval(() => {
-        // 요청 취소 또는 스트리밍 완료
-        if (
-          abortControllerRef.current?.signal.aborted ||
-          currentIndex >= lastAnswer.length
-        ) {
-          clearInterval(intervalId);
+  const handleSseClose = useCallback(() => {
+    setIsLoading(false);
+    setIsStreaming(false);
+    setChatHistoryList((prev) => [
+      ...prev,
+      {
+        role: CHAT_ROLE.ASSISTANT,
+        content: lastAnswer || '',
+      },
+    ]);
+    setLastAnswer(null); // 마지막 답변 초기화
+  }, [lastAnswer]);
 
-          // 스트리밍 상태 초기화
-          setIsLoading(false);
-          setIsStreaming(false);
+  const handleSseError = useCallback(
+    (error: unknown) => {
+      console.error('SSE error:', error);
+      setIsLoading(false);
+      setIsStreaming(false);
+      setChatHistoryList((prev) => [
+        ...prev,
+        {
+          role: CHAT_ROLE.ASSISTANT,
+          content: lastAnswer + ' (답변을 생성하는 중 오류가 발생했습니다.)',
+        },
+      ]);
+      setLastAnswer(null);
+    },
+    [lastAnswer],
+  );
 
-          return;
-        }
+  const submitQuestion = useCallback(
+    (question: string) => {
+      abortControllerRef.current = new AbortController();
 
-        // 히스토리의 마지막 항목 answer를 직접 업데이트 (함수형 업데이트)
-        const newText = lastAnswer.slice(0, currentIndex + 1);
+      // 로딩 상태 시작
+      setIsLoading(true);
+
+      try {
+        const requestBody = {
+          history: chatHistoryList,
+          question,
+        };
+
+        const body = JSON.stringify(requestBody);
+
+        sseClient('/api/chats/stream', {
+          method: 'POST',
+          body,
+          signal: abortControllerRef.current.signal,
+          onmessage: handleSseMessage,
+          onclose: handleSseClose,
+          onerror: handleSseError,
+          openWhenHidden: true,
+        });
+      } catch (error) {
+        console.error('Failed to stringify chat history', error);
+        setIsLoading(false);
+        // 실패 시 오류 메시지를 히스토리에 추가
         setChatHistoryList((prev) => [
-          ...prev.slice(0, -1),
+          ...prev,
+          { role: CHAT_ROLE.USER, content: question },
           {
             role: CHAT_ROLE.ASSISTANT,
-            content: newText,
+            content: '답변을 생성하는 중 오류가 발생했습니다.',
           },
         ]);
-        currentIndex++;
-      }, MOCK_STREAMING_SPEED);
-    }, MOCK_LOADING_DELAY);
-  }, []);
+        return;
+      }
+
+      // 질문을 히스토리에 추가
+      setChatHistoryList((prev) => [
+        ...prev,
+        { role: CHAT_ROLE.USER, content: question },
+      ]);
+      setLastAnswer(''); // 마지막 답변 초기화
+    },
+    [chatHistoryList, handleSseMessage, handleSseClose, handleSseError],
+  );
 
   const cancelChat = useCallback(() => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
+      setChatHistoryList((prev) => [
+        ...prev,
+        {
+          role: CHAT_ROLE.ASSISTANT,
+          content: lastAnswer || '',
+        },
+      ]);
+      setLastAnswer(null);
     }
-  }, []);
+  }, [lastAnswer]);
 
   const resetChat = useCallback(() => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
     setChatHistoryList([]);
+    setLastAnswer(null);
     setIsLoading(false);
     setIsStreaming(false);
   }, []);
 
   return {
     chatHistoryList,
+    lastAnswer,
     isLoading,
     isStreaming,
     submitQuestion,
