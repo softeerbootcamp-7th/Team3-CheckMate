@@ -51,22 +51,20 @@ export const WeekdaySalesPattern = () => {
         setEndDate={setEndDate}
         className="absolute top-5 right-2"
       />
-      <div>
-        <BarChart
-          viewBoxWidth={1020}
-          viewBoxHeight={150}
-          hasXAxis
-          hasBarGradient
-          xAxisType="default"
-          activeDataIndex={todayWeekDayIdx}
-          activeTooltip
-          tooltipContent={weekdaySalesPatternTooltipContent}
-          chartTitle={`${peakTimeLabel} 차트`}
-          chartDescription={`매장이 바쁜 때를 파악해요.`}
-          primarySeries={weekdaySalesPatternBarData}
-          secondarySeries={weekdaySalesPatternLabelData}
-        />
-      </div>
+      <BarChart
+        viewBoxWidth={1020}
+        viewBoxHeight={150}
+        hasXAxis
+        hasBarGradient
+        xAxisType="default"
+        activeDataIndex={todayWeekDayIdx}
+        activeTooltip
+        tooltipContent={weekdaySalesPatternTooltipContent}
+        chartTitle={`${peakTimeLabel} 차트`}
+        chartDescription={`매장이 바쁜 때를 파악해요.`}
+        primarySeries={weekdaySalesPatternBarData}
+        secondarySeries={weekdaySalesPatternLabelData}
+      />
     </DefaultCardWrapper>
   );
 };

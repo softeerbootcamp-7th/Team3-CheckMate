@@ -58,7 +58,7 @@ export const useWeekdaySalesPattern = ({
   const weekdaySalesPatternLabelData = useMemo(
     () => ({
       data: {
-        mainX: createChartData(data.items, (item) => item.day, ''),
+        mainX: createChartData(data.items, (item) => item.day, X_UNIT),
         mainY: createChartData(
           data.items,
           (item) => item.orderCount,
