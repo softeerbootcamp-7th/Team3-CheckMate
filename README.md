@@ -2,14 +2,15 @@
 
 **HMG Softeer Bootcamp 7th - Team3**
 
+[![Issues](https://img.shields.io/badge/Issues-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/softeerbootcamp-7th/Team3-CheckMate/issues)
+&emsp; [![Wiki](https://img.shields.io/badge/Wiki-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/softeerbootcamp-7th/Team3-CheckMate/wiki)
+
+<br>
+
 <img src="./docs/img/checkmate_logo.png" alt="로고">
 
 **초보 외식업 사장님을 위한 실시간 매장 운영 관리 서비스**
 
-<br>
-
-[![Issues](https://img.shields.io/badge/Issues-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/softeerbootcamp-7th/Team3-CheckMate/issues)
-&emsp; &emsp; &emsp; [![Wiki](https://img.shields.io/badge/Wiki-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/softeerbootcamp-7th/Team3-CheckMate/wiki)
 
 ---
 
