@@ -74,7 +74,10 @@ export const useChatStream = () => {
 
       try {
         const requestBody = {
-          history: state.chatHistoryList,
+          history: state.chatHistoryList.map(({ role, content }) => ({
+            role,
+            content: content || '오류',
+          })),
           question,
         };
 
