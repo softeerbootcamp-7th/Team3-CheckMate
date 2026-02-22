@@ -168,10 +168,13 @@ export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
         <SalesTrendContent
           cardCode={cardCode}
           salesTrendData={SALES_TREND_EXAMPLE_DATA[cardCode]}
+          disableCaption
         />
       );
     case 'SLS_13_01':
-      return <PeakTimeContent peakTimeData={PEAK_TIME_EXAMPLE_DATA} />;
+      return (
+        <PeakTimeContent peakTimeData={PEAK_TIME_EXAMPLE_DATA} disableCaption />
+      );
     case 'SLS_14_06':
       return (
         <SalesByDayContent

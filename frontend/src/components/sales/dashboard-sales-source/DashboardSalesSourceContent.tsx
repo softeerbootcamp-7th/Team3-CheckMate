@@ -95,7 +95,7 @@ export const DashboardSalesSourceContentDoughnutChart = ({
           : 'gap-11.5',
       )}
     >
-      <div className="h-45 w-45">
+      <div className="my-1 h-45 w-45">
         <DoughnutChart title={title} chartData={chartData} />
       </div>
       <SalesSourceChartLegend

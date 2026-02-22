@@ -56,13 +56,16 @@ export const SalesSourceChartLegendItem = ({
             className={cn(
               'body-small-semibold text-brand-main justify-self-end',
               salesSourceData.deltaShare < 0 && 'text-others-negative',
+              salesSourceData.deltaShare === 0 && 'text-grey-500',
             )}
           >
-            <object
-              data={`${CDN_BASE_URL}/assets/images/${salesSourceData.deltaShare >= 0 ? 'up' : 'down'}.svg`}
-              className="inline size-4"
-              aria-hidden="true"
-            />
+            {salesSourceData.deltaShare !== 0 && (
+              <object
+                data={`${CDN_BASE_URL}/assets/images/${salesSourceData.deltaShare > 0 ? 'up' : 'down'}.svg`}
+                className="inline size-4"
+                aria-hidden="true"
+              />
+            )}
             {salesSourceData.deltaShare > 0 ? '+' : ''}
             {salesSourceData.deltaShare}%p
           </span>

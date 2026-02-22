@@ -16,7 +16,7 @@ export const MenuCombinationRankCard = () => {
   return (
     <DefaultCardWrapper
       aria-label="인기 메뉴 조합 랭킹"
-      className="flex h-[25rem] w-full flex-row gap-10"
+      className="flex h-96 w-full flex-row gap-10"
     >
       <MenuCombinationRankCardContent
         popularMenuCombinations={popularMenuCombinations}

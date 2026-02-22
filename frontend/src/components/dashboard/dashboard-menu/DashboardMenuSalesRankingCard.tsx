@@ -1,9 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import {
-  MenuSalesRankingCardContent,
-  MenuSalesRankingCardContentEmptyView,
-} from '@/components/menu';
+import { MenuSalesRankingCardContent } from '@/components/menu';
 import {
   DASHBOARD_METRICS,
   type ExtractCardCodes,
@@ -28,10 +25,6 @@ export const DashboardMenuSalesRankingCard = ({
     createCardDetailQuery<GetMenuSalesRankingResponseDto>(cardCode);
 
   const { data } = useSuspenseQuery(queryOption);
-
-  if (data.items.length === 0) {
-    return <MenuSalesRankingCardContentEmptyView cardCode={cardCode} />;
-  }
 
   return <MenuSalesRankingCardContent items={data.items} />;
 };

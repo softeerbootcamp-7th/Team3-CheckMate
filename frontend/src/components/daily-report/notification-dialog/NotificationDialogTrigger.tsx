@@ -57,9 +57,9 @@ export const NotificationDialogTrigger = () => {
       <PopoverContent
         align="start"
         side="left"
-        className="bg-special-card-bg rounded-300 shadow-card-floating! h-102.5 w-70 translate-x-[-8px] border-none p-4 pt-4.5"
+        className="bg-special-card-bg rounded-300 shadow-card-floating! h-102.5 w-70 -translate-x-2 border-none p-4 pt-4.5"
       >
-        <PopoverHeader className="flex justify-between">
+        <PopoverHeader className="mb-4 flex justify-between">
           <PopoverTitle className="body-small-medium text-grey-900 w-fit">
             알림
           </PopoverTitle>

@@ -8,7 +8,7 @@ export const SalesTrendCaption = ({ className }: SalesTrendCaptionProps) => {
   return (
     <div
       className={cn(
-        'caption-large-medium text-grey-600 flex items-center gap-2',
+        'caption-large-medium text-grey-600 absolute top-5.5 left-36 flex items-center gap-2',
         className,
       )}
     >

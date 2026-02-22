@@ -20,7 +20,3 @@ export {
 } from './dashboard-menu-ranking';
 export { TimeSlotMenuOrderCountCardContent } from './dashboard-menu-order';
 export { PopularMenuCombinationCardContent } from './dashboard-menu-combination';
-export {
-  MenuSalesRankingCardContentEmptyView,
-  IngredientUsageRankingEmptyView,
-} from './shared';

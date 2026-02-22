@@ -1,6 +1,7 @@
 // 대시보드>메뉴분석에서 식재료별 소진량 랭킹 카드
 import { useMemo } from 'react';
 
+import { INGREDIENT_UNIT } from '@/constants/ingredient';
 import { DASHBOARD_RANKING } from '@/constants/menu';
 import type { DashboardRankItem } from '@/types/menu';
 import type {
@@ -25,6 +26,18 @@ const getDashboardIngredientRankItems = ({
       totalAmount: item.totalQuantity,
       unit: item.baseUnit as DashboardRankItem['unit'],
     }))
+    .concat(
+      Array.from({
+        length: Math.max(
+          0,
+          DASHBOARD_RANKING.MAX_DISPLAYED_RANK_ITEMS - items.length,
+        ),
+      }).map((_, index) => ({
+        rank: items.length + index + 1,
+        unit: INGREDIENT_UNIT.g, // 임시
+        ...DASHBOARD_RANKING.EMPTY_RANK_ITEM,
+      })),
+    )
     .slice(0, DASHBOARD_RANKING.MAX_DISPLAYED_RANK_ITEMS); // 최대 4등까지만 보여줌
 };
 

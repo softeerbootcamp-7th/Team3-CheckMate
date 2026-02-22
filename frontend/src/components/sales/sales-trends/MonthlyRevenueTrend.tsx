@@ -50,7 +50,7 @@ export const MonthlyRevenueTrend = () => {
         dateRangePickerType={DATE_RANGE_PICKER_TYPE.month}
         className="absolute top-5 right-2"
       />
-      <div className="pt-2">
+      <div className="flex flex-1 pt-2">
         <BarLineChart
           barLineChartSeries={monthlyRevenueTrendData}
           viewBoxWidth={CHART_WIDTH}

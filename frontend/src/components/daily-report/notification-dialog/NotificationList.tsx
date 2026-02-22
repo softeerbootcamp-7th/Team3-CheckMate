@@ -30,7 +30,7 @@ export const NotificationList = ({ notifications }: NotificationListProps) => {
   }, [readAll]);
 
   return (
-    <ul className="mt-4 flex h-full flex-col gap-4 overflow-y-scroll">
+    <ul className="flex h-85 flex-col gap-4 overflow-y-auto pb-4">
       {notifications.map((notification) => (
         <NotificationItem
           key={`notification-${notification.notificationId}`}

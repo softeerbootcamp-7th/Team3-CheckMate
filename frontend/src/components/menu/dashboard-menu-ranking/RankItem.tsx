@@ -36,7 +36,9 @@ export const RankItem = ({
       </td>
 
       <td className="text-grey-600 flex justify-end gap-1 pb-2 group-last:pb-0">
-        <span className="truncate">{formatNumber(totalAmount)}</span>
+        <span className="truncate">
+          {totalAmount < 0 ? '-' : formatNumber(totalAmount)}
+        </span>
         <span>{unit}</span>
       </td>
     </tr>

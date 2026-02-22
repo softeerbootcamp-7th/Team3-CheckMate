@@ -33,8 +33,6 @@ export const useIngredientConsumptionRank = ({
 
   const rankItems = data?.items ?? [];
 
-  const isEmptyRankItems = rankItems.length === 0;
-
   const slicedRankItems = rankItems.slice(
     0,
     INGREDIENT_CONSUMPTION_RANK.MAX_DISPLAYED_RANK_ITEMS_6_TO_10,
@@ -60,7 +58,6 @@ export const useIngredientConsumptionRank = ({
 
   return {
     hasIngredient: data?.hasIngredient ?? false,
-    isEmptyRankItems,
     rankItems1to5,
     rankItems6to10,
   };

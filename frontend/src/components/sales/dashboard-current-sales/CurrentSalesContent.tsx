@@ -17,7 +17,7 @@ export const CurrentSalesContent = ({
   return (
     <article
       className={cn(
-        'flex w-75 flex-col items-start justify-start gap-1',
+        '-mt-1 flex w-75 flex-col items-start justify-start gap-1',
         className,
       )}
     >

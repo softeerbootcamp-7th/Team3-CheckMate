@@ -1,22 +1,16 @@
 import { useMenuSalesRank } from '@/hooks/menu';
 
-import { MenuSalesRankingCardContentEmptyView } from '../shared';
-
 import { MenuSalesRankItem } from './MenuSalesRankItem';
 import { usePopularMenuPeriodType } from './period-type-provider';
 
 export const MenuSalesRankTable = () => {
   const { periodType, startDate, endDate } = usePopularMenuPeriodType();
 
-  const { cardCode, isEmptyRankItems, displayedRankItems } = useMenuSalesRank({
+  const { displayedRankItems } = useMenuSalesRank({
     periodType,
     startDate,
     endDate,
   });
-
-  if (isEmptyRankItems) {
-    return <MenuSalesRankingCardContentEmptyView cardCode={cardCode} />;
-  }
 
   return (
     <table className="w-full table-fixed border-separate border-spacing-y-3 overflow-y-auto p-0">
