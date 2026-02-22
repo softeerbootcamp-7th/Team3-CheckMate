@@ -16,7 +16,7 @@ export const ROUTE_PATHS = {
     MENU: 'menu',
     MENU_SALES_RANK: 'sales-rank',
     INGREDIENT_CONSUMPTION_RANK: 'ingredient-consumption-rank',
-    WEATHER: 'weather',
+    // WEATHER: 'weather',
   },
   DAILY_REPORT: '/daily-report',
   SETTINGS: {

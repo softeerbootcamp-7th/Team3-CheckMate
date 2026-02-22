@@ -29,11 +29,11 @@ export const SIDEBAR_ITEMS: SidebarOptionItem[] = [
         name: '메뉴분석',
         path: '/analysis/menu',
       },
-      {
-        id: 'ANALYSIS_WEATHER',
-        name: '날씨분석',
-        path: '/analysis/weather',
-      },
+      // {
+      //   id: 'ANALYSIS_WEATHER',
+      //   name: '날씨분석',
+      //   path: '/analysis/weather',
+      // },
     ],
   },
 
