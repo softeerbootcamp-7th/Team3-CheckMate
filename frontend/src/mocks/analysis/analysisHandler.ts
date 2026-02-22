@@ -4,15 +4,9 @@ import {
   isOrderChannelMetricCardCode,
   isPayMethodMetricCardCode,
   isSalesTypeMetricCardCode,
-  isWeekdaySalesPatternMetricCardCode,
 } from '@/constants/dashboard';
 import { isMenuMetricCardCodes } from '@/constants/menu';
-import {
-  ORDER_CHANNEL,
-  PAY_METHOD,
-  SALES_BY_DAY,
-  SALES_TYPE,
-} from '@/constants/sales';
+import { ORDER_CHANNEL, PAY_METHOD, SALES_TYPE } from '@/constants/sales';
 import type { SuccessResponse } from '@/services/shared';
 import type {
   GetIngredientUsageRankingResponseDto,
@@ -20,7 +14,6 @@ import type {
   GetPopularMenuCombinationResponseDto,
 } from '@/types/menu';
 import type {
-  GetDetailSalesByDayResponseDto,
   GetSalesSourceByOrderChannelResponseDto,
   GetSalesSourceByPayMethodResponseDto,
   GetSalesSourceBySalesTypeResponseDto,
@@ -108,20 +101,6 @@ const getHandler = [
           items: PAY_METHOD.EXAMPLE_PAY_METHOD_DATA,
         },
       });
-    }
-
-    if (isWeekdaySalesPatternMetricCardCode(cardCode)) {
-      return HttpResponse.json<SuccessResponse<GetDetailSalesByDayResponseDto>>(
-        {
-          success: true,
-          message: 'Success',
-          data: {
-            topDay: '금',
-            isSignificant: false,
-            items: SALES_BY_DAY.EXAMPLE_DATA,
-          },
-        },
-      );
     }
 
     if (isMenuMetricCardCodes(cardCode)) {

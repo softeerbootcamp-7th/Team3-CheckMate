@@ -18,6 +18,8 @@ export const salesKeys = {
   patterns: () => [...salesKeys.all, 'patterns'] as const,
   peakTimeByHour: (query: GetAnalysisDetailQuery) =>
     [...salesKeys.patterns(), 'peakTimeByHour', query] as const,
+  weekdaySalesPattern: (query: GetAnalysisDetailQuery) =>
+    [...salesKeys.patterns(), 'weekdaySalesPattern', query] as const,
   // 매출 유입 구조 섹션의 공통 쿼리 키
   source: () => [...salesKeys.all, 'source'] as const,
   salesType: (query: GetAnalysisDetailQuery) =>

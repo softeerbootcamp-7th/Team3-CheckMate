@@ -239,7 +239,7 @@ public class SalesAnalysisContextFactory implements AnalysisContextFactory {
                  * */
 
             case SLS_12_01 -> {
-                LocalDate start = today.minusYears(3);
+                LocalDate start = today.minusYears(2);
                 LocalDate end = today.plusDays(1);
 
                 yield new SalesAnalysisContext(

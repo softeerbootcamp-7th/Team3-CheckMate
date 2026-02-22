@@ -1,1 +1,2 @@
-export { mainPageLoader } from './main-page-loader';
+export { mainPageLoader } from './mainPageLoader';
+export { MainPageLoadingFallback } from './MainPageLoadingFallback';

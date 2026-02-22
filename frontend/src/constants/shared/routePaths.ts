@@ -25,4 +25,5 @@ export const ROUTE_PATHS = {
   },
   PRIVACY: '/privacy',
   TERMS: '/terms',
+  ADMIN: '/admin',
 };

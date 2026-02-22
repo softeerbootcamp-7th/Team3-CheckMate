@@ -50,11 +50,11 @@ export const SalesByDayContent = ({
       <BarChart
         viewBoxWidth={300}
         viewBoxHeight={90}
-        barChartSeries={salesByDaySeries}
+        primarySeries={salesByDaySeries}
         hasXAxis
         hasBarGradient
         yGuideLineCount={4}
-        hasBarLabel={false}
+        showBarLabel={false}
         barColorChangeOnHover={false}
         activeDataIndex={activeDataIndex === -1 ? undefined : activeDataIndex}
         xAxisType="default"

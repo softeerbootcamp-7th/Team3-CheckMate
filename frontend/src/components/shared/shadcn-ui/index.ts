@@ -73,3 +73,6 @@ export { Checkbox } from './checkbox';
 export { Toaster } from './sonner';
 export { Input } from './input';
 export { Skeleton } from './skeleton';
+export { ToggleGroup, ToggleGroupItem } from './toggle-group';
+export { Toggle } from './toggle';
+export { toggleVariants } from './toggle.variant';

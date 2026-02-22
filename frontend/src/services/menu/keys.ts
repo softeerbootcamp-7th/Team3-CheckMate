@@ -2,6 +2,7 @@ import type { GetAnalysisDetailQuery } from '@/types/analysis';
 
 export const menuKeys = {
   all: ['menu'] as const,
+  list: () => [...menuKeys.all, 'list'] as const,
   // 인기 메뉴 섹션의 공통 쿼리 키
   popularMenu: () => [...menuKeys.all, 'popularMenu'] as const,
   menuSalesRank: (query: GetAnalysisDetailQuery) =>

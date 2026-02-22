@@ -21,3 +21,10 @@ export const {
 } = createPeriodTypeProvider<typeof PERIOD_PRESET_KEYS.recentMonths6_12>({
   periodPreset: PERIOD_PRESET_KEYS.recentMonths6_12,
 });
+
+export const {
+  PeriodTypeProvider: YearlyRevenueTrendPeriodTypeProvider,
+  usePeriodTypeContext: useYearlyRevenueTrendPeriodType,
+} = createPeriodTypeProvider<typeof PERIOD_PRESET_KEYS.recentYears3>({
+  periodPreset: PERIOD_PRESET_KEYS.recentYears3,
+});

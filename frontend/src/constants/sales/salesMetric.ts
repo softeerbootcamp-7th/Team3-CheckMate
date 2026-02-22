@@ -105,7 +105,7 @@ export const SALES_METRIC = {
       },
     },
     WEEKDAY_SALES_PATTERN: {
-      label: '요일별 매출 패턴',
+      label: '요일별 매출(일평균)',
       cardCodes: {
         recent4Weeks: 'SLS_14_06',
       },
