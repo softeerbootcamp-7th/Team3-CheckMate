@@ -3,6 +3,7 @@ import { queryOptions } from '@tanstack/react-query';
 import { getAnalysisDetail } from '@/services/analysis';
 import type { GetAnalysisDetailQuery } from '@/types/analysis';
 
+import { getMenuList } from './get';
 import { menuKeys } from './keys';
 
 const createMenuDetailQueryOption =
@@ -25,4 +26,9 @@ export const menuOptions = {
     createMenuDetailQueryOption<T>('ingredientConsumptionRank')(query),
   menuCombinationRank: <T>(query: GetAnalysisDetailQuery) =>
     createMenuDetailQueryOption<T>('menuCombinationRank')(query),
+  list: () =>
+    queryOptions({
+      queryKey: menuKeys.list(),
+      queryFn: () => getMenuList(),
+    }),
 };
