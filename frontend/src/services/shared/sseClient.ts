@@ -37,7 +37,7 @@ const parseRawEvent = (rawEvent: string, onRetry?: (retry: number) => void) => {
     }
 
     if (line.startsWith('data:')) {
-      data = line.replace('data:', '').trim();
+      data += line.replace('data:', '');
       continue;
     }
 
@@ -214,7 +214,7 @@ export const sseClient = (
 
           let delimiterIndex: number;
           while ((delimiterIndex = buffer.indexOf('\n\n')) !== -1) {
-            const rawEvent = buffer.substring(0, delimiterIndex).trim();
+            const rawEvent = buffer.substring(0, delimiterIndex);
             buffer = buffer.substring(delimiterIndex + 2);
             if (rawEvent) {
               const message = parseRawEvent(rawEvent, (retry) => {
