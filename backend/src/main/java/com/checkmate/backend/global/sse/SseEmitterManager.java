@@ -1,6 +1,8 @@
 package com.checkmate.backend.global.sse;
 
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
+import com.checkmate.backend.global.exception.BadRequestException;
+import com.checkmate.backend.global.response.ErrorStatus;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
@@ -98,14 +100,25 @@ public class SseEmitterManager {
     }
 
     public void subscribe(Long storeId, SubscriptionTopicsRequest subscriptionRequest) {
-        List<AnalysisCardCode> topics = subscriptionRequest.topics();
 
-        // 새 구독 Set 생성
-        Set<AnalysisCardCode> newTopics = ConcurrentHashMap.newKeySet();
-        newTopics.addAll(topics);
+        emitters.compute(
+                storeId,
+                (key, session) -> {
+                    if (session == null) {
+                        log.warn("[subscribe][SSE 연결 없이 구독 시도][storeId= {}]", storeId);
+                        throw new BadRequestException(ErrorStatus.SUBSCRIBE_WITHOUT_SSE);
+                    }
+                    // 새 구독 Set 생성
+                    Set<AnalysisCardCode> newTopics = ConcurrentHashMap.newKeySet();
+                    List<AnalysisCardCode> topics = subscriptionRequest.topics();
 
-        // 기존 구독을 덮어쓰거나 새로 삽입
-        clientTopics.put(storeId, newTopics);
+                    newTopics.addAll(topics);
+
+                    // 기존 구독을 덮어쓰거나 새로 삽입
+                    clientTopics.put(storeId, newTopics);
+
+                    return session;
+                });
     }
 
     public void unsubscribe(Long storeId, SubscriptionTopicsRequest request) {
