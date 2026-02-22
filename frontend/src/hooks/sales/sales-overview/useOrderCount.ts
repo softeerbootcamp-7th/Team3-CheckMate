@@ -4,7 +4,7 @@ import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetOrderCountResponseDto } from '@/types/sales';
 import { getOrderCountCardCode } from '@/utils/sales/';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UseOrderCountProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth>;
@@ -26,8 +26,8 @@ export const useOrderCount = ({
     salesOptions.orderCount<GetOrderCountResponseDto>({
       analysisCardCode: orderCountCardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   );
 

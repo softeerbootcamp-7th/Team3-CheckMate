@@ -5,7 +5,7 @@ import type { PERIOD_PRESET_KEYS, PeriodType } from '@/constants/shared';
 import { menuOptions } from '@/services/menu';
 import type { GetPopularMenuCombinationResponseDto } from '@/types/menu';
 import { getMenuCombinationRankCardCode } from '@/utils/menu';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UseMenuCombinationRankProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.recent7_14>;
@@ -24,8 +24,8 @@ export const useMenuCombinationRank = ({
     menuOptions.menuCombinationRank<GetPopularMenuCombinationResponseDto>({
       analysisCardCode: cardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   );
 

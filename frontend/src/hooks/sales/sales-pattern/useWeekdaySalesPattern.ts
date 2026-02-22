@@ -9,7 +9,7 @@ import type { GetDetailSalesByDayResponseDto } from '@/types/sales';
 import { getWeekdaySalesPatternCardCode } from '@/utils/sales';
 import {
   createChartData,
-  formatDateISO,
+  formatDateForDto,
   formatPriceWithComma,
 } from '@/utils/shared';
 
@@ -34,8 +34,8 @@ export const useWeekdaySalesPattern = ({
     salesOptions.weekdaySalesPattern<GetDetailSalesByDayResponseDto>({
       analysisCardCode: weekdaySalesPatternCardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   );
 
