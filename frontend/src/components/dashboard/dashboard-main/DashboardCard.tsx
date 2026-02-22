@@ -8,13 +8,13 @@ import {
 } from '../dashboard-menu';
 import {
   DashboardAveragePriceCard,
-  DashboardIncomeStructureOrderChannelCard,
-  DashboardIncomeStructurePaymentMethodCard,
-  DashboardIncomeStructureSalesTypeCard,
   DashboardOrderCountCard,
   DashboardPeakTimeCard,
   DashboardRealSalesCard,
   DashboardSalesByDayCard,
+  DashboardSalesSourceOrderChannelCard,
+  DashboardSalesSourcePayMethodCard,
+  DashboardSalesSourceSalesTypeCard,
   DashboardSalesTrendCard,
 } from '../dashboard-sales';
 
@@ -39,15 +39,15 @@ export const DashboardCard = ({ cardCode }: DashboardCardProps) => {
     case 'SLS_06_01':
     case 'SLS_06_02':
     case 'SLS_06_03':
-      return <DashboardIncomeStructureSalesTypeCard cardCode={cardCode} />;
+      return <DashboardSalesSourceSalesTypeCard cardCode={cardCode} />;
     case 'SLS_07_01':
     case 'SLS_07_02':
     case 'SLS_07_03':
-      return <DashboardIncomeStructureOrderChannelCard cardCode={cardCode} />;
+      return <DashboardSalesSourceOrderChannelCard cardCode={cardCode} />;
     case 'SLS_08_01':
     case 'SLS_08_02':
     case 'SLS_08_03':
-      return <DashboardIncomeStructurePaymentMethodCard cardCode={cardCode} />;
+      return <DashboardSalesSourcePayMethodCard cardCode={cardCode} />;
     case 'SLS_09_04':
     case 'SLS_10_07':
     case 'SLS_11_07':

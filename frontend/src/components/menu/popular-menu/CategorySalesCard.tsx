@@ -1,14 +1,20 @@
-import { DefaultCardWrapper } from '@/components/shared';
+import {
+  DefaultCardFetchBoundary,
+  DefaultCardWrapper,
+} from '@/components/shared';
 
-// TODO: 도넛 차트 추가 필요
+import { CategorySalesChart } from './CategorySalesChart';
+
 export const CategorySalesCard = () => {
   return (
-    <DefaultCardWrapper
-      aria-label="카테고리별 매출"
-      className="flex h-68 flex-1 flex-col justify-start gap-12"
-      title="카테고리별 매출"
-    >
-      <div>카테고리별 매출 도넛차트 위치</div>
-    </DefaultCardWrapper>
+    <DefaultCardFetchBoundary className="h-68 flex-1">
+      <DefaultCardWrapper
+        aria-label="카테고리별 매출"
+        className="flex h-68 flex-1 gap-5"
+        title="카테고리별 매출"
+      >
+        <CategorySalesChart />
+      </DefaultCardWrapper>
+    </DefaultCardFetchBoundary>
   );
 };

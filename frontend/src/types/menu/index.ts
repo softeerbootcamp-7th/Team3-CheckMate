@@ -1,8 +1,9 @@
-export type { CategoriesRevenue } from './categoriesRevenue';
 export type { DashboardRankItem } from './dashboard-menu-ranking';
 export type {
   GetMenuSalesRankingResponseDto,
   MenuSales,
+  GetCategorySalesResponseDto,
+  CategorySales,
   GetIngredientUsageRankingResponseDto,
   IngredientUsage,
   GetPopularMenuCombinationResponseDto,

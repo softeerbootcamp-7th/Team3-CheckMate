@@ -7,6 +7,8 @@ export const menuKeys = {
   popularMenu: () => [...menuKeys.all, 'popularMenu'] as const,
   menuSalesRank: (query: GetAnalysisDetailQuery) =>
     [...menuKeys.popularMenu(), 'menuSalesRank', query] as const,
+  categorySales: (query: GetAnalysisDetailQuery) =>
+    [...menuKeys.popularMenu(), 'categorySales', query] as const,
   // 메뉴 판매 패턴 섹션의 공통 쿼리 키
   menuSalesPattern: () => [...menuKeys.all, 'menuSalesPattern'] as const,
   // 식자재 소진량 섹션의 공통 쿼리 키
