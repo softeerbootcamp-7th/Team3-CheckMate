@@ -67,6 +67,16 @@ public interface SalesAnalysisRepository extends JpaRepository<Order, Long> {
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
 
+    // 할인 건수
+    @Query(
+            "select count(*)"
+                    + " from Order o"
+                    + " where o.store.id=:storeId and o.orderDate >= :startDate and o.orderDate < :endDate and o.discountAmount!=0")
+    Long countDiscountOrders(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
     // 취소 금액
     @Query(
             "select sum(o.netAmount)"
@@ -75,6 +85,16 @@ public interface SalesAnalysisRepository extends JpaRepository<Order, Long> {
                     + " and o.orderDate >= :startDate and o.orderDate < :endDate"
                     + " and o.orderStatus = 'CANCEL'")
     Long findCanceledAmount(
+            @Param("storeId") Long storeId,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+
+    // 취소 건수
+    @Query(
+            "select count(*)"
+                    + " from Order o"
+                    + " where o.store.id=:storeId and o.orderDate >= :startDate and o.orderDate < :endDate and o.orderStatus!='CANCEL'")
+    Long countCanceledOrders(
             @Param("storeId") Long storeId,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
