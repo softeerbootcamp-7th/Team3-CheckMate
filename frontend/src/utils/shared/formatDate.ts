@@ -70,3 +70,10 @@ export const formatDateISO = (date: Date) => {
     date,
   );
 };
+
+/**
+ * @description formatDateISO 을 한번 더 래핑. date 객체 들어오면 YYYY-MM-DD 형식. null이 들어오면 null반환
+ */
+export const formatDateForDto = (date?: Date) => {
+  return date ? formatDateISO(date) : date;
+};
