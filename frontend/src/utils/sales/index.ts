@@ -17,6 +17,11 @@ export {
   getTotalSalesCardCode,
 } from './sales-overview';
 export {
+  getSalesTypeCardCode,
+  getOrderChannelCardCode,
+  getPayMethodCardCode,
+} from './sales-source';
+export {
   getDailyRevenueTrendCardCode,
   getWeeklyRevenueTrendCardCode,
   getMonthlyRevenueTrendCardCode,
