@@ -5,6 +5,7 @@ import com.checkmate.backend.domain.report.dto.ReportTask;
 import com.checkmate.backend.domain.report.entity.Report;
 import com.checkmate.backend.domain.report.enums.ReportType;
 import com.checkmate.backend.domain.report.repository.ReportRepository;
+import com.checkmate.backend.domain.report.repository.ReportTaskRepository;
 import com.checkmate.backend.domain.store.entity.Store;
 import com.checkmate.backend.domain.store.repository.StoreRepository;
 import com.checkmate.backend.global.client.llm.LlmClient;
@@ -35,19 +36,13 @@ public class ReportWorker {
     private final ObjectMapper objectMapper;
     private final PromptProvider promptProvider;
     private final NotificationService notificationService;
-
-    private static final String PENDING_KEY = "report:queue:pending";
-    private static final String PROCESSING_KEY = "report:queue:processing";
+    private final ReportTaskRepository reportTaskRepository;
 
     // TODO : 얼마나 자주 실행할지 고민 필요
-    @Scheduled(fixedDelay = 5000) // 5초마다 실행
+    @Scheduled(fixedDelay = 5000)
     public void processTask() {
-        Object rawTask =
-                redisTemplate.opsForList().rightPopAndLeftPush(PENDING_KEY, PROCESSING_KEY);
-
-        if (rawTask == null) return;
-
-        ReportTask task = objectMapper.convertValue(rawTask, ReportTask.class);
+        ReportTask task = reportTaskRepository.popAndStart();
+        if (task == null) return;
 
         try {
             log.info("리포트 생성 시작: 매장 {}, 날짜 {}", task.storeId(), task.targetDate());
@@ -55,18 +50,21 @@ public class ReportWorker {
             ReportData data = reportQueryService.generateReport(task);
 
             String template =
-                    task.reportType() == ReportType.DAILY
+                    (task.reportType() == ReportType.DAILY)
                             ? promptProvider.getPrompt(PromptProvider.PromptType.DAILY_REPORT)
                             : promptProvider.getPrompt(PromptProvider.PromptType.MONTHLY_REPORT);
+
             String llmResponse = llmClient.ask(template, buildPrompt(data));
 
             saveReportResult(task, data, llmResponse);
 
-            redisTemplate.opsForList().remove(PROCESSING_KEY, 1, rawTask);
+            reportTaskRepository.remove(task);
             log.info("리포트 생성 완료: 매장 {}", task.storeId());
+
+
         } catch (Exception e) {
             log.error("리포트 생성 실패: 매장 {}", task.storeId(), e);
-            handleFailure(rawTask, task);
+            reportTaskRepository.handleFailure(task);
         }
     }
 
@@ -142,17 +140,5 @@ public class ReportWorker {
                 node.path("diffVal").asText(),
                 node.path("diffDesc").asText(),
                 node.path("trendDir").asText());
-    }
-
-    private void handleFailure(Object rawTask, ReportTask task) {
-        redisTemplate.opsForList().remove(PROCESSING_KEY, 1, rawTask);
-
-        if (task != null && task.retryCount() < 3) {
-            ReportTask retryTask = task.incrementRetry();
-            redisTemplate.opsForList().leftPush(PENDING_KEY, retryTask);
-        } else {
-            log.error("최종 실패 처리: 매장 {}", task != null ? task.storeId() : "Unknown");
-            redisTemplate.opsForList().leftPush("report:queue:fail", rawTask);
-        }
     }
 }
