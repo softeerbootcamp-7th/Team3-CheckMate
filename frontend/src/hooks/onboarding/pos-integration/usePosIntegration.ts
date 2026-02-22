@@ -25,7 +25,7 @@ export const usePosIntegration = () => {
         console.error({ error });
       },
       signal: abortController.signal,
-      retryInterval: () => 1000, // 1초마다 재연결 시도
+      retryIntervalFn: () => 1000, // 1초마다 재연결 시도
     });
 
     // 5초 뒤 포스 연동 요청

@@ -331,7 +331,7 @@ export const useDashboardSseConnection = () => {
     sseClient('/api/sse/connection', {
       signal: abortController.signal,
       onmessage: handleSseMessage,
-      retryInterval: handleRetryInterval,
+      retryIntervalFn: handleRetryInterval,
     });
 
     return () => {
