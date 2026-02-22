@@ -11,11 +11,21 @@ interface LoadingContentProps {
 }
 
 const LoadingContent = ({ pathname }: LoadingContentProps) => {
-  if (pathname.includes(ROUTE_PATHS.ONBOARDING.STORE)) {
+  const {
+    ONBOARDING: {
+      BASE: ONBOARDING_BASE,
+      STORE: ONBOARDING_STORE,
+      POS: ONBOARDING_POS,
+    },
+  } = ROUTE_PATHS;
+  const onboardingStorePath = `${ONBOARDING_BASE}/${ONBOARDING_STORE}`;
+  const onboardingPosPath = `${ONBOARDING_BASE}/${ONBOARDING_POS}`;
+
+  if (pathname.startsWith(onboardingStorePath)) {
     return <StoreRegisterLoadingFallback />;
   }
 
-  if (pathname.includes(ROUTE_PATHS.ONBOARDING.POS)) {
+  if (pathname.startsWith(onboardingPosPath)) {
     return <PosIntegrationLoadingFallback />;
   }
 

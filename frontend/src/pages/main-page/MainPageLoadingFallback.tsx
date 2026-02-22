@@ -14,23 +14,40 @@ interface LoadingContentProps {
 }
 
 const LoadingContent = ({ pathname }: LoadingContentProps) => {
-  if (pathname.includes(ROUTE_PATHS.DASHBOARD.BASE)) {
+  const {
+    DASHBOARD: { BASE: DASHBOARD_BASE },
+    ANALYSIS: {
+      BASE: ANALYSIS_BASE,
+      SALES: ANALYSIS_SALES,
+      MENU: ANALYSIS_MENU,
+    },
+    DAILY_REPORT,
+    SETTINGS: { BASE: SETTINGS_BASE },
+  } = ROUTE_PATHS;
+
+  const dashboardPath = `${DASHBOARD_BASE}`;
+  const analysisSalesPath = `${ANALYSIS_BASE}/${ANALYSIS_SALES}`;
+  const analysisMenuPath = `${ANALYSIS_BASE}/${ANALYSIS_MENU}`;
+  const dailyReportPath = `${DAILY_REPORT}`;
+  const settingsPath = `${SETTINGS_BASE}`;
+
+  if (pathname.startsWith(dashboardPath)) {
     return <DashboardPageLoadingFallback />;
   }
 
-  if (pathname.includes(ROUTE_PATHS.ANALYSIS.SALES)) {
+  if (pathname.startsWith(analysisSalesPath)) {
     return <SalesPageLoadingFallback />;
   }
 
-  if (pathname.includes(ROUTE_PATHS.ANALYSIS.MENU)) {
+  if (pathname.startsWith(analysisMenuPath)) {
     return <MenuPageLoadingFallback />;
   }
 
-  if (pathname.includes(ROUTE_PATHS.DAILY_REPORT)) {
+  if (pathname.startsWith(dailyReportPath)) {
     return <DailyReportPageLoadingFallback />;
   }
 
-  if (pathname.includes(ROUTE_PATHS.SETTINGS.BASE)) {
+  if (pathname.startsWith(settingsPath)) {
     return <SettingPageLoadingFallback />;
   }
 
