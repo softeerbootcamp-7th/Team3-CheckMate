@@ -6,6 +6,10 @@
 
 **초보 외식업 사장님을 위한 실시간 매장 운영 관리 서비스**
 
+<br>
+
+[![Issues](https://img.shields.io/badge/Issues-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/softeerbootcamp-7th/Team3-CheckMate/issues)
+&emsp; &emsp; &emsp; [![Wiki](https://img.shields.io/badge/Wiki-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/softeerbootcamp-7th/Team3-CheckMate/wiki)
 
 ---
 
@@ -13,48 +17,44 @@
 
 ## 💡 프로젝트 소개
 
-### 🚀 프로젝트 배경
-현재 많은 자영업자들이 비효율적인 운영과 급변하는 시장 환경 속에서 어려움을 겪고 있습니다. 특히 창업 아이템의 수명은 갈수록 짧아지고 있으며, 성공적인 매장 운영을 위한 명확한 기준과 데이터 활용의 필요성이 그 어느 때보다 높아지고 있습니다.
-
-### ⚠️ 문제 정의
-저희는 초보 사장님들이 겪는 **폐업 위기의 핵심 원인**을 네 가지로 정의했습니다.
-1. **경험 부족:** 매장 운영에 대한 체계적인 노하우 부재
-2. **불명확한 타겟:** 데이터에 기반하지 않은 막연한 고객 타겟팅
-3. **비효율적인 운영:** 체계적이지 못한 운영 관리 시스템
-4. **데이터 활용 부재:** 매장에서 발생하는 데이터를 분석하고 활용하는 능력 부족
+### 🚀 프로젝트 개요
+급변하는 시장에서 많은 자영업자가 매장 운영의 명확한 기준 없이 폐업 위기에 직면하고 있습니다. 특히 초보 사장님들은 **경험 부족, 데이터 활용 능력 부재, 비효율적인 운영 시스템**으로 인해 매장에서 발생하는 유의미한 데이터를 놓치고 있습니다. 체크메이트는 이러한 데이터 장벽을 낮춰 사장님의 성공적인 의사결정을 지원합니다.
 
 ### ✨ 주요 기능
 
-- 맞춤형 매장 관리 대시보드
+* **맞춤형 매장 관리 대시보드**
   * 매장의 매출 현황 및 주요 지표를 실시간으로 시각화하여 제공합니다.
   * 사장님이 한눈에 매장의 상태를 파악할 수 있는 직관적인 UI/UX를 지향합니다.
-
-- 데일리 리포트
-  * 매일 아침, 전날의 성과와 오늘의 핵심 할 일을 정리하여 제공합니다.
-  * 복잡한 데이터 분석 없이도 당일 운영 방향을 설정할 수 있도록 돕습니다.
-
-- AI 기반 질의응답
+* **하루 리포트**
+  * 매장 마감 후, 당일의 성과와 다음 날의 핵심 할 일을 정리하여 제공합니다.
+  * 복잡한 데이터 분석 없이도 다음 날의 운영 방향을 설정할 수 있도록 돕습니다.
+* **AI 기반 질의응답**
   * 매장 운영 중 발생하는 궁금증을 AI에게 즉시 질문하고 답변을 얻을 수 있습니다.
-  * 데이터 기반 분석을 통해 사장님께 최적화된 인사이트를 제공합니다.
-
----
+  * 매출, 객단가 등 지표의 의미를 해석하고, 이를 바탕으로 매출 증대를 위한 운영 전략을 제안합니다.
 
 <br>
 
-## 💡 시스템 구성도
+<div align="center">
 
-### 🏗️ 전체 시스템 흐름도
+[용어 사전](./docs/checkmate_glossary.md)
+&emsp; &emsp; &emsp; &emsp; &emsp;  [상세 페이지 소개](./docs/checkmate_glossary.md)
+
+</div>
 
 
 <br>
+
+## 🏗️ 시스템 구성도
 
 ### 🧩 시스템 아키텍처
-
+[자세히 보기](https://www.erdcloud.com/d/pATb7DHcJvvAoN2za)
 
 <br>
 
 ### 🗂️ ERD
 <img src="./docs/img/ERD.png" width="100%" height="100%" />
+
+[자세히 보기](https://www.erdcloud.com/d/pATb7DHcJvvAoN2za)
 
 <br>
 
@@ -66,26 +66,11 @@
 |   **BE** |                                                                                                                                                                                                                                                                                                                                                                       ![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)   ![Spring](https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/postgresql-4169E1?style=for-the-badge&logo=postgresql&logoColor=white) ![JPA](https://img.shields.io/badge/JPA-59666C?style=for-the-badge&logo=hibernate&logoColor=white)                                                                                                                                                                                                                                                                                                                                                                       |
 | **Infra** |                                                                                                                                                                                                                                                                                               ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)  ![AWS S3](https://img.shields.io/badge/AWS%20S3-569A31?style=for-the-badge&logo=amazon-s3&logoColor=white) ![AWS EC2](https://img.shields.io/badge/AWS%20EC2-FF9900?style=for-the-badge&logo=amazon-ec2&logoColor=white) <br> ![Docker](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)  ![n8n](https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=white)                                                                                                                                                                                                                                                                                                 |
 
----
-
-<div align="center">
-
 <br>
 
-## 📝 프로젝트 관련 기록
-
-[![Issues](https://img.shields.io/badge/Issues-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/softeerbootcamp-7th/Team3-CheckMate/issues)
-[![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)](#)
-[![Wiki](https://img.shields.io/badge/Wiki-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/softeerbootcamp-7th/Team3-CheckMate/wiki)
-
-
 ## 🧑🏻‍💻 팀 구성
-
-
 
 | **권민선**<br>([@mskwon02](https://github.com/mskwon02)) | **이영재**<br>([@lee0jae330](https://github.com/lee0jae330)) | **이예진**<br>([@lwjmcn](https://github.com/lwjmcn)) | **이용범**<br>([@22DT](https://github.com/22DT)) | **정한울**<br>([@jho7535](https://github.com/jho7535)) |
 | :---: | :---: | :---: | :---: | :---: |
 | <img src="./docs/img/yellow.jpg" alt="권민선" style="height:130px; width:130px; object-fit:cover; border-radius:8px;"> | <img src="./docs/img/purple.jpg" alt="이영재" style="height:130px; width:130px; object-fit:cover; border-radius:8px;"> | <img src="./docs/img/sun.jpg" alt="이예진" style="height:130px; width:130px; object-fit:cover; border-radius:8px;"> | <img src="./docs/img/green.jpg" alt="이용범" style="height:130px; width:130px; object-fit:cover; border-radius:8px;"> | <img src="./docs/img/red.jpg" alt="정한울" style="height:130px; width:130px; object-fit:cover; border-radius:8px;"> |
 | FE | FE | FE | BE | BE |
-
-</div>
