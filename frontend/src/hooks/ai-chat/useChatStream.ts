@@ -80,8 +80,9 @@ export const useChatStream = () => {
           })),
           question,
         };
-
         const body = JSON.stringify(requestBody);
+
+        dispatch({ type: 'QUESTION', payload: question });
 
         sseClient('/api/chats/stream', {
           method: 'POST',
@@ -99,12 +100,9 @@ export const useChatStream = () => {
         });
       } catch (error) {
         console.error('Failed to stringify chat history', error);
-        dispatch({ type: 'QUESTION', payload: question });
         dispatch({ type: 'FINISH' });
         return;
       }
-
-      dispatch({ type: 'QUESTION', payload: question });
     },
     [state.chatHistoryList],
   );
