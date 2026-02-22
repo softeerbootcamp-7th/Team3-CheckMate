@@ -1,35 +1,33 @@
-import { useMemo, useState } from 'react';
-
 import { DoughnutChart } from '@/components/shared';
-import { CATEGORY_SALES_DATA } from '@/mocks/data/menu';
-import type { CategorySales } from '@/types/menu';
-import type { DoughnutChartItem } from '@/types/shared/doughnutChartItem';
+import { useCategorySales } from '@/hooks/menu/popular-menu/useCategorySales';
+
+import { MenuSalesRankingCardContentEmptyView } from '../shared';
 
 import { CategorySalesChartLegend } from './CategorySalesChartLegend';
+import { usePopularMenuPeriodType } from './period-type-provider';
 
 export const CategorySalesChart = () => {
-  const [categoriesRevenueData] =
-    useState<CategorySales[]>(CATEGORY_SALES_DATA);
+  const { periodType, startDate, endDate } = usePopularMenuPeriodType();
 
-  const chartData: DoughnutChartItem[] = useMemo(
-    () =>
-      [...categoriesRevenueData]
-        .sort((a, b) => b.totalSalesAmount - a.totalSalesAmount)
-        .map((item) => ({
-          label: item.category,
-          value: item.totalSalesAmount,
-        })),
-    [categoriesRevenueData],
-  );
+  const { cardCode, categorySalesChartData, isEmptyCategorySales } =
+    useCategorySales({
+      periodType,
+      startDate,
+      endDate,
+    });
+  if (isEmptyCategorySales) {
+    return <MenuSalesRankingCardContentEmptyView cardCode={cardCode} />;
+  }
+
   return (
     <div className="flex items-center gap-15">
       <div className="size-45">
         <DoughnutChart
           title="카테고리별 매출 관련 도넛 차트"
-          chartData={chartData}
+          chartData={categorySalesChartData}
         />
       </div>
-      <CategorySalesChartLegend chartData={chartData} />
+      <CategorySalesChartLegend chartData={categorySalesChartData} />
     </div>
   );
 };

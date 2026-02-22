@@ -46,7 +46,7 @@ export const MENU_METRIC = {
   },
 } as const;
 
-type ExtractMenuMetricCardCodes<T> = T extends {
+export type ExtractMenuMetricCardCodes<T> = T extends {
   cardCodes: infer C;
 }
   ? C extends Record<string, string>
