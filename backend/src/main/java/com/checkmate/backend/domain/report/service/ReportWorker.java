@@ -61,7 +61,6 @@ public class ReportWorker {
             reportTaskRepository.remove(task);
             log.info("리포트 생성 완료: 매장 {}", task.storeId());
 
-
         } catch (Exception e) {
             log.error("리포트 생성 실패: 매장 {}", task.storeId(), e);
             reportTaskRepository.handleFailure(task);
