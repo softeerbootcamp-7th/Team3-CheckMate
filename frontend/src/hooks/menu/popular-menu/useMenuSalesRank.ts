@@ -5,7 +5,7 @@ import type { PERIOD_PRESET_KEYS, PeriodType } from '@/constants/shared';
 import { menuOptions } from '@/services/menu';
 import type { GetMenuSalesRankingResponseDto } from '@/types/menu';
 import { getMenuSalesRankCardCode } from '@/utils/menu';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UseMenuSalesRankProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.today7_30>;
@@ -24,8 +24,8 @@ export const useMenuSalesRank = ({
     menuOptions.menuSalesRank<GetMenuSalesRankingResponseDto>({
       analysisCardCode: cardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   );
 

@@ -17,7 +17,8 @@ export const getLabelContentText = ({
   index: number;
   series: AllBarChartSeries;
 }) => {
-  if (isSubLabel) {
+  if (isSubLabel && !isStackBar) {
+    // 서브 레이블은 스택바 지원 안하도록 일단 제한.
     // 서브 라벨일 때는 원 단위 환산 필요 없음
     const value = series.data.mainY[index] as ChartDatum;
     return `${value.amount}${value.unit}`;

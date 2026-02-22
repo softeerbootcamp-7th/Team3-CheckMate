@@ -7,7 +7,7 @@ import type { GetSalesTrendResponseDto } from '@/types/sales';
 import { getMonthlyRevenueTrendCardCode } from '@/utils/sales';
 import {
   createChartData,
-  formatDateISO,
+  formatDateForDto,
   formatNumberInTenThousands,
 } from '@/utils/shared';
 
@@ -30,8 +30,8 @@ export const useMonthlyRevenueTrend = ({
     ...salesOptions.monthlyRevenueTrend<GetSalesTrendResponseDto>({
       analysisCardCode: monthlyRevenueTrendCardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   });
 

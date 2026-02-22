@@ -22,3 +22,4 @@ export {
   getMonthlyRevenueTrendCardCode,
   getYearlyRevenueTrendCardCode,
 } from './sales-trends';
+export { getWeekdaySalesPatternCardCode } from './sales-pattern';

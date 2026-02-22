@@ -10,7 +10,7 @@ export const BAR_CHART = {
   LABEL_FONT_WEIGHT: 500,
   SUB_LABEL_TEXT_COLOR: 'var(--color-grey-500)',
   SUB_LABEL_FONT_SIZE: 12,
-  LABEL_GAP: 20, // 레이블 까리의 간격
+  LABEL_GAP: 20, // 레이블끼리의 간격
   ACTIVATE_BAR_COLOR: 'var(--color-brand-500)', // 활성화 되었을 때 막대 색상
   X_AXIS_LABEL_OFFSET: 5,
   BAR_RADIUS: 4, // 바 상단 모서리 둥글기

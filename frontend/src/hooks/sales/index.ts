@@ -11,4 +11,4 @@ export {
   useMonthlyRevenueTrend,
   useYearlyRevenueTrend,
 } from './sales-trends';
-export { usePeakTimeByHour } from './sales-pattern';
+export { usePeakTimeByHour, useWeekdaySalesPattern } from './sales-pattern';
