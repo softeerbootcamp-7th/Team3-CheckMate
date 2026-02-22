@@ -108,11 +108,11 @@ public class SseEmitterManager {
                         log.warn("[subscribe][SSE 연결 없이 구독 시도][storeId= {}]", storeId);
                         throw new BadRequestException(ErrorStatus.SUBSCRIBE_WITHOUT_SSE);
                     }
-                    // 새 구독 Set 생성
-                    Set<AnalysisCardCode> newTopics = ConcurrentHashMap.newKeySet();
-                    List<AnalysisCardCode> topics = subscriptionRequest.topics();
 
-                    newTopics.addAll(topics);
+                    Set<AnalysisCardCode> newTopics =
+                            Optional.ofNullable(subscriptionRequest.topics())
+                                    .map(Set::copyOf)
+                                    .orElseGet(Set::of);
 
                     // 기존 구독을 덮어쓰거나 새로 삽입
                     clientTopics.put(storeId, newTopics);

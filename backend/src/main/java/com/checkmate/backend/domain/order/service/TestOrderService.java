@@ -155,6 +155,6 @@ public class TestOrderService {
         }
 
         // 3. 아무것도 없으면 현재 서버 시간
-        return LocalDateTime.now();
+        return LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 }

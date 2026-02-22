@@ -29,6 +29,7 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
 
     @Override
     public AnalysisResponse process(MenuAnalysisContext context) {
+
         List<TimeSlotMenuOrderCountProjection> menuOrderCountsByTimeSlot =
                 menuAnalysisRepository.findMenuCountPerTimeSlot(
                         context.getStoreId(), context.getStartDate(), context.getEndDate());
@@ -37,9 +38,14 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
         Map<Integer, List<TimeSlotMenuOrderCountProjection>> groupedByTimeSlot =
                 new LinkedHashMap<>();
 
-        for (TimeSlotMenuOrderCountProjection m : menuOrderCountsByTimeSlot) {
+        // 빈 슬롯 생성
+        for (int slot = 0; slot <= 22; slot += 2) {
+            groupedByTimeSlot.put(slot, new ArrayList<>());
+        }
 
-            groupedByTimeSlot.computeIfAbsent(m.timeSlot2H(), (k) -> new ArrayList<>()).add(m);
+        // 데이터 채우기
+        for (TimeSlotMenuOrderCountProjection m : menuOrderCountsByTimeSlot) {
+            groupedByTimeSlot.get(m.timeSlot2H()).add(m);
         }
 
         List<DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem> timeSlotGroups =
@@ -144,7 +150,8 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
                         menu : group.menus()) {
 
                     if (menu.menuName().equals(topMenu)) {
-                        menuOrderCount += menu.orderCount();
+                        menuOrderCount = menu.orderCount();
+                        break;
                     }
                 }
 

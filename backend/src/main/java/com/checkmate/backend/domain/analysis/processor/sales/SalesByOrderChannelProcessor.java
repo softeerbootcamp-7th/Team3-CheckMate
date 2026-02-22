@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-/** SLS_07_01 (오늘 주문수단별 매출) */
+/** SLS_07 (주문수단별 매출) */
 @Component
 @RequiredArgsConstructor
 @Slf4j
