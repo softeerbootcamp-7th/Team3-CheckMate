@@ -60,6 +60,9 @@ export const ChatHistory = ({
                   message={chat.content}
                 />
               );
+            default:
+              console.warn('알 수 없는 역할의 채팅 항목:', chat);
+              return null;
           }
         })}
         {lastAnswer !== null && ( // 마지막 답변이 있을 때만 BotBubble 렌더링
