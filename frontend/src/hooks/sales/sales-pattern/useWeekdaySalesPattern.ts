@@ -67,7 +67,7 @@ export const useWeekdaySalesPattern = ({
       },
       color: SECONDARY_COLOR,
     }),
-    [data.items, SUB_Y_UNIT, SECONDARY_COLOR],
+    [data.items, SUB_Y_UNIT, SECONDARY_COLOR, X_UNIT],
   );
 
   // 툴팁에 상세 가격 화폐 단위로 보여주기 위한 함수
