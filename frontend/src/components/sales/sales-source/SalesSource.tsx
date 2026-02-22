@@ -15,8 +15,12 @@ export const SalesSource = () => {
           <DefaultCardFetchBoundary className="h-[400px] w-full">
             <RevenueBySalesType />
           </DefaultCardFetchBoundary>
-          <RevenueByOrderChannel />
-          <RevenueByPayMethod />
+          <DefaultCardFetchBoundary className="h-[400px] w-full">
+            <RevenueByOrderChannel />
+          </DefaultCardFetchBoundary>
+          <DefaultCardFetchBoundary className="h-[400px] w-full">
+            <RevenueByPayMethod />
+          </DefaultCardFetchBoundary>
         </section>
       </PeriodTypeProvider>
     </section>
