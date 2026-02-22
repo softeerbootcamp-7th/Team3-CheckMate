@@ -10,10 +10,11 @@ interface ChatState {
   isLoading: boolean;
   isStreaming: boolean;
 }
-interface ChatAction {
-  type: 'QUESTION' | 'STREAM' | 'FINISH' | 'RESET';
-  payload?: string;
-}
+type ChatAction =
+  | { type: 'QUESTION'; payload: string }
+  | { type: 'STREAM'; payload: string }
+  | { type: 'FINISH' }
+  | { type: 'RESET' };
 const chatReducer = (state: ChatState, action: ChatAction) => {
   switch (action.type) {
     case 'QUESTION':
