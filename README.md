@@ -48,7 +48,9 @@
 ## 🏗️ 시스템 구성도
 
 ### 🧩 시스템 아키텍처
-[자세히 보기](https://www.erdcloud.com/d/pATb7DHcJvvAoN2za)
+<img src="./docs/img/system_architecture.png" width="100%" height="100%" />
+
+[자세히 보기](./docs/img/system_architecture.png)
 
 <br>
 
