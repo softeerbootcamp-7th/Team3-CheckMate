@@ -58,8 +58,6 @@ export const ChatHistory = ({
                 <BotBubble
                   key={`${chat.role}-${index}`}
                   message={chat.content}
-                  isLoading={false}
-                  botBubbleRef={undefined}
                 />
               );
           }
