@@ -1,8 +1,9 @@
 import { BAR_CHART } from '@/constants/shared';
 import type {
-  BarChartDatum,
   BarChartSeries,
+  ChartDatum,
   Coordinate,
+  LabelOption,
   StackBarDatum,
 } from '@/types/shared';
 import type { AllBarChartSeries } from '@/types/shared';
@@ -22,9 +23,13 @@ interface BarSeriesProps {
   color?: string;
   hasGradient?: boolean;
   gradientId?: string;
-  series: AllBarChartSeries;
+  primarySeries: AllBarChartSeries;
+  secondarySeries?: AllBarChartSeries;
   activeTooltip: boolean;
-  hasBarLabel?: boolean;
+  showBarLabel?: boolean;
+  showSubBarLabel?: boolean;
+  labelOption?: LabelOption;
+  subLabelOption?: LabelOption;
   viewBoxHeight: number;
   viewBoxWidth: number;
   hasXAxis?: boolean; //현재 barchart에서 x축 사용하고 있는지
@@ -38,8 +43,12 @@ export const BarSeries = ({
   coordinate,
   color = BAR_CHART.DEFAULT_BAR_COLOR,
   hasGradient = false,
-  series,
-  hasBarLabel = false,
+  primarySeries,
+  secondarySeries,
+  showBarLabel = true,
+  showSubBarLabel = true,
+  labelOption,
+  subLabelOption,
   hasXAxis = false,
   viewBoxHeight,
   viewBoxWidth,
@@ -52,7 +61,7 @@ export const BarSeries = ({
   const { BAR_RADIUS } = BAR_CHART; // X축이 있을 때 X축의 Y좌표 오프셋 값
 
   // 스택바 그래프인지 일반 바 그래프인지 -> mainY의 값이 배열이면 스택바
-  const isStackBar = checkIsStackBarChart({ series });
+  const isStackBar = checkIsStackBarChart({ series: primarySeries });
 
   return (
     <>
@@ -66,28 +75,55 @@ export const BarSeries = ({
           // 막대 그래프 툴팁에 넣을 내용
           const tooltipContentText = tooltipContent
             ? tooltipContent(
-                (series as BarChartSeries).data.mainY[
+                (primarySeries as BarChartSeries).data.mainY[
                   index
                 ].amount?.toString() ?? '',
-                (series.data.mainY[index] as BarChartDatum).unit?.toString() ??
-                  '',
+                (
+                  primarySeries.data.mainY[index] as ChartDatum
+                ).unit?.toString() ?? '',
               )
             : null;
           return (
             <g
-              key={series.data.mainX[index].amount} // 시간대(00시 또는 요일)를 key로 사용
+              key={primarySeries.data.mainX[index].amount} // 시간대(00시 또는 요일)를 key로 사용
             >
-              {hasBarLabel && (
+              {secondarySeries && showSubBarLabel && (
+                <BarLabel
+                  x={x}
+                  y={y - BAR_CHART.LABEL_GAP}
+                  label={getLabelContentText({
+                    isStackBar,
+                    isSubLabel: true,
+                    index,
+                    series: secondarySeries,
+                  })}
+                  labelOptions={{
+                    ...subLabelOption,
+                    textColor:
+                      subLabelOption?.textColor ??
+                      BAR_CHART.SUB_LABEL_TEXT_COLOR,
+                    fontSize:
+                      subLabelOption?.fontSize ?? BAR_CHART.SUB_LABEL_FONT_SIZE,
+                  }}
+                />
+              )}
+              {showBarLabel && (
                 <BarLabel
                   x={x}
                   y={y}
-                  label={getLabelContentText({ isStackBar, index, series })}
-                  textColor={BAR_CHART.DEFAULT_BAR_COLOR}
+                  label={getLabelContentText({
+                    isStackBar,
+                    index,
+                    series: primarySeries,
+                  })}
+                  labelOptions={labelOption}
                 />
               )}
               {isStackBar ? (
                 <StackBar
-                  stackBarData={series.data.mainY[index] as StackBarDatum}
+                  stackBarData={
+                    primarySeries.data.mainY[index] as StackBarDatum
+                  }
                   barMiddleX={x}
                   barTopY={y}
                   height={barHeight}

@@ -7,3 +7,10 @@ export const {
 } = createPeriodTypeProvider<typeof PERIOD_PRESET_KEYS.todayOnly>({
   periodPreset: PERIOD_PRESET_KEYS.todayOnly,
 });
+
+export const {
+  PeriodTypeProvider: WeekdaySalesPatternPeriodTypeProvider,
+  usePeriodTypeContext: useWeekdaySalesPatternPeriodType,
+} = createPeriodTypeProvider<typeof PERIOD_PRESET_KEYS.recent4W>({
+  periodPreset: PERIOD_PRESET_KEYS.recent4W,
+});
