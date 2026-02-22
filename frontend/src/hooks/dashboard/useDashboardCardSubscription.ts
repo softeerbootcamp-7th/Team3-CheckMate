@@ -2,10 +2,7 @@ import { useEffect } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 
-import {
-  deleteDashboardSseSubscription,
-  postDashboardSseSubscription,
-} from '@/services/dashboard';
+import { postDashboardSseSubscription } from '@/services/dashboard';
 import type { GetDashboardCardListResponseDto } from '@/types/dashboard';
 
 interface UseDashboardCardSubscriptionProps {
@@ -19,10 +16,6 @@ export const useDashboardCardSubscription = ({
     mutationFn: postDashboardSseSubscription,
   });
 
-  const { mutate: unsubscribeDashboardCardList } = useMutation({
-    mutationFn: deleteDashboardSseSubscription,
-  });
-
   useEffect(() => {
     if (!cardList || cardList.length === 0) {
       return;
@@ -33,13 +26,5 @@ export const useDashboardCardSubscription = ({
     subscribeDashboardCardList({
       topics,
     });
-
-    return () => {
-      if (cardList && cardList.length > 0) {
-        unsubscribeDashboardCardList({
-          topics,
-        });
-      }
-    };
-  }, [cardList, subscribeDashboardCardList, unsubscribeDashboardCardList]);
+  }, [cardList, subscribeDashboardCardList]);
 };
