@@ -1,3 +1,5 @@
+import { DefaultCardFetchBoundary } from '@/components/shared';
+
 import { PeriodTypeProvider } from './period-type-provider';
 import { RevenueByOrderChannel } from './RevenueByOrderChannel';
 import { RevenueByPayMethod } from './RevenueByPayMethod';
@@ -10,7 +12,9 @@ export const SalesSource = () => {
       <PeriodTypeProvider>
         <SalesSourceHeader />
         <section className="mt-4 grid grid-cols-3 gap-5">
-          <RevenueBySalesType />
+          <DefaultCardFetchBoundary className="h-[400px] w-full">
+            <RevenueBySalesType />
+          </DefaultCardFetchBoundary>
           <RevenueByOrderChannel />
           <RevenueByPayMethod />
         </section>
