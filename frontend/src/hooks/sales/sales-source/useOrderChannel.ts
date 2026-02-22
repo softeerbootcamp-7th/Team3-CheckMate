@@ -7,7 +7,7 @@ import { type PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetSalesSourceByOrderChannelResponseDto } from '@/types/sales';
 import { getOrderChannelCardCode } from '@/utils/sales';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UseOrderChannelProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth>;
@@ -26,8 +26,8 @@ export const useOrderChannel = ({
     ...salesOptions.orderChannel<GetSalesSourceByOrderChannelResponseDto>({
       analysisCardCode: orderChannelCardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   });
 

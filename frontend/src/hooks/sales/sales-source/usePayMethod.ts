@@ -7,7 +7,7 @@ import { type PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetSalesSourceByPayMethodResponseDto } from '@/types/sales';
 import { getPayMethodCardCode } from '@/utils/sales';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UsePayMethodProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth>;
@@ -26,8 +26,8 @@ export const usePayMethod = ({
     ...salesOptions.payMethod<GetSalesSourceByPayMethodResponseDto>({
       analysisCardCode: payMethodCardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   });
 

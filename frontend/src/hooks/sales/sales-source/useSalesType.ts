@@ -7,7 +7,7 @@ import { type PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetSalesSourceBySalesTypeResponseDto } from '@/types/sales';
 import { getSalesTypeCardCode } from '@/utils/sales';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UseSalesTypeProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.dayWeekMonth>;
@@ -26,8 +26,8 @@ export const useSalesType = ({
     ...salesOptions.salesType<GetSalesSourceBySalesTypeResponseDto>({
       analysisCardCode: salesTypeCardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   });
 

@@ -7,7 +7,7 @@ import { menuOptions } from '@/services/menu';
 import type { GetCategorySalesResponseDto } from '@/types/menu';
 import type { DoughnutChartItem } from '@/types/shared';
 import { getCategorySalesCardCode } from '@/utils/menu';
-import { formatDateISO } from '@/utils/shared';
+import { formatDateForDto } from '@/utils/shared';
 
 interface UseCategorySalesProps {
   periodType?: PeriodType<typeof PERIOD_PRESET_KEYS.today7_30>;
@@ -26,8 +26,8 @@ export const useCategorySales = ({
     menuOptions.categorySales<GetCategorySalesResponseDto>({
       analysisCardCode: cardCode,
       customPeriod: !periodType,
-      from: startDate ? formatDateISO(startDate) : undefined,
-      to: endDate ? formatDateISO(endDate) : undefined,
+      from: formatDateForDto(startDate),
+      to: formatDateForDto(endDate),
     }),
   );
 
