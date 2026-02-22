@@ -2,10 +2,11 @@ import { useMemo } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import { SALES_METRIC, SALES_PATTERN_DETAIL } from '@/constants/sales';
+import { SALES_PATTERN_DETAIL } from '@/constants/sales';
 import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetDetailSalesByDayResponseDto } from '@/types/sales';
+import { getWeekdaySalesPatternCardCode } from '@/utils/sales';
 import {
   createChartData,
   formatDateISO,
@@ -23,14 +24,15 @@ export const useWeekdaySalesPattern = ({
   startDate,
   endDate,
 }: UseWeekdaySalesPatternProps) => {
-  const { cardCodes: weekdaySalesPatternCardCode } =
-    SALES_METRIC.SALES_PATTERN.WEEKDAY_SALES_PATTERN;
   const { PRIMARY_COLOR, SECONDARY_COLOR, X_UNIT, MAIN_Y_UNIT, SUB_Y_UNIT } =
     SALES_PATTERN_DETAIL.WEEKDAY_SALES_PATTERN;
 
+  const weekdaySalesPatternCardCode =
+    getWeekdaySalesPatternCardCode(periodType);
+
   const { data } = useSuspenseQuery(
     salesOptions.weekdaySalesPattern<GetDetailSalesByDayResponseDto>({
-      analysisCardCode: weekdaySalesPatternCardCode.recent4Weeks,
+      analysisCardCode: weekdaySalesPatternCardCode,
       customPeriod: !periodType,
       from: startDate ? formatDateISO(startDate) : undefined,
       to: endDate ? formatDateISO(endDate) : undefined,
