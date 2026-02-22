@@ -22,7 +22,7 @@ export const CategorySalesChartLegendItem = ({
         </span>
       </div>
       <span className="body-small-medium text-grey-900">
-        {formatNumber(value)}원
+        {value < 0 ? '-' : formatNumber(value)}원
       </span>
     </li>
   );

@@ -1,23 +1,17 @@
 import { DoughnutChart } from '@/components/shared';
 import { useCategorySales } from '@/hooks/menu';
 
-import { MenuSalesRankingCardContentEmptyView } from '../shared';
-
 import { CategorySalesChartLegend } from './CategorySalesChartLegend';
 import { usePopularMenuPeriodType } from './period-type-provider';
 
 export const CategorySalesChart = () => {
   const { periodType, startDate, endDate } = usePopularMenuPeriodType();
 
-  const { cardCode, categorySalesChartData, isEmptyCategorySales } =
-    useCategorySales({
-      periodType,
-      startDate,
-      endDate,
-    });
-  if (isEmptyCategorySales) {
-    return <MenuSalesRankingCardContentEmptyView cardCode={cardCode} />;
-  }
+  const { isEmptyCategorySales, categorySalesChartData } = useCategorySales({
+    periodType,
+    startDate,
+    endDate,
+  });
 
   return (
     <div className="flex items-center gap-15">
@@ -27,7 +21,10 @@ export const CategorySalesChart = () => {
           chartData={categorySalesChartData}
         />
       </div>
-      <CategorySalesChartLegend chartData={categorySalesChartData} />
+      <CategorySalesChartLegend
+        chartData={categorySalesChartData}
+        isEmpty={isEmptyCategorySales}
+      />
     </div>
   );
 };

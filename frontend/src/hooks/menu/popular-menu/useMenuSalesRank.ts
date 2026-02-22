@@ -29,8 +29,6 @@ export const useMenuSalesRank = ({
     }),
   );
 
-  const isEmptyRankItems = (data?.items ?? []).length === 0;
-
   const slicedRankItems = (data?.items ?? []).slice(
     0,
     MENU_SALES_RANK.MAX_DISPLAYED_RANK_ITEMS,
@@ -43,8 +41,6 @@ export const useMenuSalesRank = ({
   ];
 
   return {
-    cardCode,
-    isEmptyRankItems,
     displayedRankItems,
   };
 };

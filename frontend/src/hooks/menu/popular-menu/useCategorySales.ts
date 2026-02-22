@@ -43,7 +43,6 @@ export const useCategorySales = ({
   );
 
   return {
-    cardCode,
     categorySalesChartData,
     isEmptyCategorySales,
   };
