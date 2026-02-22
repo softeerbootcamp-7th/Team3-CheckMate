@@ -102,7 +102,7 @@ interface SseClientOptions extends RequestInit {
    * retry 로직을 설계하는 것이 좋음: 치명적 에러는 rethrow, 그렇지 않으면 interval 반환하여 마지막으로 수신한 event에 대해 자동으로 retry를 수행할 수 있음
    */
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-  retryInterval?: (err: unknown) => number | null | undefined | void;
+  retryIntervalFn?: (err: unknown) => number | null | undefined | void;
 
   /**
    * 브라우저가 숨겨진 상태에서도 연결을 유지하길 원하면 true로 설정
@@ -121,7 +121,7 @@ export const sseClient = (
     onmessage,
     onclose,
     onerror,
-    retryInterval: retryIntervalFn,
+    retryIntervalFn,
     openWhenHidden,
     ...rest
   }: SseClientOptions,
