@@ -16,6 +16,7 @@ import com.checkmate.backend.domain.store.repository.StoreRepository;
 import com.checkmate.backend.global.exception.BadRequestException;
 import com.checkmate.backend.global.exception.NotFoundException;
 import com.checkmate.backend.global.sse.SseEmitterManager;
+import com.checkmate.backend.global.sse.SseSession;
 import com.checkmate.backend.global.util.BusinessJwtUtil;
 import com.checkmate.backend.global.util.TimeUtil;
 import jakarta.transaction.Transactional;
@@ -115,21 +116,16 @@ public class StoreService {
     /** 포스 연동 */
     @Async
     public void connectPOS(Long storeId) {
-        SseEmitter emitter = sseEmitterManager.getEmitter(storeId);
-        if (emitter == null) throw new BadRequestException(SSE_CONNECTION_REQUIRED);
+        SseSession sseSession = sseEmitterManager.getEmitter(storeId);
+        if (sseSession == null) throw new BadRequestException(SSE_CONNECTION_REQUIRED);
 
         try {
+            SseEmitter emitter = sseSession.emitter();
             // 포스 연동 시작
             emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_STARTED));
 
             int waitSeconds = 3 + ThreadLocalRandom.current().nextInt(5);
             TimeUnit.SECONDS.sleep(waitSeconds);
-
-            // Mock: 20% 확률로 POS 연결 실패
-            if (ThreadLocalRandom.current().nextInt(5) < 1) { // 0일 때만 실패 → 20%
-                emitter.send(SseEmitter.event().name(POS_CONNECT).data(POS_CONNECT_FAILURE));
-                return;
-            }
 
             Store store =
                     storeRepository

@@ -3,6 +3,7 @@ import { Navigate, Outlet, type RouteObject } from 'react-router-dom';
 import { ROUTE_PATHS } from '@/constants/shared';
 import { RootErrorFallback } from '@/pages/root-error-fallback';
 
+import { adminRoutes } from './AdminRoutes';
 import { authRoutes } from './AuthRoutes';
 import { mainPageRoutes } from './MainPageRoutes';
 import { onboardingRoutes } from './OnboardingRoutes';
@@ -23,6 +24,7 @@ export const rootRoutes: RouteObject = {
     onboardingRoutes,
     privacyRoutes,
     termsRoutes,
+    adminRoutes,
     {
       path: '*',
       element: <Navigate to={ROUTE_PATHS.DASHBOARD.BASE} replace />,

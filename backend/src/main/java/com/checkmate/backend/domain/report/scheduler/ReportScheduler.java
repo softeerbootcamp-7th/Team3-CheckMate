@@ -2,6 +2,7 @@ package com.checkmate.backend.domain.report.scheduler;
 
 import com.checkmate.backend.domain.report.dto.ReportTask;
 import com.checkmate.backend.domain.report.enums.ReportType;
+import com.checkmate.backend.domain.report.repository.ReportTaskRepository;
 import com.checkmate.backend.domain.store.entity.BusinessHour;
 import com.checkmate.backend.domain.store.enums.DayOfWeekType;
 import com.checkmate.backend.domain.store.repository.BusinessHourRepository;
@@ -13,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +23,8 @@ import org.springframework.stereotype.Component;
 public class ReportScheduler {
 
     private final BusinessHourRepository businessHourRepository;
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final ReportTaskRepository reportTaskRepository;
 
-    private static final String QUEUE_KEY = "report:queue:pending";
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     @Scheduled(cron = "0 0,30 * * * *")
@@ -115,7 +114,7 @@ public class ReportScheduler {
                         0,
                         LocalDateTime.now());
 
-        redisTemplate.opsForList().leftPush(QUEUE_KEY, task);
+        reportTaskRepository.push(task);
 
         log.info(
                 "큐 적재 완료 [TaskID: {}] 매장: {}, 타겟: {}, 범위: {} ~ {}",
