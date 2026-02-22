@@ -3,12 +3,12 @@ import type { DoughnutChartItem } from '@/types/shared';
 
 import { CategorySalesChartLegendItem } from './CategorySalesChartLegendItem';
 
-interface CategorySalesChartLegendProps<T> {
-  chartData: T[];
+interface CategorySalesChartLegendProps {
+  chartData: DoughnutChartItem[];
 }
-export const CategorySalesChartLegend = <T extends DoughnutChartItem>({
+export const CategorySalesChartLegend = ({
   chartData,
-}: CategorySalesChartLegendProps<T>) => {
+}: CategorySalesChartLegendProps) => {
   return (
     <ul className="flex flex-1 flex-col gap-1">
       {chartData.map((data, index) => (
