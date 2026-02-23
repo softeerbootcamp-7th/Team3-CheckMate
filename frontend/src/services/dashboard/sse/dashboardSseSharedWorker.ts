@@ -48,7 +48,9 @@ const retryIntervalFn = () => {
 /*
  * Port 목록을 순회하며 연결이 유지된 port에 대해 콜백 호출, 연결이 끊어진 port는 제거
  */
-const forEachAlivePort = (fn?: (port: MessagePort) => void) => {
+const clearDeadPortsAndIterateAlivePorts = (
+  fn?: (port: MessagePort) => void,
+) => {
   for (let i = ports.length - 1; i >= 0; i--) {
     const portRef = ports[i].deref();
     if (!portRef) {
@@ -67,7 +69,7 @@ const broadcastMessage = (message: EventSourceMessage | null) => {
     return;
   }
 
-  forEachAlivePort((port) => {
+  clearDeadPortsAndIterateAlivePorts((port) => {
     port.postMessage({
       type: DASHBOARD_SSE_EVENT.MESSAGE,
       data: message,
@@ -79,7 +81,7 @@ const broadcastMessage = (message: EventSourceMessage | null) => {
  * shared worker 내에 연결된 모든 port가 연결이 끊어진 상태인지 확인
  */
 const allPortsDisconnected = () => {
-  forEachAlivePort();
+  clearDeadPortsAndIterateAlivePorts();
   return ports.length === 0;
 };
 
@@ -191,7 +193,9 @@ const createSseClient = () => {
                 if (retryTimer) {
                   clearTimeout(retryTimer);
                 }
-                retryTimer = setTimeout(create, RETRY_INTERVAL);
+                if (!allPortsDisconnected()) {
+                  retryTimer = setTimeout(create, RETRY_INTERVAL);
+                }
               })
               .catch((err) => {
                 dispose();
@@ -206,7 +210,9 @@ const createSseClient = () => {
           if (retryTimer) {
             clearTimeout(retryTimer);
           }
-          retryTimer = setTimeout(create, interval);
+          if (!allPortsDisconnected()) {
+            retryTimer = setTimeout(create, interval);
+          }
         } else {
           // retryInterval이 없는 경우: onerror 알림 후 연결 종료
           onerror?.(error);
