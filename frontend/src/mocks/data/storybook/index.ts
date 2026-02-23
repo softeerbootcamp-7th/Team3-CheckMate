@@ -9,6 +9,7 @@ export {
   STACK_BAR_HOURLY,
   WEEKLY_BAR_DATA,
   BAR_SERIES_MOCK,
+  WEEKDAY_BAR_DATA,
 } from './barChartStoryData';
 export {
   BAR_LINE_WEEKLY_MOCK,
