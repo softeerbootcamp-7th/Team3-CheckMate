@@ -4,6 +4,7 @@ import { useErrorBoundary } from 'react-error-boundary';
 import { useQueryClient } from '@tanstack/react-query';
 
 import {
+  DASHBOARD_SSE_EVENT,
   isAveragePriceMetricCardCode,
   isDailySalesTrendMetricCardCode,
   isIngredientConsumptionRankMetricCardCode,
@@ -22,10 +23,9 @@ import {
   isWeeklySalesTrendMetricCardCode,
   type MetricCardCode,
 } from '@/constants/dashboard';
-import { dashboardOptions } from '@/services/dashboard';
-import DashboardSseSharedWorker from '@/services/dashboard/dashboardSseWorker?sharedworker';
-import DashboardSseDedicatedWorker from '@/services/dashboard/dashboardSseWorker?worker';
-import { dashboardKeys } from '@/services/dashboard/keys';
+import { dashboardKeys, dashboardOptions } from '@/services/dashboard';
+import DashboardSseDedicatedWorker from '@/services/dashboard/sse/dashboardSseDedicatedWorker?worker';
+import DashboardSseSharedWorker from '@/services/dashboard/sse/dashboardSseSharedWorker?sharedworker';
 import type { DashboardSseWorkerMessage } from '@/types/dashboard';
 import type {
   GetDashboardPopularMenuCombinationResponseDto,
@@ -358,6 +358,10 @@ export const useDashboardSseConnection = () => {
         ) => {
           handleSseMessage(event.data.data);
         };
+
+        dedicatedWorker.postMessage({
+          type: DASHBOARD_SSE_EVENT.CONNECT,
+        });
       }
     };
     initializeSseWorker();
