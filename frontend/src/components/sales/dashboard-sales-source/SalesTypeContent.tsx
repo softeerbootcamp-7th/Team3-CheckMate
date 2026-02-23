@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import {
   DASHBOARD_METRIC_CARDS,
   DASHBOARD_METRICS,
@@ -32,12 +34,26 @@ export const SalesTypeContent = ({
 }: SalesTypeContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
-  const salesTypeData = items.map((item) => ({
-    salesSource: SALES_SOURCE.SALES_TYPE[item.salesType],
-    salesAmount: item.salesAmount,
-    orderCount: item.orderCount,
-    deltaShare: item.deltaShare,
-  }));
+  // const salesTypeData = items.map((item) => ({
+  //   salesSource: SALES_SOURCE.SALES_TYPE[item.salesType],
+  //   salesAmount: item.salesAmount,
+  //   orderCount: item.orderCount,
+  //   deltaShare: item.deltaShare,
+  // }));
+
+  const salesTypeData = useMemo(
+    () =>
+      Object.entries(SALES_SOURCE.SALES_TYPE).map(([key, label]) => {
+        const found = items.find((item) => item.salesType === key);
+        return {
+          salesSource: label,
+          salesAmount: found?.salesAmount ?? 0,
+          orderCount: found?.orderCount ?? 0,
+          deltaShare: found?.deltaShare ?? 0,
+        };
+      }),
+    [items],
+  );
 
   const chartData = salesTypeData.map((data) => ({
     label: data.salesSource,
