@@ -2,7 +2,7 @@
 
 import { DASHBOARD_SSE_EVENT } from '@/constants/dashboard';
 import { API_BASE_URL } from '@/constants/shared';
-import { authToken, isApiError } from '@/services/shared';
+import { authToken, createTimeoutError, isApiError } from '@/services/shared';
 import type { EventSourceMessage } from '@/types/shared';
 import { parseRawEvent } from '@/utils/shared';
 
@@ -23,7 +23,7 @@ let isSseClientCreated = false;
  * SSE 연결이 끊어질 때 호출되는 콜백 (서버에서 timeout 시 sse 연결 해제)
  */
 const onclose = () => {
-  throw new Error('SSE connection timeout');
+  throw createTimeoutError('SSE connection timeout');
 };
 
 const onerror = (error: unknown) => {

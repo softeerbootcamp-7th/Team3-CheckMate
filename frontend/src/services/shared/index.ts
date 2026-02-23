@@ -9,3 +9,8 @@ export {
 export { ApiError, isApiError, createApiError } from './apiError';
 export { authToken } from './authToken';
 export { sseClient } from './sseClient';
+export {
+  TimeoutError,
+  isTimeoutError,
+  createTimeoutError,
+} from './timeoutError';

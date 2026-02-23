@@ -10,6 +10,7 @@ export {
   BAR_SERIES_MOCK,
   STACK_BAR,
   STACK_BAR_HOURLY,
+  WEEKDAY_BAR_DATA,
 } from './storybook';
 export { CATEGORY_MENUS, INGREDIENTS_BY_MENU_ID } from './ingredient';
 export {
