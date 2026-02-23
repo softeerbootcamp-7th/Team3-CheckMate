@@ -34,13 +34,6 @@ export const SalesTypeContent = ({
 }: SalesTypeContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
-  // const salesTypeData = items.map((item) => ({
-  //   salesSource: SALES_SOURCE.SALES_TYPE[item.salesType],
-  //   salesAmount: item.salesAmount,
-  //   orderCount: item.orderCount,
-  //   deltaShare: item.deltaShare,
-  // }));
-
   const salesTypeData = useMemo(
     () =>
       Object.entries(SALES_SOURCE.SALES_TYPE).map(([key, label]) => {
