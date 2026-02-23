@@ -339,6 +339,10 @@ export const useDashboardSseConnection = () => {
     return backoff;
   }, []);
 
+  const handleSseClose = useCallback(() => {
+    throw createTimeoutError('SSE connection timeout');
+  }, []);
+
   useEffect(() => {
     currentDashboardIdRef.current = currentDashboardId;
   }, [currentDashboardId]);
@@ -349,15 +353,12 @@ export const useDashboardSseConnection = () => {
     sseClient('/api/sse/connection', {
       signal: abortController.signal,
       onmessage: handleSseMessage,
-      onclose: () => {
-        // 연결이 끊어짐 => timeout 에러 발생
-        throw createTimeoutError('SSE connection timeout');
-      },
+      onclose: handleSseClose,
       retryIntervalFn: handleRetryInterval,
     });
 
     return () => {
       abortController.abort();
     };
-  }, [handleSseMessage, handleRetryInterval]);
+  }, [handleSseMessage, handleRetryInterval, handleSseClose]);
 };
