@@ -17,8 +17,7 @@ import com.checkmate.backend.domain.store.repository.StoreRepository;
 import com.checkmate.backend.global.exception.NotFoundException;
 import com.checkmate.backend.global.util.TimeUtil;
 import jakarta.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,9 +49,13 @@ public class OrderService {
                                     return new NotFoundException(STORE_NOT_FOUND_EXCEPTION);
                                 });
 
-        LocalDateTime orderedAt =
-                Optional.ofNullable(receiptRequestDTO.orderedAt()).orElse(LocalDateTime.now());
+        OffsetDateTime orderedAtUtc = receiptRequestDTO.orderedAt();
+        ZonedDateTime orderedAtKst = orderedAtUtc.atZoneSameInstant(ZoneId.of("Asia/Seoul"));
+        LocalDateTime orderedAt = orderedAtKst.toLocalDateTime();
         LocalDate orderDate = orderedAt.toLocalDate();
+
+        log.info("[receivePosOrder][orderedAt= {}]", orderedAt);
+
         // 1. 주문
         Order order =
                 Order.builder()
