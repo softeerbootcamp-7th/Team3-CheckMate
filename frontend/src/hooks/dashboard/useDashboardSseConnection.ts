@@ -24,7 +24,7 @@ import {
 } from '@/constants/dashboard';
 import { dashboardOptions } from '@/services/dashboard';
 import { dashboardKeys } from '@/services/dashboard/keys';
-import { sseClient } from '@/services/shared';
+import { createTimeoutError, sseClient } from '@/services/shared';
 import type {
   GetDashboardPopularMenuCombinationResponseDto,
   GetDashboardTimeSlotMenuOrderCountResponseDto,
@@ -349,6 +349,10 @@ export const useDashboardSseConnection = () => {
     sseClient('/api/sse/connection', {
       signal: abortController.signal,
       onmessage: handleSseMessage,
+      onclose: () => {
+        // 연결이 끊어짐 => timeout 에러 발생
+        throw createTimeoutError('SSE connection timeout');
+      },
       retryIntervalFn: handleRetryInterval,
     });
 
