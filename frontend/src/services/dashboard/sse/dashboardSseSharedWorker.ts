@@ -2,12 +2,16 @@
 
 import { DASHBOARD_SSE_EVENT } from '@/constants/dashboard';
 import { API_BASE_URL } from '@/constants/shared';
-import { authToken, createTimeoutError, isApiError } from '@/services/shared';
+import { postAuthRefresh } from '@/services/auth';
+import {
+  authToken,
+  createApiError,
+  createTimeoutError,
+  isApiError,
+} from '@/services/shared';
 import type { EventSourceMessage } from '@/types/shared';
 import { parseRawEvent } from '@/utils/shared';
 
-import { postAuthRefresh } from '../auth';
-import { createApiError } from '../shared';
 const ports: WeakRef<MessagePort>[] = [];
 
 const ctx: SharedWorkerGlobalScope = self as unknown as SharedWorkerGlobalScope;
@@ -221,6 +225,7 @@ const createSseClient = () => {
 
 createSseClient().catch(onerror);
 
+// SharedWorker 인 경우
 ctx.onconnect = (event: MessageEvent) => {
   const port = event.ports[0];
   const weakPort = new WeakRef(port);
@@ -229,6 +234,5 @@ ctx.onconnect = (event: MessageEvent) => {
   if (!isSseClientCreated) {
     createSseClient().catch(onerror);
   }
-
   port.start();
 };
