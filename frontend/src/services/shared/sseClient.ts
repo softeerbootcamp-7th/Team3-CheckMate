@@ -1,5 +1,6 @@
 import { API_BASE_URL } from '@/constants/shared';
 import type { EventSourceMessage } from '@/types/shared';
+import { parseRawEvent } from '@/utils/shared';
 
 import { postAuthRefresh } from '../auth';
 
@@ -8,57 +9,6 @@ import { authToken } from './authToken';
 
 const DEFAULT_RETRY_INTERVAL = 1000;
 const DEFAULT_SSE_CONTENT_TYPE = 'text/event-stream';
-
-const createNewMessage = (
-  eventType?: string,
-  data?: string,
-  id?: string,
-  retry?: number,
-): EventSourceMessage => {
-  return {
-    event: eventType ?? '',
-    data: data ?? '',
-    id: id ?? '',
-    retry: retry ?? undefined,
-  };
-};
-
-const parseRawEvent = (rawEvent: string, onRetry?: (retry: number) => void) => {
-  const lines = rawEvent.split('\n');
-  let eventType: string | undefined;
-  let data = '';
-  let id: string | undefined;
-  let retry: number | undefined;
-
-  for (const line of lines) {
-    if (line.startsWith('event:')) {
-      eventType = line.replace('event:', '').trim();
-      continue;
-    }
-
-    if (line.startsWith('data:')) {
-      data += line.replace('data:', '');
-      continue;
-    }
-
-    if (line.startsWith('id:')) {
-      id = line.replace('id:', '').trim();
-      continue;
-    }
-
-    if (line.startsWith('retry:')) {
-      retry = parseInt(line.replace('retry:', '').trim(), 10);
-      if (!isNaN(retry)) {
-        onRetry?.(retry);
-      }
-    }
-  }
-
-  if (data !== '') {
-    return createNewMessage(eventType, data, id, retry);
-  }
-  return null;
-};
 
 const defaultOnOpen = async (response: Response) => {
   const contentType = response.headers.get('content-type');
