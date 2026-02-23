@@ -268,10 +268,6 @@ export const useDragAndDropCard = () => {
         colNo: col,
         rowNo: row,
       };
-      const currentLayout =
-        dragState.sourceArea === DASHBOARD_EDIT_AREA.LIST
-          ? [...(tempLayout ?? []), ghostCard] // 리스트에서 새로 추가하는 경우
-          : (tempLayout ?? []);
 
       // 드래그 중인 카드의 중심점 (픽셀단위)
       const rect = gridRef.current?.getBoundingClientRect();
@@ -280,7 +276,7 @@ export const useDragAndDropCard = () => {
 
       // 밀어내기 시뮬레이션 수행
       const pushedResult = getPushedLayout(
-        currentLayout,
+        tempLayout,
         ghostCard,
         new Set(),
         draggingCenterX,
@@ -382,7 +378,13 @@ export const useDragAndDropCard = () => {
         y: e.clientY - cardRect.top - cardRect.height / 2,
       },
     });
-    setTempLayout(placedCards);
+
+    if (sourceArea === DASHBOARD_EDIT_AREA.LIST) {
+      // 리스트에서 새로 추가하는 경우
+      setTempLayout([...placedCards, draggingCard]);
+    } else {
+      setTempLayout(placedCards);
+    }
   };
 
   const handleDragEnd = () => {
