@@ -189,7 +189,7 @@ export const sseClient = (
           headers,
           credentials: 'include',
           cache: 'no-store',
-          signal: currentRequestAbortController.signal,
+          signal: currentController.signal,
         });
 
         await onopen(response);
@@ -232,7 +232,7 @@ export const sseClient = (
         dispose();
         resolve();
       } catch (error) {
-        if (!currentRequestAbortController.signal.aborted) {
+        if (!currentController.signal.aborted) {
           // 401 에러 시 토큰 갱신 후 재시도 (retryIntervalFn 유무와 무관)
           if (isApiError(error) && error.status === 401) {
             await postAuthRefresh()
