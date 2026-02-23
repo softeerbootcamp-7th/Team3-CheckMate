@@ -16,3 +16,4 @@ export type {
   GetDashboardCardListParam,
   PutDashboardCardListParam,
 } from './param';
+export type { DashboardSseWorkerMessage } from './dashboardSseWorkerMessage';
