@@ -18,6 +18,5 @@ export const getBarHeight = ({
 
   // 차트가 현재 2번 랜더링 되고 있음(y좌표가 첫번째 렌더링에서는 x축 존재가 무시된 값으로 계산되고 2번째 랜더링에서는 x축 존재가 반영된 값으로 계산됨).
   // 데이터 값이 0인 경우 첫 번째 랜더링에서 바 높이가 음수로 계산되기 때문에 음수인 경우 0으로 조정하는 로직 추가
-  const adjustedBarHeight = Math.max(0, barHeight); // 음수인 경우 0으로 조정(막대 높이가 0보다 작은 것 방지)
-  return adjustedBarHeight;
+  return Math.max(0, barHeight);
 };

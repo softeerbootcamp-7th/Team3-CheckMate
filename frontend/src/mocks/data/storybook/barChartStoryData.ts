@@ -246,8 +246,6 @@ export const WEEKDAY_BAR_DATA = {
       { amount: 0, unit: '원' },
       { amount: 0, unit: '원' },
       { amount: 0, unit: '원' },
-      { amount: 0, unit: '원' },
-      { amount: 0, unit: '원' },
     ],
   },
 };
