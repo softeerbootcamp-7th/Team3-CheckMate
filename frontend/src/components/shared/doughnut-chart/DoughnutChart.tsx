@@ -15,6 +15,7 @@ interface DoughnutChartProps {
   totalRadius?: number;
   clipRadius?: number;
   minPercentageForLabel?: number;
+  disableAnimation?: boolean;
 }
 
 export const DoughnutChart = ({
@@ -24,6 +25,7 @@ export const DoughnutChart = ({
   totalRadius = DOUGHNUT_CHART_DEFAULT.TOTAL_RADIUS,
   clipRadius = DOUGHNUT_CHART_DEFAULT.CLIP_RADIUS,
   minPercentageForLabel = DOUGHNUT_CHART_DEFAULT.MIN_PERCENTAGE_FOR_LABEL, // 라벨을 표시하는 최소 퍼센테이지
+  disableAnimation = false,
 }: DoughnutChartProps) => {
   const viewSize = totalRadius * 2;
   const strokeWidth = totalRadius - clipRadius;
@@ -39,7 +41,11 @@ export const DoughnutChart = ({
       minPercentageForLabel,
     },
   );
-  useDoughnutAnimation(segments, { onFrame, duration: animationDuration });
+  useDoughnutAnimation(segments, {
+    onFrame,
+    duration: animationDuration,
+    disabled: disableAnimation,
+  });
 
   return (
     <svg

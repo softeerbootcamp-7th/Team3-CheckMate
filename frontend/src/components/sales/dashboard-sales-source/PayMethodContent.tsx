@@ -21,12 +21,14 @@ type PayMethodCardCodes = ExtractCardCodes<
 
 interface PayMethodContentProps extends GetSalesSourceByPayMethodResponseDto {
   cardCode: PayMethodCardCodes;
+  disableAnimation?: boolean;
 }
 
 export const PayMethodContent = ({
   cardCode,
   insight,
   items,
+  disableAnimation,
 }: PayMethodContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
@@ -59,6 +61,7 @@ export const PayMethodContent = ({
         chartData={chartData}
         salesSourceData={payMethodData}
         title={DOUGHNUT_CHART_TITLE}
+        disableAnimation={disableAnimation}
       />
     </DashboardSalesSourceContent>
   );
