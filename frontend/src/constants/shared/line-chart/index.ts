@@ -1,1 +1,1 @@
-export { LINE_CHART } from './lineChart';
+export { LINE_CHART, CHART } from './lineChart';
