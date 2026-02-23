@@ -70,7 +70,7 @@ const createSseClient = () => {
 
     let currentRequestAbortController: AbortController = new AbortController();
 
-    let retryTimer: NodeJS.Timeout | null = null;
+    let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     const dispose = () => {
       isSseClientCreated = false;
