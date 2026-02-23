@@ -12,7 +12,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <PageRouter />
-          <Toaster offset={{ bottom: '250px' }} />
+          <Toaster offset={{ bottom: '250px' }} visibleToasts={1} />
           <ReactQueryDevtools initialIsOpen={false} />
         </TooltipProvider>
       </QueryClientProvider>
