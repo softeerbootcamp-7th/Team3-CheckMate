@@ -270,8 +270,8 @@ export const useDragAndDropCard = () => {
       };
       const currentLayout =
         dragState.sourceArea === DASHBOARD_EDIT_AREA.LIST
-          ? [...placedCards, ghostCard] // 리스트에서 새로 추가하는 경우
-          : placedCards;
+          ? [...(tempLayout ?? []), ghostCard] // 리스트에서 새로 추가하는 경우
+          : (tempLayout ?? []);
 
       // 드래그 중인 카드의 중심점 (픽셀단위)
       const rect = gridRef.current?.getBoundingClientRect();
@@ -300,9 +300,9 @@ export const useDragAndDropCard = () => {
       ghost?.colNo,
       ghost?.rowNo,
       gridRef,
-      placedCards,
       setGhost,
       setTempLayout,
+      tempLayout,
     ],
   );
   const handleGridDragOverThrottled = useThrottle(handleGridDragOverFn, 100);
@@ -379,6 +379,7 @@ export const useDragAndDropCard = () => {
         y: e.clientY - cardRect.top - cardRect.height / 2,
       },
     });
+    setTempLayout(placedCards);
   };
 
   const handleDragEnd = () => {
