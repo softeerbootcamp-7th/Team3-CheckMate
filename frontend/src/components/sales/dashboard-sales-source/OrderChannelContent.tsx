@@ -21,12 +21,14 @@ type OrderChannelCardCodes = ExtractCardCodes<
 
 interface OrderChannelContentProps extends GetSalesSourceByOrderChannelResponseDto {
   cardCode: OrderChannelCardCodes;
+  disableAnimation?: boolean;
 }
 
 export const OrderChannelContent = ({
   cardCode,
   insight,
   items,
+  disableAnimation,
 }: OrderChannelContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
@@ -62,6 +64,7 @@ export const OrderChannelContent = ({
         chartData={chartData}
         salesSourceData={orderChannelData}
         title={DOUGHNUT_CHART_TITLE}
+        disableAnimation={disableAnimation}
       />
     </DashboardSalesSourceContent>
   );
