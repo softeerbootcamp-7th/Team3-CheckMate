@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { QUERY_CACHE } from '@/constants/shared';
+
 import { getMenuIngredients } from './get';
 import { ingredientKeys } from './keys';
 
@@ -8,6 +10,6 @@ export const ingredientOptions = {
     queryOptions({
       queryKey: ingredientKeys.menuIngredients(menuId),
       queryFn: () => getMenuIngredients({ menuId }),
-      staleTime: 5 * 60 * 1000, // 이전에 프리패치한 데이터가 5분 이내의 데이터라면 서버에 재요청하지 않고 캐시된 데이터 사용
+      ...QUERY_CACHE.MUTABLE,
     }),
 };
