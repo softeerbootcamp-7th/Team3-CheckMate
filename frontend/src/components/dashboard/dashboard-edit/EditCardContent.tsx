@@ -131,6 +131,7 @@ export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
             deltaShare: SALES_TYPE_EXAMPLE_DELTA_SHARE,
           }}
           items={SALES_TYPE_EXAMPLE_SALES_SOURCE_DATA}
+          disableAnimation
         />
       );
     case 'SLS_07_01':
@@ -145,6 +146,7 @@ export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
             deltaShare: ORDER_CHANNEL_EXAMPLE_DELTA_SHARE,
           }}
           items={ORDER_CHANNEL_EXAMPLE_ORDER_CHANNEL_DATA}
+          disableAnimation
         />
       );
     case 'SLS_08_01':
@@ -159,6 +161,7 @@ export const EditCardContent = ({ cardCode }: EditCardContentProps) => {
             deltaShare: PAY_METHOD_EXAMPLE_DELTA_SHARE,
           }}
           items={PAY_METHOD_EXAMPLE_PAY_METHOD_DATA}
+          disableAnimation
         />
       );
     case 'SLS_09_04':

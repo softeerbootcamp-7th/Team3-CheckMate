@@ -22,8 +22,9 @@ import {
   isWeeklySalesTrendMetricCardCode,
   type MetricCardCode,
 } from '@/constants/dashboard';
+import { dashboardOptions } from '@/services/dashboard';
 import { dashboardKeys } from '@/services/dashboard/keys';
-import { sseClient } from '@/services/shared';
+import { createTimeoutError, sseClient } from '@/services/shared';
 import type {
   GetDashboardPopularMenuCombinationResponseDto,
   GetDashboardTimeSlotMenuOrderCountResponseDto,
@@ -41,6 +42,7 @@ import type {
 import type { EventSourceMessage } from '@/types/shared';
 
 import { useDashboardTabsContext } from './useDashboardTabsContext';
+import { usePostCardSubscription } from './usePostCardSubscription';
 
 export const useDashboardSseConnection = () => {
   const { showBoundary } = useErrorBoundary();
@@ -50,6 +52,8 @@ export const useDashboardSseConnection = () => {
 
   const retryCountRef = useRef(0);
   const currentDashboardIdRef = useRef(currentDashboardId);
+
+  const { subscribeDashboardCardList } = usePostCardSubscription();
 
   const getCardDetailQueryKey = useCallback((cardCode: MetricCardCode) => {
     return dashboardKeys.cardDetail(currentDashboardIdRef.current, {
@@ -231,6 +235,19 @@ export const useDashboardSseConnection = () => {
     (message: EventSourceMessage) => {
       if (message.event === 'connect') {
         retryCountRef.current = 0;
+        void queryClient
+          .ensureQueryData(
+            dashboardOptions.cardList(currentDashboardIdRef.current),
+          )
+          .then((response) => {
+            const topics = response.map((card) => card.cardCode);
+            subscribeDashboardCardList({
+              topics,
+            });
+          })
+          .catch((error) => {
+            showBoundary(error);
+          });
       }
 
       if (isMetricCardCode(message.event)) {
@@ -308,6 +325,7 @@ export const useDashboardSseConnection = () => {
       updateSalesTrendData,
       updatePopularMenuCombinationData,
       showBoundary,
+      subscribeDashboardCardList,
     ],
   );
 
@@ -321,6 +339,10 @@ export const useDashboardSseConnection = () => {
     return backoff;
   }, []);
 
+  const handleSseClose = useCallback(() => {
+    throw createTimeoutError('SSE connection timeout');
+  }, []);
+
   useEffect(() => {
     currentDashboardIdRef.current = currentDashboardId;
   }, [currentDashboardId]);
@@ -331,11 +353,12 @@ export const useDashboardSseConnection = () => {
     sseClient('/api/sse/connection', {
       signal: abortController.signal,
       onmessage: handleSseMessage,
+      onclose: handleSseClose,
       retryIntervalFn: handleRetryInterval,
     });
 
     return () => {
       abortController.abort();
     };
-  }, [handleSseMessage, handleRetryInterval]);
+  }, [handleSseMessage, handleRetryInterval, handleSseClose]);
 };

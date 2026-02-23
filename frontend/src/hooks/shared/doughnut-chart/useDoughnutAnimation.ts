@@ -25,6 +25,7 @@ export interface Segment {
 export interface AnimationOptions {
   duration: number;
   onFrame: (states: SegmentState[]) => void;
+  disabled?: boolean;
 }
 
 // linear interpolation
@@ -34,7 +35,7 @@ const lerp = (start: number, end: number, progress: number): number => {
 
 export const useDoughnutAnimation = (
   segments: Segment[],
-  options: AnimationOptions,
+  { duration, onFrame, disabled = false }: AnimationOptions,
 ) => {
   const currentStatesRef = useRef<SegmentState[]>([]);
   const rafIdRef = useRef<number | null>(null);
@@ -59,13 +60,26 @@ export const useDoughnutAnimation = (
     }
 
     const animate = (timestamp: number) => {
+      if (disabled) {
+        // 애니메이션이 비활성화된 경우 즉시 최종 상태로 설정
+        const finalStates = segments.map((segment) => ({
+          startAngle: segment.startAngle,
+          endAngle: segment.endAngle,
+          midAngle: segment.midAngle,
+          labelOpacity: 1,
+        }));
+        currentStatesRef.current = finalStates;
+        onFrame(finalStates);
+        return;
+      }
+
       // 애니메이션 시작 시간 설정
       if (startTimeRef.current === 0) {
         startTimeRef.current = timestamp;
       }
 
       const elapsed = timestamp - startTimeRef.current;
-      const progress = easeOut(Math.min(1, elapsed / options.duration)); // 1 넘어가면 제자리로 돌아옴
+      const progress = easeOut(Math.min(1, elapsed / duration)); // 1 넘어가면 제자리로 돌아옴
 
       // 각 세그먼트별로 interpolation 된 상태 계산
       const interpolatedStates = segments.map((lastState, index) => ({
@@ -90,7 +104,7 @@ export const useDoughnutAnimation = (
       currentStatesRef.current = interpolatedStates;
 
       // 프레임 콜백 호출 (ref 반영)
-      options.onFrame(interpolatedStates);
+      onFrame(interpolatedStates);
 
       // 애니메이션 완료 여부 확인
       if (progress >= 1) {
@@ -103,7 +117,7 @@ export const useDoughnutAnimation = (
 
     startTimeRef.current = 0;
     rafIdRef.current = requestAnimationFrame(animate);
-  }, [segments, options]);
+  }, [segments, duration, onFrame, disabled]);
 
   // 세그먼트의 값 변경 시 애니메이션 실행
   useEffect(() => {

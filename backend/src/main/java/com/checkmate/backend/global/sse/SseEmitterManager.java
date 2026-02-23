@@ -21,8 +21,8 @@ public class SseEmitterManager {
     private final Map<Long, Set<AnalysisCardCode>> clientTopics = new ConcurrentHashMap<>();
 
     public SseEmitter addEmitter(Long storeId) {
-        // 타임아웃 5분
-        SseEmitter emitter = new SseEmitter(300_000L);
+        // 타임아웃 1시간
+        SseEmitter emitter = new SseEmitter(60 * 60_000L);
         String emitterId = UUID.randomUUID().toString();
 
         log.info("[SSE][connect][storeId= {}, emitterId= {}]", storeId, emitterId);

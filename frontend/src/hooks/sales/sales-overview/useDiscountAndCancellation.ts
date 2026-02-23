@@ -30,10 +30,11 @@ export const useDiscountAndCancellation = ({
       },
     ),
   );
-  const { discountAmount, canceledAmount, orderCount } = data;
+  const { discountAmount, canceledAmount, discountCount, cancelCount } = data;
   return {
     discountAmount,
     canceledAmount,
-    orderCount,
+    discountCount,
+    cancelCount,
   };
 };

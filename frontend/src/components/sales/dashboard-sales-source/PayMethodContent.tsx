@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import {
   DASHBOARD_METRIC_CARDS,
   DASHBOARD_METRICS,
@@ -21,21 +23,30 @@ type PayMethodCardCodes = ExtractCardCodes<
 
 interface PayMethodContentProps extends GetSalesSourceByPayMethodResponseDto {
   cardCode: PayMethodCardCodes;
+  disableAnimation?: boolean;
 }
 
 export const PayMethodContent = ({
   cardCode,
   insight,
   items,
+  disableAnimation,
 }: PayMethodContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
-  const payMethodData = items.map((item) => ({
-    salesSource: SALES_SOURCE.PAY_METHOD[item.payMethod],
-    salesAmount: item.salesAmount,
-    orderCount: item.orderCount,
-    deltaShare: item.deltaShare,
-  }));
+  const payMethodData = useMemo(
+    () =>
+      Object.entries(SALES_SOURCE.PAY_METHOD).map(([key, label]) => {
+        const found = items.find((item) => item.payMethod === key);
+        return {
+          salesSource: label,
+          salesAmount: found?.salesAmount ?? 0,
+          orderCount: found?.orderCount ?? 0,
+          deltaShare: found?.deltaShare ?? 0,
+        };
+      }),
+    [items],
+  );
 
   const chartData = payMethodData.map((data) => ({
     label: data.salesSource,
@@ -59,6 +70,7 @@ export const PayMethodContent = ({
         chartData={chartData}
         salesSourceData={payMethodData}
         title={DOUGHNUT_CHART_TITLE}
+        disableAnimation={disableAnimation}
       />
     </DashboardSalesSourceContent>
   );

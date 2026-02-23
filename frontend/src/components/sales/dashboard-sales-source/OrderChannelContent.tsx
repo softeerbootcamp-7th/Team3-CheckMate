@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import {
   DASHBOARD_METRIC_CARDS,
   DASHBOARD_METRICS,
@@ -21,21 +23,30 @@ type OrderChannelCardCodes = ExtractCardCodes<
 
 interface OrderChannelContentProps extends GetSalesSourceByOrderChannelResponseDto {
   cardCode: OrderChannelCardCodes;
+  disableAnimation?: boolean;
 }
 
 export const OrderChannelContent = ({
   cardCode,
   insight,
   items,
+  disableAnimation,
 }: OrderChannelContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
-  const orderChannelData = items.map((item) => ({
-    salesSource: SALES_SOURCE.ORDER_CHANNEL[item.orderChannel],
-    salesAmount: item.salesAmount,
-    orderCount: item.orderCount,
-    deltaShare: item.deltaShare,
-  }));
+  const orderChannelData = useMemo(
+    () =>
+      Object.entries(SALES_SOURCE.ORDER_CHANNEL).map(([key, label]) => {
+        const found = items.find((item) => item.orderChannel === key);
+        return {
+          salesSource: label,
+          salesAmount: found?.salesAmount ?? 0,
+          orderCount: found?.orderCount ?? 0,
+          deltaShare: found?.deltaShare ?? 0,
+        };
+      }),
+    [items],
+  );
 
   const chartData = orderChannelData.map((data) => ({
     label: data.salesSource,
@@ -62,6 +73,7 @@ export const OrderChannelContent = ({
         chartData={chartData}
         salesSourceData={orderChannelData}
         title={DOUGHNUT_CHART_TITLE}
+        disableAnimation={disableAnimation}
       />
     </DashboardSalesSourceContent>
   );
