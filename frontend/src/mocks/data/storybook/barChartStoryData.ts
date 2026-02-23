@@ -1,17 +1,19 @@
 import { TIME_DATA } from './lineChartStoryData';
 
+const WEEKDAY = [
+  { amount: '월', unit: '' },
+  { amount: '화', unit: '' },
+  { amount: '수', unit: '' },
+  { amount: '목', unit: '' },
+  { amount: '금', unit: '' },
+  { amount: '토', unit: '' },
+  { amount: '일', unit: '' },
+];
+
 export const STACK_BAR = {
   color: 'var(--color-grey-400)',
   data: {
-    mainX: [
-      { amount: '월', unit: '' },
-      { amount: '화', unit: '' },
-      { amount: '수', unit: '' },
-      { amount: '목', unit: '' },
-      { amount: '금', unit: '' },
-      { amount: '토', unit: '' },
-      { amount: '일', unit: '' },
-    ],
+    mainX: WEEKDAY,
     mainY: [
       // 월요일: 기본 커피 중심
       [
@@ -228,6 +230,24 @@ export const WEEKLY_BAR_DATA = {
       { amount: 88.1, unit: '만' },
       { amount: 79.4, unit: '만' },
       { amount: 48.9, unit: '만' },
+    ],
+  },
+};
+
+export const WEEKDAY_BAR_DATA = {
+  color: 'var(--color-grey-400)',
+  data: {
+    mainX: WEEKDAY,
+    mainY: [
+      { amount: 0, unit: '원' },
+      { amount: 0, unit: '원' },
+      { amount: 242640, unit: '원' },
+      { amount: 146248, unit: '원' },
+      { amount: 0, unit: '원' },
+      { amount: 0, unit: '원' },
+      { amount: 0, unit: '원' },
+      { amount: 0, unit: '원' },
+      { amount: 0, unit: '원' },
     ],
   },
 };
