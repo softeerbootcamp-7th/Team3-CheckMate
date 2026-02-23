@@ -30,6 +30,10 @@ export {
   isPopularMenuCombinationMetricCardCode,
 } from './dashboardMetric';
 export {
+  DASHBOARD_SSE_EVENT,
+  type DashboardSseEvent,
+} from './dashboardSseEvent';
+export {
   DASHBOARD_METRIC_CARDS,
   isMetricCardCode,
   type MetricCardCode,
