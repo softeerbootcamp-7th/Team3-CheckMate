@@ -335,6 +335,9 @@ export const useDragAndDropCard = () => {
   };
 
   const handleListDragEnter = () => {
+    if (dragState) {
+      setGhost(null);
+    }
     if (dragState?.sourceArea === DASHBOARD_EDIT_AREA.GRID) {
       setIsOverList(true);
     }
