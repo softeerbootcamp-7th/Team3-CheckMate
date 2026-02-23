@@ -93,7 +93,7 @@ public interface SalesAnalysisRepository extends JpaRepository<Order, Long> {
     @Query(
             "select count(*)"
                     + " from Order o"
-                    + " where o.store.id=:storeId and o.orderDate >= :startDate and o.orderDate < :endDate and o.orderStatus!='CANCEL'")
+                    + " where o.store.id=:storeId and o.orderDate >= :startDate and o.orderDate < :endDate and o.orderStatus='CANCEL'")
     Long countCanceledOrders(
             @Param("storeId") Long storeId,
             @Param("startDate") LocalDate startDate,

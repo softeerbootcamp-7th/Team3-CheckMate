@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
-
-import { postDashboardSseSubscription } from '@/services/dashboard';
 import type { GetDashboardCardListResponseDto } from '@/types/dashboard';
+
+import { usePostCardSubscription } from './usePostCardSubscription';
 
 interface UseDashboardCardSubscriptionProps {
   cardList: GetDashboardCardListResponseDto;
@@ -12,9 +11,7 @@ interface UseDashboardCardSubscriptionProps {
 export const useDashboardCardSubscription = ({
   cardList,
 }: UseDashboardCardSubscriptionProps) => {
-  const { mutate: subscribeDashboardCardList } = useMutation({
-    mutationFn: postDashboardSseSubscription,
-  });
+  const { subscribeDashboardCardList } = usePostCardSubscription();
 
   useEffect(() => {
     if (!cardList || cardList.length === 0) {
