@@ -29,10 +29,7 @@ export const useDailyReportContent = ({
     enabled: calendarData === undefined || todaySales !== undefined,
   });
 
-  const existsReport = todaySales !== undefined && content !== undefined;
-
   return {
-    existsReport,
     content,
   };
 };

@@ -13,9 +13,9 @@ interface DailyReportContentProps {
 export const DailyReportContent = ({
   selectedDate,
 }: DailyReportContentProps) => {
-  const { existsReport, content } = useDailyReportContent({ selectedDate });
+  const { content } = useDailyReportContent({ selectedDate });
 
-  if (!existsReport || !content) {
+  if (!content) {
     return <DailyReportEmpty />;
   }
 
