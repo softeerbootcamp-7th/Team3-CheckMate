@@ -4,3 +4,4 @@ export { postDashboard, postDashboardSseSubscription } from './post';
 export { deleteDashboard } from './delete';
 export { putDashboardCardList } from './put';
 export { dashboardOptions } from './options';
+export { dashboardKeys } from './keys';
