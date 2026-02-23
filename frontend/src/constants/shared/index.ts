@@ -26,3 +26,4 @@ export { LINE_CHART, CHART } from './line-chart';
 export { BAR_CHART, STACK_BAR_CHART } from './bar-chart';
 
 export { LOCAL_STORAGE_KEY } from './localStorageKey';
+export { QUERY_CACHE } from './queryCache';
