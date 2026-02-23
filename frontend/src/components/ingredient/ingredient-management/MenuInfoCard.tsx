@@ -1,5 +1,4 @@
 import { useMenuDialog } from '@/hooks/ingredient';
-import { usePrefetchMenuIngredients } from '@/hooks/ingredient';
 import type { MenuInfo } from '@/types/ingredient';
 import { formatNumber } from '@/utils/shared';
 
@@ -13,11 +12,9 @@ export const MenuInfoCard = ({ menuInfo }: MenuCardProps) => {
   const { setIsDialogOpen, isDialogOpen } = useMenuDialog();
   const { menuId, name, price, hasIngredients } = menuInfo;
 
-  const { prefetchMenuIngredients } = usePrefetchMenuIngredients();
   return (
     <>
       <article
-        onMouseEnter={() => prefetchMenuIngredients({ menuId })} // 카드에 마우스 올리면 해당 메뉴의 식재료 정보 미리 패치
         className="bg-special-card-bg rounded-200 flex h-48 w-64 cursor-pointer flex-col justify-between p-6"
         onClick={() => setIsDialogOpen(true)}
       >
