@@ -23,8 +23,10 @@ import {
   type MetricCardCode,
 } from '@/constants/dashboard';
 import { dashboardOptions } from '@/services/dashboard';
+import DashboardSseSharedWorker from '@/services/dashboard/dashboardSseWorker?sharedworker';
+import DashboardSseDedicatedWorker from '@/services/dashboard/dashboardSseWorker?worker';
 import { dashboardKeys } from '@/services/dashboard/keys';
-import { sseClient } from '@/services/shared';
+import type { DashboardSseWorkerMessage } from '@/types/dashboard';
 import type {
   GetDashboardPopularMenuCombinationResponseDto,
   GetDashboardTimeSlotMenuOrderCountResponseDto,
@@ -329,31 +331,47 @@ export const useDashboardSseConnection = () => {
     ],
   );
 
-  const handleRetryInterval = useCallback(() => {
-    retryCountRef.current++;
-    // 지수 백오프
-    const backoff = Math.min(
-      1000 * Math.pow(2, retryCountRef.current - 1),
-      30000,
-    );
-    return backoff;
-  }, []);
-
   useEffect(() => {
     currentDashboardIdRef.current = currentDashboardId;
   }, [currentDashboardId]);
 
-  useEffect(() => {
-    const abortController = new AbortController();
+  const sseWorkerRef = useRef<SharedWorker | Worker | null>(null);
 
-    sseClient('/api/sse/connection', {
-      signal: abortController.signal,
-      onmessage: handleSseMessage,
-      retryIntervalFn: handleRetryInterval,
-    });
+  useEffect(() => {
+    const initializeSseWorker = () => {
+      try {
+        const worker = new DashboardSseSharedWorker();
+        sseWorkerRef.current = worker;
+
+        worker.port.onmessage = (
+          event: MessageEvent<DashboardSseWorkerMessage>,
+        ) => {
+          handleSseMessage(event.data.data);
+        };
+        worker.port.start();
+      } catch {
+        // shared worker 미지원 브라우저의 경우, dedicated worker 사용 (fallback)
+        const dedicatedWorker = new DashboardSseDedicatedWorker();
+        sseWorkerRef.current = dedicatedWorker;
+        dedicatedWorker.onmessage = (
+          event: MessageEvent<DashboardSseWorkerMessage>,
+        ) => {
+          handleSseMessage(event.data.data);
+        };
+      }
+    };
+    initializeSseWorker();
 
     return () => {
-      abortController.abort();
+      const sseWorker = sseWorkerRef.current;
+      // DedicatedWorker 인 경우 -> terminate
+      if (sseWorker instanceof Worker) {
+        sseWorker.terminate();
+      } else if (sseWorker) {
+        sseWorker.port.close();
+      }
+
+      sseWorkerRef.current = null;
     };
-  }, [handleSseMessage, handleRetryInterval]);
+  }, [handleSseMessage]);
 };
