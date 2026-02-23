@@ -251,7 +251,7 @@ export const useDragAndDropCard = () => {
 
   const handleGridDragOverFn = useCallback(
     (clientX: number, clientY: number) => {
-      if (!gridRef.current || !dragState) {
+      if (!gridRef.current || !dragState || !tempLayout) {
         return;
       }
 
