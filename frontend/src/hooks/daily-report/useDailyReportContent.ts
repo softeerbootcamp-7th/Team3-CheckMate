@@ -30,7 +30,6 @@ export const useDailyReportContent = ({
   });
 
   return {
-    todaySales,
     content,
   };
 };
