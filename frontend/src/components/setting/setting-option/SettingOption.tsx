@@ -8,6 +8,7 @@ interface SettingOptionProps {
   linkTo?: string;
   optionDescription?: string;
   children?: ReactNode;
+  onMouseEnter?: () => void;
 }
 
 export const SettingOption = ({
@@ -15,9 +16,10 @@ export const SettingOption = ({
   linkTo,
   optionDescription,
   children,
+  onMouseEnter,
 }: SettingOptionProps) => {
   return (
-    <section className="flex w-125 flex-col gap-4">
+    <section className="flex w-125 flex-col gap-4" onMouseEnter={onMouseEnter}>
       <span className="title-small-bold text-grey-900">{optionName}</span>
       {linkTo && (
         <Link
