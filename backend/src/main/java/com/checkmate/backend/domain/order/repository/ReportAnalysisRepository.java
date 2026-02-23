@@ -54,16 +54,16 @@ public interface ReportAnalysisRepository extends JpaRepository<Order, Long> {
                         COALESCE(SUM(o.net_amount), 0) as netSales,
                         COUNT(o.order_id) as orders,
                         0 as aov
-                    FROM "Order" o
+                    FROM orders o
                     WHERE o.store_id = :storeId
                     AND o.order_status = 'COMPLETE'
                     AND (
-                            (o.ordered_at >= :baseStart - INTERVAL '1 week' AND o.ordered_at < :baseEnd - INTERVAL '1 week') OR
-                            (o.ordered_at >= :baseStart - INTERVAL '2 weeks' AND o.ordered_at < :baseEnd - INTERVAL '2 weeks') OR
-                            (o.ordered_at >= :baseStart - INTERVAL '3 weeks' AND o.ordered_at < :baseEnd - INTERVAL '3 weeks') OR
-                            (o.ordered_at >= :baseStart - INTERVAL '4 weeks' AND o.ordered_at < :baseEnd - INTERVAL '4 weeks')
+                            (o.ordered_at >= CAST(:baseStart AS TIMESTAMP) - INTERVAL '1 week' AND o.ordered_at < CAST(:baseEnd AS TIMESTAMP) - INTERVAL '1 week') OR
+                            (o.ordered_at >= CAST(:baseStart AS TIMESTAMP) - INTERVAL '2 weeks' AND o.ordered_at < CAST(:baseEnd AS TIMESTAMP) - INTERVAL '2 weeks') OR
+                            (o.ordered_at >= CAST(:baseStart AS TIMESTAMP) - INTERVAL '3 weeks' AND o.ordered_at < CAST(:baseEnd AS TIMESTAMP) - INTERVAL '3 weeks') OR
+                            (o.ordered_at >= CAST(:baseStart AS TIMESTAMP) - INTERVAL '4 weeks' AND o.ordered_at < CAST(:baseEnd AS TIMESTAMP) - INTERVAL '4 weeks')
                     )
-                    GROUP BY CAST((o.ordered_at - CAST(CAST(:baseStart AS TIME) AS INTERVAL)) AS DATE)
+                    GROUP BY CAST((o.ordered_at - CAST(CAST(:baseStart AS TEXT) AS TIME)) AS DATE)
                     """,
             nativeQuery = true)
     List<StatsDtoProjection> findLast4WeeksSameDayStatsNative(
