@@ -3,6 +3,10 @@ services:
     image: ${DOCKERHUB_USERNAME}/checkmate-be:latest
     container_name: checkmate-be
     env_file: .env
+    environment:
+      - TZ=Asia/Seoul
+      - SPRING_PROFILES_ACTIVE=prod
+      - JAVA_TOOL_OPTIONS=-Duser.timezone=Asia/Seoul
     ports:
       - "8080:8080"
     restart: always
