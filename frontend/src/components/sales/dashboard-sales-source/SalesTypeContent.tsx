@@ -21,12 +21,14 @@ type DashboardSalesSourceCardCodes = ExtractCardCodes<
 
 interface SalesTypeContentProps extends GetSalesSourceBySalesTypeResponseDto {
   cardCode: DashboardSalesSourceCardCodes;
+  disableAnimation?: boolean;
 }
 
 export const SalesTypeContent = ({
   cardCode,
   insight,
   items,
+  disableAnimation,
 }: SalesTypeContentProps) => {
   const periodType = DASHBOARD_METRIC_CARDS[cardCode].period;
 
@@ -59,6 +61,7 @@ export const SalesTypeContent = ({
         chartData={chartData}
         salesSourceData={salesTypeData}
         title={DOUGHNUT_CHART_TITLE}
+        disableAnimation={disableAnimation}
       />
     </DashboardSalesSourceContent>
   );

@@ -2,6 +2,7 @@ package com.checkmate.backend.domain.store.dto.response;
 
 import com.checkmate.backend.domain.store.entity.BusinessHour;
 import com.checkmate.backend.domain.store.entity.Store;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public record StoreResponse(
             @Schema(description = "영업 시작 시간 (HH:mm, 30분 단위)") String openTime,
             @Schema(description = "영업 마감 시간 (HH:mm)") String closeTime,
             @Schema(description = "휴무 여부") boolean closed,
-            @Schema(description = "24시간 영업 유무") boolean open24Hours) {
+            @Schema(description = "24시간 영업 유무") @JsonProperty("is24") boolean open24Hours) {
 
         public static BusinessHourResponse of(BusinessHour businessHour) {
             return new BusinessHourResponse(

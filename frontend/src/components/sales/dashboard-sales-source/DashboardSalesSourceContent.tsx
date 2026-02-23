@@ -77,6 +77,7 @@ interface DashboardSalesSourceContentDoughnutChartProps {
   chartData: DoughnutChartItem[];
   salesSourceData: SalesSource[];
   title: string;
+  disableAnimation?: boolean;
 }
 
 export const DashboardSalesSourceContentDoughnutChart = ({
@@ -84,6 +85,7 @@ export const DashboardSalesSourceContentDoughnutChart = ({
   chartData,
   salesSourceData,
   title,
+  disableAnimation = false,
 }: DashboardSalesSourceContentDoughnutChartProps) => {
   return (
     <div
@@ -96,7 +98,11 @@ export const DashboardSalesSourceContentDoughnutChart = ({
       )}
     >
       <div className="my-1 h-45 w-45">
-        <DoughnutChart title={title} chartData={chartData} />
+        <DoughnutChart
+          title={title}
+          chartData={chartData}
+          disableAnimation={disableAnimation}
+        />
       </div>
       <SalesSourceChartLegend
         salesSourceData={salesSourceData}
