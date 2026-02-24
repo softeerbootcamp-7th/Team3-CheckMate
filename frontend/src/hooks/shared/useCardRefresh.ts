@@ -8,7 +8,6 @@ import {
 
 interface UseCardRefreshProps {
   prefixKey: QueryKey;
-  initLastUpdatedNow?: boolean;
 }
 export const useCardRefresh = ({ prefixKey }: UseCardRefreshProps) => {
   const queryClient = useQueryClient();
@@ -38,7 +37,7 @@ export const useCardRefresh = ({ prefixKey }: UseCardRefreshProps) => {
 
   // 쿼리 키에 해당하는 데이터 새로고침
   const refresh = useCallback(async () => {
-    await queryClient.invalidateQueries({
+    await queryClient.refetchQueries({
       queryKey: prefixKey,
     });
   }, [queryClient, prefixKey]);
