@@ -113,7 +113,7 @@
   --animate-spin-once: spin-once 600ms ease-in-out;
   @keyframes spin-once {
     to {
-      transform: rotate(-360deg);
+      transform: rotate(360deg);
     }
   }
 
