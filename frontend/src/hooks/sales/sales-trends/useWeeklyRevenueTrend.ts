@@ -28,15 +28,15 @@ export const useWeeklyRevenueTrend = ({
 }: UseWeeklyRevenueTrendProps) => {
   const { MAIN_Y_UNIT, SUB_Y_UNIT, X_UNIT, CHART_COLOR } = SALES_TREND_DETAIL;
   const weeklyRevenueTrendCardCode = getWeeklyRevenueTrendCardCode(periodType);
-
-  const { data } = useSuspenseQuery({
-    ...salesOptions.weeklyRevenueTrend<GetSalesTrendResponseDto>({
+  const queryOptions =
+    salesOptions.weeklyRevenueTrend<GetSalesTrendResponseDto>({
       analysisCardCode: weeklyRevenueTrendCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  });
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const weeklyRevenueTrendData = {
     data: {
@@ -68,6 +68,7 @@ export const useWeeklyRevenueTrend = ({
   };
 
   return {
+    queryKey: queryOptions.queryKey,
     weeklyRevenueTrendData,
     weeklyRevenueTrendLabel,
     weeklyRevenueTrendTooltipContent,

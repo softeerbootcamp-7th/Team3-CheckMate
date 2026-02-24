@@ -28,15 +28,16 @@ export const useDailyRevenueTrend = ({
 }: UseDailyRevenueTrendProps) => {
   const { MAIN_Y_UNIT, SUB_Y_UNIT, X_UNIT, CHART_COLOR } = SALES_TREND_DETAIL;
   const dailyRevenueTrendCardCode = getDailyRevenueTrendCardCode(periodType);
-
-  const { data } = useSuspenseQuery({
-    ...salesOptions.dailyRevenueTrend<GetSalesTrendResponseDto>({
+  const queryOptions = salesOptions.dailyRevenueTrend<GetSalesTrendResponseDto>(
+    {
       analysisCardCode: dailyRevenueTrendCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  });
+    },
+  );
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const dailyRevenueTrendData = {
     data: {
@@ -68,6 +69,7 @@ export const useDailyRevenueTrend = ({
   };
 
   return {
+    queryKey: queryOptions.queryKey,
     dailyRevenueTrendData,
     dailyRevenueTrendLabel,
     dailyRevenueTrendTooltipContent,
