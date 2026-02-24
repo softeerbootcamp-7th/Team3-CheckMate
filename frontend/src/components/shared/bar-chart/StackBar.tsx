@@ -73,7 +73,7 @@ export const StackBar = ({
               tooltipContentText={
                 tooltipContent?.(
                   segment.label,
-                  totalAmount.toString(),
+                  segment.amount.toString(),
                   `${segment.percentage.toString()}%`,
                 ) ?? ''
               }
