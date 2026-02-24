@@ -3,7 +3,7 @@ import type { RefObject } from 'react';
 import { BotLoading } from './BotLoading';
 
 interface BotBubbleProps {
-  message: string;
+  message: string | string[]; // 스트리밍 중일 때 string 배열
   isLoading?: boolean;
   botBubbleRef?: RefObject<HTMLDivElement | null>;
 }
@@ -13,7 +13,7 @@ export const BotBubble = ({
   isLoading = false,
   botBubbleRef,
 }: BotBubbleProps) => {
-  const sentences = message.split('.');
+  const chunks = Array.isArray(message) ? message : [message];
 
   return (
     <div
@@ -23,16 +23,15 @@ export const BotBubble = ({
       {isLoading ? (
         <BotLoading />
       ) : (
-        // 문장별로 애니메이션을 적용하여 순차적으로 나타나도록 함
-        sentences.map((sentence, index) => (
+        // 청크별로 애니메이션을 적용하여 순차적으로 나타나도록 함
+        chunks.map((chunk, index) => (
           <span
-            key={`${index}-${sentence}`}
+            key={`${index}-${chunk}`}
             className="animate-fade-in-forwards whitespace-pre-wrap opacity-0"
             style={{ animationDelay: `${index * 80}ms` }}
           >
-            {sentence}
-            {/* 백엔드 응답에서 '.' 뒤에 공백 생략됨 */}
-            {index !== sentences.length - 1 ? '. ' : ''}
+            {/* 백엔드 trim 오류로 인한 임시 코드 */}
+            {chunk.replace(/([.?!])(?=\S)/g, '$1 ')}
           </span>
         ))
       )}

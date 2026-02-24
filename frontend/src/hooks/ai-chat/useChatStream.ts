@@ -9,7 +9,7 @@ import {
 
 interface ChatState {
   chatHistoryList: ChatHistoryItem[];
-  lastAnswer: string | null;
+  lastAnswer: string[] | null;
   isLoading: boolean;
   isStreaming: boolean;
 }
@@ -30,7 +30,7 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
           ...state.chatHistoryList,
           { role: CHAT_ROLE.USER, content: action.payload || '' },
         ],
-        lastAnswer: '',
+        lastAnswer: [],
       };
     case 'ADD_ANSWER':
       return {
@@ -47,7 +47,7 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         ...state,
         isLoading: false,
         isStreaming: true,
-        lastAnswer: (state.lastAnswer ?? '') + (action.payload || ''),
+        lastAnswer: [...(state.lastAnswer || []), action.payload || ''],
       };
     case 'FINISH':
       // 스트리밍이 종료되면 마지막 답변을 히스토리에 추가하고, 로딩 및 스트리밍 상태 해제
@@ -83,7 +83,7 @@ export const useChatStream = () => {
 
       try {
         if (state.lastAnswer !== null) {
-          dispatch({ type: 'ADD_ANSWER', payload: state.lastAnswer });
+          dispatch({ type: 'ADD_ANSWER', payload: state.lastAnswer.join('') });
         }
 
         const requestBody: PostAiChatStreamRequestDto = {
