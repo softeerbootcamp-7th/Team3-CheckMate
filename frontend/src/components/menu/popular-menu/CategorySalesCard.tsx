@@ -1,7 +1,4 @@
-import {
-  DefaultCardFetchBoundary,
-  DefaultCardWrapper,
-} from '@/components/shared';
+import { DefaultCardWrapper } from '@/components/shared';
 import { RefreshedTimeButton } from '@/components/shared';
 import { useCategorySales } from '@/hooks/menu';
 
@@ -18,20 +15,18 @@ export const CategorySalesCard = () => {
       endDate,
     });
   return (
-    <DefaultCardFetchBoundary className="h-80 flex-1">
-      <DefaultCardWrapper
-        aria-label="카테고리별 매출"
-        className="flex h-80 flex-1 justify-between gap-5"
-        title="카테고리별 매출"
-      >
-        <div>
-          <CategorySalesChart
-            categorySalesChartData={categorySalesChartData}
-            isEmptyCategorySales={isEmptyCategorySales}
-          />
-          <RefreshedTimeButton queryKey={queryKey} />
-        </div>
-      </DefaultCardWrapper>
-    </DefaultCardFetchBoundary>
+    <DefaultCardWrapper
+      aria-label="카테고리별 매출"
+      className="flex h-80 flex-1 justify-between gap-5"
+      title="카테고리별 매출"
+    >
+      <div>
+        <CategorySalesChart
+          categorySalesChartData={categorySalesChartData}
+          isEmptyCategorySales={isEmptyCategorySales}
+        />
+        <RefreshedTimeButton queryKey={queryKey} />
+      </div>
+    </DefaultCardWrapper>
   );
 };
