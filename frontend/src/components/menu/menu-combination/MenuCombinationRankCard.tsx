@@ -1,4 +1,5 @@
 import { DefaultCardWrapper } from '@/components/shared';
+import { RefreshedTimeButton } from '@/components/shared/refreshed-time-button';
 import { useMenuCombinationRank } from '@/hooks/menu';
 
 import { MenuCombinationRankCardContent } from './MenuCombinationRankCardContent';
@@ -7,21 +8,25 @@ import { useMenuCombinationPeriodType } from './period-type-provider';
 export const MenuCombinationRankCard = () => {
   const { periodType, startDate, endDate } = useMenuCombinationPeriodType();
 
-  const { popularMenuCombinations, isEmptyRankItems } = useMenuCombinationRank({
-    periodType,
-    startDate,
-    endDate,
-  });
+  const { queryKey, popularMenuCombinations, isEmptyRankItems } =
+    useMenuCombinationRank({
+      periodType,
+      startDate,
+      endDate,
+    });
 
   return (
     <DefaultCardWrapper
       aria-label="인기 메뉴 조합 랭킹"
-      className="flex h-96 w-full flex-row gap-10"
+      className="h-108 w-full justify-between"
     >
-      <MenuCombinationRankCardContent
-        popularMenuCombinations={popularMenuCombinations}
-        isEmptyRankItems={isEmptyRankItems}
-      />
+      <div className="flex flex-row gap-10">
+        <MenuCombinationRankCardContent
+          popularMenuCombinations={popularMenuCombinations}
+          isEmptyRankItems={isEmptyRankItems}
+        />
+      </div>
+      <RefreshedTimeButton queryKey={queryKey} />
     </DefaultCardWrapper>
   );
 };
