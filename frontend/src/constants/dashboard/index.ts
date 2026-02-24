@@ -41,3 +41,10 @@ export {
 } from './dashboardEditArea';
 export { METRIC_TREND, type MetricTrend } from './metricTrend';
 export { GRID_ROW_SIZE, GRID_COL_SIZE } from './dashboardGridSize';
+export {
+  DashboardSseWorkerContext,
+  DASHBOARD_SSE_EVENT,
+  type DashboardSseEvent,
+  DASHBOARD_SSE_WORKER,
+  DASHBOARD_SSE_SHARED_WORKER,
+} from './sse';

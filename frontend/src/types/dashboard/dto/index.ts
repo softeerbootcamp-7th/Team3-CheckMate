@@ -10,3 +10,4 @@ export type {
   PutDashboardCardListResponseDto,
 } from './putDashboardCardListDto';
 export type { PostDashboardSseSubscriptionRequestDto } from './postDashboardSseSubscriptionDto';
+export type { DeleteDashboardSseSubscriptionRequestDto } from './deleteDashboardSseSubscriptionDto';

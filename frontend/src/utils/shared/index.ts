@@ -62,3 +62,4 @@ export {
   getLabelContentText,
 } from './bar-chart';
 export { throttle } from './throttle';
+export { parseRawEvent } from './sse';
