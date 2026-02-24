@@ -2,7 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { notificationOptions } from '@/services/daily-report';
+import {
+  dailyReportOptions,
+  notificationOptions,
+} from '@/services/daily-report';
 
 const TIME_CHECK_INTERVAL = 20 * 60 * 1000; // 20분
 const NOTIFICATION_POLLING_INTERVAL = 5 * 60 * 1000; // 5분
@@ -73,6 +76,14 @@ export const useNotificationPolling = () => {
     // existsUnread는 리포트 발행시간일 때만 활성화되어 주기 폴링
     enabled: isWithinReportTime,
     refetchInterval: isWithinReportTime ? NOTIFICATION_POLLING_INTERVAL : false,
+  });
+
+  // 캘린더 정보도 리포트 발행 시간에 주기적으로 invalidate -> 리포트 발행 시간대에 캘린더 정보의 매출정보도 최신으로 유지하기 위함
+  const todayDate = new Date();
+  useQuery({
+    ...dailyReportOptions.calendar(todayDate),
+    enabled: isWithinReportTime,
+    refetchInterval: isWithinReportTime ? 2 * 60 * 1000 : false,
   });
 
   const onSuccessExistsUnread = useCallback(async () => {
