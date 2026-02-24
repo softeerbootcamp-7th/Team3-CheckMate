@@ -9,7 +9,7 @@ import { UserBubble } from './UserBubble';
 
 interface ChatHistoryProps {
   chatHistoryList: ChatHistoryItemType[];
-  lastAnswer: string | null;
+  lastAnswer: string[] | null;
   isLoading: boolean;
   isStreaming: boolean;
 }
