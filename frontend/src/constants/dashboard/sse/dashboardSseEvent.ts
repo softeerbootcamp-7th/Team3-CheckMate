@@ -5,6 +5,8 @@ export const DASHBOARD_SSE_EVENT = {
   CONNECT: 'connect',
   CLOSE: 'close',
   ERROR: 'error',
+  SUBSCRIBE: 'subscribe',
+  UNSUBSCRIBE: 'unsubscribe',
 } as const;
 
 export type DashboardSseEvent = ValueOf<typeof DASHBOARD_SSE_EVENT>;
