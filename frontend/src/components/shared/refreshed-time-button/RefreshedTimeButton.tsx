@@ -22,7 +22,7 @@ export const RefreshedTimeButton = ({
   });
   return (
     <div className={cn('flex flex-col items-end pb-px', className)}>
-      <div className="bg-grey-100 mt-5 mb-3 h-px px-2" />
+      <div className="bg-grey-100 mt-5 mb-3 h-px w-full px-2" />
       <div className="flex shrink-0 items-center gap-2">
         <span className="caption-large-medium text-grey-400">
           {lastUpdatedDate
