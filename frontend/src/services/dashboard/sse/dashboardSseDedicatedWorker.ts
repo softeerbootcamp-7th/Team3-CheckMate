@@ -188,7 +188,7 @@ const createSseClient = () => {
   });
 };
 
-createSseClient().catch(onerror);
+await createSseClient().catch(onerror);
 
 // DedicatedWorker 인 경우
 ctx.onmessage = () => {

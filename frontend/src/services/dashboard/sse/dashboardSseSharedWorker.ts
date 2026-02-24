@@ -19,6 +19,8 @@ const ctx: SharedWorkerGlobalScope = self as unknown as SharedWorkerGlobalScope;
 const RETRY_INTERVAL = 1000;
 const MAXIMUM_RETRY_TIME = 30000;
 
+let accessToken: string | null = null;
+
 let retryCount = 0;
 
 let isSseClientCreated = false;
@@ -88,7 +90,7 @@ const allPortsDisconnected = () => {
 const createSseClient = () => {
   return new Promise<void>((resolve, reject) => {
     const headers = new Headers({
-      Authorization: `Bearer ${authToken.get()}`,
+      Authorization: `Bearer ${accessToken ?? authToken.get()}`,
     });
 
     if (!headers.has('Accept')) {
@@ -110,6 +112,9 @@ const createSseClient = () => {
     };
 
     const create = async () => {
+      if (retryTimer) {
+        clearTimeout(retryTimer);
+      }
       // 이미 SSE 연결이 생성된 경우 return
       if (isSseClientCreated) {
         resolve();
@@ -229,7 +234,7 @@ const createSseClient = () => {
   });
 };
 
-createSseClient().catch(onerror);
+await createSseClient().catch(onerror);
 
 // SharedWorker 인 경우
 ctx.onconnect = (event: MessageEvent) => {
@@ -241,4 +246,11 @@ ctx.onconnect = (event: MessageEvent) => {
     createSseClient().catch(onerror);
   }
   port.start();
+
+  port.onmessage = (event: MessageEvent) => {
+    const { type, data } = event.data;
+    if (type === DASHBOARD_SSE_EVENT.CONNECT) {
+      accessToken = data.authToken;
+    }
+  };
 };
