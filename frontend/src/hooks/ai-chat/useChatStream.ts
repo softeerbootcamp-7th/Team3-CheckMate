@@ -7,6 +7,9 @@ import {
   type PostAiChatStreamRequestDto,
 } from '@/types/ai-chat';
 
+const { USER, ASSISTANT } = CHAT_ROLE;
+const ERROR_CONTENT = '오류';
+
 interface ChatState {
   chatHistoryList: ChatHistoryItem[];
   lastAnswer: string[] | null;
@@ -15,10 +18,11 @@ interface ChatState {
 }
 type ChatAction =
   | { type: 'QUESTION'; payload: string }
-  | { type: 'ADD_ANSWER'; payload: string }
+  | { type: 'ADD_LAST_ANSWER' }
   | { type: 'STREAM'; payload: string }
   | { type: 'FINISH' }
   | { type: 'RESET' };
+
 const chatReducer = (state: ChatState, action: ChatAction) => {
   switch (action.type) {
     case 'QUESTION':
@@ -28,18 +32,21 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         isLoading: true,
         chatHistoryList: [
           ...state.chatHistoryList,
-          { role: CHAT_ROLE.USER, content: action.payload || '' },
+          { role: USER, content: action.payload || '' },
         ],
         lastAnswer: [],
       };
-    case 'ADD_ANSWER':
+    case 'ADD_LAST_ANSWER':
+      if (state.lastAnswer === null) {
+        return state;
+      }
       return {
         ...state,
-        lastAnswer: null,
         chatHistoryList: [
           ...state.chatHistoryList,
-          { role: CHAT_ROLE.ASSISTANT, content: action.payload || '' },
+          { role: ASSISTANT, content: state.lastAnswer.join('') },
         ],
+        lastAnswer: null,
       };
     case 'STREAM':
       // 스트리밍된 답변을 lastAnswer에 누적
@@ -67,6 +74,24 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
   }
 };
 
+const buildRequestBody = (
+  history: ChatHistoryItem[],
+  lastAnswer: string[] | null,
+  question: string,
+) => {
+  return {
+    history: history
+      .map(({ role, content }) => ({ role, content: content || ERROR_CONTENT }))
+      .concat(
+        lastAnswer !== null
+          ? [{ role: ASSISTANT, content: lastAnswer.join('') || ERROR_CONTENT }]
+          : [],
+      ),
+
+    question,
+  };
+};
+
 export const useChatStream = () => {
   const [state, dispatch] = useReducer(chatReducer, {
     chatHistoryList: [],
@@ -82,19 +107,14 @@ export const useChatStream = () => {
       abortControllerRef.current = new AbortController();
 
       try {
-        if (state.lastAnswer !== null) {
-          dispatch({ type: 'ADD_ANSWER', payload: state.lastAnswer.join('') });
-        }
-
-        const requestBody: PostAiChatStreamRequestDto = {
-          history: state.chatHistoryList.map(({ role, content }) => ({
-            role,
-            content: content || '오류',
-          })),
+        const requestBody: PostAiChatStreamRequestDto = buildRequestBody(
+          state.chatHistoryList,
+          state.lastAnswer,
           question,
-        };
+        );
         const body = JSON.stringify(requestBody);
 
+        dispatch({ type: 'ADD_LAST_ANSWER' });
         dispatch({ type: 'QUESTION', payload: question });
 
         sseClient('/api/chats/stream', {
