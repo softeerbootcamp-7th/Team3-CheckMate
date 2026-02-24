@@ -22,14 +22,15 @@ export const useOrderChannel = ({
 }: UseOrderChannelProps) => {
   const orderChannelCardCode = getOrderChannelCardCode(periodType);
 
-  const { data } = useSuspenseQuery({
-    ...salesOptions.orderChannel<GetSalesSourceByOrderChannelResponseDto>({
+  const queryOptions =
+    salesOptions.orderChannel<GetSalesSourceByOrderChannelResponseDto>({
       analysisCardCode: orderChannelCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  });
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const orderChannelData = useMemo(
     () =>
@@ -45,6 +46,7 @@ export const useOrderChannel = ({
     [data],
   );
   return {
+    queryKey: queryOptions.queryKey,
     orderChannelData,
   };
 };
