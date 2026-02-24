@@ -41,7 +41,7 @@ export const getBarSegmentInfoList = ({
             : 0;
 
       // 현재 조각 바의 높이
-      const barSegmentHeight = (percentage / 100) * barHeight;
+      const barSegmentHeight = barHeight - (acc.percentage / 100) * barHeight;
 
       return {
         percentage: acc.percentage + percentage, // 퍼센트 누적합
