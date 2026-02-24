@@ -23,16 +23,17 @@ export const EditCardProvider = ({ children }: PropsWithChildren) => {
     dashboardOptions.cardList(currentDashboard.id),
   );
 
-  const initPlacedCards: DashboardCard[] = cardList;
+  const initRealLayout: DashboardCard[] = cardList;
 
   // 카드 그리드 상태
-  const [placedCards, setPlacedCards] =
-    useState<DashboardCard[]>(initPlacedCards);
+  const [realLayout, setRealLayout] = useState<DashboardCard[]>(initRealLayout);
 
   // 드래그앤드랍 관련 상태
   const [dragState, setDragState] = useState<DragState | null>(null);
   const [ghost, setGhost] = useState<GhostState | null>(null);
-  const [tempLayout, setTempLayout] = useState<DashboardCard[] | null>(null);
+  const [simulatedLayout, setSimulatedLayout] = useState<
+    DashboardCard[] | null
+  >(null);
   const [isOverList, setIsOverList] = useState(false);
 
   const gridRef = useRef<HTMLDivElement>(null);
@@ -41,16 +42,16 @@ export const EditCardProvider = ({ children }: PropsWithChildren) => {
     <EditCardContext.Provider
       value={{
         dashboardId: currentDashboard.id,
-        initPlacedCards,
-        placedCards,
-        setPlacedCards,
+        initRealLayout,
+        realLayout,
+        setRealLayout,
         gridRef,
         dragState,
         setDragState,
         ghost,
         setGhost,
-        tempLayout,
-        setTempLayout,
+        simulatedLayout,
+        setSimulatedLayout,
         isOverList,
         setIsOverList,
       }}

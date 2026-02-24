@@ -9,6 +9,7 @@ export type {
   PutDashboardCardListRequestDto,
   PutDashboardCardListResponseDto,
   PostDashboardSseSubscriptionRequestDto,
+  DeleteDashboardSseSubscriptionRequestDto,
 } from './dto';
 export type {
   PatchDashboardNameParam,
@@ -16,3 +17,7 @@ export type {
   GetDashboardCardListParam,
   PutDashboardCardListParam,
 } from './param';
+export type {
+  DashboardSseWorkerToPortMessage,
+  DashboardSsePortToWorkerMessage,
+} from './dashboardSseWorkerMessage';

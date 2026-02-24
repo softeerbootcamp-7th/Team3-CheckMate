@@ -22,7 +22,7 @@ export const CardEditView = () => {
 
   const { isDirty } = useEditCard();
 
-  const { isOverList, placedCards, dashboardId } = useEditCardContext();
+  const { isOverList, realLayout, dashboardId } = useEditCardContext();
 
   const { handleListDragEnter, handleListDragLeave, handleListDrop } =
     useDragAndDropCard();
@@ -43,7 +43,7 @@ export const CardEditView = () => {
 
   const handleSave = () => {
     mutateCardList.mutate(
-      { param: { dashboardId }, body: placedCards },
+      { param: { dashboardId }, body: realLayout },
       {
         onSuccess: () => {
           queryClient.invalidateQueries(dashboardOptions.cardList(dashboardId));

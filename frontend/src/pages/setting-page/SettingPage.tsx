@@ -35,3 +35,5 @@ export const SettingPage = () => {
     </div>
   );
 };
+
+export default SettingPage;

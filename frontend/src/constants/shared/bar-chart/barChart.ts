@@ -1,5 +1,6 @@
-import { CHART } from '@/constants/shared';
 import { RANKING_COLORS } from '@/constants/shared/doughnut-chart';
+
+import { CHART } from '../line-chart';
 
 export const BAR_CHART = {
   ...CHART,
