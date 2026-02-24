@@ -40,7 +40,10 @@ export const useBusinessRegistration = () => {
   const handleBusinessRegistrationNumberChange = (
     event: ChangeEvent<HTMLInputElement>,
   ) => {
-    onChange(event.target.value.trim());
+    const inputValue = event.target.value.trim();
+    const numericValue = inputValue.replace(/\D/g, '');
+
+    onChange(numericValue);
     if (businessAuthToken) {
       setValue(STORE_REGISTER_FORM_FIELD.BUSINESS_AUTH_TOKEN, '');
     }
