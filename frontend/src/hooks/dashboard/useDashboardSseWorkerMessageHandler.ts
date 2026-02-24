@@ -42,7 +42,6 @@ export const useDashboardSseWorkerMessageHandler = () => {
 
   const queryClient = useQueryClient();
 
-  const retryCountRef = useRef(0);
   const currentDashboardIdRef = useRef(currentDashboardId);
   const isSseConnectedRef = useRef(false);
 
@@ -83,7 +82,6 @@ export const useDashboardSseWorkerMessageHandler = () => {
     (message: EventSourceMessage) => {
       if (message.event === 'connect') {
         isSseConnectedRef.current = true;
-        retryCountRef.current = 0;
         subscribeCardList();
         return;
       }
@@ -158,6 +156,13 @@ export const useDashboardSseWorkerMessageHandler = () => {
   );
 
   useEffect(() => {
+    // 언마운트 시 SSE 연결 상태 플래그 초기화
+    return () => {
+      isSseConnectedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
     currentDashboardIdRef.current = currentDashboardId;
     // SSE 연결 이후 탭이 변경되면 카드 구독 재시도
     if (isSseConnectedRef.current) {
@@ -174,9 +179,8 @@ export const useDashboardSseWorkerMessageHandler = () => {
           handleSseMessage(messageData);
           break;
         case DASHBOARD_SSE_EVENT.CONNECT:
-          if (isSseConnectedRef.current) {
-            subscribeCardList();
-          }
+          isSseConnectedRef.current = true;
+          subscribeCardList();
           break;
       }
     });
