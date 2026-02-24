@@ -7,6 +7,7 @@ export {
   formatDateYYMMDDHHMM,
   formatDateISO,
   formatDateForDto,
+  formatTimeHHMM,
 } from './formatDate';
 export {
   formatRelativeTime,

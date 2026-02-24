@@ -33,3 +33,4 @@ export {
 } from './bar-line-chart';
 export { usePeriodChangeRefreshTrigger } from './usePeriodChangeRefreshTrigger';
 export { useSectionRefresh } from './useSectionRefresh';
+export { useCardRefresh } from './useCardRefresh';
