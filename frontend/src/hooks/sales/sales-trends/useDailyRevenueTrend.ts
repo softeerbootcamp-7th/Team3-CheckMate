@@ -22,7 +22,13 @@ export const useDailyRevenueTrend = ({
   startDate,
   endDate,
 }: UseDailyRevenueTrendProps) => {
-  const { MAIN_Y_UNIT, SUB_Y_UNIT, X_UNIT, CHART_COLOR } = SALES_TREND_DETAIL;
+  const {
+    MAIN_Y_UNIT,
+    SUB_Y_UNIT,
+    X_UNIT,
+    CHART_COLOR,
+    DAILY_FORMAT_X_LABEL_CONDITION,
+  } = SALES_TREND_DETAIL;
   const dailyRevenueTrendCardCode = getDailyRevenueTrendCardCode(periodType);
 
   const { data } = useSuspenseQuery({
@@ -35,7 +41,7 @@ export const useDailyRevenueTrend = ({
   });
 
   const formatXLabel =
-    data.items.length >= 15
+    data.items.length >= DAILY_FORMAT_X_LABEL_CONDITION
       ? (item: GetSalesTrendResponseDto['items'][number]) =>
           item.label.replace('월 ', '/').replace('일', '')
       : (item: GetSalesTrendResponseDto['items'][number]) => item.label;
