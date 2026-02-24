@@ -26,7 +26,7 @@ export const BotBubble = ({
         // 청크별로 애니메이션을 적용하여 순차적으로 나타나도록 함
         chunks.map((chunk, index) => (
           <span
-            key={`${index}-${chunk}`}
+            key={index}
             className="animate-fade-in-forwards whitespace-pre-wrap opacity-0"
             style={{ animationDelay: `${index * 80}ms` }}
           >
