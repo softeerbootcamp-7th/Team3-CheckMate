@@ -55,6 +55,7 @@ export const useDashboardSseConnection = () => {
 
   const retryCountRef = useRef(0);
   const currentDashboardIdRef = useRef(currentDashboardId);
+  const isSseConnectedRef = useRef(false);
 
   const { subscribeDashboardCardList } = usePostCardSubscription();
 
@@ -64,6 +65,12 @@ export const useDashboardSseConnection = () => {
       customPeriod: false,
     });
   }, []);
+
+  const getCardListFromDashboard = useCallback(async () => {
+    return await queryClient.ensureQueryData(
+      dashboardOptions.cardList(currentDashboardIdRef.current),
+    );
+  }, [queryClient]);
 
   /**
    * 매출 추이 쿼리 데이터 업데이트 함수
@@ -237,16 +244,17 @@ export const useDashboardSseConnection = () => {
   const handleSseMessage = useCallback(
     (message: EventSourceMessage) => {
       if (message.event === 'connect') {
+        isSseConnectedRef.current = true;
         retryCountRef.current = 0;
-        void queryClient
-          .ensureQueryData(
-            dashboardOptions.cardList(currentDashboardIdRef.current),
-          )
+        getCardListFromDashboard()
           .then((response) => {
             const topics = response.map((card) => card.cardCode);
-            subscribeDashboardCardList({
-              topics,
-            });
+
+            if (topics.length > 0) {
+              subscribeDashboardCardList({
+                topics,
+              });
+            }
           })
           .catch((error) => {
             showBoundary(error);
@@ -329,12 +337,34 @@ export const useDashboardSseConnection = () => {
       updatePopularMenuCombinationData,
       showBoundary,
       subscribeDashboardCardList,
+      getCardListFromDashboard,
     ],
   );
 
   useEffect(() => {
     currentDashboardIdRef.current = currentDashboardId;
-  }, [currentDashboardId]);
+
+    if (isSseConnectedRef.current) {
+      getCardListFromDashboard()
+        .then((response) => {
+          const topics = response.map((card) => card.cardCode);
+
+          if (topics.length > 0) {
+            subscribeDashboardCardList({
+              topics,
+            });
+          }
+        })
+        .catch((error) => {
+          showBoundary(error);
+        });
+    }
+  }, [
+    currentDashboardId,
+    getCardListFromDashboard,
+    subscribeDashboardCardList,
+    showBoundary,
+  ]);
 
   const sseWorkerRef = useRef<SharedWorker | Worker | null>(null);
 
@@ -351,13 +381,11 @@ export const useDashboardSseConnection = () => {
         };
         worker.port.start();
 
-        worker.port.postMessage(() => {
-          return {
-            type: DASHBOARD_SSE_EVENT.CONNECT,
-            data: {
-              authToken: authToken.get(),
-            },
-          };
+        worker.port.postMessage({
+          type: DASHBOARD_SSE_EVENT.CONNECT,
+          data: {
+            authToken: authToken.get(),
+          },
         });
       } catch {
         // shared worker 미지원 브라우저의 경우, dedicated worker 사용 (fallback)
