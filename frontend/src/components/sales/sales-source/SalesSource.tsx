@@ -12,13 +12,13 @@ export const SalesSource = () => {
       <PeriodTypeProvider>
         <SalesSourceHeader />
         <section className="mt-4 grid grid-cols-3 gap-5">
-          <DefaultCardFetchBoundary className="h-[400px] w-full">
+          <DefaultCardFetchBoundary className="h-113 w-full">
             <RevenueBySalesType />
           </DefaultCardFetchBoundary>
-          <DefaultCardFetchBoundary className="h-[400px] w-full">
+          <DefaultCardFetchBoundary className="h-113 w-full">
             <RevenueByOrderChannel />
           </DefaultCardFetchBoundary>
-          <DefaultCardFetchBoundary className="h-[400px] w-full">
+          <DefaultCardFetchBoundary className="h-113 w-full">
             <RevenueByPayMethod />
           </DefaultCardFetchBoundary>
         </section>

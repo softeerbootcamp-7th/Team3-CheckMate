@@ -26,10 +26,10 @@ export const SalesOverview = () => {
             </DefaultCardFetchBoundary>
           </div>
           <div className="flex gap-5">
-            <DefaultCardFetchBoundary className="h-25 w-103">
+            <DefaultCardFetchBoundary className="h-38 w-103">
               <TotalRevenue />
             </DefaultCardFetchBoundary>
-            <DefaultCardFetchBoundary className="h-25 w-157">
+            <DefaultCardFetchBoundary className="h-38 w-157">
               <DiscountCancel />
             </DefaultCardFetchBoundary>
           </div>
