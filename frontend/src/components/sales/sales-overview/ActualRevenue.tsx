@@ -6,7 +6,7 @@ import { SalesComparison } from './shared';
 export const ActualRevenue = () => {
   const { periodType, startDate, endDate } = usePeriodTypeContext();
 
-  const { netAmount, differenceAmount } = useRealSales({
+  const { netAmount, differenceAmount, queryKey } = useRealSales({
     periodType,
     startDate,
     endDate,
@@ -18,6 +18,7 @@ export const ActualRevenue = () => {
       unit="원"
       differenceAmount={differenceAmount}
       currentValue={netAmount}
+      queryKey={queryKey}
     />
   );
 };

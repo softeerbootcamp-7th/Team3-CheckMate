@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryKey, useSuspenseQuery } from '@tanstack/react-query';
 
 import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
@@ -19,20 +19,20 @@ export const useAveragePrice = ({
 }: UseAveragePriceProps): Omit<
   GetAveragePriceResponseDto,
   'hasPreviousData'
-> => {
+> & { queryKey: QueryKey } => {
   const averagePriceCardCode = getAveragePriceCardCode(periodType);
+  const queryOptions = salesOptions.averagePrice<GetAveragePriceResponseDto>({
+    analysisCardCode: averagePriceCardCode,
+    customPeriod: !periodType,
+    from: formatDateForDto(startDate),
+    to: formatDateForDto(endDate),
+  });
 
-  const { data } = useSuspenseQuery(
-    salesOptions.averagePrice<GetAveragePriceResponseDto>({
-      analysisCardCode: averagePriceCardCode,
-      customPeriod: !periodType,
-      from: formatDateForDto(startDate),
-      to: formatDateForDto(endDate),
-    }),
-  );
+  const { data } = useSuspenseQuery(queryOptions);
   const { averageOrderAmount, differenceAmount } = data;
 
   return {
+    queryKey: queryOptions.queryKey,
     averageOrderAmount,
     differenceAmount,
   };
