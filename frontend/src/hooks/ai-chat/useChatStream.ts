@@ -57,7 +57,7 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         lastAnswer: [...(state.lastAnswer || []), action.payload || ''],
       };
     case 'FINISH':
-      // 스트리밍이 종료되면 마지막 답변을 히스토리에 추가하고, 로딩 및 스트리밍 상태 해제
+      // 스트리밍이 종료되면, 로딩 및 스트리밍 상태 해제
       return {
         ...state,
         isLoading: false,
