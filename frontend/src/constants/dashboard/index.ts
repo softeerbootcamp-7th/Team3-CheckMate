@@ -45,4 +45,6 @@ export {
   DashboardSseWorkerContext,
   DASHBOARD_SSE_EVENT,
   type DashboardSseEvent,
+  DASHBOARD_SSE_WORKER,
+  DASHBOARD_SSE_SHARED_WORKER,
 } from './sse';
