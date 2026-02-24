@@ -6,11 +6,11 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 
-interface UseSectionRefreshProps {
+interface UseCardRefreshProps {
   prefixKey: QueryKey;
   initLastUpdatedNow?: boolean;
 }
-export const useCardRefresh = ({ prefixKey }: UseSectionRefreshProps) => {
+export const useCardRefresh = ({ prefixKey }: UseCardRefreshProps) => {
   const queryClient = useQueryClient();
 
   // 현재 데이터 패칭 중인지 확인
