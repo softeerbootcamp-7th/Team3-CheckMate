@@ -1,4 +1,4 @@
-export const PrivacyPage = () => {
+const PrivacyPage = () => {
   return (
     <div className="flex flex-col items-center gap-5 p-10">
       <header className="flex w-full justify-center border-b-2 pb-5">
@@ -161,3 +161,5 @@ export const PrivacyPage = () => {
     </div>
   );
 };
+
+export default PrivacyPage;
