@@ -29,8 +29,7 @@ export const useTimeSlotMenuOrderCount = ({
     MENU_SALES_PATTERN_DETAIL.TIME_SLOT_MENU_ORDER_COUNT;
   const cardCode = getMenuSalesPatternCardCode(periodType);
 
-  // 데이터 가져오기
-  const { data } = useSuspenseQuery(
+  const queryOptions =
     menuOptions.timeSlotMenuOrderCount<GetDetailTimeSlotMenuOrderCountResponseDto>(
       {
         analysisCardCode: cardCode,
@@ -38,8 +37,10 @@ export const useTimeSlotMenuOrderCount = ({
         from: formatDateForDto(startDate),
         to: formatDateForDto(endDate),
       },
-    ),
-  );
+    );
+
+  // 데이터 가져오기
+  const { data } = useSuspenseQuery(queryOptions);
 
   const timeSlotMenuOrderCountData = useMemo(
     () => ({
@@ -69,5 +70,9 @@ export const useTimeSlotMenuOrderCount = ({
     return `${label}, ${orderCount}건(${percentage})`;
   };
 
-  return { timeSlotMenuOrderCountData, timeSlotMenuOrderCountTooltipContent };
+  return {
+    queryKey: queryOptions.queryKey,
+    timeSlotMenuOrderCountData,
+    timeSlotMenuOrderCountTooltipContent,
+  };
 };
