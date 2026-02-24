@@ -107,6 +107,7 @@ export const useChatStream = () => {
       abortControllerRef.current = new AbortController();
 
       try {
+        // buildRequestBody는 dispatch 이전에 호출해야 함 (dispatch 후 상태는 다음 렌더에 반영됨)
         const requestBody: PostAiChatStreamRequestDto = buildRequestBody(
           state.chatHistoryList,
           state.lastAnswer,
