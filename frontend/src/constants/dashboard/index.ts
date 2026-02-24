@@ -30,10 +30,6 @@ export {
   isPopularMenuCombinationMetricCardCode,
 } from './dashboardMetric';
 export {
-  DASHBOARD_SSE_EVENT,
-  type DashboardSseEvent,
-} from './dashboardSseEvent';
-export {
   DASHBOARD_METRIC_CARDS,
   isMetricCardCode,
   type MetricCardCode,
@@ -45,3 +41,8 @@ export {
 } from './dashboardEditArea';
 export { METRIC_TREND, type MetricTrend } from './metricTrend';
 export { GRID_ROW_SIZE, GRID_COL_SIZE } from './dashboardGridSize';
+export {
+  DashboardSseWorkerContext,
+  DASHBOARD_SSE_EVENT,
+  type DashboardSseEvent,
+} from './sse';
