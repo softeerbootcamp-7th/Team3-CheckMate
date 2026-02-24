@@ -21,7 +21,7 @@ export const DailyReportContent = ({
 
   const { title, statusLabel, kpi, insights, strategies } = content;
   return (
-    <div className="h-176.5 overflow-y-auto p-6 pb-12">
+    <div className="h-full overflow-y-auto p-6 pb-12">
       <div className="flex items-center justify-between">
         <DailyReportTitle selectedDate={selectedDate} title={title} />
         <DailyReportEvaluation statusLabel={statusLabel} />
