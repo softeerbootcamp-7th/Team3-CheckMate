@@ -21,6 +21,7 @@ export const getBarSegmentInfoList = ({
       y: number;
       barHeight: number;
       percentage: number;
+      amount: number;
       label: string;
       color?: string;
     }[];
@@ -50,6 +51,7 @@ export const getBarSegmentInfoList = ({
             y: barSegmentY,
             barHeight: barSegmentHeight,
             percentage,
+            amount,
             label: segment.label,
             color: segment.color ?? STACK_BAR_CHART.RANK_COLOR[index],
           },
