@@ -26,6 +26,7 @@ import {
 import { dashboardKeys, dashboardOptions } from '@/services/dashboard';
 import DashboardSseDedicatedWorker from '@/services/dashboard/sse/dashboardSseDedicatedWorker?worker';
 import DashboardSseSharedWorker from '@/services/dashboard/sse/dashboardSseSharedWorker?sharedworker';
+import { authToken } from '@/services/shared';
 import type { DashboardSseWorkerMessage } from '@/types/dashboard';
 import type {
   GetDashboardPopularMenuCombinationResponseDto,
@@ -349,6 +350,15 @@ export const useDashboardSseConnection = () => {
           handleSseMessage(event.data.data);
         };
         worker.port.start();
+
+        worker.port.postMessage(() => {
+          return {
+            type: DASHBOARD_SSE_EVENT.CONNECT,
+            data: {
+              authToken: authToken.get(),
+            },
+          };
+        });
       } catch {
         // shared worker 미지원 브라우저의 경우, dedicated worker 사용 (fallback)
         const dedicatedWorker = new DashboardSseDedicatedWorker();
@@ -361,6 +371,9 @@ export const useDashboardSseConnection = () => {
 
         dedicatedWorker.postMessage({
           type: DASHBOARD_SSE_EVENT.CONNECT,
+          data: {
+            authToken: authToken.get(),
+          },
         });
       }
     };
