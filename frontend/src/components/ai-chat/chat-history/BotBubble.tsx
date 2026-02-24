@@ -36,7 +36,7 @@ export const BotBubble = ({
         ))
       )}
       {/* 빈 문자열로 로딩이 끝날 경우 오류 */}
-      {!isLoading && message === '' && (
+      {!isLoading && (message === '' || chunks.length === 0) && (
         <span className="text-grey-500">
           답변을 생성하는 중 오류가 발생했습니다.
         </span>
