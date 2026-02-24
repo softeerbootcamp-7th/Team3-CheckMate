@@ -17,7 +17,7 @@ export const DailyReportMain = () => {
           setSelectedDate={setSelectedDate}
         />
       </div>
-      <div className="bg-special-card-bg rounded-400 :after:content-[''] after:from-special-card-bg relative h-176.5 w-162 after:absolute after:bottom-0 after:left-0 after:h-12 after:w-full after:bg-linear-to-t after:from-30% after:to-transparent">
+      <div className="bg-special-card-bg rounded-400 after:from-special-card-bg relative h-176.5 w-162 after:absolute after:bottom-0 after:left-0 after:h-12 after:w-full after:bg-linear-to-t after:from-30% after:to-transparent after:content-['']">
         <FetchBoundary>
           <DailyReportContent selectedDate={selectedDate} />
         </FetchBoundary>
