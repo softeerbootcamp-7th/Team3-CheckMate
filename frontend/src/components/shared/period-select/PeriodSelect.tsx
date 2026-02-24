@@ -35,17 +35,16 @@ export const PeriodSelect = <T extends PeriodPresetType>({
   dateRangePickerType,
   className,
 }: PeriodSelectProps<T>) => {
-  const [lastStartDate, setLastStartDate] = useState<Date | undefined>(
-    startDate,
-  );
-  const [lastEndDate, setLastEndDate] = useState<Date | undefined>(endDate);
+  const [lastDateRange, setLastDateRange] = useState<{
+    start?: Date;
+    end?: Date;
+  }>({ start: startDate, end: endDate });
 
   const handleClickLabel = useCallback(
     (period: PeriodType<T>) => {
       setPeriodType(period);
       if (startDate && endDate) {
-        setLastStartDate(startDate);
-        setLastEndDate(endDate);
+        setLastDateRange({ start: startDate, end: endDate });
         setStartDate(undefined);
         setEndDate(undefined);
       }
@@ -55,19 +54,17 @@ export const PeriodSelect = <T extends PeriodPresetType>({
 
   const handleClickTrigger = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
-      if (lastStartDate && lastEndDate) {
+      if (lastDateRange.start && lastDateRange.end) {
         event.preventDefault();
         event.stopPropagation();
-        setStartDate(lastStartDate);
-        setEndDate(lastEndDate);
-        setLastStartDate(undefined);
-        setLastEndDate(undefined);
+        setStartDate(lastDateRange.start);
+        setEndDate(lastDateRange.end);
+        setLastDateRange({});
         setPeriodType(undefined);
       }
     },
-    [lastEndDate, lastStartDate, setStartDate, setEndDate, setPeriodType],
+    [lastDateRange, setStartDate, setEndDate, setPeriodType],
   );
-
   return (
     <div className={cn('flex items-center gap-2.5', className)}>
       {(Object.values(PERIOD_PRESETS[periodPreset]) as PeriodType<T>[]).map(
@@ -82,9 +79,9 @@ export const PeriodSelect = <T extends PeriodPresetType>({
         ),
       )}
       <DateRangePicker
-        startDate={startDate || lastStartDate}
+        startDate={startDate || lastDateRange.start}
         setStartDate={setStartDate}
-        endDate={endDate || lastEndDate}
+        endDate={endDate || lastDateRange.end}
         setEndDate={setEndDate}
         dateRangePickerType={dateRangePickerType ?? DATE_RANGE_PICKER_TYPE.date}
         onSave={() => setPeriodType(undefined)}
