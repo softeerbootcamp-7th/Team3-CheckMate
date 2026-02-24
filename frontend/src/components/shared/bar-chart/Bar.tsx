@@ -92,6 +92,7 @@ export const Bar = ({
             <TooltipTrigger asChild>{pathElement}</TooltipTrigger>
             <TooltipContent
               side="left"
+              align="start"
               className="bg-grey-800 transition-duration-200 px-250! text-gray-50 [&_svg]:invisible"
             >
               {tooltipContentText}
