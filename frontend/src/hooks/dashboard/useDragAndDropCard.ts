@@ -18,15 +18,15 @@ import { useGridCellSize } from './useGridCellSize';
 
 export const useDragAndDropCard = () => {
   const {
-    placedCards,
-    setPlacedCards,
+    realLayout,
+    setRealLayout,
     gridRef,
     dragState,
     setDragState,
     ghost,
     setGhost,
-    tempLayout,
-    setTempLayout,
+    simulatedLayout,
+    setSimulatedLayout,
     setIsOverList,
   } = useEditCardContext();
   const { getGridPosition, getGridCardSize } = useGridCellSize();
@@ -251,7 +251,7 @@ export const useDragAndDropCard = () => {
 
   const handleGridDragOverFn = useCallback(
     (clientX: number, clientY: number) => {
-      if (!gridRef.current || !dragState) {
+      if (!gridRef.current || !dragState || !simulatedLayout) {
         return;
       }
 
@@ -268,10 +268,6 @@ export const useDragAndDropCard = () => {
         colNo: col,
         rowNo: row,
       };
-      const currentLayout =
-        dragState.sourceArea === DASHBOARD_EDIT_AREA.LIST
-          ? [...placedCards, ghostCard] // 리스트에서 새로 추가하는 경우
-          : placedCards;
 
       // 드래그 중인 카드의 중심점 (픽셀단위)
       const rect = gridRef.current?.getBoundingClientRect();
@@ -280,7 +276,7 @@ export const useDragAndDropCard = () => {
 
       // 밀어내기 시뮬레이션 수행
       const pushedResult = getPushedLayout(
-        currentLayout,
+        simulatedLayout,
         ghostCard,
         new Set(),
         draggingCenterX,
@@ -288,7 +284,7 @@ export const useDragAndDropCard = () => {
       );
 
       // 밀어내기 결과 레이아웃 반영
-      setTempLayout(pushedResult.cards);
+      setSimulatedLayout(pushedResult.cards);
 
       // ghost 유효 여부 결정
       setGhost({ rowNo: row, colNo: col, isValid: pushedResult.isValid });
@@ -300,9 +296,9 @@ export const useDragAndDropCard = () => {
       ghost?.colNo,
       ghost?.rowNo,
       gridRef,
-      placedCards,
       setGhost,
-      setTempLayout,
+      setSimulatedLayout,
+      simulatedLayout,
     ],
   );
   const handleGridDragOverThrottled = useThrottle(handleGridDragOverFn, 100);
@@ -318,8 +314,8 @@ export const useDragAndDropCard = () => {
   const handleGridDrop = (e: React.DragEvent) => {
     e.preventDefault();
 
-    if (ghost?.isValid && tempLayout) {
-      setPlacedCards(tempLayout);
+    if (ghost?.isValid && simulatedLayout) {
+      setRealLayout(simulatedLayout);
     }
     handleDragEnd();
   };
@@ -335,6 +331,9 @@ export const useDragAndDropCard = () => {
   };
 
   const handleListDragEnter = () => {
+    if (dragState) {
+      setGhost(null);
+    }
     if (dragState?.sourceArea === DASHBOARD_EDIT_AREA.GRID) {
       setIsOverList(true);
     }
@@ -355,7 +354,7 @@ export const useDragAndDropCard = () => {
 
     // 카드 삭제
     if (dragState?.sourceArea === DASHBOARD_EDIT_AREA.GRID) {
-      setPlacedCards((prev) =>
+      setRealLayout((prev) =>
         prev.filter((c) => c.cardCode !== dragState.draggingCard.cardCode),
       );
     }
@@ -379,13 +378,20 @@ export const useDragAndDropCard = () => {
         y: e.clientY - cardRect.top - cardRect.height / 2,
       },
     });
+
+    if (sourceArea === DASHBOARD_EDIT_AREA.LIST) {
+      // 리스트에서 새로 추가하는 경우
+      setSimulatedLayout([...realLayout, draggingCard]);
+    } else {
+      setSimulatedLayout(realLayout);
+    }
   };
 
   const handleDragEnd = () => {
     // 드래그 상태 초기화
     setDragState(null);
     setGhost(null);
-    setTempLayout(null);
+    setSimulatedLayout(null);
     setIsOverList(false);
   };
 
