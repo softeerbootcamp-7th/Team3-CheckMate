@@ -19,7 +19,7 @@ const RETRY_INTERVAL = 1000;
 const MAXIMUM_RETRY_TIME = 30000;
 
 let retryCount = 0;
-
+let accessToken: string | null = null;
 let isSseClientCreated = false;
 
 /**
@@ -61,7 +61,7 @@ const broadcastMessage = (message: EventSourceMessage | null) => {
 const createSseClient = () => {
   return new Promise<void>((resolve, reject) => {
     const headers = new Headers({
-      Authorization: `Bearer ${authToken.get()}`,
+      Authorization: `Bearer ${accessToken ?? authToken.get()}`,
     });
 
     if (!headers.has('Accept')) {
@@ -188,11 +188,18 @@ const createSseClient = () => {
   });
 };
 
-await createSseClient().catch(onerror);
+createSseClient()
+  .then(() => {
+    // DedicatedWorker 인 경우
+    ctx.onmessage = (event: MessageEvent) => {
+      const { type, data } = event.data;
+      if (type === DASHBOARD_SSE_EVENT.CONNECT) {
+        accessToken = data.authToken;
+      }
 
-// DedicatedWorker 인 경우
-ctx.onmessage = () => {
-  if (!isSseClientCreated) {
-    createSseClient().catch(onerror);
-  }
-};
+      if (!isSseClientCreated) {
+        createSseClient().catch(onerror);
+      }
+    };
+  })
+  .catch(onerror);

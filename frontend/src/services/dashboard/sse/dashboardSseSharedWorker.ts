@@ -234,23 +234,28 @@ const createSseClient = () => {
   });
 };
 
-await createSseClient().catch(onerror);
+createSseClient()
+  .then(() => {
+    ctx.onconnect = (event: MessageEvent) => {
+      const port = event.ports[0];
+      const weakPort = new WeakRef(port);
+      ports.push(weakPort);
 
-// SharedWorker 인 경우
-ctx.onconnect = (event: MessageEvent) => {
-  const port = event.ports[0];
-  const weakPort = new WeakRef(port);
-  ports.push(weakPort);
+      if (!isSseClientCreated) {
+        createSseClient().catch(onerror);
+      }
+      port.start();
 
-  if (!isSseClientCreated) {
-    createSseClient().catch(onerror);
-  }
-  port.start();
+      port.onmessage = (event: MessageEvent) => {
+        const { type, data } = event.data;
+        if (type === DASHBOARD_SSE_EVENT.CONNECT) {
+          accessToken = data.authToken;
+        }
+      };
 
-  port.onmessage = (event: MessageEvent) => {
-    const { type, data } = event.data;
-    if (type === DASHBOARD_SSE_EVENT.CONNECT) {
-      accessToken = data.authToken;
-    }
-  };
-};
+      port.postMessage({
+        type: DASHBOARD_SSE_EVENT.CONNECT,
+      });
+    };
+  })
+  .catch(onerror);
