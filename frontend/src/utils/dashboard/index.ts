@@ -11,4 +11,5 @@ export {
   updateWeekdaySalesPatternData,
   updateTimeBasedMenuOrderCountData,
   updatePopularMenuCombinationData,
+  PortConnection,
 } from './sse';

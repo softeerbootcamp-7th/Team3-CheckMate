@@ -5,3 +5,4 @@ export {
   updateTimeBasedMenuOrderCountData,
   updatePopularMenuCombinationData,
 } from './updateDashboardMetric';
+export { PortConnection } from './portConnection';
