@@ -9,6 +9,7 @@ export type {
   PutDashboardCardListRequestDto,
   PutDashboardCardListResponseDto,
   PostDashboardSseSubscriptionRequestDto,
+  DeleteDashboardSseSubscriptionRequestDto,
 } from './dto';
 export type {
   PatchDashboardNameParam,
