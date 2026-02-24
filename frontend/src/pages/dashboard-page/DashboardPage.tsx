@@ -5,7 +5,7 @@ import {
 } from '@/components/dashboard';
 import { FetchBoundary } from '@/components/shared';
 
-export const DashboardPage = () => {
+const DashboardPage = () => {
   return (
     <FetchBoundary>
       <DashboardTabsProvider>
@@ -15,3 +15,5 @@ export const DashboardPage = () => {
     </FetchBoundary>
   );
 };
+
+export default DashboardPage;

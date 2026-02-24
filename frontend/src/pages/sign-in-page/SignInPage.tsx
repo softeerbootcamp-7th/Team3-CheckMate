@@ -5,7 +5,7 @@ import {
 } from '@/components/auth';
 import { OnboardingLayout } from '@/components/shared';
 
-export const SignInPage = () => {
+const SignInPage = () => {
   return (
     <OnboardingLayout>
       <OnboardingLayout.Sidebar>
@@ -20,3 +20,5 @@ export const SignInPage = () => {
     </OnboardingLayout>
   );
 };
+
+export default SignInPage;
