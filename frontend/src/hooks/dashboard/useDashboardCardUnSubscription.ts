@@ -1,12 +1,9 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
+import { DASHBOARD_SSE_EVENT } from '@/constants/dashboard';
+import type { GetDashboardCardListResponseDto } from '@/types/dashboard';
 
-import { deleteDashboardSseSubscription } from '@/services/dashboard';
-import type {
-  DeleteDashboardSseSubscriptionRequestDto,
-  GetDashboardCardListResponseDto,
-} from '@/types/dashboard';
+import { useDashboardSseWorkerContext } from './sse';
 
 interface UseDashboardCardUnSubscriptionProps {
   cardList: GetDashboardCardListResponseDto;
@@ -20,31 +17,18 @@ export const useDashboardCardUnSubscription = ({
     [cardList],
   );
 
-  const retryRef = useRef(0);
-
-  const { mutate: unsubscribeDashboardCardList } = useMutation({
-    mutationFn: deleteDashboardSseSubscription,
-    onSuccess: () => {},
-    onError: (
-      _error: unknown,
-      variables: DeleteDashboardSseSubscriptionRequestDto,
-    ) => {
-      retryRef.current++;
-      if (retryRef.current < 3) {
-        unsubscribeDashboardCardList({
-          topics: variables.topics,
-        });
-      }
-    },
-  });
+  const { postMessage } = useDashboardSseWorkerContext();
 
   useEffect(() => {
     return () => {
       if (topics.length > 0) {
-        unsubscribeDashboardCardList({
-          topics,
+        postMessage({
+          type: DASHBOARD_SSE_EVENT.UNSUBSCRIBE,
+          data: {
+            topics,
+          },
         });
       }
     };
-  }, [topics, unsubscribeDashboardCardList]);
+  }, [topics, postMessage]);
 };
