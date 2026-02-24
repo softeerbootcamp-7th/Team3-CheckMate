@@ -108,6 +108,7 @@
 
   /*그림자*/
   --shadow-card-floating: 0 12px 50px -12px rgba(16, 24, 40, 0.25);
+  --shadow-ai-chat: 0 1px 12px 0 rgba(0, 0, 0, 0.25);
 
   /* 한번 회전 애니메이션 */
   --animate-spin-once: spin-once 600ms ease-in-out;
