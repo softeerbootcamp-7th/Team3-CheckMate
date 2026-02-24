@@ -1,11 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { SALES_METRIC, SALES_TREND_DETAIL } from '@/constants/sales';
-import {
-  type PERIOD_PRESET_KEYS,
-  PERIOD_PRESETS,
-  type PeriodType,
-} from '@/constants/shared';
+import { type PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
 import type { GetSalesTrendResponseDto } from '@/types/sales';
 import { getWeeklyRevenueTrendCardCode } from '@/utils/sales';
@@ -26,7 +22,13 @@ export const useWeeklyRevenueTrend = ({
   startDate,
   endDate,
 }: UseWeeklyRevenueTrendProps) => {
-  const { MAIN_Y_UNIT, SUB_Y_UNIT, X_UNIT, CHART_COLOR } = SALES_TREND_DETAIL;
+  const {
+    MAIN_Y_UNIT,
+    SUB_Y_UNIT,
+    X_UNIT,
+    CHART_COLOR,
+    WEEKLY_FORMAT_X_LABEL_CONDITION,
+  } = SALES_TREND_DETAIL;
   const weeklyRevenueTrendCardCode = getWeeklyRevenueTrendCardCode(periodType);
 
   const { data } = useSuspenseQuery({
@@ -38,16 +40,15 @@ export const useWeeklyRevenueTrend = ({
     }),
   });
 
+  const formatXLabel =
+    data.items.length >= WEEKLY_FORMAT_X_LABEL_CONDITION
+      ? (item: GetSalesTrendResponseDto['items'][number]) =>
+          item.label.replaceAll('월 ', '.').replaceAll('일', '')
+      : (item: GetSalesTrendResponseDto['items'][number]) => item.label;
+
   const weeklyRevenueTrendData = {
     data: {
-      mainX: createChartData(
-        data.items,
-        (item) =>
-          periodType === PERIOD_PRESETS.recentWeeks8_12.recent12Weeks
-            ? item.label.replaceAll('월 ', '.').replaceAll('일', '')
-            : item.label,
-        X_UNIT,
-      ),
+      mainX: createChartData(data.items, formatXLabel, X_UNIT),
       mainY: createChartData(data.items, (item) => item.netAmount, MAIN_Y_UNIT),
       subX: createChartData(data.items, (item) => item.label, ''),
       subY: createChartData(data.items, (item) => item.orderCount, SUB_Y_UNIT),

@@ -11,7 +11,8 @@ export const MiniView = () => {
   const searchParams = new URLSearchParams(useLocation().search);
   const title = searchParams.get('tab') || '알 수 없음';
 
-  const { gridRef, dragState, tempLayout, placedCards } = useEditCardContext();
+  const { gridRef, dragState, simulatedLayout, realLayout } =
+    useEditCardContext();
   const { handleGridDragOver, handleGridDragLeave, handleGridDrop } =
     useDragAndDropCard();
 
@@ -37,7 +38,7 @@ export const MiniView = () => {
         </div>
 
         {/* 활성 카드 */}
-        {(tempLayout || placedCards).map((card) => {
+        {(simulatedLayout || realLayout).map((card) => {
           const isDragging = dragState?.draggingCard.cardCode === card.cardCode;
           return (
             <MiniViewActiveCard

@@ -1,8 +1,9 @@
 package com.checkmate.backend.global.sse;
 
+import static com.checkmate.backend.global.response.ErrorStatus.SUBSCRIBE_WITHOUT_SSE;
+
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.global.exception.BadRequestException;
-import com.checkmate.backend.global.response.ErrorStatus;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
@@ -99,26 +100,18 @@ public class SseEmitterManager {
         }
     }
 
-    public void subscribe(Long storeId, SubscriptionTopicsRequest subscriptionRequest) {
+    public void subscribe(Long storeId, SubscriptionTopicsRequest SubscriptionTopicsRequest) {
 
-        emitters.compute(
-                storeId,
-                (key, session) -> {
-                    if (session == null) {
-                        log.warn("[subscribe][SSE 연결 없이 구독 시도][storeId= {}]", storeId);
-                        throw new BadRequestException(ErrorStatus.SUBSCRIBE_WITHOUT_SSE);
-                    }
+        if (!emitters.containsKey(storeId)) {
+            log.warn("[subscribe][SSE 연결 없이 구독 시도][storeId= {}]", storeId);
+            throw new BadRequestException(SUBSCRIBE_WITHOUT_SSE);
+        }
 
-                    Set<AnalysisCardCode> newTopics =
-                            Optional.ofNullable(subscriptionRequest.topics())
-                                    .map(Set::copyOf)
-                                    .orElseGet(Set::of);
+        List<AnalysisCardCode> topics = SubscriptionTopicsRequest.topics();
 
-                    // 기존 구독을 덮어쓰거나 새로 삽입
-                    clientTopics.put(storeId, newTopics);
-
-                    return session;
-                });
+        for (AnalysisCardCode topic : topics) {
+            clientTopics.computeIfAbsent(storeId, k -> ConcurrentHashMap.newKeySet()).add(topic);
+        }
     }
 
     public void unsubscribe(Long storeId, SubscriptionTopicsRequest request) {
