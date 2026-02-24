@@ -29,15 +29,15 @@ export const useWeekdaySalesPattern = ({
 
   const weekdaySalesPatternCardCode =
     getWeekdaySalesPatternCardCode(periodType);
-
-  const { data } = useSuspenseQuery(
+  const queryOptions =
     salesOptions.weekdaySalesPattern<GetDetailSalesByDayResponseDto>({
       analysisCardCode: weekdaySalesPatternCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  );
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   // 바그래프에 해당하는 데이터(매출액)
   const weekdaySalesPatternBarData = useMemo(
@@ -78,6 +78,7 @@ export const useWeekdaySalesPattern = ({
     return `${formatPriceWithComma(Number(mainY)).split('.')[0]}${mainYUnit}`;
   };
   return {
+    queryKey: queryOptions.queryKey,
     weekdaySalesPatternBarData,
     weekdaySalesPatternLabelData,
     weekdaySalesPatternTooltipContent,

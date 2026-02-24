@@ -2,6 +2,7 @@ import {
   BarChart,
   DefaultCardWrapper,
   PeriodSelect,
+  RefreshedTimeButton,
 } from '@/components/shared';
 import { SALES_METRIC } from '@/constants/sales';
 import { PERIOD_PRESET_KEYS } from '@/constants/shared';
@@ -26,6 +27,7 @@ export const WeekdaySalesPattern = () => {
     SALES_METRIC.SALES_PATTERN.WEEKDAY_SALES_PATTERN;
 
   const {
+    queryKey,
     weekdaySalesPatternBarData,
     weekdaySalesPatternLabelData,
     weekdaySalesPatternTooltipContent,
@@ -37,7 +39,7 @@ export const WeekdaySalesPattern = () => {
 
   return (
     <DefaultCardWrapper
-      className="flex h-57 w-full flex-col justify-start gap-5"
+      className="flex h-70 w-full flex-col justify-start gap-5"
       title={peakTimeLabel}
       aria-label={peakTimeLabel}
     >
@@ -51,20 +53,23 @@ export const WeekdaySalesPattern = () => {
         setEndDate={setEndDate}
         className="absolute top-5 right-2"
       />
-      <BarChart
-        viewBoxWidth={1020}
-        viewBoxHeight={150}
-        hasXAxis
-        hasBarGradient
-        xAxisType="default"
-        activeDataIndex={todayWeekDayIdx}
-        activeTooltip
-        tooltipContent={weekdaySalesPatternTooltipContent}
-        chartTitle={`${peakTimeLabel} 차트`}
-        chartDescription={`매장이 바쁜 때를 파악해요.`}
-        primarySeries={weekdaySalesPatternBarData}
-        secondarySeries={weekdaySalesPatternLabelData}
-      />
+      <div className="min-h-0 flex-1 pt-2">
+        <BarChart
+          viewBoxWidth={1020}
+          viewBoxHeight={150}
+          hasXAxis
+          hasBarGradient
+          xAxisType="default"
+          activeDataIndex={todayWeekDayIdx}
+          activeTooltip
+          tooltipContent={weekdaySalesPatternTooltipContent}
+          chartTitle={`${peakTimeLabel} 차트`}
+          chartDescription={`매장이 바쁜 때를 파악해요.`}
+          primarySeries={weekdaySalesPatternBarData}
+          secondarySeries={weekdaySalesPatternLabelData}
+        />
+      </div>
+      <RefreshedTimeButton queryKey={queryKey} />
     </DefaultCardWrapper>
   );
 };
