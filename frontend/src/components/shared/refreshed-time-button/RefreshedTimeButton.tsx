@@ -18,7 +18,6 @@ export const RefreshedTimeButton = ({
 }: RefreshedTimeButtonProps) => {
   const { lastUpdatedDate, isFetching, refresh } = useCardRefresh({
     prefixKey: queryKey,
-    initLastUpdatedNow: false, // 첫 렌더에서 지금 시각을 새로고침된 시간으로 보이지 않게 설정
   });
   return (
     <div className={cn('flex flex-col items-end pb-px', className)}>
