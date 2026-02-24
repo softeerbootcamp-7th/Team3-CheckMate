@@ -18,6 +18,6 @@ export type DashboardSsePortToWorkerMessage =
       };
     }
   | {
-      type: Extract<DashboardSseEvent, 'close'>;
+      type: Extract<DashboardSseEvent, 'close' | 'ping'>;
       data: undefined;
     };
