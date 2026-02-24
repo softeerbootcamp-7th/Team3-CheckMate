@@ -7,6 +7,7 @@ export const DASHBOARD_SSE_EVENT = {
   ERROR: 'error',
   SUBSCRIBE: 'subscribe',
   UNSUBSCRIBE: 'unsubscribe',
+  PING: 'ping',
 } as const;
 
 export type DashboardSseEvent = ValueOf<typeof DASHBOARD_SSE_EVENT>;
