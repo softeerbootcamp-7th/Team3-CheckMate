@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { cn } from '@/utils/shared';
+
 import { FetchBoundary, RevenueCalendar } from '../shared';
 
 import { DailyReportContent } from './daily-report-content';
@@ -17,7 +19,12 @@ export const DailyReportMain = () => {
           setSelectedDate={setSelectedDate}
         />
       </div>
-      <div className="bg-special-card-bg rounded-400 after:from-special-card-bg relative h-176.5 w-162 after:absolute after:bottom-0 after:left-0 after:h-12 after:w-full after:bg-linear-to-t after:from-30% after:to-transparent after:content-['']">
+      <div
+        className={cn(
+          'bg-special-card-bg rounded-400 relative h-176.5 w-162',
+          "after:from-special-card-bg after:absolute after:bottom-0 after:left-0 after:h-12 after:w-full after:bg-linear-to-t after:from-30% after:to-transparent after:content-['']",
+        )}
+      >
         <FetchBoundary>
           <DailyReportContent selectedDate={selectedDate} />
         </FetchBoundary>
