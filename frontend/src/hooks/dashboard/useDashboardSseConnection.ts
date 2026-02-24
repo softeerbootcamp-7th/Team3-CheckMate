@@ -24,7 +24,7 @@ import {
 } from '@/constants/dashboard';
 import { dashboardOptions } from '@/services/dashboard';
 import { dashboardKeys } from '@/services/dashboard/keys';
-import { sseClient } from '@/services/shared';
+import { createTimeoutError, sseClient } from '@/services/shared';
 import type {
   GetDashboardPopularMenuCombinationResponseDto,
   GetDashboardTimeSlotMenuOrderCountResponseDto,
@@ -339,6 +339,10 @@ export const useDashboardSseConnection = () => {
     return backoff;
   }, []);
 
+  const handleSseClose = useCallback(() => {
+    throw createTimeoutError('SSE connection timeout');
+  }, []);
+
   useEffect(() => {
     currentDashboardIdRef.current = currentDashboardId;
   }, [currentDashboardId]);
@@ -349,11 +353,12 @@ export const useDashboardSseConnection = () => {
     sseClient('/api/sse/connection', {
       signal: abortController.signal,
       onmessage: handleSseMessage,
+      onclose: handleSseClose,
       retryIntervalFn: handleRetryInterval,
     });
 
     return () => {
       abortController.abort();
     };
-  }, [handleSseMessage, handleRetryInterval]);
+  }, [handleSseMessage, handleRetryInterval, handleSseClose]);
 };

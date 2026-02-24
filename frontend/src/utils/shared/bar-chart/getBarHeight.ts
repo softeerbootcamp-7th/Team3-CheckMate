@@ -12,11 +12,11 @@ export const getBarHeight = ({
   viewBoxHeight: number;
 }) => {
   const { XAXIS_Y_OFFSET, XAXIS_STROKE_WIDTH } = BAR_CHART;
-  if (hasXAxis) {
-    // x축이 있으면 바닥 기준은 SVG 하단이 아니라 x축 위치.
-    // x축 선 두께가 중심 기준으로 그려지므로, 실제 높이 보정을 위해 stroke의 절반을 추가로 차감.
-    return viewBoxHeight - XAXIS_Y_OFFSET - y - XAXIS_STROKE_WIDTH / 2;
-  }
-  // x축이 없으면 SVG 하단(viewBoxHeight)을 바닥 기준으로 사용.
-  return viewBoxHeight - y;
+  const barHeight = hasXAxis
+    ? viewBoxHeight - XAXIS_Y_OFFSET - y - XAXIS_STROKE_WIDTH / 2
+    : viewBoxHeight - y;
+
+  // 차트가 현재 2번 랜더링 되고 있음(y좌표가 첫번째 렌더링에서는 x축 존재가 무시된 값으로 계산되고 2번째 랜더링에서는 x축 존재가 반영된 값으로 계산됨).
+  // 데이터 값이 0인 경우 첫 번째 랜더링에서 바 높이가 음수로 계산되기 때문에 음수인 경우 0으로 조정하는 로직 추가
+  return Math.max(0, barHeight);
 };

@@ -12,21 +12,21 @@ import {
 import { useEditCardContext } from './useEditCardContext';
 
 export const useEditCard = () => {
-  const { initPlacedCards, placedCards, setPlacedCards } = useEditCardContext();
+  const { initRealLayout, realLayout, setRealLayout } = useEditCardContext();
 
   const isDirty = useMemo(
-    (): boolean => !isSameGrid(placedCards, initPlacedCards),
-    [placedCards, initPlacedCards],
+    (): boolean => !isSameGrid(realLayout, initRealLayout),
+    [realLayout, initRealLayout],
   );
 
   const isAdded = useCallback(
-    (cardCode: MetricCardCode): boolean => isCardPlaced(placedCards, cardCode),
-    [placedCards],
+    (cardCode: MetricCardCode): boolean => isCardPlaced(realLayout, cardCode),
+    [realLayout],
   );
 
   const addCard = useCallback(
     (cardCode: MetricCardCode, sizeX: number, sizeY: number) => {
-      setPlacedCards((prev) => {
+      setRealLayout((prev) => {
         if (isCardPlaced(prev, cardCode)) {
           return prev;
         }
@@ -43,12 +43,12 @@ export const useEditCard = () => {
         ];
       });
     },
-    [setPlacedCards],
+    [setRealLayout],
   );
 
   const removeCard = useCallback(
     (cardCode: MetricCardCode) => {
-      setPlacedCards((prev) => {
+      setRealLayout((prev) => {
         if (!isCardPlaced(prev, cardCode)) {
           return prev;
         }
@@ -56,11 +56,11 @@ export const useEditCard = () => {
         return prev.filter((c) => c.cardCode !== cardCode);
       });
     },
-    [setPlacedCards],
+    [setRealLayout],
   );
 
   return {
-    placedCards,
+    realLayout,
     isDirty,
     addCard,
     removeCard,

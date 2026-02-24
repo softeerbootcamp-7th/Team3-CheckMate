@@ -150,9 +150,8 @@ public class SseController {
         sseEmitterManager
                 .getEmitters()
                 .forEach(
-                        (storeId, emitter) ->
-                                emitterIds.put(
-                                        storeId, "Emitter@" + System.identityHashCode(emitter)));
+                        (storeId, session) ->
+                                emitterIds.put(storeId, "emitterId=" + session.emitterId()));
 
         return ApiResponse.success(SSE_EMITTER_LIST_SUCCESS, emitterIds);
     }

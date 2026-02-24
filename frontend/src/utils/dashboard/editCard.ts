@@ -13,13 +13,13 @@ interface GridPosition {
 
 const INVALID_POSITION: GridPosition = { row: -1, col: -1 };
 
-const getGridFromPlacedCards = (placedCards: DashboardCard[]) => {
+const getGridFromRealLayout = (realLayout: DashboardCard[]) => {
   const grid: (MetricCardCode | null)[][] = Array.from(
     { length: GRID_ROW_SIZE + 1 },
     () => Array(GRID_COL_SIZE + 1).fill(null),
   );
 
-  placedCards.forEach(({ cardCode, rowNo, colNo }) => {
+  realLayout.forEach(({ cardCode, rowNo, colNo }) => {
     const cardDef = DASHBOARD_METRIC_CARDS[cardCode];
     if (cardDef) {
       for (let r = rowNo; r < rowNo + cardDef.sizeY; r++) {
@@ -62,10 +62,10 @@ export const isSameGrid = (
 };
 
 export const isCardPlaced = (
-  placedCards: DashboardCard[],
+  realLayout: DashboardCard[],
   cardCode: MetricCardCode,
 ) => {
-  for (const card of placedCards) {
+  for (const card of realLayout) {
     if (card.cardCode === cardCode) {
       return true;
     }
@@ -91,11 +91,11 @@ const isAreaAvailableOnGrid = (
 };
 
 export const getAvailablePositionOnGrid = (
-  placedCards: DashboardCard[],
+  realLayout: DashboardCard[],
   sizeX: number,
   sizeY: number,
 ): GridPosition => {
-  const grid = getGridFromPlacedCards(placedCards);
+  const grid = getGridFromRealLayout(realLayout);
 
   for (let r = 1; r <= GRID_ROW_SIZE; r++) {
     for (let c = 1; c <= GRID_COL_SIZE; c++) {
@@ -135,9 +135,9 @@ const isOverlapping = (
 
 export const getConflictingCards = (
   ghostCard: DashboardCard,
-  placedCards: DashboardCard[],
+  realLayout: DashboardCard[],
 ) => {
-  return placedCards.filter((c) => {
+  return realLayout.filter((c) => {
     if (c.cardCode === ghostCard.cardCode) {
       return false; // 자기 자신과는 충돌하지 않음
     }

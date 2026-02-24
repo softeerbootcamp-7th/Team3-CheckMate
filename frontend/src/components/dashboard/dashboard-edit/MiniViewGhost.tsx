@@ -3,10 +3,10 @@ import { useEditCardContext, useGridCellSize } from '@/hooks/dashboard';
 import { cn } from '@/utils/shared';
 
 export const MiniViewGhost = () => {
-  const { dragState, ghost, isOverList } = useEditCardContext();
+  const { dragState, ghost } = useEditCardContext();
   const { getGridPosition, getGridCardSize } = useGridCellSize();
 
-  if (!dragState || !ghost || isOverList) {
+  if (!dragState || !ghost) {
     return null;
   }
 

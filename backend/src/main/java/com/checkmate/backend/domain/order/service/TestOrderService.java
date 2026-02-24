@@ -8,10 +8,7 @@ import com.checkmate.backend.domain.order.dto.request.ReceiptRequestDTO;
 import com.checkmate.backend.domain.order.enums.OrderChannel;
 import com.checkmate.backend.domain.order.enums.PaymentMethod;
 import com.checkmate.backend.domain.order.enums.SalesType;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +66,7 @@ public class TestOrderService {
              * 날짜 준비
              * */
 
-            LocalDateTime orderedAt =
+            OffsetDateTime orderedAt =
                     resolveOrderedAt(request.orderedAt(), request.from(), request.to());
 
             List<ReceiptItemRequestDTO> items = new ArrayList<>();
@@ -125,12 +122,15 @@ public class TestOrderService {
         }
     }
 
-    public LocalDateTime resolveOrderedAt(LocalDateTime orderedAt, LocalDate from, LocalDate to) {
+    public OffsetDateTime resolveOrderedAt(OffsetDateTime orderedAt, LocalDate from, LocalDate to) {
 
         // 1. orderedAt 우선
         if (orderedAt != null) {
             return orderedAt;
         }
+
+        ZoneId zone = ZoneId.of("Asia/Seoul");
+        ZoneOffset offset = zone.getRules().getOffset(Instant.now());
 
         // 2. from / to 둘 다 있을 때 -> 랜덤 생성
         if (from != null && to != null) {
@@ -145,16 +145,16 @@ public class TestOrderService {
             LocalDateTime start = from.atStartOfDay();
             LocalDateTime end = to.plusDays(1).atStartOfDay();
 
-            long startEpoch = start.atZone(ZoneId.systemDefault()).toEpochSecond();
-            long endEpoch = end.atZone(ZoneId.systemDefault()).toEpochSecond();
+            long startEpoch = start.atZone(zone).toEpochSecond();
+            long endEpoch = end.atZone(zone).toEpochSecond();
 
             long randomEpoch = ThreadLocalRandom.current().nextLong(startEpoch, endEpoch);
 
-            return LocalDateTime.ofInstant(
-                    Instant.ofEpochSecond(randomEpoch), ZoneId.systemDefault());
+            Instant randomInstant = Instant.ofEpochSecond(randomEpoch);
+            return OffsetDateTime.ofInstant(randomInstant, zone);
         }
 
         // 3. 아무것도 없으면 현재 서버 시간
-        return LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        return OffsetDateTime.now(zone);
     }
 }

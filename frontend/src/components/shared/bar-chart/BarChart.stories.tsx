@@ -6,6 +6,7 @@ import {
   BAR_SERIES_MOCK,
   STACK_BAR,
   STACK_BAR_HOURLY,
+  WEEKDAY_BAR_DATA,
   WEEKLY_BAR_DATA,
 } from '@/mocks/data';
 import type { BarChartSeries, StackBarChartSeries } from '@/types/shared';
@@ -72,6 +73,37 @@ export const Default: Story = {
     showYGuideLine: true,
     yGuideLineCount: 4,
     primarySeries: WEEKLY_BAR_DATA,
+    activeTooltip: true,
+    tooltipContent: (mainY, subY) => `${mainY} (${subY})`,
+    chartTitle: '일별 매출 꺾은선 차트',
+    chartDescription: '일별 매출 꺾은선 차트 설명',
+    xAxisType: 'right-arrow',
+    activeDataIndex: 3,
+    barColorChangeOnHover: true,
+  },
+  render: (args) => (
+    <TooltipProvider>
+      <div
+        style={{
+          width: `${args.viewBoxWidth}px`,
+          height: `${args.viewBoxHeight}px`,
+        }}
+      >
+        <BarChart {...args} />
+      </div>
+    </TooltipProvider>
+  ),
+};
+export const WEEKDAY: Story = {
+  args: {
+    viewBoxWidth: 1000,
+    viewBoxHeight: 156,
+    hasXAxis: true,
+    hasBarGradient: true,
+    showXGuideLine: true,
+    showYGuideLine: true,
+    yGuideLineCount: 4,
+    primarySeries: WEEKDAY_BAR_DATA,
     activeTooltip: true,
     tooltipContent: (mainY, subY) => `${mainY} (${subY})`,
     chartTitle: '일별 매출 꺾은선 차트',
