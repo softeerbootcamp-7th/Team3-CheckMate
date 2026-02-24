@@ -10,7 +10,7 @@ import {
 import { MenuSalesPatternPeriodTypeProvider } from '@/components/menu';
 import { useMainScrollTop } from '@/hooks/shared';
 
-export const MenuPage = () => {
+const MenuPage = () => {
   const { handleMainScrollToTop } = useMainScrollTop();
 
   return (
@@ -31,3 +31,5 @@ export const MenuPage = () => {
     </div>
   );
 };
+
+export default MenuPage;

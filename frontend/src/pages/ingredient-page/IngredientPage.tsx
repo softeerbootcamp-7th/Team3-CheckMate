@@ -1,7 +1,7 @@
 import { IngredientManagement } from '@/components/ingredient';
 import { FetchBoundary } from '@/components/shared';
 
-export const IngredientPage = () => {
+const IngredientPage = () => {
   return (
     <div className="mt-20">
       <FetchBoundary>
@@ -10,3 +10,5 @@ export const IngredientPage = () => {
     </div>
   );
 };
+
+export default IngredientPage;

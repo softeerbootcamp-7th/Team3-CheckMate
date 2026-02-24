@@ -6,7 +6,7 @@ import {
 } from '@/components/sales';
 import { useMainScrollTop } from '@/hooks/shared';
 
-export const SalesPage = () => {
+const SalesPage = () => {
   const { handleMainScrollToTop } = useMainScrollTop();
   return (
     <div
@@ -20,3 +20,5 @@ export const SalesPage = () => {
     </div>
   );
 };
+
+export default SalesPage;

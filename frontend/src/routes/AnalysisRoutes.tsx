@@ -1,9 +1,11 @@
+import { lazy } from 'react';
 import { Navigate, type RouteObject } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@/constants/shared';
-import { MenuPage } from '@/pages/menu-page';
-import { SalesPage } from '@/pages/sales-page';
 // import { WeatherPage } from '@/pages/weather-page';
+
+const SalesPage = lazy(() => import('@/pages/sales-page/SalesPage'));
+const MenuPage = lazy(() => import('@/pages/menu-page/MenuPage'));
 
 export const analysisRoutes: RouteObject = {
   path: ROUTE_PATHS.ANALYSIS.BASE,

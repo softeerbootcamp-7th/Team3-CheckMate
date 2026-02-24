@@ -26,6 +26,7 @@ This document defines the common operating rules for coding agents in Team3-Chec
 - Base layers: `components`, `pages`, `hooks`, `utils`, `services`, `types`, `constants`, `stores`, `routes`
 - Organize by domain and keep subdirectory depth to 1 where possible
 - Use `index.ts` barrel exports in each folder
+- Exception: do not use `index.ts` barrel exports for `pages` layer components used in route-level lazy loading
 
 ### 2.3 Naming Conventions
 
@@ -41,6 +42,7 @@ This document defines the common operating rules for coding agents in Team3-Chec
 - Use **Arrow Function** for general component declarations
 - Function declarations are allowed only inside internal shadcn/ui component files
 - Define props with `interface`
+- Page components under `pages` must use `export default` to support `React.lazy` route loading patterns
 - Import rules:
 - Same domain: use relative paths
 - Different domains: use absolute paths up to domain level (e.g. `@/services/auth`)

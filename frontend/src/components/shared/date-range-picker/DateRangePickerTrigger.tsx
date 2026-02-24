@@ -1,4 +1,8 @@
-import { type ComponentPropsWithRef, useMemo } from 'react';
+import {
+  type ComponentPropsWithRef,
+  type MouseEventHandler,
+  useMemo,
+} from 'react';
 
 import { cn, formatDateYYYYMMDD } from '@/utils/shared';
 
@@ -12,6 +16,7 @@ interface DateRangePickerTriggerProps extends ComponentPropsWithRef<
   startDate?: Date;
   endDate?: Date;
   ariaLabel: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const DateRangePickerTrigger = ({
@@ -20,6 +25,7 @@ export const DateRangePickerTrigger = ({
   startDate,
   endDate,
   ariaLabel,
+  onClick,
   ref,
   ...props
 }: DateRangePickerTriggerProps) => {
@@ -34,18 +40,17 @@ export const DateRangePickerTrigger = ({
         (isOpen || isSelectedDateRange) &&
           'border-brand-main body-small-semibold',
         isOpen && 'bg-brand-main text-grey-50',
-        isSelectedDateRange && 'bg-brand-20',
+        isSelectedDateRange && 'bg-brand-20 text-brand-main',
         triggerClassName,
       )}
       aria-label={ariaLabel}
       ref={ref}
+      onClick={onClick}
       {...props}
     >
-      <span className={cn(isSelectedDateRange && 'text-brand-main')}>
-        기간 선택 {isSelectedDateRange && ' - '}
-      </span>
+      <span>기간 선택 {isSelectedDateRange && ' - '}</span>
       {isSelectedDateRange && (
-        <span className="text-grey-900">
+        <span className={cn(!triggerClassName && 'text-grey-900')}>
           {formatDateYYYYMMDD(startDate)} - {formatDateYYYYMMDD(endDate)}
         </span>
       )}
