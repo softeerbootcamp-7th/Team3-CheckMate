@@ -15,6 +15,7 @@ interface ChatState {
 }
 type ChatAction =
   | { type: 'QUESTION'; payload: string }
+  | { type: 'ADD_ANSWER'; payload: string }
   | { type: 'STREAM'; payload: string }
   | { type: 'FINISH' }
   | { type: 'RESET' };
@@ -31,6 +32,15 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         ],
         lastAnswer: '',
       };
+    case 'ADD_ANSWER':
+      return {
+        ...state,
+        lastAnswer: null,
+        chatHistoryList: [
+          ...state.chatHistoryList,
+          { role: CHAT_ROLE.ASSISTANT, content: action.payload || '' },
+        ],
+      };
     case 'STREAM':
       // 스트리밍된 답변을 lastAnswer에 누적
       return {
@@ -45,11 +55,6 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         ...state,
         isLoading: false,
         isStreaming: false,
-        chatHistoryList: [
-          ...state.chatHistoryList,
-          { role: CHAT_ROLE.ASSISTANT, content: state.lastAnswer || '' },
-        ],
-        lastAnswer: null,
       };
     case 'RESET':
       // 챗 상태 초기화
@@ -77,6 +82,10 @@ export const useChatStream = () => {
       abortControllerRef.current = new AbortController();
 
       try {
+        if (state.lastAnswer !== null) {
+          dispatch({ type: 'ADD_ANSWER', payload: state.lastAnswer });
+        }
+
         const requestBody: PostAiChatStreamRequestDto = {
           history: state.chatHistoryList.map(({ role, content }) => ({
             role,
@@ -108,7 +117,7 @@ export const useChatStream = () => {
         return;
       }
     },
-    [state.chatHistoryList],
+    [state.chatHistoryList, state.lastAnswer],
   );
 
   const cancelChat = useCallback(() => {
