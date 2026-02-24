@@ -11,7 +11,8 @@ import type { StoreRegisterForm } from '@/types/onboarding/store-register';
 import { validateBusinessRegistrationNumber } from '@/utils/onboarding/store-register';
 
 export const useBusinessRegistration = () => {
-  const { control, watch, setValue } = useFormContext<StoreRegisterForm>();
+  const { control, watch, setValue, getValues } =
+    useFormContext<StoreRegisterForm>();
   const {
     field: { ref, onChange, onBlur, value },
     fieldState: { error, isTouched, invalid },
@@ -44,7 +45,11 @@ export const useBusinessRegistration = () => {
     const numericValue = inputValue.replace(/\D/g, '');
 
     onChange(numericValue);
-    if (businessAuthToken) {
+    if (
+      businessAuthToken &&
+      getValues(STORE_REGISTER_FORM_FIELD.BUSINESS_REGISTRATION_NUMBER) !==
+        numericValue
+    ) {
       setValue(STORE_REGISTER_FORM_FIELD.BUSINESS_AUTH_TOKEN, '');
     }
   };
