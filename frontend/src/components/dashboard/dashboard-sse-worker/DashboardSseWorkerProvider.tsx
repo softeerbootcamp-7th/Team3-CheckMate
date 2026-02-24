@@ -8,6 +8,7 @@ import {
 
 import {
   DASHBOARD_SSE_EVENT,
+  DASHBOARD_SSE_SHARED_WORKER,
   DashboardSseWorkerContext,
 } from '@/constants/dashboard';
 import DashboardSseDedicatedWorker from '@/services/dashboard/sse/dashboardSseDedicatedWorker?worker';
@@ -20,10 +21,15 @@ import type {
 
 export const DashboardSseWorkerProvider = ({ children }: PropsWithChildren) => {
   const sseWorkerRef = useRef<SharedWorker | Worker | null>(null);
+  const heartbeatIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
+    null,
+  );
 
   const sseWorkerMessageSubscriber = useRef(
     new Set<(message: MessageEvent<DashboardSseWorkerToPortMessage>) => void>(),
   );
+
+  const { PING_INTERVAL } = DASHBOARD_SSE_SHARED_WORKER;
 
   const emitMessage = useCallback(
     (message: MessageEvent<DashboardSseWorkerToPortMessage>) => {
@@ -73,8 +79,22 @@ export const DashboardSseWorkerProvider = ({ children }: PropsWithChildren) => {
     }
   }, [postMessage]);
 
+  /**
+   * 메인 스레드 - 워커 스레드 간 하트비트
+   */
+  const heartbeat = useCallback(() => {
+    postMessage({
+      type: DASHBOARD_SSE_EVENT.PING,
+      data: undefined,
+    });
+  }, [postMessage]);
+
   useEffect(() => {
     window.addEventListener('beforeunload', closeSseWorker);
+    if (heartbeatIntervalRef.current) {
+      clearInterval(heartbeatIntervalRef.current);
+    }
+    heartbeatIntervalRef.current = setInterval(heartbeat, PING_INTERVAL);
     try {
       const sharedWorker = new DashboardSseSharedWorker();
       sseWorkerRef.current = sharedWorker;
@@ -85,6 +105,12 @@ export const DashboardSseWorkerProvider = ({ children }: PropsWithChildren) => {
         emitMessage(event);
       };
       sharedWorker.port.start();
+      postMessage({
+        type: DASHBOARD_SSE_EVENT.CONNECT,
+        data: {
+          authToken: authToken.get() ?? '',
+        },
+      });
     } catch {
       const dedicatedWorker = new DashboardSseDedicatedWorker();
       sseWorkerRef.current = dedicatedWorker;
@@ -105,8 +131,11 @@ export const DashboardSseWorkerProvider = ({ children }: PropsWithChildren) => {
     return () => {
       closeSseWorker();
       window.removeEventListener('beforeunload', closeSseWorker);
+      if (heartbeatIntervalRef.current) {
+        clearInterval(heartbeatIntervalRef.current);
+      }
     };
-  }, [emitMessage, closeSseWorker]);
+  }, [emitMessage, closeSseWorker, postMessage, heartbeat, PING_INTERVAL]);
 
   const value = useMemo(
     () => ({ subscribeMessage, postMessage }),
