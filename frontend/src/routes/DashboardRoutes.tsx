@@ -1,8 +1,15 @@
+import { lazy } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@/constants/shared';
-import { DashboardEditPage } from '@/pages/dashboard-edit-page/DashboardEditPage';
-import { DashboardPage } from '@/pages/dashboard-page';
+
+const DashboardPage = lazy(
+  () => import('@/pages/dashboard-page/DashboardPage'),
+);
+
+const DashboardEditPage = lazy(
+  () => import('@/pages/dashboard-edit-page/DashboardEditPage'),
+);
 
 export const dashboardRoutes: RouteObject = {
   path: ROUTE_PATHS.DASHBOARD.BASE,
