@@ -1,3 +1,5 @@
+import { type MouseEvent, useCallback, useState } from 'react';
+
 import {
   DATE_RANGE_PICKER_TYPE,
   type DateRangePickerType,
@@ -33,6 +35,39 @@ export const PeriodSelect = <T extends PeriodPresetType>({
   dateRangePickerType,
   className,
 }: PeriodSelectProps<T>) => {
+  const [lastStartDate, setLastStartDate] = useState<Date | undefined>(
+    startDate,
+  );
+  const [lastEndDate, setLastEndDate] = useState<Date | undefined>(endDate);
+
+  const handleClickLabel = useCallback(
+    (period: PeriodType<T>) => {
+      setPeriodType(period);
+      if (startDate && endDate) {
+        setLastStartDate(startDate);
+        setLastEndDate(endDate);
+        setStartDate(undefined);
+        setEndDate(undefined);
+      }
+    },
+    [startDate, endDate, setStartDate, setEndDate, setPeriodType],
+  );
+
+  const handleClickTrigger = useCallback(
+    (event: MouseEvent<HTMLButtonElement>) => {
+      if (lastStartDate && lastEndDate) {
+        event.preventDefault();
+        event.stopPropagation();
+        setStartDate(lastStartDate);
+        setEndDate(lastEndDate);
+        setLastStartDate(undefined);
+        setLastEndDate(undefined);
+        setPeriodType(undefined);
+      }
+    },
+    [lastEndDate, lastStartDate, setStartDate, setEndDate, setPeriodType],
+  );
+
   return (
     <div className={cn('flex items-center gap-2.5', className)}>
       {(Object.values(PERIOD_PRESETS[periodPreset]) as PeriodType<T>[]).map(
@@ -42,21 +77,23 @@ export const PeriodSelect = <T extends PeriodPresetType>({
             label={period as string}
             ariaLabel={`${period}로 기간 선택`}
             isSelected={periodType === period}
-            onClick={() => {
-              setPeriodType(period);
-              setStartDate(undefined);
-              setEndDate(undefined);
-            }}
+            onClick={() => handleClickLabel(period)}
           />
         ),
       )}
       <DateRangePicker
-        startDate={startDate}
+        startDate={startDate || lastStartDate}
         setStartDate={setStartDate}
-        endDate={endDate}
+        endDate={endDate || lastEndDate}
         setEndDate={setEndDate}
         dateRangePickerType={dateRangePickerType ?? DATE_RANGE_PICKER_TYPE.date}
         onSave={() => setPeriodType(undefined)}
+        triggerClassName={
+          !startDate && !endDate
+            ? 'bg-grey-200 text-grey-700 border-grey-300'
+            : ''
+        }
+        onClickTrigger={handleClickTrigger}
       />
     </div>
   );
