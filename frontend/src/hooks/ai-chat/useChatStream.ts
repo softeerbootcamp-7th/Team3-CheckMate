@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useRef } from 'react';
+import { useCallback, useEffect, useReducer, useRef } from 'react';
 
 import { CHAT_ROLE } from '@/constants/ai-chat';
 import { sseClient } from '@/services/shared';
@@ -15,45 +15,53 @@ interface ChatState {
   lastAnswer: string[] | null;
   isLoading: boolean;
   isStreaming: boolean;
+  pendingRequestBody: PostAiChatStreamRequestDto | null;
 }
 type ChatAction =
-  | { type: 'QUESTION'; payload: string } // payload: question
-  | { type: 'ADD_LAST_ANSWER' }
+  | { type: 'SUBMIT_QUESTION'; payload: string } // payload: question
+  | { type: 'START_STREAM' }
   | { type: 'STREAM'; payload: string } // payload: streamed chunk
   | { type: 'FINISH' }
   | { type: 'RESET' };
 
 const chatReducer = (state: ChatState, action: ChatAction) => {
   switch (action.type) {
-    case 'QUESTION':
-      // 질문이 제출되면 로딩 상태로 전환하고, 질문을 히스토리에 추가
+    case 'SUBMIT_QUESTION':
       return {
         ...state,
         isLoading: true,
         chatHistoryList: [
           ...state.chatHistoryList,
+          // 지난 응답을 히스토리에 추가
+          ...(state.lastAnswer
+            ? [{ role: ASSISTANT, content: state.lastAnswer.join('') }]
+            : []),
+          // 이번 질문을 히스토리에 추가
           { role: USER, content: action.payload || '' },
         ],
         lastAnswer: [],
       };
-    case 'ADD_LAST_ANSWER':
-      if (state.lastAnswer === null) {
-        return state;
-      }
+    case 'START_STREAM':
       return {
         ...state,
-        chatHistoryList: [
-          ...state.chatHistoryList,
-          { role: ASSISTANT, content: state.lastAnswer.join('') },
-        ],
-        lastAnswer: null,
+        // 스트리밍 요청 바디 생성
+        pendingRequestBody: {
+          history: state.chatHistoryList
+            .slice(0, -1)
+            .map(({ role, content }) => ({
+              role,
+              content: content || ERROR_CONTENT,
+            })),
+          question:
+            state.chatHistoryList[state.chatHistoryList.length - 1].content,
+        },
       };
     case 'STREAM':
-      // 스트리밍된 답변을 lastAnswer에 누적
       return {
         ...state,
         isLoading: false,
         isStreaming: true,
+        // 스트리밍된 답변을 lastAnswer에 누적
         lastAnswer: [...(state.lastAnswer || []), action.payload || ''],
       };
     case 'FINISH':
@@ -62,6 +70,7 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         ...state,
         isLoading: false,
         isStreaming: false,
+        pendingRequestBody: null,
       };
     case 'RESET':
       // 챗 상태 초기화
@@ -70,28 +79,11 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         isStreaming: false,
         chatHistoryList: [],
         lastAnswer: null,
+        pendingRequestBody: null,
       };
     default:
       return state;
   }
-};
-
-const buildRequestBody = (
-  history: ChatHistoryItem[],
-  lastAnswer: string[] | null,
-  question: string,
-) => {
-  return {
-    history: history
-      .map(({ role, content }) => ({ role, content: content || ERROR_CONTENT }))
-      .concat(
-        lastAnswer !== null
-          ? [{ role: ASSISTANT, content: lastAnswer.join('') || ERROR_CONTENT }]
-          : [],
-      ),
-
-    question,
-  };
 };
 
 export const useChatStream = () => {
@@ -100,48 +92,17 @@ export const useChatStream = () => {
     lastAnswer: null,
     isLoading: false,
     isStreaming: false,
+    pendingRequestBody: null,
   });
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const submitQuestion = useCallback(
-    (question: string) => {
-      abortControllerRef.current = new AbortController();
+  const submitQuestion = useCallback((question: string) => {
+    abortControllerRef.current = new AbortController();
 
-      try {
-        // buildRequestBody는 dispatch 이전에 호출해야 함 (dispatch 후 상태는 다음 렌더에 반영됨)
-        const requestBody: PostAiChatStreamRequestDto = buildRequestBody(
-          state.chatHistoryList,
-          state.lastAnswer,
-          question,
-        );
-        const body = JSON.stringify(requestBody);
-
-        dispatch({ type: 'ADD_LAST_ANSWER' });
-        dispatch({ type: 'QUESTION', payload: question });
-
-        sseClient('/api/chats/stream', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body,
-          signal: abortControllerRef.current.signal,
-          onmessage: (message) =>
-            dispatch({ type: 'STREAM', payload: message.data }),
-          onclose: () => dispatch({ type: 'FINISH' }),
-          onerror: () => dispatch({ type: 'FINISH' }),
-          openWhenHidden: true,
-        }).catch((error) => {
-          console.error('Failed to connect to chat stream', error);
-          dispatch({ type: 'FINISH' });
-        });
-      } catch (error) {
-        console.error('Failed to stringify chat history', error);
-        dispatch({ type: 'FINISH' });
-        return;
-      }
-    },
-    [state.chatHistoryList, state.lastAnswer],
-  );
+    dispatch({ type: 'SUBMIT_QUESTION', payload: question }); // 챗 히스토리 업데이트
+    dispatch({ type: 'START_STREAM' }); // 요청 바디 생성 -> useEffect에서 SSE 연결 트리거
+  }, []);
 
   const cancelChat = useCallback(() => {
     if (abortControllerRef.current) {
@@ -156,6 +117,41 @@ export const useChatStream = () => {
     }
     dispatch({ type: 'RESET' });
   }, []);
+
+  // pendingRequestBody 가 설정되면 실제 SSE 연결을 수행한다 (사이드이펙트 분리)
+  useEffect(() => {
+    const bodyObject = state.pendingRequestBody;
+    if (!bodyObject) {
+      return;
+    }
+    try {
+      const body = JSON.stringify(bodyObject);
+
+      sseClient('/api/chats/stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+        signal: abortControllerRef.current?.signal,
+        onmessage: (message) =>
+          dispatch({ type: 'STREAM', payload: message.data }),
+        onclose: () => dispatch({ type: 'FINISH' }),
+        onerror: () => dispatch({ type: 'FINISH' }),
+        openWhenHidden: true,
+      }).catch((error) => {
+        console.error('Failed to connect to chat stream', error);
+        dispatch({ type: 'FINISH' });
+      });
+    } catch (error) {
+      console.error('Failed to stringify chat history', error);
+      dispatch({ type: 'FINISH' });
+      return;
+    }
+
+    return () => {
+      // 언마운트 시 연결 중단
+      abortControllerRef.current?.abort();
+    };
+  }, [state.pendingRequestBody]);
 
   return {
     chatHistoryList: state.chatHistoryList,
