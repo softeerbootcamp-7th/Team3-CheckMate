@@ -17,9 +17,9 @@ interface ChatState {
   isStreaming: boolean;
 }
 type ChatAction =
-  | { type: 'QUESTION'; payload: string }
+  | { type: 'QUESTION'; payload: string } // payload: question
   | { type: 'ADD_LAST_ANSWER' }
-  | { type: 'STREAM'; payload: string }
+  | { type: 'STREAM'; payload: string } // payload: streamed chunk
   | { type: 'FINISH' }
   | { type: 'RESET' };
 
@@ -71,6 +71,8 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
         chatHistoryList: [],
         lastAnswer: null,
       };
+    default:
+      return state;
   }
 };
 
