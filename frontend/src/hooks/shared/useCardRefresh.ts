@@ -38,7 +38,7 @@ export const useCardRefresh = ({ prefixKey }: UseCardRefreshProps) => {
 
   // 쿼리 키에 해당하는 데이터 새로고침
   const refresh = useCallback(async () => {
-    await queryClient.prefetchQuery({
+    await queryClient.invalidateQueries({
       queryKey: prefixKey,
     });
   }, [queryClient, prefixKey]);
