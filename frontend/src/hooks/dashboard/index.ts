@@ -3,7 +3,7 @@ export { useDashboardTabsDialog } from './useDashboardTabsDialog';
 export { useEditCard } from './useEditCard';
 export { useDashboardCardDetailQueryOption } from './useDashboardCardDetailQueryOption';
 export { useDashboardCardList } from './useDashboardCardList';
-export { useDashboardCardSubscription } from './useDashboardCardSubscription';
+export { useDashboardCardUnSubscription } from './useDashboardCardUnSubscription';
 export { useDashboardSseConnection } from './useDashboardSseConnection';
 export { useEditCardContext } from './useEditCardContext';
 export { useGridCellSize } from './useGridCellSize';
