@@ -188,18 +188,13 @@ const createSseClient = () => {
   });
 };
 
-createSseClient()
-  .then(() => {
-    // DedicatedWorker 인 경우
-    ctx.onmessage = (event: MessageEvent) => {
-      const { type, data } = event.data;
-      if (type === DASHBOARD_SSE_EVENT.CONNECT) {
-        accessToken = data.authToken;
-      }
+ctx.onmessage = (event: MessageEvent) => {
+  const { type, data } = event.data;
+  if (type === DASHBOARD_SSE_EVENT.CONNECT) {
+    accessToken = data.authToken;
 
-      if (!isSseClientCreated) {
-        createSseClient().catch(onerror);
-      }
-    };
-  })
-  .catch(onerror);
+    if (!isSseClientCreated) {
+      createSseClient().catch(onerror);
+    }
+  }
+};
