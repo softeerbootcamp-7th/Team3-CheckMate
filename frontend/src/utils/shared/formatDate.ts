@@ -77,3 +77,20 @@ export const formatDateISO = (date: Date) => {
 export const formatDateForDto = (date?: Date) => {
   return date ? formatDateISO(date) : date;
 };
+
+/**
+ * @description 인자로 주어진 date를 HH:mm 형식으로 포맷팅
+ * @param date - 포맷팅할 date
+ * @returns - 포맷팅된 date string 또는 null : 15 : 20 -> "15:20"
+ */
+export const formatTimeHHMM = (date?: Date) => {
+  if (!date) {
+    return null;
+  }
+
+  return new Intl.DateTimeFormat('ko-KR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date);
+};
