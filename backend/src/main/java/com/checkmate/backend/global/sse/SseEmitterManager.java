@@ -1,6 +1,9 @@
 package com.checkmate.backend.global.sse;
 
+import static com.checkmate.backend.global.response.ErrorStatus.SUBSCRIBE_WITHOUT_SSE;
+
 import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
+import com.checkmate.backend.global.exception.BadRequestException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
@@ -98,6 +101,11 @@ public class SseEmitterManager {
     }
 
     public void subscribe(Long storeId, SubscriptionTopicsRequest SubscriptionTopicsRequest) {
+
+        if (!emitters.containsKey(storeId)) {
+            log.warn("[subscribe][SSE 연결 없이 구독 시도][storeId= {}]", storeId);
+            throw new BadRequestException(SUBSCRIBE_WITHOUT_SSE);
+        }
 
         List<AnalysisCardCode> topics = SubscriptionTopicsRequest.topics();
 
