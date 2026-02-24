@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import {
   ingredientKeys,
   postIngredientRegister,
+  type PostIngredientRegisterParams,
   putIngredientRegister,
 } from '@/services/ingredient';
 import type { IngredientFormValues } from '@/types/ingredient';
@@ -12,23 +13,27 @@ interface UseIngredientEditSubmitParams {
   menuId: number;
   onOpenChange: (open: boolean) => void;
   hasIngredients: boolean; // 메뉴에 등록된 식자재 유무. -> false면 폼 제출 시 post, true면 put 요청 보내야 함
+  menuName: string; // 제출한 데이터 바로 캐싱할 때 필요
 }
 
 export const useIngredientEditSubmit = ({
   menuId,
   onOpenChange,
   hasIngredients,
+  menuName,
 }: UseIngredientEditSubmitParams) => {
   const queryClient = useQueryClient();
 
   // 식자재 등록/수정 성공 시 실행할 함수
-  const handleSubmitSuccess = async () => {
+  const handleSubmitSuccess = async (
+    variable: PostIngredientRegisterParams,
+    menuName: string,
+  ) => {
     await Promise.all([
-      // 식자재 등록 후 해당 메뉴의 식자재 캐시 무효화
-      queryClient.invalidateQueries({
-        queryKey: ingredientKeys.menuIngredients(menuId),
-        refetchType: 'none', // 캐시 무효화 시키지만 refetch는 바로 발생 안시킴(어차피 모달창 닫을 것이기 때문)
-      }),
+      queryClient.setQueryData(
+        ingredientKeys.menuIngredients(variable.menuId),
+        { menuName, ingredients: variable.menuIngredients },
+      ),
       // 식자재 등록 후 매장에 등록된 메뉴 목록 다시 불러와야 함
       // 메뉴 목록에서 화면에 보여지는 hasIngredient('등록된 식자재 존재 유무') 정보가 바뀌기 때문
       queryClient.invalidateQueries({
@@ -48,7 +53,7 @@ export const useIngredientEditSubmit = ({
   const { mutate, isPending: isSubmitting } = useMutation({
     // 메뉴에 등록된 식자재가 없다면 post, 있다면 put 요청 보내기
     mutationFn: hasIngredients ? putIngredientRegister : postIngredientRegister,
-    onSuccess: handleSubmitSuccess,
+    onSuccess: (_data, variable) => handleSubmitSuccess(variable, menuName),
     onError: handleSubmitError,
   });
 

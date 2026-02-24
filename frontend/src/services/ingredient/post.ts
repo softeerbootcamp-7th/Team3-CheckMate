@@ -4,7 +4,7 @@ import { buildIngredientRegisterBody } from '@/utils/ingredient';
 import { authorizedApi } from '../shared';
 
 // 메뉴에 식자재 등록 요청하는 함수
-interface PostIngredientRegisterParams {
+export interface PostIngredientRegisterParams {
   menuId: number;
   menuIngredients: Ingredient[];
 }
