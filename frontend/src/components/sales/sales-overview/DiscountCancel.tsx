@@ -1,4 +1,4 @@
-import { RefreshedTimeButton } from '@/components/shared/refreshed-time-button/RefreshedTimeButton';
+import { RefreshedTimeButton } from '@/components/shared';
 import { useDiscountAndCancellation } from '@/hooks/sales';
 
 import { usePeriodTypeContext } from './period-type-provider';

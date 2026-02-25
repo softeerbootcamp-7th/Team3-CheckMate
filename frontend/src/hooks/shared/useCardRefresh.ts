@@ -23,16 +23,13 @@ export const useCardRefresh = ({ prefixKey }: UseCardRefreshProps) => {
   const lastUpdatedDate = useMemo(() => {
     const queryState = queryClient.getQueryState(prefixKey);
     const updatedAt = queryState?.dataUpdatedAt;
-    if (isFetching) {
-      // 패칭 중에는 이전 데이터 내보내기
-      return updatedAt ? new Date(updatedAt) : null;
-    }
 
     if (updatedAt) {
       return new Date(updatedAt);
     }
 
     return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryClient, prefixKey, isFetching]);
 
   // 쿼리 키에 해당하는 데이터 새로고침

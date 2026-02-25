@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import type { QueryKey } from '@tanstack/react-query';
 
 import { DefaultCardWrapper } from '@/components/shared';
-import { RefreshedTimeButton } from '@/components/shared/refreshed-time-button/RefreshedTimeButton';
+import { RefreshedTimeButton } from '@/components/shared';
 import { getPeriodComparisonMessage } from '@/utils/sales';
 import { cn, formatNumber } from '@/utils/shared';
 
