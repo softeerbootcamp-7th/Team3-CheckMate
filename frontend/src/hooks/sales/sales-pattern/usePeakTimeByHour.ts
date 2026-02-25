@@ -23,15 +23,15 @@ export const usePeakTimeByHour = ({
   const { cardCodes: peakTimeCardCodes } = SALES_METRIC.SALES_PATTERN.PEAK_TIME;
   const { PRIMARY_COLOR, SECONDARY_COLOR, MAIN_X_UNIT, MAIN_Y_UNIT } =
     SALES_PATTERN_DETAIL.PEAK_TIME_BY_HOUR;
-
-  const { data } = useSuspenseQuery({
-    ...salesOptions.peakTimeByHour<GetDetailPeakTimeResponseDto>({
+  const queryOptions =
+    salesOptions.peakTimeByHour<GetDetailPeakTimeResponseDto>({
       analysisCardCode: peakTimeCardCodes.today,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  });
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const todaySeries = useMemo(() => {
     const items = [...data.todayItems];
@@ -79,6 +79,7 @@ export const usePeakTimeByHour = ({
   }, [data.week4Items, SECONDARY_COLOR, MAIN_X_UNIT, MAIN_Y_UNIT]);
 
   return {
+    queryKey: queryOptions.queryKey,
     todaySeries,
     weekSeries,
   };

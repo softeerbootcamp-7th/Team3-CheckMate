@@ -4,6 +4,6 @@ export const MENU_SALES_PATTERN_DETAIL = {
     X_UNIT: '',
     LABEL_COLOR: 'var(--color-grey-500)',
     CHART_WIDTH: 1020,
-    CHART_HEIGHT: 285,
+    CHART_HEIGHT: 265,
   },
 };

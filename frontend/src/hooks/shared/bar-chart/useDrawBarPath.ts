@@ -32,9 +32,11 @@ export const useDrawBarPath = ({
     : `
       M ${barMiddleX} ${barTopY}
       H ${leftX}
+      Q ${leftX} ${bottomY} ${leftX} ${bottomY}
       V ${bottomY}
       H ${rightX}
       V ${barTopY}
+      Q ${rightX} ${barTopY} ${rightX} ${barTopY}
       Z
     `;
 

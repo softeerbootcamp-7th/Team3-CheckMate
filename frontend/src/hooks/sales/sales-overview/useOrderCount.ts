@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryKey, useSuspenseQuery } from '@tanstack/react-query';
 
 import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
@@ -19,20 +19,20 @@ export const useOrderCount = ({
 }: UseOrderCountProps): Omit<
   GetOrderCountResponseDto,
   'hasPreviousData' | 'changeRate'
-> => {
+> & { queryKey: QueryKey } => {
   const orderCountCardCode = getOrderCountCardCode(periodType);
+  const queryOptions = salesOptions.orderCount<GetOrderCountResponseDto>({
+    analysisCardCode: orderCountCardCode,
+    customPeriod: !periodType,
+    from: formatDateForDto(startDate),
+    to: formatDateForDto(endDate),
+  });
 
-  const { data } = useSuspenseQuery(
-    salesOptions.orderCount<GetOrderCountResponseDto>({
-      analysisCardCode: orderCountCardCode,
-      customPeriod: !periodType,
-      from: formatDateForDto(startDate),
-      to: formatDateForDto(endDate),
-    }),
-  );
-
+  const { data } = useSuspenseQuery(queryOptions);
   const { orderCount, differenceOrderCount } = data;
+
   return {
+    queryKey: queryOptions.queryKey,
     orderCount,
     differenceOrderCount,
   };

@@ -21,15 +21,15 @@ export const usePayMethod = ({
   endDate,
 }: UsePayMethodProps) => {
   const payMethodCardCode = getPayMethodCardCode(periodType);
-
-  const { data } = useSuspenseQuery({
-    ...salesOptions.payMethod<GetSalesSourceByPayMethodResponseDto>({
+  const queryOptions =
+    salesOptions.payMethod<GetSalesSourceByPayMethodResponseDto>({
       analysisCardCode: payMethodCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  });
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const payMethodData = useMemo(
     () =>
@@ -45,6 +45,7 @@ export const usePayMethod = ({
     [data],
   );
   return {
+    queryKey: queryOptions.queryKey,
     payMethodData,
   };
 };

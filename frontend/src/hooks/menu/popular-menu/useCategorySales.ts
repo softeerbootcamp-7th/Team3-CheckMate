@@ -21,15 +21,14 @@ export const useCategorySales = ({
   endDate,
 }: UseCategorySalesProps) => {
   const cardCode = getCategorySalesCardCode(periodType);
+  const queryOptions = menuOptions.categorySales<GetCategorySalesResponseDto>({
+    analysisCardCode: cardCode,
+    customPeriod: !periodType,
+    from: formatDateForDto(startDate),
+    to: formatDateForDto(endDate),
+  });
 
-  const { data } = useSuspenseQuery(
-    menuOptions.categorySales<GetCategorySalesResponseDto>({
-      analysisCardCode: cardCode,
-      customPeriod: !periodType,
-      from: formatDateForDto(startDate),
-      to: formatDateForDto(endDate),
-    }),
-  );
+  const { data } = useSuspenseQuery(queryOptions);
 
   const isEmptyCategorySales = data.items.length === 0;
 
@@ -43,6 +42,7 @@ export const useCategorySales = ({
   );
 
   return {
+    queryKey: queryOptions.queryKey,
     categorySalesChartData,
     isEmptyCategorySales,
   };

@@ -10,7 +10,6 @@ export const WeatherForecast = () => {
       <SectionHeader
         title="날씨예보"
         description="날씨를 보고 앞으로의 운영 전략을 짜보세요."
-        prefixKey={['weather', 'forecast']} // 임시 키, 추후 상수화 필요
         rightSlot={
           <span className="body-small-medium text-grey-500">
             최근 365일 기준

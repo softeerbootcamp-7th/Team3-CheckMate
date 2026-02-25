@@ -6,7 +6,7 @@ import { SalesComparison } from './shared';
 export const OrderCount = () => {
   const { periodType, startDate, endDate } = usePeriodTypeContext();
 
-  const { orderCount, differenceOrderCount } = useOrderCount({
+  const { orderCount, differenceOrderCount, queryKey } = useOrderCount({
     periodType,
     startDate,
     endDate,
@@ -18,6 +18,7 @@ export const OrderCount = () => {
       unit="건"
       differenceAmount={differenceOrderCount}
       currentValue={orderCount}
+      queryKey={queryKey}
     />
   );
 };
