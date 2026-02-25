@@ -36,6 +36,7 @@ export const useCardRefresh = ({ prefixKey }: UseCardRefreshProps) => {
   const refresh = useCallback(async () => {
     await queryClient.refetchQueries({
       queryKey: prefixKey,
+      exact: true, // useIsFetching은 exact: true로 정확히 매칭. refetchQueries는 prefix가 기본값
     });
   }, [queryClient, prefixKey]);
 
