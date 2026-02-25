@@ -1,1 +1,0 @@
-export { BoxSkeleton } from './BoxSkeleton';

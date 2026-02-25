@@ -30,15 +30,15 @@ export const useWeeklyRevenueTrend = ({
     WEEKLY_FORMAT_X_LABEL_CONDITION,
   } = SALES_TREND_DETAIL;
   const weeklyRevenueTrendCardCode = getWeeklyRevenueTrendCardCode(periodType);
-
-  const { data } = useSuspenseQuery({
-    ...salesOptions.weeklyRevenueTrend<GetSalesTrendResponseDto>({
+  const queryOptions =
+    salesOptions.weeklyRevenueTrend<GetSalesTrendResponseDto>({
       analysisCardCode: weeklyRevenueTrendCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  });
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const formatXLabel =
     data.items.length >= WEEKLY_FORMAT_X_LABEL_CONDITION
@@ -69,6 +69,7 @@ export const useWeeklyRevenueTrend = ({
   };
 
   return {
+    queryKey: queryOptions.queryKey,
     weeklyRevenueTrendData,
     weeklyRevenueTrendLabel,
     weeklyRevenueTrendTooltipContent,

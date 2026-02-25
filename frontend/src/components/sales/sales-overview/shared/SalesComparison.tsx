@@ -1,6 +1,9 @@
 import { useMemo } from 'react';
 
+import type { QueryKey } from '@tanstack/react-query';
+
 import { DefaultCardWrapper } from '@/components/shared';
+import { RefreshedTimeButton } from '@/components/shared';
 import { getPeriodComparisonMessage } from '@/utils/sales';
 import { cn, formatNumber } from '@/utils/shared';
 
@@ -11,12 +14,14 @@ interface SalesComparisonProps {
   unit: string;
   differenceAmount: number;
   currentValue: number;
+  queryKey: QueryKey;
 }
 export const SalesComparison = ({
   title,
   unit,
   differenceAmount,
   currentValue,
+  queryKey,
 }: SalesComparisonProps) => {
   const { periodType } = usePeriodTypeContext();
 
@@ -29,7 +34,7 @@ export const SalesComparison = ({
   );
 
   return (
-    <DefaultCardWrapper title={title} className="h-57">
+    <DefaultCardWrapper title={title} className="h-70">
       <div className="mt-12 mb-5 flex items-center gap-1">
         <strong className="headline-medium-semibold">
           {formatNumber(currentValue)}
@@ -51,6 +56,7 @@ export const SalesComparison = ({
         {formatNumber(differenceAmount)}
         {unit}
       </p>
+      <RefreshedTimeButton queryKey={queryKey} />
     </DefaultCardWrapper>
   );
 };

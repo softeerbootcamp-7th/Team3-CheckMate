@@ -25,14 +25,15 @@ export const useYearlyRevenueTrend = ({
   const { MAIN_Y_UNIT, SUB_Y_UNIT, X_UNIT, CHART_COLOR } = SALES_TREND_DETAIL;
   const yearlyRevenueTrendCardCode = getYearlyRevenueTrendCardCode(periodType);
 
-  const { data } = useSuspenseQuery(
+  const queryOptions =
     salesOptions.yearlyRevenueTrend<GetSalesTrendResponseDto>({
       analysisCardCode: yearlyRevenueTrendCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  );
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   // 바 그래프용 데이터
   const yearlyRevenueTrendBarData = {
@@ -63,6 +64,7 @@ export const useYearlyRevenueTrend = ({
   };
 
   return {
+    queryKey: queryOptions.queryKey,
     yearlyRevenueTrendLabel,
     yearlyRevenueTrendBarData,
     yearlyRevenueTrendLabelData,

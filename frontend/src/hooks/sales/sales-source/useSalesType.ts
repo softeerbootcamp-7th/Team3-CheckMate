@@ -21,15 +21,15 @@ export const useSalesType = ({
   endDate,
 }: UseSalesTypeProps) => {
   const salesTypeCardCode = getSalesTypeCardCode(periodType);
-
-  const { data } = useSuspenseQuery({
-    ...salesOptions.salesType<GetSalesSourceBySalesTypeResponseDto>({
+  const queryOptions =
+    salesOptions.salesType<GetSalesSourceBySalesTypeResponseDto>({
       analysisCardCode: salesTypeCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  });
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const salesTypeData = useMemo(
     () =>
@@ -46,6 +46,7 @@ export const useSalesType = ({
   );
 
   return {
+    queryKey: queryOptions.queryKey,
     salesTypeData,
   };
 };

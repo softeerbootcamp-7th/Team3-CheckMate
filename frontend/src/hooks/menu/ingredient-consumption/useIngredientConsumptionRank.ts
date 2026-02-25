@@ -20,7 +20,7 @@ export const useIngredientConsumptionRank = ({
     MENU_METRIC.INGREDIENT_CONSUMPTION.INGREDIENT_CONSUMPTION_RANK.cardCodes
       .today;
 
-  const { data } = useSuspenseQuery(
+  const queryOptions =
     menuOptions.ingredientConsumptionRank<GetIngredientUsageRankingResponseDto>(
       {
         analysisCardCode: cardCode,
@@ -28,8 +28,9 @@ export const useIngredientConsumptionRank = ({
         from: formatDateForDto(startDate),
         to: formatDateForDto(endDate),
       },
-    ),
-  );
+    );
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const rankItems = data?.items ?? [];
 
@@ -57,6 +58,7 @@ export const useIngredientConsumptionRank = ({
   );
 
   return {
+    queryKey: queryOptions.queryKey,
     hasIngredient: data?.hasIngredient ?? false,
     rankItems1to5,
     rankItems6to10,

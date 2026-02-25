@@ -2,6 +2,7 @@ import {
   DefaultCardWrapper,
   LineChart,
   PeriodSelect,
+  RefreshedTimeButton,
 } from '@/components/shared';
 import { SALES_METRIC } from '@/constants/sales';
 import { DAY_OF_WEEK_LIST, PERIOD_PRESET_KEYS } from '@/constants/shared';
@@ -25,7 +26,7 @@ export const PeakTimeByHour = () => {
 
   const { label: peakTimeLabel } = SALES_METRIC.SALES_PATTERN.PEAK_TIME;
 
-  const { todaySeries, weekSeries } = usePeakTimeByHour({
+  const { queryKey, todaySeries, weekSeries } = usePeakTimeByHour({
     periodType,
     startDate,
     endDate,
@@ -33,7 +34,7 @@ export const PeakTimeByHour = () => {
 
   return (
     <DefaultCardWrapper
-      className="flex h-57 w-full flex-col justify-start gap-5"
+      className="flex h-70 w-full flex-col justify-start gap-5"
       title={peakTimeLabel}
       aria-label={peakTimeLabel}
     >
@@ -54,7 +55,7 @@ export const PeakTimeByHour = () => {
         setEndDate={setEndDate}
         className="absolute top-5 right-2"
       />
-      <div>
+      <div className="min-h-0 flex-1 pt-2">
         <LineChart
           viewBoxWidth={1020}
           viewBoxHeight={150}
@@ -71,6 +72,7 @@ export const PeakTimeByHour = () => {
           secondarySeries={weekSeries}
         />
       </div>
+      <RefreshedTimeButton queryKey={queryKey} />
     </DefaultCardWrapper>
   );
 };

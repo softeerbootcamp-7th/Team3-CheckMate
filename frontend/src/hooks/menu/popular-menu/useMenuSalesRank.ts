@@ -19,15 +19,15 @@ export const useMenuSalesRank = ({
   endDate,
 }: UseMenuSalesRankProps) => {
   const cardCode = getMenuSalesRankCardCode(periodType);
-
-  const { data } = useSuspenseQuery(
+  const queryOptions =
     menuOptions.menuSalesRank<GetMenuSalesRankingResponseDto>({
       analysisCardCode: cardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  );
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const slicedRankItems = (data?.items ?? []).slice(
     0,
@@ -41,6 +41,7 @@ export const useMenuSalesRank = ({
   ];
 
   return {
+    queryKey: queryOptions.queryKey,
     displayedRankItems,
   };
 };

@@ -13,7 +13,7 @@ export const SalesPatternsFetchBoundary = ({
   children,
 }: SalesPatternsFetchBoundaryProps) => {
   return (
-    <DefaultCardFetchBoundary className={cn(className, 'h-57 w-265')}>
+    <DefaultCardFetchBoundary className={cn(className, 'h-70 w-265')}>
       {children}
     </DefaultCardFetchBoundary>
   );

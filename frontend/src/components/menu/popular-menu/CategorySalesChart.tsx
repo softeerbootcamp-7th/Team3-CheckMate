@@ -1,18 +1,17 @@
 import { DoughnutChart } from '@/components/shared';
-import { useCategorySales } from '@/hooks/menu';
+import type { DoughnutChartItem } from '@/types/shared';
 
 import { CategorySalesChartLegend } from './CategorySalesChartLegend';
-import { usePopularMenuPeriodType } from './period-type-provider';
 
-export const CategorySalesChart = () => {
-  const { periodType, startDate, endDate } = usePopularMenuPeriodType();
+interface CategorySalesChartProps {
+  categorySalesChartData: DoughnutChartItem[];
+  isEmptyCategorySales: boolean;
+}
 
-  const { isEmptyCategorySales, categorySalesChartData } = useCategorySales({
-    periodType,
-    startDate,
-    endDate,
-  });
-
+export const CategorySalesChart = ({
+  categorySalesChartData,
+  isEmptyCategorySales,
+}: CategorySalesChartProps) => {
   return (
     <div className="flex items-center gap-15">
       <div className="size-45">

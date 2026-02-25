@@ -21,6 +21,7 @@ export const getBarSegmentInfoList = ({
       y: number;
       barHeight: number;
       percentage: number;
+      amount: number;
       label: string;
       color?: string;
     }[];
@@ -40,7 +41,7 @@ export const getBarSegmentInfoList = ({
             : 0;
 
       // 현재 조각 바의 높이
-      const barSegmentHeight = (percentage / 100) * barHeight;
+      const barSegmentHeight = barHeight - (acc.percentage / 100) * barHeight;
 
       return {
         percentage: acc.percentage + percentage, // 퍼센트 누적합
@@ -50,6 +51,7 @@ export const getBarSegmentInfoList = ({
             y: barSegmentY,
             barHeight: barSegmentHeight,
             percentage,
+            amount,
             label: segment.label,
             color: segment.color ?? STACK_BAR_CHART.RANK_COLOR[index],
           },

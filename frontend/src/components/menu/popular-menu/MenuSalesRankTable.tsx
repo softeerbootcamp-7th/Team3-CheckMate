@@ -1,17 +1,14 @@
-import { useMenuSalesRank } from '@/hooks/menu';
+import type { MenuSales } from '@/types/menu';
 
 import { MenuSalesRankItem } from './MenuSalesRankItem';
-import { usePopularMenuPeriodType } from './period-type-provider';
 
-export const MenuSalesRankTable = () => {
-  const { periodType, startDate, endDate } = usePopularMenuPeriodType();
+interface MenuSalesRankTableProps {
+  displayedRankItems: MenuSales[];
+}
 
-  const { displayedRankItems } = useMenuSalesRank({
-    periodType,
-    startDate,
-    endDate,
-  });
-
+export const MenuSalesRankTable = ({
+  displayedRankItems,
+}: MenuSalesRankTableProps) => {
   return (
     <table className="w-full table-fixed border-separate border-spacing-y-3 overflow-y-auto p-0">
       {/* table-fixed 때문에 colgroup을 통해 각 열의 너비 조정 */}

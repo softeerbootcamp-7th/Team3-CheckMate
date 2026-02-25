@@ -6,13 +6,17 @@ import { SalesSourceChart } from './sales-source-chart';
 export const RevenueBySalesType = () => {
   const { periodType, startDate, endDate } = usePeriodTypeContext();
 
-  const { salesTypeData } = useSalesType({
+  const { salesTypeData, queryKey } = useSalesType({
     periodType,
     startDate,
     endDate,
   });
 
   return (
-    <SalesSourceChart title="판매유형별 매출" salesSourceData={salesTypeData} />
+    <SalesSourceChart
+      title="판매유형별 매출"
+      salesSourceData={salesTypeData}
+      queryKey={queryKey}
+    />
   );
 };
