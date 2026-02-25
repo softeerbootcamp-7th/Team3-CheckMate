@@ -101,8 +101,12 @@ export const updateWeekdaySalesPatternData =
  * 시간대별 메뉴 주문건수 쿼리 데이터 업데이트 함수
  */
 export const updateTimeBasedMenuOrderCountData =
-  (response: GetDashboardTimeSlotMenuOrderCountResponseDto) =>
+  (response: GetDashboardTimeSlotMenuOrderCountResponseDto | null) =>
   (oldData?: GetDetailTimeSlotMenuOrderCountResponseDto) => {
+    if (!response) {
+      return oldData;
+    }
+
     const { timeSlot2H, menuName } = response;
 
     if (!oldData) {
