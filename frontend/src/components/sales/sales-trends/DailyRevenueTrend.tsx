@@ -2,6 +2,7 @@ import {
   BarLineChart,
   DefaultCardWrapper,
   PeriodSelect,
+  RefreshedTimeButton,
 } from '@/components/shared';
 import { SALES_TREND_DETAIL } from '@/constants/sales';
 import { PERIOD_PRESET_KEYS } from '@/constants/shared';
@@ -21,6 +22,7 @@ export const DailyRevenueTrend = () => {
   } = useDailyRevenueTrendPeriodType();
 
   const {
+    queryKey,
     dailyRevenueTrendData,
     dailyRevenueTrendLabel,
     dailyRevenueTrendTooltipContent,
@@ -35,7 +37,7 @@ export const DailyRevenueTrend = () => {
 
   return (
     <DefaultCardWrapper
-      className="flex h-57 w-full flex-col justify-start gap-5"
+      className="flex h-70 w-full flex-col justify-start gap-5"
       title={dailyRevenueTrendLabel}
       aria-label={dailyRevenueTrendLabel}
     >
@@ -50,7 +52,7 @@ export const DailyRevenueTrend = () => {
         setEndDate={setEndDate}
         className="absolute top-5 right-2"
       />
-      <div className="pt-2">
+      <div className="min-h-0 flex-1 pt-2">
         <BarLineChart
           barLineChartSeries={dailyRevenueTrendData}
           viewBoxWidth={CHART_WIDTH}
@@ -64,6 +66,7 @@ export const DailyRevenueTrend = () => {
           chartTitle={dailyRevenueTrendLabel}
           chartDescription="매출이 늘고 있는지, 줄고 있는지 흐름으로 살펴봐요."
         />
+        <RefreshedTimeButton queryKey={queryKey} />
       </div>
     </DefaultCardWrapper>
   );

@@ -18,17 +18,16 @@ export const useTotalSales = ({
   endDate,
 }: UseTotalSalesProps) => {
   const totalSalesCardCode = getTotalSalesCardCode(periodType);
-
-  const { data } = useSuspenseQuery(
-    salesOptions.totalSales<GetTotalSalesResponseDto>({
-      analysisCardCode: totalSalesCardCode,
-      customPeriod: !periodType,
-      from: formatDateForDto(startDate),
-      to: formatDateForDto(endDate),
-    }),
-  );
+  const queryOptions = salesOptions.totalSales<GetTotalSalesResponseDto>({
+    analysisCardCode: totalSalesCardCode,
+    customPeriod: !periodType,
+    from: formatDateForDto(startDate),
+    to: formatDateForDto(endDate),
+  });
+  const { data } = useSuspenseQuery(queryOptions);
   const { grossAmount, orderCount } = data;
   return {
+    queryKey: queryOptions.queryKey,
     grossAmount,
     orderCount,
   };

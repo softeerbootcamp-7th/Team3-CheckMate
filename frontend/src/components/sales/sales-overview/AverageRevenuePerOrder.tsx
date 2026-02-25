@@ -6,7 +6,7 @@ import { SalesComparison } from './shared';
 export const AverageRevenuePerOrder = () => {
   const { periodType, startDate, endDate } = usePeriodTypeContext();
 
-  const { averageOrderAmount, differenceAmount } = useAveragePrice({
+  const { averageOrderAmount, differenceAmount, queryKey } = useAveragePrice({
     periodType,
     startDate,
     endDate,
@@ -18,6 +18,7 @@ export const AverageRevenuePerOrder = () => {
       unit="원"
       differenceAmount={differenceAmount}
       currentValue={averageOrderAmount}
+      queryKey={queryKey}
     />
   );
 };

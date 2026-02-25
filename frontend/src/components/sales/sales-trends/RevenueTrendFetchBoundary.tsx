@@ -13,7 +13,7 @@ export const RevenueTrendFetchBoundary = ({
   className,
 }: RevenueTrendFetchBoundaryProps) => {
   return (
-    <DefaultCardFetchBoundary className={cn('h-57 w-265', className)}>
+    <DefaultCardFetchBoundary className={cn('h-70 w-265', className)}>
       {children}
     </DefaultCardFetchBoundary>
   );

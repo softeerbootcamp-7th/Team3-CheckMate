@@ -25,15 +25,15 @@ export const useMonthlyRevenueTrend = ({
   const { MAIN_Y_UNIT, SUB_Y_UNIT, X_UNIT, CHART_COLOR } = SALES_TREND_DETAIL;
   const monthlyRevenueTrendCardCode =
     getMonthlyRevenueTrendCardCode(periodType);
-
-  const { data } = useSuspenseQuery({
-    ...salesOptions.monthlyRevenueTrend<GetSalesTrendResponseDto>({
+  const queryOptions =
+    salesOptions.monthlyRevenueTrend<GetSalesTrendResponseDto>({
       analysisCardCode: monthlyRevenueTrendCardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  });
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const monthlyRevenueTrendData = {
     data: {
@@ -58,6 +58,7 @@ export const useMonthlyRevenueTrend = ({
   };
 
   return {
+    queryKey: queryOptions.queryKey,
     monthlyRevenueTrendData,
     monthlyRevenueTrendLabel,
     monthlyRevenueTrendTooltipContent,

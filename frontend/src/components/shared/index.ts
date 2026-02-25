@@ -25,3 +25,4 @@ export { BarLineChart } from './bar-line-chart';
 export { BarChart } from './bar-chart';
 export { DefaultCardFetchBoundary } from './default-card-fetch-boundary';
 export { NotificationPollingStarter } from './notification';
+export { RefreshedTimeButton } from './refreshed-time-button';
