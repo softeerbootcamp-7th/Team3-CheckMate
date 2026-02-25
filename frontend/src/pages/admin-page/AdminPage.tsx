@@ -20,7 +20,7 @@ import { menuKeys, menuOptions, postMenus } from '@/services/menu';
 import type { AdminMenuTab } from '@/types/admin';
 import type { MenuRegisterForm } from '@/types/menu';
 
-export const AdminPage = () => {
+const AdminPage = () => {
   const queryClient = useQueryClient();
 
   const [activeTab, setActiveTab] = useState<AdminMenuTab>('menu-order');
@@ -121,3 +121,5 @@ export const AdminPage = () => {
     </div>
   );
 };
+
+export default AdminPage;

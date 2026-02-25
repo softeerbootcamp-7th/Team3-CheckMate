@@ -9,7 +9,7 @@ export const ChatSheetTrigger = () => {
         <img
           src={`${CDN_BASE_URL}/assets/images/ai_chat_column.png`}
           alt="AI mate 로고"
-          className="h-9.5 object-contain"
+          className="h-9.5 w-11"
         />
       </Button>
     </SheetTrigger>

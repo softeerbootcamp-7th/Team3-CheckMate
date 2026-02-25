@@ -1,7 +1,7 @@
 import { FetchBoundary } from '@/components/shared';
 import { Tabs } from '@/components/shared/shadcn-ui';
 import {
-  useDashboardSseConnection,
+  useDashboardSseWorkerMessageHandler,
   useDashboardTabsContext,
 } from '@/hooks/dashboard';
 
@@ -12,8 +12,7 @@ import { DashboardMainSuspense } from '../dashboard-main';
 export const DashboardLayout = () => {
   const { currentDashboardId, setCurrentDashboardId } =
     useDashboardTabsContext();
-  useDashboardSseConnection();
-
+  useDashboardSseWorkerMessageHandler();
   return (
     <Tabs
       value={currentDashboardId.toString()}

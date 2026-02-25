@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { type RouteObject } from 'react-router-dom';
 
 import { MainLayout } from '@/components/shared';
@@ -12,7 +13,11 @@ import { settingRoutes } from './SettingRoutes';
 
 export const mainPageRoutes: RouteObject = {
   path: ROUTE_PATHS.MAIN,
-  Component: MainLayout,
+  Component: () => (
+    <Suspense fallback={<MainPageLoadingFallback />}>
+      <MainLayout />
+    </Suspense>
+  ),
   loader: mainPageLoader(queryClient),
   hydrateFallbackElement: <MainPageLoadingFallback />,
   children: [dashboardRoutes, analysisRoutes, dailyReportRoutes, settingRoutes],

@@ -1,4 +1,4 @@
-import { type ComponentProps } from 'react';
+import { type ComponentProps, type MouseEventHandler } from 'react';
 
 import { type DateRangePickerType } from '@/constants/shared';
 import { useDateRangePicker } from '@/hooks/shared';
@@ -17,6 +17,7 @@ interface DateRangePickerProps extends ComponentProps<typeof Popover> {
   dateRangePickerType: DateRangePickerType;
   triggerClassName?: string;
   onSave?: () => void;
+  onClickTrigger?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const DateRangePicker = ({
@@ -27,6 +28,7 @@ export const DateRangePicker = ({
   dateRangePickerType,
   triggerClassName,
   onSave,
+  onClickTrigger,
   ...props
 }: DateRangePickerProps) => {
   const {
@@ -56,6 +58,7 @@ export const DateRangePicker = ({
           startDate={startDate}
           endDate={endDate}
           ariaLabel={ariaLabel}
+          onClick={onClickTrigger}
         />
       </PopoverTrigger>
       <PopoverContent

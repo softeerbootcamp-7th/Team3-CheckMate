@@ -59,6 +59,10 @@ export const useSpacerHeight = ({
 
   useLayoutEffect(() => {
     if (!enabled) {
+      // 스트리밍이 끝날 시 마지막으로 여백 높이 업데이트
+      if (botBubbleRef.current) {
+        updateSpacerHeight(botBubbleRef.current.clientHeight);
+      }
       return;
     }
 

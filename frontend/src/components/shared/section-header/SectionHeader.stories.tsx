@@ -34,7 +34,6 @@ export const Default: Story = {
   args: {
     title: '섹션 제목',
     description: '섹션에 대한 설명이 들어가는 자리입니다.',
-    prefixKey: ['sales', 'overview'],
   },
 };
 
@@ -42,7 +41,6 @@ export const WithPeriodSelect: Story = {
   args: {
     title: '섹션 제목',
     description: '섹션에 대한 설명이 들어가는 자리입니다.',
-    prefixKey: ['sales', 'overview'],
     rightSlot: (
       <PeriodSelect
         periodPreset={PERIOD_PRESET_KEYS.dayWeekMonth}

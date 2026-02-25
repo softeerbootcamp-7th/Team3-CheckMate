@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryKey, useSuspenseQuery } from '@tanstack/react-query';
 
 import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
@@ -16,11 +16,13 @@ export const useDiscountAndCancellation = ({
   periodType,
   startDate,
   endDate,
-}: UseDiscountAndCancellationProps) => {
+}: UseDiscountAndCancellationProps): Omit<
+  GetDiscountAndCancellationResponseDto,
+  'hasPreviousData' | 'changeRate'
+> & { queryKey: QueryKey } => {
   const discountAndCancellationCardCode =
     getDiscountAndCancellationCardCode(periodType);
-
-  const { data } = useSuspenseQuery(
+  const queryOptions =
     salesOptions.discountAndCancellation<GetDiscountAndCancellationResponseDto>(
       {
         analysisCardCode: discountAndCancellationCardCode,
@@ -28,10 +30,12 @@ export const useDiscountAndCancellation = ({
         from: formatDateForDto(startDate),
         to: formatDateForDto(endDate),
       },
-    ),
-  );
+    );
+
+  const { data } = useSuspenseQuery(queryOptions);
   const { discountAmount, canceledAmount, discountCount, cancelCount } = data;
   return {
+    queryKey: queryOptions.queryKey,
     discountAmount,
     canceledAmount,
     discountCount,

@@ -7,6 +7,7 @@ export {
   formatDateYYMMDDHHMM,
   formatDateISO,
   formatDateForDto,
+  formatTimeHHMM,
 } from './formatDate';
 export {
   formatRelativeTime,
@@ -62,3 +63,4 @@ export {
   getLabelContentText,
 } from './bar-chart';
 export { throttle } from './throttle';
+export { parseRawEvent } from './sse';

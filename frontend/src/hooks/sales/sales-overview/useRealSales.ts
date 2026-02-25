@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { type QueryKey, useSuspenseQuery } from '@tanstack/react-query';
 
 import { PERIOD_PRESET_KEYS, type PeriodType } from '@/constants/shared';
 import { salesOptions } from '@/services/sales';
@@ -19,20 +19,21 @@ export const useRealSales = ({
 }: UseRealSalesProps): Omit<
   GetRealSalesResponseDto,
   'hasPreviousData' | 'changeRate'
-> => {
+> & { queryKey: QueryKey } => {
   const realSalesCardCode = getRealSalesCardCode(periodType);
 
-  const { data } = useSuspenseQuery(
-    salesOptions.realSales<GetRealSalesResponseDto>({
-      analysisCardCode: realSalesCardCode,
-      customPeriod: !periodType,
-      from: formatDateForDto(startDate),
-      to: formatDateForDto(endDate),
-    }),
-  );
+  const queryOptions = salesOptions.realSales<GetRealSalesResponseDto>({
+    analysisCardCode: realSalesCardCode,
+    customPeriod: !periodType,
+    from: formatDateForDto(startDate),
+    to: formatDateForDto(endDate),
+  });
+
+  const { data } = useSuspenseQuery(queryOptions);
   const { netAmount, differenceAmount } = data;
 
   return {
+    queryKey: queryOptions.queryKey,
     netAmount,
     differenceAmount,
   };
