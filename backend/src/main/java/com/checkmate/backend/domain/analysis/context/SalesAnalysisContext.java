@@ -8,7 +8,6 @@ import lombok.Getter;
 @Getter
 public class SalesAnalysisContext extends AnalysisContext {
 
-    private final LocalDateTime anchor;
     private final LocalDate comparisonStart;
     private final LocalDate comparisonEnd;
 
@@ -20,9 +19,8 @@ public class SalesAnalysisContext extends AnalysisContext {
             LocalDateTime anchor,
             LocalDate comparisonStart,
             LocalDate comparisonEnd) {
-        super(storeId, analysisCardCode, startDate, endDate);
+        super(storeId, anchor, analysisCardCode, startDate, endDate);
 
-        this.anchor = anchor;
         this.comparisonStart = comparisonStart;
         this.comparisonEnd = comparisonEnd;
     }
