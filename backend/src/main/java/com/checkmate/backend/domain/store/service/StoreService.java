@@ -188,37 +188,20 @@ public class StoreService {
 
         // 1. 요일 추출
         int todayValue = TimeUtil.getDayOfWeekValue(now.toLocalDate());
-        String todayStr = DAYS[todayValue];
         String yesterdayStr = DAYS[todayValue == 1 ? 7 : todayValue - 1];
 
-        // 2. 24시간 매장 (정산 시간 기준)
-        BusinessHour todayHour = findBhByDay(businessHours, todayStr);
-        if (todayHour != null && todayHour.isOpen24Hours()) {
-            int salesHour =
-                    (store.getSalesClosingHour() == null || store.getSalesClosingHour() == 24)
-                            ? 0
-                            : store.getSalesClosingHour();
-
-            LocalDateTime salesClosingTime = now.toLocalDate().atTime(salesHour, 0);
-            if (!now.isBefore(salesClosingTime)) {
-                salesClosingTime = salesClosingTime.plusDays(1);
-            }
-            return new StoreClosingTimeResponse(salesClosingTime);
-        }
-
-        // 3. 일반 매장: "현재 진행 중인" 또는 "가장 가까운" 마감 시간 찾기
-
-        // Case A: 어제 영업이 오늘 새벽에 끝나는 중인지 확인
+        // 2. 어제 영업이 오늘 새벽에 끝나는 중인지 확인
         BusinessHour yesterdayBh = findBhByDay(businessHours, yesterdayStr);
         if (yesterdayBh != null && yesterdayBh.isClosesNextDay()) {
             LocalDateTime closingDateTime =
                     makeDateTime(now.toLocalDate(), yesterdayBh.getCloseTime());
-            if (now.isBefore(closingDateTime)) {
+            // NPE 방지: closingDateTime이 null이 아닌지 체크
+            if (closingDateTime != null && now.isBefore(closingDateTime)) {
                 return new StoreClosingTimeResponse(closingDateTime);
             }
         }
 
-        // Case B: 오늘 포함 향후 7일 탐색
+        // 3. 오늘 포함 향후 7일 탐색
         for (int i = 0; i <= 7; i++) {
             LocalDateTime checkDate = now.plusDays(i);
             String checkDayStr = DAYS[(todayValue + i - 1) % 7 + 1];
@@ -226,13 +209,32 @@ public class StoreService {
             BusinessHour bh = findBhByDay(businessHours, checkDayStr);
             if (bh == null || bh.isClosed()) continue;
 
-            // 익일 마감이면 날짜를 하루 더함
-            LocalDateTime closingDateTime =
-                    makeDateTime(checkDate.toLocalDate(), bh.getCloseTime());
-            if (bh.isClosesNextDay()) {
-                closingDateTime = closingDateTime.plusDays(1);
+            LocalDateTime closingDateTime;
+
+            // 24시간 매장 처리 로직을 루프 내부로 이동
+            if (bh.isOpen24Hours()) {
+                int salesHour =
+                        (store.getSalesClosingHour() == null || store.getSalesClosingHour() == 24)
+                                ? 0
+                                : store.getSalesClosingHour();
+
+                closingDateTime = checkDate.toLocalDate().atTime(salesHour, 0);
+
+                // 해당 영업일의 정산 마감 시간이 이미 현재 시간보다 과거이거나 같다면 다음날로 갱신
+                if (!closingDateTime.isAfter(now)) {
+                    closingDateTime = closingDateTime.plusDays(1);
+                }
+            } else {
+                // 일반 매장 처리
+                closingDateTime = makeDateTime(checkDate.toLocalDate(), bh.getCloseTime());
+                if (closingDateTime == null) continue; // close_time 누락 시 NPE 방지 및 스킵
+
+                if (bh.isClosesNextDay()) {
+                    closingDateTime = closingDateTime.plusDays(1);
+                }
             }
 
+            // 계산된 마감 시간이 현재보다 미래인 경우 반환
             if (closingDateTime.isAfter(now)) {
                 return new StoreClosingTimeResponse(closingDateTime);
             }
@@ -241,11 +243,15 @@ public class StoreService {
         throw new BadRequestException(INTERNAL_SERVER_EXCEPTION);
     }
 
-    // "24:00" 대응 가능한 안전한 LocalDateTime 생성기
     private LocalDateTime makeDateTime(LocalDate date, String timeStr) {
+        if (timeStr == null || timeStr.isBlank()) {
+            return null;
+        }
+
         if ("24:00".equals(timeStr)) {
             return date.plusDays(1).atStartOfDay();
         }
+
         return date.atTime(LocalTime.parse(timeStr));
     }
 
