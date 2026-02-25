@@ -2,8 +2,7 @@ import type { QueryKey } from '@tanstack/react-query';
 import { RefreshCcw } from 'lucide-react';
 
 import { useCardRefresh } from '@/hooks/shared';
-import { cn } from '@/utils/shared';
-import { formatTimeHHMM } from '@/utils/shared';
+import { cn, formatTimeHHMM } from '@/utils/shared';
 
 import { Button } from '../shadcn-ui';
 

@@ -1,5 +1,4 @@
-import { DefaultCardWrapper } from '@/components/shared';
-import { RefreshedTimeButton } from '@/components/shared/refreshed-time-button';
+import { DefaultCardWrapper, RefreshedTimeButton } from '@/components/shared';
 import { useMenuSalesRank } from '@/hooks/menu';
 
 import { MenuSalesRankTable } from './MenuSalesRankTable';
