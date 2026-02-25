@@ -13,7 +13,7 @@ export const TimeSlotMenuOrderCountCardContent = ({
   menuName,
   className,
 }: TimeSlotMenuOrderCountCardContentProps) => {
-  if (!timeSlot2H || !menuName) {
+  if (timeSlot2H === undefined || menuName === undefined) {
     return <TimeSlotMenuOrderCountContentEmptyView />;
   }
   return (
