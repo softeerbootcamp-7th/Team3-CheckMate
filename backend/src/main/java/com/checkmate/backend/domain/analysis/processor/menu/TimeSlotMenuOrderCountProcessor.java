@@ -9,6 +9,8 @@ import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
 import com.checkmate.backend.domain.order.repository.MenuAnalysisRepository;
+import com.checkmate.backend.global.util.TimeUtil;
+import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -109,63 +111,25 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
                 new DetailTimeSlotMenuOrderCountResponse(timeSlotGroups);
 
         /*
-         * 가장 많이 팔린 메뉴
-         * 그 메뉴가 가장 많이 팔린 시간대
+         * 현재 시간대 가장 많이 팔린 메뉴
          * */
+
+        LocalDateTime anchor = context.getAnchor();
+        int currentTimeSlot = TimeUtil.get2HourSlot(anchor);
+
+        List<TimeSlotMenuOrderCountProjection> timeSlotMenuOrderCountProjections =
+                groupedByTimeSlot.get(currentTimeSlot);
+
         DashboardTimeSlotMenuOrderCountResponse dashboardResponse = null;
 
-        // 메뉴별 총 주문 수 계산
-        Map<String, Long> menuTotalCounts = new HashMap<>();
-
-        for (DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem group : response.items()) {
-            for (DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
-                            .TimeSlotMenuOrderCountItem
-                    menuItem : group.menus()) {
-
-                menuTotalCounts.merge(menuItem.menuName(), menuItem.orderCount(), Long::sum);
-            }
-        }
-        // 총 주문 기준 TOP 메뉴 선택
-        String topMenu = null;
-        long maxTotalCount = -1;
-
-        for (Map.Entry<String, Long> entry : menuTotalCounts.entrySet()) {
-            if (entry.getValue() > maxTotalCount) {
-                maxTotalCount = entry.getValue();
-                topMenu = entry.getKey();
-            }
-        }
-
-        // TOP 메뉴가 가장 많이 팔린 시간대 찾기
-        if (topMenu != null) {
-            DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem topSlotGroup = null;
-            long maxOrderCount = -1;
-
-            for (DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem group :
-                    response.items()) {
-                long menuOrderCount = 0;
-
-                for (DetailTimeSlotMenuOrderCountResponse.TimeSlotMenuGroupItem
-                                .TimeSlotMenuOrderCountItem
-                        menu : group.menus()) {
-
-                    if (menu.menuName().equals(topMenu)) {
-                        menuOrderCount = menu.orderCount();
-                        break;
-                    }
-                }
-
-                if (menuOrderCount > maxOrderCount) {
-                    maxOrderCount = menuOrderCount;
-                    topSlotGroup = group;
-                }
-            }
-
-            if (topSlotGroup != null) {
-                dashboardResponse =
-                        new DashboardTimeSlotMenuOrderCountResponse(
-                                topSlotGroup.timeSlot2H(), topMenu);
-            }
+        if (timeSlotMenuOrderCountProjections != null
+                && !timeSlotMenuOrderCountProjections.isEmpty()) {
+            TimeSlotMenuOrderCountProjection timeSlotMenuOrderCountProjection =
+                    timeSlotMenuOrderCountProjections.get(0);
+            dashboardResponse =
+                    new DashboardTimeSlotMenuOrderCountResponse(
+                            timeSlotMenuOrderCountProjection.timeSlot2H(),
+                            timeSlotMenuOrderCountProjection.menuName());
         }
 
         return new AnalysisResponse(context.getAnalysisCardCode(), dashboardResponse, response);

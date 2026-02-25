@@ -26,8 +26,14 @@ export const DashboardTimeSlotMenuOrderCountCard = ({
 
   const { data } = useSuspenseQuery(queryOption);
 
-  const timeSlot2H = data.items[0]?.timeSlot2H;
-  const menuName = data.items[0]?.menus[0]?.menuName;
+  const copyItem = data.items;
+
+  const topItem = copyItem.sort(
+    (a, b) => a.totalOrderCount - b.totalOrderCount,
+  )[copyItem.length - 1];
+
+  const timeSlot2H = topItem.timeSlot2H;
+  const menuName = topItem.menus[0]?.menuName;
 
   return (
     <TimeSlotMenuOrderCountCardContent
