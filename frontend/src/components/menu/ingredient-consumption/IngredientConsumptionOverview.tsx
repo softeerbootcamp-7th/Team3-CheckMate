@@ -35,7 +35,7 @@ export const IngredientConsumptionOverview = () => {
           />
         }
       />
-      <DefaultCardFetchBoundary className="h-95.5 w-full">
+      <DefaultCardFetchBoundary className="h-[400px] w-full">
         <IngredientConsumptionRankCard />
       </DefaultCardFetchBoundary>
     </section>

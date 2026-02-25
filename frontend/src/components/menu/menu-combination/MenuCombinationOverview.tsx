@@ -37,7 +37,7 @@ export const MenuCombinationOverview = () => {
           />
         }
       />
-      <DefaultCardFetchBoundary className="h-[25rem] w-full">
+      <DefaultCardFetchBoundary className="h-108 w-full">
         <MenuCombinationRankCard />
       </DefaultCardFetchBoundary>
     </section>

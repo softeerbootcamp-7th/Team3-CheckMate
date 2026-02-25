@@ -19,15 +19,15 @@ export const useMenuCombinationRank = ({
   endDate,
 }: UseMenuCombinationRankProps) => {
   const cardCode = getMenuCombinationRankCardCode(periodType);
-
-  const { data } = useSuspenseQuery(
+  const queryOptions =
     menuOptions.menuCombinationRank<GetPopularMenuCombinationResponseDto>({
       analysisCardCode: cardCode,
       customPeriod: !periodType,
       from: formatDateForDto(startDate),
       to: formatDateForDto(endDate),
-    }),
-  );
+    });
+
+  const { data } = useSuspenseQuery(queryOptions);
 
   const isEmptyRankItems = (data?.items ?? []).length === 0;
 
@@ -55,6 +55,7 @@ export const useMenuCombinationRank = ({
   });
 
   return {
+    queryKey: queryOptions.queryKey,
     popularMenuCombinations,
     isEmptyRankItems,
   };

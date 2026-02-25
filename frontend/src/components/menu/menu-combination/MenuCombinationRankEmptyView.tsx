@@ -2,7 +2,7 @@ import { UtensilsCrossed } from 'lucide-react';
 
 export const MenuCombinationRankEmptyView = () => {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-8">
+    <div className="mt-10 flex h-full w-full flex-col items-center justify-center gap-8">
       <div className="bg-brand-50 size-10 rounded-full p-2">
         <UtensilsCrossed className="text-brand-main size-full" />
       </div>

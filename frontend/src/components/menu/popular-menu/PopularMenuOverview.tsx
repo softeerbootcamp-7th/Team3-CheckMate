@@ -1,4 +1,8 @@
-import { PeriodSelect, SectionHeader } from '@/components/shared';
+import {
+  DefaultCardFetchBoundary,
+  PeriodSelect,
+  SectionHeader,
+} from '@/components/shared';
 import { PERIOD_PRESET_KEYS } from '@/constants/shared';
 
 import { CategorySalesCard } from './CategorySalesCard';
@@ -34,8 +38,12 @@ export const PopularMenuOverview = () => {
       />
 
       <div className="flex gap-5">
-        <MenuSalesRankCard />
-        <CategorySalesCard />
+        <DefaultCardFetchBoundary className="h-80 flex-1">
+          <MenuSalesRankCard />
+        </DefaultCardFetchBoundary>
+        <DefaultCardFetchBoundary className="h-80 flex-1">
+          <CategorySalesCard />
+        </DefaultCardFetchBoundary>
       </div>
     </section>
   );
