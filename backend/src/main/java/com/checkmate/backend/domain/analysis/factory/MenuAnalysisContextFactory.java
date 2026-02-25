@@ -6,6 +6,7 @@ import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.DomainCategory;
 import com.checkmate.backend.domain.order.OrderCreatedEvent;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,8 +20,8 @@ public class MenuAnalysisContextFactory implements AnalysisContextFactory {
 
     @Override
     public AnalysisContext create(AnalysisCardCode analysisCardCode, OrderCreatedEvent event) {
-
-        LocalDate today = LocalDate.now();
+        LocalDateTime anchor = event.anchor();
+        LocalDate today = anchor.toLocalDate();
 
         return switch (analysisCardCode) {
 
@@ -33,7 +34,7 @@ public class MenuAnalysisContextFactory implements AnalysisContextFactory {
 
             case MNU_01_01, MNU_02_01, MNU_03_01, MNU_04_01 ->
                     new MenuAnalysisContext(
-                            event.storeId(), analysisCardCode, today, today.plusDays(1));
+                            event.storeId(), anchor, analysisCardCode, today, today.plusDays(1));
 
                 /*
                  * MNU_01_04 (최근 7일 메뉴별 매출 랭킹)
@@ -45,6 +46,7 @@ public class MenuAnalysisContextFactory implements AnalysisContextFactory {
             case MNU_01_04, MNU_02_02, MNU_03_02, MNU_05_04 ->
                     new MenuAnalysisContext(
                             event.storeId(),
+                            anchor,
                             analysisCardCode,
                             today.minusDays(7),
                             today.plusDays(1));
@@ -58,6 +60,7 @@ public class MenuAnalysisContextFactory implements AnalysisContextFactory {
             case MNU_01_05, MNU_02_03, MNU_03_03 ->
                     new MenuAnalysisContext(
                             event.storeId(),
+                            anchor,
                             analysisCardCode,
                             today.minusDays(30),
                             today.plusDays(1));
@@ -69,6 +72,7 @@ public class MenuAnalysisContextFactory implements AnalysisContextFactory {
             case MNU_05_05 -> // 최근 14일 인기 조합
                     new MenuAnalysisContext(
                             event.storeId(),
+                            anchor,
                             analysisCardCode,
                             today.minusDays(14),
                             today.plusDays(1));
@@ -80,6 +84,6 @@ public class MenuAnalysisContextFactory implements AnalysisContextFactory {
     @Override
     public AnalysisContext create(
             AnalysisCardCode analysisCardCode, Long storeId, LocalDate start, LocalDate end) {
-        return new MenuAnalysisContext(storeId, analysisCardCode, start, end);
+        return new MenuAnalysisContext(storeId, LocalDateTime.now(), analysisCardCode, start, end);
     }
 }
