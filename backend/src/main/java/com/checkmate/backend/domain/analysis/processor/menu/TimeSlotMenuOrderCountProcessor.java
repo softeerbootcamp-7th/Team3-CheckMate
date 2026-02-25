@@ -9,8 +9,6 @@ import com.checkmate.backend.domain.analysis.enums.AnalysisCardCode;
 import com.checkmate.backend.domain.analysis.enums.AnalysisCode;
 import com.checkmate.backend.domain.analysis.processor.AnalysisProcessor;
 import com.checkmate.backend.domain.order.repository.MenuAnalysisRepository;
-import com.checkmate.backend.global.util.TimeUtil;
-import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -110,27 +108,20 @@ public class TimeSlotMenuOrderCountProcessor implements AnalysisProcessor<MenuAn
         DetailTimeSlotMenuOrderCountResponse response =
                 new DetailTimeSlotMenuOrderCountResponse(timeSlotGroups);
 
-        /*
-         * 현재 시간대 가장 많이 팔린 메뉴
-         * */
+        // orderCount가 가장 높은 메뉴 찾기
+        Optional<TimeSlotMenuOrderCountProjection> maxOrderMenu =
+                menuOrderCountsByTimeSlot.stream()
+                        .max(
+                                Comparator.comparingLong(
+                                        TimeSlotMenuOrderCountProjection::orderCount));
 
-        LocalDateTime anchor = context.getAnchor();
-        int currentTimeSlot = TimeUtil.get2HourSlot(anchor);
-
-        List<TimeSlotMenuOrderCountProjection> timeSlotMenuOrderCountProjections =
-                groupedByTimeSlot.get(currentTimeSlot);
-
-        DashboardTimeSlotMenuOrderCountResponse dashboardResponse = null;
-
-        if (timeSlotMenuOrderCountProjections != null
-                && !timeSlotMenuOrderCountProjections.isEmpty()) {
-            TimeSlotMenuOrderCountProjection timeSlotMenuOrderCountProjection =
-                    timeSlotMenuOrderCountProjections.get(0);
-            dashboardResponse =
-                    new DashboardTimeSlotMenuOrderCountResponse(
-                            timeSlotMenuOrderCountProjection.timeSlot2H(),
-                            timeSlotMenuOrderCountProjection.menuName());
-        }
+        DashboardTimeSlotMenuOrderCountResponse dashboardResponse =
+                maxOrderMenu
+                        .map(
+                                p ->
+                                        new DashboardTimeSlotMenuOrderCountResponse(
+                                                p.timeSlot2H(), p.menuName()))
+                        .orElse(null); // max가 없으면 null
 
         return new AnalysisResponse(context.getAnalysisCardCode(), dashboardResponse, response);
     }
