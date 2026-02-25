@@ -112,16 +112,19 @@ export const updateTimeBasedMenuOrderCountData =
     // 깊은 복사 후 해당 객체 수정
     const newItems = structuredClone(oldData.items);
 
-    const firstItem = newItems[0];
-    if (!firstItem) {
+    newItems.sort((a, b) => a.totalOrderCount - b.totalOrderCount);
+
+    const topItem = newItems[newItems.length - 1];
+
+    if (!topItem) {
       return {
         items: newItems,
       };
     }
 
-    firstItem.timeSlot2H = timeSlot2H;
+    topItem.timeSlot2H = timeSlot2H;
 
-    const firstMenu = firstItem.menus?.[0];
+    const firstMenu = topItem.menus?.[0];
     if (firstMenu) {
       firstMenu.menuName = menuName;
     }
