@@ -1,8 +1,12 @@
+import { lazy } from 'react';
 import { type RouteObject } from 'react-router-dom';
 
 import { ROUTE_PATHS } from '@/constants/shared';
-import { IngredientPage } from '@/pages/ingredient-page';
-import { SettingPage } from '@/pages/setting-page';
+
+const SettingPage = lazy(() => import('@/pages/setting-page/SettingPage'));
+const IngredientPage = lazy(
+  () => import('@/pages/ingredient-page/IngredientPage'),
+);
 
 export const settingRoutes: RouteObject = {
   path: ROUTE_PATHS.SETTINGS.BASE,

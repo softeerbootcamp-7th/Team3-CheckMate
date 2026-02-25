@@ -18,6 +18,8 @@ export const MenuCombinationOverview = () => {
     setEndDate,
   } = useMenuCombinationPeriodType();
 
+  // 기간 변경과 섹션헤더의 새로고침 시간 업데이트를 연결시켜주는 훅
+
   return (
     <section className="flex flex-col gap-4" aria-label="인기 메뉴 조합 분석">
       <SectionHeader

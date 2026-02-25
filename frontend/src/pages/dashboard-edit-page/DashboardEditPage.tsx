@@ -1,5 +1,7 @@
 import { DashboardEditLayout } from '@/components/dashboard/dashboard-edit';
 
-export const DashboardEditPage = () => {
+const DashboardEditPage = () => {
   return <DashboardEditLayout />;
 };
+
+export default DashboardEditPage;

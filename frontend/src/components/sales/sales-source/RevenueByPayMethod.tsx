@@ -6,13 +6,17 @@ import { SalesSourceChart } from './sales-source-chart';
 export const RevenueByPayMethod = () => {
   const { periodType, startDate, endDate } = usePeriodTypeContext();
 
-  const { payMethodData } = usePayMethod({
+  const { payMethodData, queryKey } = usePayMethod({
     periodType,
     startDate,
     endDate,
   });
 
   return (
-    <SalesSourceChart title="결제수단별 매출" salesSourceData={payMethodData} />
+    <SalesSourceChart
+      title="결제수단별 매출"
+      salesSourceData={payMethodData}
+      queryKey={queryKey}
+    />
   );
 };

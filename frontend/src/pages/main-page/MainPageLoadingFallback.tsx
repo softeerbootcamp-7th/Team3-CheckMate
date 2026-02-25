@@ -59,7 +59,7 @@ export const MainPageLoadingFallback = () => {
 
   return (
     <div className="bg-special-dashboard-bg flex size-full">
-      <div className="bg-special-card-bg h-full w-75">
+      <div className="bg-special-card-bg h-full w-75 shrink-0">
         <object
           data={`${CDN_BASE_URL}/assets/images/logoWithTitle.svg`}
           className="mt-21 ml-10"
