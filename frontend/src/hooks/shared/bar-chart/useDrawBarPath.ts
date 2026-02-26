@@ -11,15 +11,14 @@ export const useDrawBarPath = ({
   barTopY, // 바의 상단 정중앙 y 좌표
   width,
   height,
-  radius,
+  radius = 0,
 }: UseDrawBarPathProps) => {
   // bar의 바닥 y 좌표
   const bottomY = barTopY + height;
   const leftX = barMiddleX - width / 2;
   const rightX = barMiddleX + width / 2;
 
-  const pathD = radius
-    ? `
+  const pathD = `
       M ${barMiddleX} ${barTopY}
       H ${leftX + radius}
       Q ${leftX} ${barTopY} ${leftX} ${barTopY + radius}
@@ -27,16 +26,6 @@ export const useDrawBarPath = ({
       H ${rightX}
       V ${barTopY + radius}
       Q ${rightX} ${barTopY} ${rightX - radius} ${barTopY}
-      Z
-    `
-    : `
-      M ${barMiddleX} ${barTopY}
-      H ${leftX}
-      Q ${leftX} ${bottomY} ${leftX} ${bottomY}
-      V ${bottomY}
-      H ${rightX}
-      V ${barTopY}
-      Q ${rightX} ${barTopY} ${rightX} ${barTopY}
       Z
     `;
 

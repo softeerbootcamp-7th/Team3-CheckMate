@@ -1,4 +1,5 @@
 import { SectionHeader } from '@/components/shared';
+import { SALES_PERIOD_LOCAL_STORAGE_KEY } from '@/constants/sales';
 
 import { PeakTimeByHour } from './PeakTimeByHour';
 import {
@@ -9,6 +10,8 @@ import { SalesPatternsFetchBoundary } from './SalesPatternsFetchBoundary';
 import { WeekdaySalesPattern } from './WeekdaySalesPattern';
 
 export const SalesPatterns = () => {
+  const { salesPatternsPeakTimeByHour, salesPatternsWeekdaySalesPattern } =
+    SALES_PERIOD_LOCAL_STORAGE_KEY;
   return (
     <section aria-label="매출 패턴">
       <SectionHeader
@@ -18,12 +21,16 @@ export const SalesPatterns = () => {
 
       <section className="mt-4 grid grid-rows-2 gap-4">
         <SalesPatternsFetchBoundary>
-          <PeakTimeByHourPeriodTypeProvider>
+          <PeakTimeByHourPeriodTypeProvider
+            periodKey={salesPatternsPeakTimeByHour}
+          >
             <PeakTimeByHour />
           </PeakTimeByHourPeriodTypeProvider>
         </SalesPatternsFetchBoundary>
         <SalesPatternsFetchBoundary>
-          <WeekdaySalesPatternPeriodTypeProvider>
+          <WeekdaySalesPatternPeriodTypeProvider
+            periodKey={salesPatternsWeekdaySalesPattern}
+          >
             <WeekdaySalesPattern />
           </WeekdaySalesPatternPeriodTypeProvider>
         </SalesPatternsFetchBoundary>

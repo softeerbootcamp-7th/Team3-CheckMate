@@ -28,3 +28,4 @@ export {
 } from './salesMetric';
 export { SALES_TREND_DETAIL } from './sales-trends/salesTrendDetail';
 export { SALES_PATTERN_DETAIL } from './sales-pattern';
+export { SALES_PERIOD_LOCAL_STORAGE_KEY } from './salesPeriodLocalStorageKey';
