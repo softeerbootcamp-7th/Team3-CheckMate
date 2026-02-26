@@ -1,4 +1,5 @@
 import { SectionHeader } from '@/components/shared';
+import { SALES_PERIOD_LOCAL_STORAGE_KEY } from '@/constants/sales';
 
 import { DailyRevenueTrend } from './DailyRevenueTrend';
 import { MonthlyRevenueTrend } from './MonthlyRevenueTrend';
@@ -13,6 +14,12 @@ import { WeeklyRevenueTrend } from './WeeklyRevenueTrend';
 import { YearlyRevenueTrend } from './YearlyRevenueTrend';
 
 export const SalesTrends = () => {
+  const {
+    salesTrendsDaily,
+    salesTrendsWeekly,
+    salesTrendsMonthly,
+    salesTrendsYearly,
+  } = SALES_PERIOD_LOCAL_STORAGE_KEY;
   return (
     <section aria-label="매출 추이">
       <SectionHeader
@@ -21,23 +28,25 @@ export const SalesTrends = () => {
       />
       <section className="mt-4 grid grid-rows-3 gap-5">
         <RevenueTrendFetchBoundary>
-          <DailyRevenueTrendPeriodTypeProvider>
+          <DailyRevenueTrendPeriodTypeProvider periodKey={salesTrendsDaily}>
             <DailyRevenueTrend />
           </DailyRevenueTrendPeriodTypeProvider>
         </RevenueTrendFetchBoundary>
         <RevenueTrendFetchBoundary>
-          <WeeklyRevenueTrendPeriodTypeProvider>
+          <WeeklyRevenueTrendPeriodTypeProvider periodKey={salesTrendsWeekly}>
             <WeeklyRevenueTrend />
           </WeeklyRevenueTrendPeriodTypeProvider>
         </RevenueTrendFetchBoundary>
         <div className="flex gap-5">
           <RevenueTrendFetchBoundary className="w-180">
-            <MonthlyRevenueTrendPeriodTypeProvider>
+            <MonthlyRevenueTrendPeriodTypeProvider
+              periodKey={salesTrendsMonthly}
+            >
               <MonthlyRevenueTrend />
             </MonthlyRevenueTrendPeriodTypeProvider>
           </RevenueTrendFetchBoundary>
           <RevenueTrendFetchBoundary className="w-85">
-            <YearlyRevenueTrendPeriodTypeProvider>
+            <YearlyRevenueTrendPeriodTypeProvider periodKey={salesTrendsYearly}>
               <YearlyRevenueTrend />
             </YearlyRevenueTrendPeriodTypeProvider>
           </RevenueTrendFetchBoundary>

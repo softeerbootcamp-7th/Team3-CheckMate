@@ -7,7 +7,7 @@ export const SalesClosingTimeSettingSection = () => {
   return (
     <>
       <StoreRegisterFormTitle
-        title={`자정 이후에도 운영하는 매장은\n매출 마감 시간 설정이 필요해요`}
+        title={`24시간 운영하는 매장은\n매출 마감 시간 설정이 필요해요`}
       />
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-3">

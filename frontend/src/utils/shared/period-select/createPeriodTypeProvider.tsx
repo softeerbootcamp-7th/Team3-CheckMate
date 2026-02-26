@@ -1,8 +1,10 @@
 import {
   createContext,
-  type PropsWithChildren,
+  type ReactNode,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -45,12 +47,53 @@ export const createPeriodTypeProvider = <T extends PeriodPresetType>({
     return context;
   };
 
-  const PeriodTypeProvider = ({ children }: PropsWithChildren) => {
+  const PeriodTypeProvider = ({
+    periodKey,
+    children,
+  }: {
+    periodKey: string;
+    children: ReactNode;
+  }) => {
     const [periodType, setPeriodType] = useState<PeriodType<T> | undefined>(
       Object.values(PERIOD_PRESETS[periodPreset])[0] as PeriodType<T>,
     );
     const [startDate, setStartDate] = useState<Date | undefined>(undefined);
     const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+
+    const isInitial = useRef(false);
+
+    useEffect(() => {
+      const storedPeriodValue = localStorage.getItem(periodKey);
+
+      const initiatePeriodType = () => {
+        const { periodType, startDate, endDate } = JSON.parse(
+          storedPeriodValue ?? '{}',
+        );
+        setPeriodType(periodType);
+        setStartDate(startDate ? new Date(startDate) : undefined);
+        setEndDate(endDate ? new Date(endDate) : undefined);
+      };
+
+      if (storedPeriodValue && !isInitial.current) {
+        isInitial.current = true;
+        initiatePeriodType();
+      }
+    }, [setPeriodType, setStartDate, setEndDate, periodKey]);
+
+    useEffect(() => {
+      if (!periodKey) {
+        return;
+      }
+
+      localStorage.setItem(
+        periodKey,
+        JSON.stringify({
+          periodType,
+          startDate: startDate?.toISOString() ?? '',
+          endDate: endDate?.toISOString() ?? '',
+        }),
+      );
+    }, [periodKey, periodType, startDate, endDate]);
 
     const value = useMemo(
       () => ({

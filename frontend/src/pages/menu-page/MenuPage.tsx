@@ -8,23 +8,33 @@ import {
   PopularMenuPeriodTypeProvider,
 } from '@/components/menu';
 import { MenuSalesPatternPeriodTypeProvider } from '@/components/menu';
+import { MENU_PERIOD_LOCAL_STORAGE_KEY } from '@/constants/menu';
 import { useMainScrollTop } from '@/hooks/shared';
 
 const MenuPage = () => {
   const { handleMainScrollToTop } = useMainScrollTop();
 
+  const {
+    popularMenu,
+    menuSalesPattern,
+    ingredientConsumption,
+    menuCombination,
+  } = MENU_PERIOD_LOCAL_STORAGE_KEY;
+
   return (
     <div className="my-32.5 flex flex-col gap-12" ref={handleMainScrollToTop}>
-      <PopularMenuPeriodTypeProvider>
+      <PopularMenuPeriodTypeProvider periodKey={popularMenu}>
         <PopularMenuOverview />
       </PopularMenuPeriodTypeProvider>
-      <MenuSalesPatternPeriodTypeProvider>
+      <MenuSalesPatternPeriodTypeProvider periodKey={menuSalesPattern}>
         <MenuSalesPatternOverview />
       </MenuSalesPatternPeriodTypeProvider>
-      <IngredientConsumptionPeriodTypeProvider>
+      <IngredientConsumptionPeriodTypeProvider
+        periodKey={ingredientConsumption}
+      >
         <IngredientConsumptionOverview />
       </IngredientConsumptionPeriodTypeProvider>
-      <MenuCombinationPeriodTypeProvider>
+      <MenuCombinationPeriodTypeProvider periodKey={menuCombination}>
         <MenuCombinationOverview />
       </MenuCombinationPeriodTypeProvider>
       <div className="h-32.5 w-full" />

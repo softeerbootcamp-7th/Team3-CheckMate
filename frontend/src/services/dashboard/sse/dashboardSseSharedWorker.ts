@@ -20,8 +20,12 @@ import type { EventSourceMessage } from '@/types/shared';
 import { PortConnection } from '@/utils/dashboard';
 import { parseRawEvent, type ValueOf } from '@/utils/shared';
 
-const { RETRY_INTERVAL, MAXIMUM_RETRY_TIME, CONNECTION_STATUS } =
-  DASHBOARD_SSE_WORKER;
+const {
+  RETRY_INTERVAL,
+  MAXIMUM_RETRY_TIME,
+  CONNECTION_STATUS,
+  MAXIMUM_RETRY_COUNT,
+} = DASHBOARD_SSE_WORKER;
 
 const { CLEANUP_INTERVAL } = DASHBOARD_SSE_SHARED_WORKER;
 
@@ -183,6 +187,7 @@ const createSseClient = () => {
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     const dispose = () => {
+      retryCount = 0;
       connectionStatus = CONNECTION_STATUS.PREPARE;
       if (retryTimer) {
         clearTimeout(retryTimer);
@@ -244,9 +249,6 @@ const createSseClient = () => {
             if (rawEvent) {
               const message = parseRawEvent(rawEvent);
 
-              if (message?.event === DASHBOARD_SSE_EVENT.CONNECT) {
-                retryCount = 0;
-              }
               broadcastMessage(message);
             }
 
@@ -302,7 +304,7 @@ const createSseClient = () => {
           if (retryTimer) {
             clearTimeout(retryTimer);
           }
-          if (!allPortsDisconnected()) {
+          if (!allPortsDisconnected() && retryCount <= MAXIMUM_RETRY_COUNT) {
             retryTimer = setTimeout(create, interval);
           } else {
             dispose();

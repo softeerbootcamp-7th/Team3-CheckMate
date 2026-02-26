@@ -1,4 +1,5 @@
 import { DefaultCardFetchBoundary } from '@/components/shared';
+import { SALES_PERIOD_LOCAL_STORAGE_KEY } from '@/constants/sales';
 
 import { PeriodTypeProvider } from './period-type-provider';
 import { RevenueByOrderChannel } from './RevenueByOrderChannel';
@@ -9,7 +10,9 @@ import { SalesSourceHeader } from './SalesSourceHeader';
 export const SalesSource = () => {
   return (
     <section aria-label="매출 유입 구조">
-      <PeriodTypeProvider>
+      <PeriodTypeProvider
+        periodKey={SALES_PERIOD_LOCAL_STORAGE_KEY.salesSource}
+      >
         <SalesSourceHeader />
         <section className="mt-4 grid grid-cols-3 gap-5">
           <DefaultCardFetchBoundary className="h-113 w-full">

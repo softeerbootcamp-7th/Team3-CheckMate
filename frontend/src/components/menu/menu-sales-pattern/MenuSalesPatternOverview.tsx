@@ -35,7 +35,7 @@ export const MenuSalesPatternOverview = () => {
           />
         }
       />
-      <DefaultCardFetchBoundary className="h-[400px] w-full">
+      <DefaultCardFetchBoundary className="h-[400px] w-265">
         <TimeSlotMenuOrderCount />
       </DefaultCardFetchBoundary>
     </section>

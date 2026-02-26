@@ -1,4 +1,5 @@
 import { DefaultCardFetchBoundary } from '@/components/shared';
+import { SALES_PERIOD_LOCAL_STORAGE_KEY } from '@/constants/sales';
 
 import { ActualRevenue } from './ActualRevenue';
 import { AverageRevenuePerOrder } from './AverageRevenuePerOrder';
@@ -11,7 +12,9 @@ import { TotalRevenue } from './TotalRevenue';
 export const SalesOverview = () => {
   return (
     <section aria-label="매출 현황">
-      <PeriodTypeProvider>
+      <PeriodTypeProvider
+        periodKey={SALES_PERIOD_LOCAL_STORAGE_KEY.salesOverview}
+      >
         <SalesOverviewHeader />
         <section className="mt-4 grid gap-5">
           <div className="grid grid-cols-3 gap-5">
