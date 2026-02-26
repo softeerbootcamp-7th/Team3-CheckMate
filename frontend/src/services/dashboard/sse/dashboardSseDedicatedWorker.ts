@@ -1,6 +1,9 @@
 /// <reference lib="webworker" />
 
-import { DASHBOARD_SSE_EVENT } from '@/constants/dashboard';
+import {
+  DASHBOARD_SSE_EVENT,
+  DASHBOARD_SSE_WORKER,
+} from '@/constants/dashboard';
 import { API_BASE_URL } from '@/constants/shared';
 import { postAuthRefresh } from '@/services/auth';
 import {
@@ -15,8 +18,8 @@ import { parseRawEvent } from '@/utils/shared';
 const ctx: DedicatedWorkerGlobalScope =
   self as unknown as DedicatedWorkerGlobalScope;
 
-const RETRY_INTERVAL = 1000;
-const MAXIMUM_RETRY_TIME = 30000;
+const { RETRY_INTERVAL, MAXIMUM_RETRY_TIME, MAXIMUM_RETRY_COUNT } =
+  DASHBOARD_SSE_WORKER;
 
 let retryCount = 0;
 let accessToken: string | null = null;
@@ -73,6 +76,7 @@ const createSseClient = () => {
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     const dispose = () => {
+      retryCount = 0;
       isSseClientCreated = false;
       if (retryTimer) {
         clearTimeout(retryTimer);
@@ -171,7 +175,9 @@ const createSseClient = () => {
           if (retryTimer) {
             clearTimeout(retryTimer);
           }
-          retryTimer = setTimeout(create, interval);
+          if (retryCount <= MAXIMUM_RETRY_COUNT) {
+            retryTimer = setTimeout(create, interval);
+          }
         } else {
           // retryInterval이 없는 경우: onerror 알림 후 연결 종료
           onerror?.(error);
