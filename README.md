@@ -85,13 +85,13 @@
 
 - 기본으로 제공되는 홈 대시보드 외에도, 대시보드 추가/편집을 통해 사용자 목적에 맞는 분석 화면을 구성할 수 있습니다.
 
-<img src="./img/pages_1.png" width="100%" height="100%" />
+<img src="./docs/img/pages_1.png" width="100%" height="100%" />
 
 <br>
 
 - 카드 편집 기능을 통해 대시보드를 구성하는 지표 카드를 드래그 앤 드롭 방식으로 자유롭게 배치할 수 있습니다.
 
-<img src="./img/pages_2.gif" width="100%" height="100%" />
+<img src="./docs/img/pages_2.gif" width="100%" height="100%" />
 
 ### 상세분석
 
@@ -102,13 +102,13 @@
 
 - 매출 현황, 매출 유입 구조, 매출 추이, 매출 패턴 데이터를 확인할 수 있습니다.
 
-<img src="./img/pages_3.gif" width="100%" height="100%" />
+<img src="./docs/img/pages_3.gif" width="100%" height="100%" />
 
 **2. 메뉴 분석**
 
 - 인기 메뉴, 시간대별 메뉴 판매 패턴, 식재료 소진량, 인기 메뉴 조합 데이터를 확인할 수 있습니다.
 
-<img src="./img/pages_4.gif" width="100%" height="100%" />
+<img src="./docs/img/pages_4.gif" width="100%" height="100%" />
 
 ### 하루 리포트
 
@@ -117,13 +117,13 @@
 
 - 캘린더를 통해 과거에 발행된 리포트를 열람할 수 있습니다.
 
-<img src="./img/pages_7.png" width="100%" height="100%" />
+<img src="./docs/img/pages_7.png" width="100%" height="100%" />
 
 <br>
 
 - 새로운 리포트가 발행되면 알림을 통해 사용자에게 안내됩니다.
 
-<img src="./img/pages_8.png" width="100%" height="100%" />
+<img src="./docs/img/pages_8.png" width="100%" height="100%" />
 
 ### 식재료 관리
 
@@ -131,9 +131,9 @@
 
 - 식재료 AI 자동완성 기능을 통해 식재료 목록을 자동으로 추천받아 빠르게 등록할 수 있습니다.
 
-<img src="./img/pages_9.png" width="100%" height="100%" />
-<img src="./img/pages_10.png" width="100%" height="100%" />
-<img src="./img/pages_11.png" width="100%" height="100%" />
+<img src="./docs/img/pages_9.png" width="100%" height="100%" />
+<img src="./docs/img/pages_10.png" width="100%" height="100%" />
+<img src="./docs/img/pages_11.png" width="100%" height="100%" />
 
 ### AI Mate
 
@@ -141,4 +141,4 @@
 
 - AI에게 매장 운영과 관련된 질문을 물어볼 수 있습니다.
 
-<img src="./img/pages_12.gif" width="100%" height="100%" />
+<img src="./docs/img/pages_12.gif" width="100%" height="100%" />
