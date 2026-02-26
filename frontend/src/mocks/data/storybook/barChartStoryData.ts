@@ -30,7 +30,7 @@ export const STACK_BAR = {
       ],
       // 수요일: 점심시간 폭주 (다양한 메뉴)
       [
-        { amount: 5, unit: '건', label: '아메리카노' },
+        { amount: 2, unit: '건', label: '아메리카노' },
         { amount: 25, unit: '건', label: '카페라떼' },
         { amount: 18, unit: '건', label: '바닐라빈라떼' },
         { amount: 12, unit: '건', label: '베이글' },

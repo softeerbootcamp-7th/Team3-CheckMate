@@ -24,7 +24,7 @@ export const StackBar = ({
   barTopY,
   width,
   height,
-  radius = Math.min(height, width, 4),
+  radius,
   hasAnimation = true,
   activeTooltip = true,
   tooltipContent,
