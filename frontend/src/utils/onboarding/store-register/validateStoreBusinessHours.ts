@@ -109,6 +109,19 @@ const storeBusinessHoursValidator = {
       return `${STORE_BUSINESS_WEEK_DAY_LIST[index].label}요일의 마감 시간이 다음날 시작 시간과 겹칩니다.`;
     },
   },
+
+  NO_BUSINESS_HOUR: {
+    validate: (value: StoreRegisterForm['businessHourRequests']) => {
+      const isAllClosed = value.every((businessHourRequest) => {
+        return businessHourRequest.closed;
+      });
+
+      return isAllClosed ? 0 : -1;
+    },
+    message: () => {
+      return '모든 요일을 휴무로 설정할 수 없습니다.';
+    },
+  },
 };
 
 export const validateStoreBusinessHours = (
