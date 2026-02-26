@@ -28,7 +28,7 @@ export const RootErrorFallback = () => {
         <h1 className="headline-small-semibold text-grey-900">
           서비스를 일시적으로 이용할 수 없어요
         </h1>
-        <p className="body-large-medium text-grey-700 whitespace-pre-wrap">
+        <p className="body-large-medium text-grey-700 text-center whitespace-pre-wrap">
           예상치 못한 오류가 발생하여 페이지를 불러오지 못했습니다.{'\n'}잠시 후
           다시 시도해주세요.
         </p>
