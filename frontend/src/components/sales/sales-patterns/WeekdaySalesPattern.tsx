@@ -51,6 +51,7 @@ export const WeekdaySalesPattern = () => {
         setStartDate={setStartDate}
         endDate={endDate}
         setEndDate={setEndDate}
+        dateRangePickerType="week"
         className="absolute top-5 right-2"
       />
       <div className="min-h-0 flex-1 pt-2">
