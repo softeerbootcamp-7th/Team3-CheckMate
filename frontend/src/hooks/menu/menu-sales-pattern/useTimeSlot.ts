@@ -56,6 +56,7 @@ export const useTimeSlotMenuOrderCount = ({
           (menu) => menu.orderCount,
           (menu) => menu.menuName,
           Y_UNIT,
+          4,
         ),
       },
       color: LABEL_COLOR,
