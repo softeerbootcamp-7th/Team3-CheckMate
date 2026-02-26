@@ -54,7 +54,6 @@ export const CardEditViewCard = ({ cardCode }: CardEditViewCardProps) => {
       <EditCardWrapper
         isAdded={memoisedIsAdded}
         period={period}
-        className="min-w-full"
         sizeX={sizeX}
         sizeY={sizeY}
         onClickAddButton={handleAddCard}

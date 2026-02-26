@@ -79,10 +79,10 @@ export const EditCardWrapper = ({
         <div
           style={{
             transform: `scale(${EDIT_CARD_WRAPPER.CHANGE_SCALE})`,
-            transformOrigin: 'left top',
+            transformOrigin: 'top',
           }}
           ref={childRef}
-          className={cn('w-full', isAdded ? 'opacity-10' : 'opacity-100')}
+          className={cn('w-fit', isAdded ? 'opacity-10' : 'opacity-100')}
         >
           {children}
         </div>
