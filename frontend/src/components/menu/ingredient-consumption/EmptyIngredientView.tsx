@@ -32,7 +32,7 @@ export const EmptyIngredientView = ({
         asChild
         className="rounded-150 bg-brand-main text-grey-50 body-small-semibold! flex h-10 w-fit items-center justify-center px-600 py-150"
       >
-        <Link to={ROUTE_PATHS.SETTINGS.BASE}>식재료 등록하기</Link>
+        <Link to={ROUTE_PATHS.SETTINGS.INGREDIENT}>식재료 등록하기</Link>
       </Button>
     </DefaultCardWrapper>
   );
