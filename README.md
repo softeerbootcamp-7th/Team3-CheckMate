@@ -12,8 +12,6 @@
   &emsp;&emsp; <strong> | </strong>
 </p>
 
-**초보 외식업 사장님을 위한 실시간 매장 운영 관리 서비스**
-
 ---
 
 </div>
@@ -47,6 +45,14 @@
 <img src="./docs/img/system_architecture.png" width="100%" height="100%" />
 
 [자세히 보기](./docs/img/system_architecture.png)
+
+<br>
+
+### 🔗 백엔드 CD
+
+<img src="./docs/img/BE_CD.png" width="100%" height="100%" />
+
+[자세히 보기](./docs/img/BE_CD.png)
 
 <br>
 
